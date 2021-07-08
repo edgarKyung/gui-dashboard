@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Stage, Sprite, Container } from "react-pixi-fiber";
-import * as PIXI from "pixi.js";
+import { Stage, Sprite, Graphics } from '@inlet/react-pixi';
 
+// import { Stage, Sprite } from "react-pixi-fiber";
+import * as PIXI from "pixi.js";
 const MainContainer = () => {
   const [width, setWidth] = useState(600);
   const [height, setHeight] = useState(400);
   const [imgData, setImgData] = useState();
+  const [points, setPoints] = useState([]);
   useEffect(() => {
     async function getInitData(){
       const req = await fetch('http://localhost:8000');
@@ -14,9 +16,14 @@ const MainContainer = () => {
       draw(map);
     }
     getInitData();
+    setPoints([
+      { x:50, y:50, },
+      { x:150, y:50, },
+      { x:150, y:150, },
+      { x:50, y:150, },
+    ]);
 
   },[]);
-
   const draw = ({data, width, height}) => {
     const canvas = document.createElement('canvas');
     let ctx = canvas.getContext('2d');
@@ -49,20 +56,46 @@ const MainContainer = () => {
     setImgData(canvas.toDataURL());
   }
 
+  const drawPolygon = (g) => {
+    g.clear();
+
+    g.beginFill(0xff3300);
+    g.lineStyle(4, 0xffd900, 1);
+
+    g.moveTo(50, 50);
+    g.lineTo(250, 50);
+    g.lineTo(80, 100);
+    g.lineTo(50, 50);
+    g.endFill();
+  };
+
   const stageProps = {
+    width : width,
+    height : height,
     options: {
-      width : width,
-      height : height,
       backgroundAlpha: .5,
     },
   }
   return (
     <div>
+      Map
       <Stage {...stageProps}>
-        <Container>
-          { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
-          <Sprite texture={PIXI.Texture.from("https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png")} />
-        </Container>
+        { imgData && (<Sprite image={imgData} option={width, height} /> ) }
+      </Stage>
+
+      Point
+      <Stage {...stageProps}>
+        { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
+        { points.map(point => (
+          <Sprite image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png" x={point.x} y={point.y} />
+        ))}
+        
+      </Stage>
+
+      Polygon
+      <Stage {...stageProps}>
+        { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
+        <Graphics draw={drawPolygon}/>
       </Stage>
     </div>
   )
