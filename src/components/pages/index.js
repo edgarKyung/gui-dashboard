@@ -1,2 +1,3 @@
-export { default as SettingPage } from './SettingPage';
-export { default as MainPage } from './MainPage';
+export { default as MapPage } from './MapPage';
+export { default as PointPage } from './PointPage';
+export { default as PolygonPage } from './PolygonPage';

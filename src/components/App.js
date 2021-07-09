@@ -4,36 +4,24 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { MainPage } from './pages';
+import { MapPage, PointPage, PolygonPage } from './pages';
 
 export default function App() {
   return (
     <Router>
       <div>
         <Switch>
-          <Route path="/about">
-            <About />
+          <Route path="/polygon">
+            <PolygonPage />
           </Route>
-          <Route path="/users">
-            <Users />
+          <Route path="/point">
+            <PointPage />
           </Route>
           <Route path="/">
-            <MainPage />
+            <MapPage />
           </Route>
         </Switch>
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }

@@ -1,16 +1,14 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
-import styles from './SettingPage.css';
-
+import styles from './PolygonPage.scss';
+import {PolygonContainer} from '../../../containers';
 const cx = classNames.bind(styles);
 
-const SettingPage = () => (
+const PolygonPage = () => (
   <PageTemplate>
-    <div className={cx('setting-container')} flex>
-      setting
-    </div>
+    <PolygonContainer />
   </PageTemplate>
 );
 
-export default SettingPage;
+export default PolygonPage;

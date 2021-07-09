@@ -3,7 +3,7 @@ import { Stage, Sprite, Graphics } from '@inlet/react-pixi';
 
 // import { Stage, Sprite } from "react-pixi-fiber";
 import * as PIXI from "pixi.js";
-const MainContainer = () => {
+const PointContainer = () => {
   const [width, setWidth] = useState(600);
   const [height, setHeight] = useState(400);
   const [imgData, setImgData] = useState();
@@ -101,4 +101,4 @@ const MainContainer = () => {
   )
 }
 
-export default MainContainer;
+export default PointContainer;

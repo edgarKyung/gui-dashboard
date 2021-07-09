@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
-import styles from './MainPage.scss';
-import {MainContainer} from '../../../containers';
+import styles from './PointPage.scss';
+import {PointContainer} from '../../../containers';
 const cx = classNames.bind(styles);
 
-const MainPage = () => (
+const PointPage = () => (
   <PageTemplate>
-    <MainContainer />
+    <PointContainer />
   </PageTemplate>
 );
 
-export default MainPage;
+export default PointPage;
