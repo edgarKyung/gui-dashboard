@@ -7,7 +7,6 @@ const PolygonContainer = () => {
   const [width, setWidth] = useState(600);
   const [height, setHeight] = useState(400);
   const [imgData, setImgData] = useState();
-  const [points, setPoints] = useState([]);
   useEffect(() => {
     async function getInitData(){
       const req = await fetch('http://localhost:8000');
@@ -16,13 +15,6 @@ const PolygonContainer = () => {
       draw(map);
     }
     getInitData();
-    setPoints([
-      { x:50, y:50, },
-      { x:150, y:50, },
-      { x:150, y:150, },
-      { x:50, y:150, },
-    ]);
-
   },[]);
   const draw = ({data, width, height}) => {
     const canvas = document.createElement('canvas');
@@ -78,21 +70,6 @@ const PolygonContainer = () => {
   }
   return (
     <div>
-      Map
-      <Stage {...stageProps}>
-        { imgData && (<Sprite image={imgData} option={width, height} /> ) }
-      </Stage>
-
-      Point
-      <Stage {...stageProps}>
-        { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
-        { points.map(point => (
-          <Sprite image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png" x={point.x} y={point.y} />
-        ))}
-        
-      </Stage>
-
-      Polygon
       <Stage {...stageProps}>
         { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
         <Graphics draw={drawPolygon}/>

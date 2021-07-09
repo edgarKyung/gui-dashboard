@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Stage, Sprite, Graphics } from '@inlet/react-pixi';
+import { Stage, Sprite } from '@inlet/react-pixi';
 
-// import { Stage, Sprite } from "react-pixi-fiber";
 import * as PIXI from "pixi.js";
 const PointContainer = () => {
   const [width, setWidth] = useState(600);
@@ -56,19 +55,6 @@ const PointContainer = () => {
     setImgData(canvas.toDataURL());
   }
 
-  const drawPolygon = (g) => {
-    g.clear();
-
-    g.beginFill(0xff3300);
-    g.lineStyle(4, 0xffd900, 1);
-
-    g.moveTo(50, 50);
-    g.lineTo(250, 50);
-    g.lineTo(80, 100);
-    g.lineTo(50, 50);
-    g.endFill();
-  };
-
   const stageProps = {
     width : width,
     height : height,
@@ -78,24 +64,12 @@ const PointContainer = () => {
   }
   return (
     <div>
-      Map
-      <Stage {...stageProps}>
-        { imgData && (<Sprite image={imgData} option={width, height} /> ) }
-      </Stage>
-
-      Point
       <Stage {...stageProps}>
         { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
         { points.map(point => (
           <Sprite image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png" x={point.x} y={point.y} />
         ))}
         
-      </Stage>
-
-      Polygon
-      <Stage {...stageProps}>
-        { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
-        <Graphics draw={drawPolygon}/>
       </Stage>
     </div>
   )

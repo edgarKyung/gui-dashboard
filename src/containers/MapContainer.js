@@ -1,5 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Stage, Sprite, Container, } from '@inlet/react-pixi';
+import { Stage, Sprite, Container, PixiComponent, useApp } from '@inlet/react-pixi';
+import { Viewport as PixiViewport } from "pixi-viewport";
+import * as PIXI from "pixi.js";
+
+const PixiComponentViewport = PixiComponent("ViewPort",{
+  create: (props) => {
+    const viewport = new PixiViewport({
+      screenWidth: props.width,
+      screenHeight: props.height,
+      // worldWidth: props.width * 2,
+      // worldHeight: props.height * 2,
+      ticker: props.app.ticker,
+      interaction: props.app.renderer.plugins.interaction,
+      passiveWheel: false,
+    });
+    viewport.drag().pinch().wheel().clampZoom();
+    return viewport;
+  }
+});
+
+const PixiViewPortComponent = (props) => {
+  const app = useApp();
+  return <PixiComponentViewport app={app} {...props} />;
+};
+
+
 const MapContainer = () => {
   const [width, setWidth] = useState(600);
   const [height, setHeight] = useState(600);
@@ -43,30 +68,24 @@ const MapContainer = () => {
     ctx.putImageData(imageData, 0, 0);
     setWidth(width);
     setHeight(height);
+    console.log(width, height);
     setImgData(canvas.toDataURL());
-  }
-
-  const stageProps = {
-    width:800,
-    height:640,
-    options: {
-      backgroundAlpha: .5,
-    },
   }
   return (
     <div>
-      <Stage {...stageProps}>
-        { imgData && (
+      <Stage width={width*0.5} height={height*0.5}>
+      { imgData && (
           <Sprite 
             image={imgData} 
             option={width, height} 
             scale={{ x: 0.5, y: 0.5 }} 
-            position={{x:600, y:0}}
           /> 
         ) }
-        <Container>
+      </Stage>
+      <Stage width={800} height={640} options={ {backgroundAlpha: .5}}>
+        <PixiViewPortComponent width={width*2} height={height*2}>
           { imgData && (<Sprite image={imgData} option={width, height} scale={{ x: 2, y: 2 }} /> ) }
-        </Container>
+        </PixiViewPortComponent>
       </Stage>
     </div>
   )
