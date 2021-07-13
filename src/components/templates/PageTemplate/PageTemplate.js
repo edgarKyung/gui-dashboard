@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import styles from './PageTemplate.css';
-import {  HeaderContainer } from '../../../containers';
+import styles from './PageTemplate.module.scss';
+import { AsideContainer } from '../../../containers';
 const cx = classNames.bind(styles);
 
 const PageTemplate = ({ children }) => (
-  <div className={cx('wrapper')}>
-    <main className={cx('main')}>
-      <HeaderContainer />
+  <div className={cx('page-wrapper')}>
+    <div className={cx('side-bar')}>
+      <AsideContainer />
+    </div>
+    <div className={cx('content')}>
       {children}
-    </main>
+    </div>
   </div>
 );
 

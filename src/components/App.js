@@ -4,24 +4,29 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { MapPage, PointPage, PolygonPage } from './pages';
+import { 
+  MapPage, PointPage, PolygonPage, OperationPage
+ } from './pages';
+import './App.scss'
 
 export default function App() {
   return (
     <Router>
-      <div>
-        <Switch>
-          <Route path="/polygon">
-            <PolygonPage />
-          </Route>
-          <Route path="/point">
-            <PointPage />
-          </Route>
-          <Route path="/">
-            <MapPage />
-          </Route>
-        </Switch>
-      </div>
+      <Switch>
+        <Route path="/">
+          <OperationPage />
+        </Route>
+
+        <Route path="/polygon">
+          <PolygonPage />
+        </Route>
+        <Route path="/point">
+          <PointPage />
+        </Route>
+        <Route path="/map">
+          <MapPage />
+        </Route>
+      </Switch>
     </Router>
   );
 }

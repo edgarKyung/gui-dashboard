@@ -1,0 +1,38 @@
+.aside-wrap{
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  width: 170px;
+  height: 100%;
+
+  text-align: center;
+  background: linear-gradient(#7F68C9, #6A6AD8, #4F83F9);
+
+  .logo {
+    padding: 30px 0;
+  }
+
+
+  .menu-list {
+    flex: 1;
+  }
+
+  .info-wrap{
+    text-align: left;
+    padding-left: 25px;
+    margin-bottom: 30px;
+
+    li {
+      display: flex;
+      height: 30px;
+      align-items: center;
+      font-size: medium;
+      color: white;
+      img {
+        margin-right: 10px;
+      }
+    }
+  }  
+
+}
