@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './PageTemplate.module.scss';
 import { AsideContainer } from '../../../containers';
-const cx = classNames.bind(styles);
+import { AsideMenu } from '../../organisms';
+
+const cx = classNames.bind(styles); 
 
 const PageTemplate = ({ children }) => (
   <div className={cx('page-wrapper')}>
     <div className={cx('side-bar')}>
-      <AsideContainer />
+      <AsideContainer>
+        <AsideMenu />
+      </AsideContainer>
     </div>
     <div className={cx('content')}>
       {children}

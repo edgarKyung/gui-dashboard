@@ -1,6 +1,9 @@
 @font-face{ font-family:'Roboto'; src:url('../static/fonts/Roboto-Medium.ttf'); }
 @font-face{ font-family:'Noto Sans KR'; src:url('../static/fonts/NotoSansKR-Medium.otf'); }
 
+* {
+    box-sizing: border-box;
+}
 
 #root, html, body{
     padding: 0;

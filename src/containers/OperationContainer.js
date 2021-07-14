@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
-const OperationContainer = () => {
-
+const OperationContainer = ({children}) => {
+  console.log(children);
   return (
-    <div>
-        Operation Container
-    </div>
+    <Fragment>
+        {children}
+    </Fragment>
   )
 }
 
