@@ -1,0 +1,21 @@
+.point-wrap{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #E5E5E5;
+
+  .point-title {
+    font-size: 22px;
+    color: black;
+  }
+
+  .point-list {
+    padding-left: 70px;
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+  }
+}

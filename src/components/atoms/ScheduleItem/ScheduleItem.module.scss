@@ -1,0 +1,14 @@
+.schedule-item {
+  width: 200px;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 30px;
+  border-radius: 20px;
+  color: #222222;
+  background: #E7E7E7;
+
+  &.on {
+    color: white;
+    background: linear-gradient(to right ,#7F68C9, #6A6AD8, #4F83F9);
+  }
+}

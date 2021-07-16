@@ -1,0 +1,21 @@
+.schedule-wrap{
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  border-right: 1px solid #E5E5E5;
+  padding-left: 70px;
+
+  .schedule-title {
+    font-size: 22px;
+    color: black;
+    text-align: left;
+  }
+
+  .schedule-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+  }
+}

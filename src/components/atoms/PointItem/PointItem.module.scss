@@ -1,0 +1,20 @@
+.point-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 30px;
+  border-radius: 20px;
+  box-shadow: rgba(0,0,0 ,.2) 1px 1px 5px;
+  color: #222222;
+  background: url('/static/images/btn/btn_point_item.png');
+
+  .star {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url('/static/images/ico/icon_star_on.png');
+  }
+}
