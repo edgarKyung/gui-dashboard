@@ -5,7 +5,7 @@ import { PageTitle, PointItem } from '../../atoms';
 
 const cx = classNames.bind(styles);
 
-const pointList = ['거점1', '거점2', '거점3', '거점4'];
+const pointList = ['거점1', '거점2', '거점3', '거점4','거점1', '거점2', '거점3', '거점4','거점1', '거점2', '거점3', '거점4'];
 
 const PointList = ({list = pointList}) => (
   <div className={cx('point-wrap')}>
