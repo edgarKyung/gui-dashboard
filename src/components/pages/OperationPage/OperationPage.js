@@ -13,6 +13,41 @@ const CanvasMap = () => (
   </div>
 )
 
+const RobotPlayControlPanel = () => (
+  <div className={cx('robot-play-control-wrap')}>
+    <button className={cx('robot-control-stop')}/>
+    <button className={cx('robot-control-start', 'on')}/>
+    <button className={cx('robot-control-pause')}/>
+  </div>
+);
+
+const RobotPositionControlPanel = () => (
+  <div className={cx('robot-position-control-wrap')}>
+    <div >Controller</div>
+    <div className={cx('control-panel-wrap')}></div>
+  </div>
+);
+
+const RobotStatus = ({className,status}) => (
+  <ul className={cx('robot-status-wrap', className)}>
+    <li>
+      <i className={cx('status-logo')}/>
+      로봇 상태
+    </li>
+    <li className={cx('status-info')}>
+      {status}
+    </li>
+  </ul>
+)
+
+const RobotStatusBar = ({className, status, battery}) => (
+  <ul className={cx('robot-status-bar-wrap', className)}>
+    <li><Icon icon={'info'} /></li>
+    <li>{status}</li>
+    <li>40% <Icon icon={'battery'} percent={battery}/></li>
+  </ul>
+)
+
 const MainContentTemplate = ({title, classNames, children}) => (
   <section className={cx('content-section', classNames)}>
     <PageTitle title={title}/>
@@ -39,33 +74,10 @@ const OperationPage = () => (
         </MainContentTemplate>
 
         <ControlContentTemplate>
-          <ul className={cx('robot-status-wrap')}>
-              <li>
-                <i className={cx('status-logo')}/>
-                로봇 상태
-              </li>
-              <li className={cx('status-info')}>
-                로딩중
-              </li>
-          </ul>
-
-          <div className={cx('robot-play-control-wrap')}>
-            <button className={cx('robot-control-stop')}/>
-            <button className={cx('robot-control-start', 'on')}/>
-            <button className={cx('robot-control-pause')}/>
-          </div>
-
-          <div className={cx('robot-position-control-wrap')}>
-            <div >Controller</div>
-            <div className={cx('control-panel-wrap')}>
-
-            </div>
-            <ul className={cx('robot-status-bar-wrap')}>
-              <li><Icon icon={'info'} /></li>
-              <li>로딩중</li>
-              <li>40% <Icon icon={'battery'} percent={40}/></li>
-            </ul>
-          </div>
+          <RobotStatus status={'로딩중'} className={cx('robot-status-wrap')}/>
+          <RobotPlayControlPanel />
+          <RobotPositionControlPanel />
+          <RobotStatusBar status={'로딩중'} battery={80}/>
         </ControlContentTemplate>
       </div>
     </OperationContainer>

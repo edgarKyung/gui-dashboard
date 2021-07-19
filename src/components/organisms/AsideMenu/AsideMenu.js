@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import styles from './AsideMenu.module.scss';
+import menus from '../../../static/constants/menus';
 const cx = classNames.bind(styles);
 
 class AsideMenu extends PureComponent {
@@ -9,34 +10,18 @@ class AsideMenu extends PureComponent {
     return (
       <div className={cx('aside-wrap')}>
         <div className={cx('logo')}>
-          <img src='/images/layout/aside/logo.png' />
+        <Link to='/'><img src='/images/layout/aside/logo.png' /></Link>
         </div>
         <ul className={cx('menu-list')} >
-          <li>
-            <Link to="/">
-              <img src='/images/layout/aside/btn_operation_on.png' />
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <img src='/images/layout/aside/btn_point.png' />
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <img src='/images/layout/aside/btn_map.png' />
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <img src='/images/layout/aside/btn_setting.png' />
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <img src='/images/layout/aside/btn_log.png' />
-            </Link>
-          </li>
+          {
+            menus.map(map=>(
+              <li>
+                <Link to={map.link}>
+                  <img src={`/images/layout/aside/btn_${map.id}.png`} />
+                </Link>
+              </li>
+            ))
+          }
         </ul>
         <div className={cx('info-wrap')}>
           <ul>

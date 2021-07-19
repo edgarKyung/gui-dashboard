@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import { 
-  MapPage, PointPage, PolygonPage, OperationPage
+  OperationPage, MapPage, PointPage, SettingPage, LogPage
  } from './pages';
 import './App.scss'
 
@@ -13,19 +13,12 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/">
-          <OperationPage />
-        </Route>
-
-        <Route path="/polygon">
-          <PolygonPage />
-        </Route>
-        <Route path="/point">
-          <PointPage />
-        </Route>
-        <Route path="/map">
-          <MapPage />
-        </Route>
+        <Route exact path="/"><OperationPage /></Route>
+        <Route exact path="/operation"><OperationPage /></Route>
+        <Route path="/map"><MapPage /></Route>
+        <Route path="/point"><PointPage /></Route>
+        <Route path="/setting"><SettingPage /></Route>
+        <Route path="/log"><LogPage /></Route>
       </Switch>
     </Router>
   );

@@ -1,21 +1,27 @@
-export default {
-  CALIBRATION_ID: 'CALIBRATION',
-  CALIBRATION_LINK: '/calibration',
-  CALIBRATION_CLASS_NAME: 'calibration',
-
-  DETECTION_ID: 'DETECTION',
-  DETECTION_LINK: '/detection',
-  DETECTION_CLASS_NAME: 'detection',
-
-  SETTING_ID: 'SETTING',
-  SETTING_LINK: '/setting',
-  SETTING_CLASS_NAME: 'setting',
-
-  STATUS_ID: 'STATUS',
-  STATUS_LINK: '/status',
-  STATUS_CLASS_NAME: 'status',
-
-  LOGIN_ID: 'LOGIN',
-  LOGIN_LINK: '/login',
-  LOGIN_CLASS_NAME: 'login',
-};
+export default [
+  {
+    title:'로봇운영',
+    id:'operation',
+    link:'/operation'
+  },
+  {
+    title:'거점/가상벽 추가',
+    id:'point',
+    link:'/point'
+  },
+  {
+    title:'맵 생성',
+    id:'map',
+    link:'/map'
+  },
+  {
+    title:'설정',
+    id:'setting',
+    link:'/setting'
+  },
+  {
+    title:'로그',
+    id:'log',
+    link:'/log'
+  },
+];

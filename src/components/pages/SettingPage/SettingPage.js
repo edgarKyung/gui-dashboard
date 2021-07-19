@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
-import styles from './MapPage.module.scss';
+import styles from './SettingPage.module.scss';
 import {OperationContainer} from '../../../containers';
 import { PageTitle, Icon } from '../../atoms';
 const cx = classNames.bind(styles);
@@ -19,11 +19,11 @@ const ControlContentTemplate = ({children}) => (
   <section className={cx('control-wrap')}>{children}</section>
 );
 
-const MapPage = () => (
+const SettingPage = () => (
   <PageTemplate>
     <OperationContainer>
-      <div className={cx('map-page-wrap')}>
-        <MainContentTemplate title={'맵 생성'}>
+      <div className={cx('page-wrap')}>
+        <MainContentTemplate title={'세팅'}>
         </MainContentTemplate>
 
         <ControlContentTemplate>
@@ -34,4 +34,4 @@ const MapPage = () => (
   </PageTemplate>
 );
 
-export default MapPage;
+export default SettingPage;
