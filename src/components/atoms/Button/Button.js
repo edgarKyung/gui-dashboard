@@ -1,0 +1,23 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
+import styles from './Button.module.scss';
+const cx = classNames.bind(styles);
+
+//type : typescript로 type 값지정하기 
+const Button = ({type, className, children}) => {
+  return (
+    <div className={cx('button', type, className)}>
+      {children}
+    </div>
+  )
+};
+
+Button.propTypes = {
+  type: PropTypes.string,
+};
+
+Button.defaultProps = {
+  type: 'default',
+};
+export default Button;

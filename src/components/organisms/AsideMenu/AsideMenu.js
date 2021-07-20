@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import styles from './AsideMenu.module.scss';
 import menus from '../../../static/constants/menus';
+import { Button, Icon } from '../../atoms';
 const cx = classNames.bind(styles);
 
 class AsideMenu extends PureComponent {
@@ -10,27 +12,31 @@ class AsideMenu extends PureComponent {
     return (
       <div className={cx('aside-wrap')}>
         <div className={cx('logo')}>
-        <Link to='/'><img src='/images/layout/aside/logo.png' /></Link>
+        <Link to='/operation'>
+          <Button type='logo'/>
+        </Link>
         </div>
         <ul className={cx('menu-list')} >
           {
-            menus.map(map=>(
-              <li>
-                <Link to={map.link}>
-                  <img src={`/images/layout/aside/btn_${map.id}.png`} />
+            Object.entries(menus).map(([id, data])=>{
+              const { to, location } = this.props;
+              return (
+              <li key={id}>
+                <Link to={data.link}>
+                  <Button type={data.id} className={cx(location.pathname === data.link && 'on')}></Button>
                 </Link>
-              </li>
-            ))
+              </li>)
+            })
           }
         </ul>
         <div className={cx('info-wrap')}>
           <ul>
             <li>
-              <img src='/images/layout/aside/icon_calendar.png' />
+              <Icon type='calendar' className={cx('icon')} /> 
               2021.07.01
             </li>
             <li>
-              <img src='/images/layout/aside/icon_time.png' />
+              <Icon type='time' className={cx('icon')} /> 
               오후 2:00
             </li>
           </ul>
@@ -41,4 +47,4 @@ class AsideMenu extends PureComponent {
   }
 }
 
-export default AsideMenu;
+export default withRouter(AsideMenu);

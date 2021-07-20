@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
 import { 
   OperationPage, MapPage, PointPage, SettingPage, LogPage
@@ -13,7 +14,7 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/"><OperationPage /></Route>
+        <Route exact path="/"><Redirect to="/operation" /></Route>
         <Route exact path="/operation"><OperationPage /></Route>
         <Route path="/map"><MapPage /></Route>
         <Route path="/point"><PointPage /></Route>

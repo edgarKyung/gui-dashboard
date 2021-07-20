@@ -1,0 +1,13 @@
+.robot-position-control-wrap{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+  .control-panel-wrap{
+    margin: 50px 0;
+    width: 360px;
+    height: 360px;
+    background: url('/static/images/source/robot_controller_panel.png') center center;
+  }
+}

@@ -1,5 +1,5 @@
 .icon {
-  display: inline-block;;
+  display: inline-block;
 }
 
 .icon_info{
@@ -28,5 +28,20 @@
 }
 
 .icon_star{
+  width: 20px;
+  height: 20px;
   background: url('/static/images/ico/icon_star_on.png');
+}
+
+.icon_calendar {
+  width: 18px;
+  height: 18px;
+  background: url('/static/images/ico/icon_calendar.png');
+}
+
+.icon_time {
+  width: 18px;
+  height: 18px;
+  background: url('/static/images/ico/icon_time.png');
+
 }
