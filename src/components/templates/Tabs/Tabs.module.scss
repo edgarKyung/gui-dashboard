@@ -1,0 +1,27 @@
+@import '../../../styles/variables.scss';
+
+.tabs-wrap{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .tabs-title{
+    display: flex;
+    li {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      height: 63px;
+      font-size: 22px;
+      color:#7E7E7E;
+      border-bottom: 1px solid $border-color;
+
+      &.on {
+        color: white;
+        background: $gradiant-col;
+      }
+    }
+  }
+}

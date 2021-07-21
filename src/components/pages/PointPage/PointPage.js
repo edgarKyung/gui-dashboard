@@ -3,35 +3,32 @@ import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
 import styles from './PointPage.module.scss';
 import {OperationContainer} from '../../../containers';
-import { PageTitle, Icon } from '../../atoms';
+import { ControlContentTemplate, MainContentTemplate, Tabs } from '../../templates';
 const cx = classNames.bind(styles);
 
-const MainContentTemplate = ({title, classNames, children}) => (
-  <section className={cx('content-section', classNames)}>
-    <PageTitle title={title}/>
-    <div className={cx('page-content')}>
-      {children}
-    </div>
-  </section>
+const CanvasMap = () => (
+  <div className={cx('canvas-image')}>  </div>
 );
 
-const ControlContentTemplate = ({children}) => (
-  <section className={cx('control-wrap')}>{children}</section>
-);
-
-const MapPage = () => (
+const PointPage = () => (
   <PageTemplate>
     <OperationContainer>
-      <div className={cx('page-wrap')}>
-        <MainContentTemplate title={'거점/가상벽 추가'}>
-        </MainContentTemplate>
+      <MainContentTemplate title={'거점/가상벽 추가'}>
+        <CanvasMap />
+      </MainContentTemplate>
 
-        <ControlContentTemplate>
-          엥
-        </ControlContentTemplate>
-      </div>
+      <ControlContentTemplate>
+        <Tabs>
+          <Tabs.Header title="거점관리">
+            거점관리
+          </Tabs.Header>
+          <Tabs.Header title="가상벽관리">
+            가상벽관리
+          </Tabs.Header>
+        </Tabs>
+      </ControlContentTemplate>
     </OperationContainer>
   </PageTemplate>
 );
 
-export default MapPage;
+export default PointPage;
