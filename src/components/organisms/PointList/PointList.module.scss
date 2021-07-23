@@ -11,12 +11,23 @@
 
   .point-list {
     flex: 1;
-
+    li{
+      width: 80%;
+      margin: .5em 0;
+    }
     display: grid;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
-    grid-template-rows: repeat(3, 85px);
+    grid-template-columns: repeat(3, minmax(130px, 1fr));
     align-content: start;
     align-items: center;
     justify-items: center;
+    overflow-y: scroll;
+    .point-button{
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 1em;
+    }
   }
 }

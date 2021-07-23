@@ -27,8 +27,8 @@ const Tabs = ({children}) => {
           ))
         }
       </ul>
-      <div>
-        <li key={`tabs-content-${active}`}>{children[active].props.children}</li>
+      <div className={cx('tabs-content')}>
+        {children[active].props.children}
       </div>
     </div>
   )

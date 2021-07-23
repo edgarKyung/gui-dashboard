@@ -4,4 +4,31 @@
   height: 100%;
 }
 
+.point-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  .list-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
+    li{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: .5em 1em;
+      .point-button{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        max-width: 250px;
+        padding: 0 1em;
+      }
+    }
+    
+  }
+}

@@ -30,7 +30,11 @@
 .icon_star{
   width: 20px;
   height: 20px;
-  background: url('/static/images/ico/icon_star_on.png');
+  background: url('/static/images/ico/icon_star_off.png');
+
+  &.on{
+    background: url('/static/images/ico/icon_star_on.png');
+  }
 }
 
 .icon_calendar {

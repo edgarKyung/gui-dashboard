@@ -4,11 +4,15 @@
 }
 
 .default { 
-  min-width: 140px;
+  min-width: 100px;
   height: 60px;
-  line-height: 60px;
   font-size: 18px;
   text-align: center;
+  color:#222222;
+  background: white;
+  border-radius: 20px;
+  box-shadow: rgba(0,0,0 ,.20) 1px 1px 5px;
+
 }
 
 .logo {
@@ -92,4 +96,11 @@
   &.on {
     background: url('/static/images/btn/btn_pause_on.png');
   }
+}
+
+.menu {
+  width: 50px;
+  height: 50px;
+  background: url('/static/images/btn/btn_menu.png');
+ 
 }

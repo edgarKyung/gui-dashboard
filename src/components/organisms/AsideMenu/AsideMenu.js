@@ -12,9 +12,9 @@ class AsideMenu extends PureComponent {
     return (
       <div className={cx('aside-wrap')}>
         <div className={cx('logo')}>
-        <Link to='/operation'>
-          <Button type='logo'/>
-        </Link>
+          <Link to='/operation'>
+            <Button type='logo'/>
+          </Link>
         </div>
         <ul className={cx('menu-list')} >
           {
