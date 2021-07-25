@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 const MainContentTemplate = ({title, classNames, children}) => (
   <section className={cx('content-section', classNames)}>
-    <PageTitle title={title}/>
+    <PageTitle title={title} className={cx('page-title')}/>
     <div className={cx('page-content')}>
       {children}
     </div>

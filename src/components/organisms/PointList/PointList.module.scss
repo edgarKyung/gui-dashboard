@@ -4,16 +4,11 @@
   flex-direction: column;
   border-right: 1px solid #E5E5E5;
 
-  .point-title {
-    font-size: 22px;
-    color: black;
-  }
-
   .point-list {
     flex: 1;
     li{
       width: 80%;
-      margin: .5em 0;
+      margin: .5vh 0;
     }
     display: grid;
     grid-template-columns: repeat(3, minmax(130px, 1fr));

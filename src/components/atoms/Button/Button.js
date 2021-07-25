@@ -5,9 +5,9 @@ import styles from './Button.module.scss';
 const cx = classNames.bind(styles);
 
 //type : typescript로 type 값지정하기 
-const Button = ({type, className, children}) => {
+const Button = ({type, className, children, active}) => {
   return (
-    <div className={cx('button', type, className)}>
+    <div className={cx('button', type, className, {'on': active})}>
       {children}
     </div>
   )

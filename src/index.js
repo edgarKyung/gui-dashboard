@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
 import { Provider } from 'react-redux';
 import './styles/variables.scss';
+import './styles/responsive.scss';
 import App from './components/App';
 import rootReducer from './modules/reducers';
 import reportWebVitals from './reportWebVitals';

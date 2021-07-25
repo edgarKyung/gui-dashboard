@@ -6,16 +6,15 @@
   padding-left: 70px;
 
   .schedule-title {
-    font-size: 22px;
-    color: black;
     text-align: left;
   }
 
   .schedule-list {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+
+    li{      
+      margin: 1vh 0;
+    }
 
   }
 }

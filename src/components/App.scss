@@ -1,3 +1,5 @@
+@import '../styles/responsive.scss';
+
 @font-face{ font-family:'Roboto'; src:url('../static/fonts/Roboto-Medium.ttf'); }
 @font-face{ font-family:'Noto Sans KR'; src:url('../static/fonts/NotoSansKR-Medium.otf'); }
 
@@ -11,8 +13,11 @@
 
     width: 100%;
     height: 100%;
+}
 
-    font-size: 18px;
+html{
+    color:#222222;
+    font-size: 16px;
     font-family: 'Roboto', 'Noto Sans KR';
 }
 

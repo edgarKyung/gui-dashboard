@@ -11,9 +11,9 @@ class AsideMenu extends PureComponent {
   render() {
     return (
       <div className={cx('aside-wrap')}>
-        <div className={cx('logo')}>
+        <div className={cx('logo-wrap')}>
           <Link to='/operation'>
-            <Button type='logo'/>
+            <Button type='logo' className={cx('logo')}/>
           </Link>
         </div>
         <ul className={cx('menu-list')} >
@@ -23,7 +23,7 @@ class AsideMenu extends PureComponent {
               return (
               <li key={id}>
                 <Link to={data.link}>
-                  <Button type={data.id} className={cx(location.pathname === data.link && 'on')}></Button>
+                  <Button type={data.id} className={cx('menu-btn')} active={location.pathname === data.link}></Button>
                 </Link>
               </li>)
             })

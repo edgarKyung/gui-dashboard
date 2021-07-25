@@ -1,6 +1,7 @@
 .button {
   display: inline-block;
   cursor: pointer;
+  background-size: 100% 100%;
 }
 
 .default { 
@@ -9,7 +10,7 @@
   font-size: 18px;
   text-align: center;
   color:#222222;
-  background: white;
+  background-color: white;
   border-radius: 20px;
   box-shadow: rgba(0,0,0 ,.20) 1px 1px 5px;
 
@@ -18,89 +19,89 @@
 .logo {
   width: 70px;
   height: 70px;
-  background: url('/static/images/btn/btn_logo.png');
+  background-image: url('/static/images/btn/btn_logo.png');
 }
 
 .operation {
   width: 120px;
   height: 120px;
-  background: url('/static/images/btn/btn_operation.png');
+  background-image: url('/static/images/btn/btn_operation.png');
 
   &.on {
-    background: url('/static/images/btn/btn_operation_on.png');
+    background-image: url('/static/images/btn/btn_operation_on.png');
   }
 }
 
 .point {
   width: 120px;
   height: 120px;
-  background: url('/static/images/btn/btn_point.png');
+  background-image: url('/static/images/btn/btn_point.png');
 
   &.on {
-    background: url('/static/images/btn/btn_point_on.png');
+    background-image: url('/static/images/btn/btn_point_on.png');
   }
 }
 
 .map {
   width: 120px;
   height: 120px;
-  background: url('/static/images/btn/btn_map.png');
+  background-image: url('/static/images/btn/btn_map.png');
 
   &.on {
-    background: url('/static/images/btn/btn_map_on.png');
+    background-image: url('/static/images/btn/btn_map_on.png');
   }
 }
 
 .setting {
   width: 120px;
   height: 120px;
-  background: url('/static/images/btn/btn_setting.png');
+  background-image: url('/static/images/btn/btn_setting.png');
 
   &.on {
-    background: url('/static/images/btn/btn_setting_on.png');
+    background-image: url('/static/images/btn/btn_setting_on.png');
   }
 }
 
 .log {
   width: 120px;
   height: 120px;
-  background: url('/static/images/btn/btn_log.png');
+  background-image: url('/static/images/btn/btn_log.png');
 
   &.on {
-    background: url('/static/images/btn/btn_log_on.png');
+    background-image: url('/static/images/btn/btn_log_on.png');
   }
 }
 
 .stop {
   width: 100px;
   height: 100px;
-  background: url('/static/images/btn/btn_stop.png');
+  background-image: url('/static/images/btn/btn_stop.png');
   &.on {
-    background: url('/static/images/btn/btn_stop_on.png');
+    background-image: url('/static/images/btn/btn_stop_on.png');
   }
 }
 
 .start {
   width: 100px;
   height: 100px;
-  background: url('/static/images/btn/btn_start.png');
+  background-image: url('/static/images/btn/btn_start.png');
   &.on {
-    background: url('/static/images/btn/btn_start_on.png');
+    background-image: url('/static/images/btn/btn_start_on.png');
   }
 }
 
 .pause {
   width: 100px;
   height: 100px;
-  background: url('/static/images/btn/btn_pause.png');
+  background-image: url('/static/images/btn/btn_pause.png');
   &.on {
-    background: url('/static/images/btn/btn_pause_on.png');
+    background-image: url('/static/images/btn/btn_pause_on.png');
   }
 }
 
 .menu {
   width: 50px;
   height: 50px;
-  background: url('/static/images/btn/btn_menu.png');
+  background-image: url('/static/images/btn/btn_menu.png');
  
 }

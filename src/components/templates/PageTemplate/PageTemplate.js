@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 const PageTemplate = ({ children }) => (
   <div className={cx('page-wrapper')}>
-    <div className={cx('side-bar')}>
+    <div>
       <AsideContainer>
         <AsideMenu />
       </AsideContainer>

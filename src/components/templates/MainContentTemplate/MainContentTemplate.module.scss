@@ -4,6 +4,12 @@
   flex-direction: column;
   max-width: 1185px;
   height: 100%;
+  overflow:hidden;
+
+  .page-title{
+    font-size: 1.6em;
+    color: #7E69CA;
+  }
 
   .page-content {
     flex: 1;
