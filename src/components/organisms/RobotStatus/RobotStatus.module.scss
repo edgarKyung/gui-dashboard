@@ -1,12 +1,18 @@
-.robot-status-wrap {
+@import '../../../styles/variables.scss';
+
+.robot-status-wrap{
+  padding: 1em;
+  width: 100%;
+}
+.robot-status {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px;
-  height: 100px;
+  width: 100%;
+  padding: 2em 0;
   background-color: white;
   border-radius: 10px;
-
+  box-shadow: rgba(0,0,0 ,.10) 1px 1px 5px;
   li {
     width: 50%;
     display: flex;
@@ -16,7 +22,7 @@
     color: #7E7E7E;
 
     &:first-child{
-      border-right: 2px solid #e4e4e4;
+      border-right: 2px solid $border-color;
     }
   }
   .status-logo {

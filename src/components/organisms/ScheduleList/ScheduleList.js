@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './ScheduleList.module.scss';
-import { PageTitle, ScheduleItem } from '../../atoms';
+import { PageTitle, Button } from '../../atoms';
 
 const cx = classNames.bind(styles);
 
@@ -16,7 +16,12 @@ const ScheduleList = ({list = scheduleList}) => (
     <ul className={cx('schedule-list')}>
       {
         list.map((data, i) =>
-          <li key={i}><ScheduleItem key={i} item={data} /></li>
+          <li key={i}>
+            <Button type='gradiant-col' className={cx('schedule-btn')}>
+              {data}
+            </Button> 
+            {/* <ScheduleItem key={i} item={data} /> */}
+          </li>
         )
       }
     </ul>

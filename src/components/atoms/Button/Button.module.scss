@@ -1,3 +1,5 @@
+@import '../../../styles/variables.scss';
+
 .button {
   display: inline-block;
   cursor: pointer;
@@ -6,16 +8,27 @@
 
 .default { 
   min-width: 100px;
-  height: 60px;
-  font-size: 18px;
+  font-size: 1em;
+  padding: 1em;
   text-align: center;
   color:#222222;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 1.2em;
   box-shadow: rgba(0,0,0 ,.20) 1px 1px 5px;
 
 }
 
+.gradiant-col{
+  min-width: 100px;
+  font-size: 1em;
+  padding: 1em;
+  text-align: center;
+  color:white;
+  background: $gradiant-col;;
+  border-radius: 1.2em;
+  box-shadow: rgba(0,0,0 ,.20) 1px 1px 5px;
+
+}
 .logo {
   width: 70px;
   height: 70px;

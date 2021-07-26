@@ -12,16 +12,13 @@
   background: $gradiant-row;
 
   .logo-wrap {
-    padding: 1vh 0;
-
-    .logo{
-      
-    }
+    padding: 1.5em 0;
   }
 
 
   .menu-list {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     overflow:hidden;
     flex: 1;
     a {
@@ -29,7 +26,7 @@
       height: 100%;
     }
     li{
-      padding: 5% 10%;
+      padding: 0 10%;
     }
     .menu-btn{
       width: 100%;
@@ -39,16 +36,24 @@
   }
 
   .info-wrap{
+    display: flex;
+    justify-content: center;
     text-align: left;
-
+    padding: 1em 0;
+    ul{
+      display: inline-block;
+    }
     li {
       display: flex;
       align-items: center;
       font-size: 1em;
-      padding: 1em 0;
       color: white;
+
+      &:first-child{
+        margin-bottom: .5em;
+      }
       .icon {
-        margin-right: 10px;
+        margin-right: .5em;
       }
     }
   }  

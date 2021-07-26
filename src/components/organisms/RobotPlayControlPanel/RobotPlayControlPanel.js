@@ -6,11 +6,11 @@ import { Button } from '../../atoms';
 const cx = classNames.bind(styles);
 
 const RobotPlayControlPanel = () => (
-  <div className={cx('robot-play-control-wrap')}>
-    <Button type='stop' className={cx('button','on')} />
-    <Button type='start' className={cx('button', 'on')} />
-    <Button type='pause' className={cx('button', 'on')} />
-  </div>
+  <ul className={cx('robot-play-control-wrap')}>
+    <li><Button type='stop' className={cx('button')} /></li>
+    <li><Button type='start' active={true} className={cx('button')} /></li>
+    <li><Button type='pause' className={cx('button')} /></li>
+  </ul>
 );
 
 export default RobotPlayControlPanel;

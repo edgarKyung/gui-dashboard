@@ -1,13 +1,15 @@
 .robot-position-control-wrap{
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
   flex: 1;
-  justify-content: flex-end;
+  justify-content: center;
   .control-panel-wrap{
-    margin: 50px 0;
-    width: 360px;
-    height: 360px;
+    width: 100%;
+    padding-top: 100%;
     background: url('/static/images/source/robot_controller_panel.png') center center;
+    background-size: 100%;
+    border-radius: 50%;
   }
 }

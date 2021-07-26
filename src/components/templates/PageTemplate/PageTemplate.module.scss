@@ -6,7 +6,12 @@
   max-width: 177.78vh;
   overflow:hidden;
   
-  border: 1px solid red;
+  margin: 0 auto;
+  background-color: white;
+
+  .aside {
+    width: 9%;
+  }
   .content {
     display: flex;
     height: 100%;

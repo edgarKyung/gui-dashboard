@@ -1,9 +1,19 @@
 .robot-play-control-wrap{
   display: flex;
-  justify-content: space-between;
-  width: 400px;
+  grid-template-columns: repeat(3,  1fr);
+  justify-items: center;
+  width: 100%;
+  padding: 0 1em;
+  li{
+    padding:1em;
+    flex: 1;
 
+  }
   .button {
+    width: 100%;
+    padding-top: 100%;
+
+    height: auto;
     border: none;
     border-radius: 50%;
     box-shadow: rgba(0,0,0, .1) 5px 5px 20px;

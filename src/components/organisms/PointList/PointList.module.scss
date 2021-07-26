@@ -1,14 +1,14 @@
+
 .point-wrap{
   flex: 1;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #E5E5E5;
 
   .point-list {
     flex: 1;
     li{
       width: 80%;
-      margin: .5vh 0;
+      margin: .3em 0;
     }
     display: grid;
     grid-template-columns: repeat(3, minmax(130px, 1fr));
@@ -22,7 +22,6 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: 0 1em;
     }
   }
 }

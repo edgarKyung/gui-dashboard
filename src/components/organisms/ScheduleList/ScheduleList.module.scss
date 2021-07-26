@@ -1,19 +1,27 @@
+@import '../../../styles/variables.scss';
+
 .schedule-wrap{
   display: flex;
   flex-direction: column;
-  width: 330px;
-  border-right: 1px solid #E5E5E5;
-  padding-left: 70px;
+  width: 35%;
+  border-right: 1px solid $border-color;
 
   .schedule-title {
     text-align: left;
+    padding-left:2.8em;
   }
 
   .schedule-list {
     flex: 1;
-
+    padding: 0 2.8em;
     li{      
-      margin: 1vh 0;
+      margin: .7em 0;
+
+      .schedule-btn{
+        text-align: left;
+        width: 100%;
+        min-width: 100px;
+      }
     }
 
   }

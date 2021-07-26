@@ -1,3 +1,5 @@
+@import '../../../styles/variables.scss';
+
 .page-wrap{
   display: flex;
   height: 100%;
@@ -22,7 +24,7 @@
     .content-wrap{
       display: flex;
       flex: 1;
-      border-top: 1px solid #E5E5E5;
+      border-top: 1px solid $border-color;
 
       .point-wrap{
         flex: 1;
@@ -37,7 +39,7 @@
   align-items: center;
   width: 565px;
   height: 100%;
-  border-left: 1px solid #E5E5E5;
+  border-left: 1px solid $border-color;
   background-color: #F0F1F5;
 }
 
@@ -133,7 +135,7 @@
   height: 70px;
   border-top: 1px solid #CACFE4;
   color:#A7AEC9;
-  font-size: 16px;
+  font-size: 1em;
 
   li{
     display: flex;
