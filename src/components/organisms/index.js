@@ -5,3 +5,4 @@ export { default as RobotStatus } from './RobotStatus';
 export { default as RobotStatusBar } from './RobotStatusBar';
 export { default as RobotPlayControlPanel } from './RobotPlayControlPanel';
 export { default as RobotPositionControlPanel } from './RobotPositionControlPanel';
+export { default as PositionJoyStick } from './PositionJoyStick';
