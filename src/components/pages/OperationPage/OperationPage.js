@@ -8,7 +8,7 @@ import {
   PointList, 
   RobotStatus, 
   RobotPlayControlPanel,
-  RobotPositionControlPanel,
+  RobotPositionJoyStick,
   RobotStatusBar,
 } from '../../organisms';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
@@ -34,7 +34,7 @@ const OperationPage = () => (
         <ControlContentTemplate>
           <RobotStatus status={'로딩중'}/>
           <RobotPlayControlPanel />
-          <RobotPositionControlPanel />
+          <RobotPositionJoyStick />
           <RobotStatusBar status={'로딩중'} battery={80}/>
         </ControlContentTemplate>
     </OperationContainer>

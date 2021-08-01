@@ -5,3 +5,4 @@ export { default as Button } from './Button';
 export { default as SwitchButton } from './SwitchButton';
 export { default as PointIcon } from './PointIcon';
 export { default as Position } from './Position';
+export { default as CheckBox } from './CheckBox';

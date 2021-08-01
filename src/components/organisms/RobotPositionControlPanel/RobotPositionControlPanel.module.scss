@@ -1,6 +1,6 @@
-.robot-position-control-wrap{
+@import '../../../styles/variables.scss';
+.position-joy-stick-wrap{
   width: 100%;
-  text-align: center;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -8,7 +8,7 @@
   .control-panel-wrap{
     width: 100%;
     padding-top: 100%;
-    background: url('/static/images/source/robot_controller_panel.png') center center;
+    background: url('/static/images/source/potition_joy_stick.png') center center no-repeat;
     background-size: 100%;
     border-radius: 50%;
   }

@@ -4,7 +4,7 @@ import styles from './PointPage.module.scss';
 import {OperationContainer} from '../../../containers';
 import { PageTitle, Button, Icon, PointIcon, SwitchButton, Position } from '../../atoms';
 import { PageTemplate, ControlContentTemplate, MainContentTemplate, Tabs } from '../../templates';
-import { RobotStatusBar, PositionJoyStick } from '../../organisms';
+import { RobotStatusBar, RobotPositionControlPanel } from '../../organisms';
 const cx = classNames.bind(styles);
 
 const CanvasMap = () => (
@@ -33,36 +33,34 @@ const PointEditList = ({points = pointList}) => (
 
 const PointEditPannel = ({className}) => (
   <div className={cx('point-edit-wrap', className)}>
-    <div className={cx('header')}><Button type='circle'>X</Button></div>
-    <div>
+    <div className={cx('point-edit-header')}><Button type='circle'>X</Button></div>
+    <div className={cx('point-edit-icon')}>
       <PointIcon />
       거점3
     </div>
-    <div>
-      <Position>
+    <div className={cx('point-pose-wrap')}>
+      <Position className={cx('point-pose')}>
         <ul>
           <li>X 000</li>
           <li>Y 000</li>
         </ul>
       </Position>
-      <Position>
+      <Position className={cx('point-pose')}>
         <ul>
           <li>X 000</li>
           <li>Y 000</li>
         </ul>
       </Position>
-      <Position>
+      <Position className={cx('point-pose')}>
         <ul>
           <li>X 000</li>
           <li>Y 000</li>
         </ul>
       </Position>
     </div>
-    <div>
+    <div className={cx('point-control-wrap')}>
       <div>Contoller</div>
-      <div>
-        <PositionJoyStick />
-      </div>
+      <RobotPositionControlPanel />
     </div>
 
   </div>
