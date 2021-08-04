@@ -8,6 +8,7 @@ import {
 import { 
   OperationPage, MapPage, PointPage, SettingPage, LogPage
  } from './pages';
+import { MapContainer } from "../containers";
 import './App.scss'
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
       <Switch>
         <Route exact path="/"><Redirect to="/operation" /></Route>
         <Route exact path="/operation"><OperationPage /></Route>
-        <Route path="/map"><MapPage /></Route>
+        <Route path="/map"><MapContainer /></Route>
         <Route path="/point"><PointPage /></Route>
         <Route path="/setting"><SettingPage /></Route>
         <Route path="/log"><LogPage /></Route>

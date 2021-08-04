@@ -1,29 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stage, Sprite, Container, PixiComponent, useApp } from '@inlet/react-pixi';
-import { Viewport as PixiViewport } from "pixi-viewport";
-import * as PIXI from "pixi.js";
-
-const PixiComponentViewport = PixiComponent("ViewPort",{
-  create: (props) => {
-    const viewport = new PixiViewport({
-      screenWidth: props.width,
-      screenHeight: props.height,
-      // worldWidth: props.width * 2,
-      // worldHeight: props.height * 2,
-      ticker: props.app.ticker,
-      interaction: props.app.renderer.plugins.interaction,
-      passiveWheel: false,
-    });
-    viewport.drag().pinch().wheel().clampZoom();
-    return viewport;
-  }
-});
-
-const PixiViewPortComponent = (props) => {
-  const app = useApp();
-  return <PixiComponentViewport app={app} {...props} />;
-};
-
+import { MapPage } from '../components/pages';
 
 const MapContainer = () => {
   const [width, setWidth] = useState(600);
@@ -39,6 +15,7 @@ const MapContainer = () => {
     getInitData();
     
   },[]);
+
   const draw = ({data, width, height}) => {
     const canvas = document.createElement('canvas');
     let ctx = canvas.getContext('2d');
@@ -71,23 +48,14 @@ const MapContainer = () => {
     console.log(width, height);
     setImgData(canvas.toDataURL());
   }
+
+
   return (
-    <div>
-      <Stage width={width*0.5} height={height*0.5}>
-      { imgData && (
-          <Sprite 
-            image={imgData} 
-            option={width, height} 
-            scale={{ x: 0.5, y: 0.5 }} 
-          /> 
-        ) }
-      </Stage>
-      <Stage width={800} height={640} options={ {backgroundAlpha: .5}}>
-        <PixiViewPortComponent width={width*2} height={height*2}>
-          { imgData && (<Sprite image={imgData} option={width, height} scale={{ x: 2, y: 2 }} /> ) }
-        </PixiViewPortComponent>
-      </Stage>
-    </div>
+    <MapPage
+      width={width}
+      height={height}
+      imgData={imgData}
+    />
   )
 }
 

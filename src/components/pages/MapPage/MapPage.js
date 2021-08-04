@@ -3,25 +3,29 @@ import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
 import styles from './MapPage.module.scss';
 import { PageTitle, Button, CheckBox } from '../../atoms';
-import { RobotPositionJoyStick, RobotStatusBar } from '../../organisms';
+import { RobotPositionJoyStick, RobotStatusBar, CanvasMap } from '../../organisms';
 import { OperationContainer } from '../../../containers';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
 
 const cx = classNames.bind(styles);
 
-const CanvasMap = () => (
-  <div className={cx('canvas-image')}>  </div>
-);
-
 const ColorBox = ({color = 'white'}) => (
   <div className={cx('color-box-wrap', color)}></div>
 )
 
-const MapPage = () => (
+const MapPage = ({
+  imgData,
+  width,
+  height
+}) => (
   <PageTemplate>
     <OperationContainer>
       <MainContentTemplate title={'맵 생성'}>
-        <CanvasMap />
+        <CanvasMap 
+          imgData={imgData} 
+          width={width}
+          height={height}
+        />
       </MainContentTemplate>
 
       <ControlContentTemplate>

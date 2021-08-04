@@ -6,3 +6,4 @@ export { default as RobotStatusBar } from './RobotStatusBar';
 export { default as RobotPlayControlPanel } from './RobotPlayControlPanel';
 export { default as RobotPositionControlPanel } from './RobotPositionControlPanel';
 export { default as RobotPositionJoyStick } from './RobotPositionJoyStick';
+export { default as CanvasMap } from './CanvasMap';
