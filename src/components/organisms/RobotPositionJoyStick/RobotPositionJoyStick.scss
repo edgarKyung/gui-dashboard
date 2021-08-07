@@ -1,0 +1,29 @@
+.robot-position-control-wrap{
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+
+  .front {
+    transform: scale(2.6);
+    opacity: 1 !important;
+    background: url('/static/images/source/robot_control_button.png') center center !important;
+    background-size: 100% 100% !important;
+  }
+
+  &.active .front {
+    background: url('/static/images/source/robot_control_button_on.png') center center !important;
+    background-size: 100% 100% !important;
+  }
+}
+
+
+.back{
+  transform: scale(2.4);
+  background: url('/static/images/source/robot_controller_panel.png') center center !important;
+  background-size: 100% !important;
+  box-shadow: rgba(0,0,0, .1) 1px 1px 10px;
+  opacity: 1 !important;
+}
