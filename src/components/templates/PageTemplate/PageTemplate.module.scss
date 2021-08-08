@@ -1,14 +1,15 @@
 .page-wrapper {
   display: flex;
-  width: 100vw;
-  height: 56.25vw;
-  max-height: 100vh;
-  max-width: 177.78vh;
-  min-width: 1000px;
-  min-height: 562.5px;
+  width: 1920px;
+  height: 1080px;
+  // width: 100vw;
+  // height: 56.25vw;
+  // max-height: 100vh;
+  // max-width: 177.78vh;
   overflow:hidden;
   margin: 0 auto;
   background-color: white;
+  transform-origin: left top;
 
   .aside {
     width: 9%;
@@ -18,6 +19,30 @@
     height: 100%;
     width: 100%;
     flex: 1;
+  }
+}
+
+@media screen and (max-width: 1600px), screen and (max-height: 900px){ 
+  .page-wrapper {
+    transform: scale(.83);
+  }
+}
+
+@media screen and (max-width: 1366px), screen and (max-height: 768px){ 
+  .page-wrapper {
+    transform: scale(.71);
+  }
+}
+
+@media screen and (max-width: 1280px), screen and (max-height: 720px){ 
+  .page-wrapper {
+    transform: scale(.66);
+  }
+}
+
+@media screen and (max-width: 1096px), screen and (max-height: 616px){ 
+  .page-wrapper {
+    transform: scale(.57);
   }
 }
 

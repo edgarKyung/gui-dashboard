@@ -5,9 +5,11 @@ import { PageTitle, Button, Icon } from '../../atoms';
 
 const cx = classNames.bind(styles);
 
-const pointList = ['거점1', '거점2', '거점3', '거점4','거점1', '거점2', '거점3', '거점4','거점1', '거점2', '거점3', '거점2', '거점3', '거점2', '거점3', '거점2', '거점3', '거점2', '거점3'];
 
-const PointList = ({list = pointList}) => (
+const PointList = ({
+  pointList, 
+  onClickPoint
+}) => (
   <div className={cx('point-wrap')}>
     <PageTitle 
       title={'거점 목록'} 
@@ -15,10 +17,10 @@ const PointList = ({list = pointList}) => (
     />
     <ul className={cx('point-list')}>
       {
-        list.map((data, i) =>
+        pointList.map((data, i) =>
           <li key={i}>
-            <Button type='default' className={cx('point-button')}>
-              {data}
+            <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data)}>
+              {data.name}
               <Icon type='star' className={cx('on')}/>
             </Button> 
           </li>

@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
 import styles from './LogPage.module.scss';
-import {OperationContainer} from '../../../containers';
 import { PageTitle, Icon } from '../../atoms';
 const cx = classNames.bind(styles);
 
@@ -18,12 +17,10 @@ const MainContentTemplate = ({title, classNames, children}) => (
 
 const LogPage = () => (
   <PageTemplate>
-    <OperationContainer>
-      <div className={cx('page-wrap')}>
-        <MainContentTemplate title={'로그'}>
-        </MainContentTemplate>
-      </div>
-    </OperationContainer>
+    <div className={cx('page-wrap')}>
+      <MainContentTemplate title={'로그'}>
+      </MainContentTemplate>
+    </div>
   </PageTemplate>
 );
 

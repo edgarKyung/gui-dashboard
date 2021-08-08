@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './PointPage.module.scss';
-import {OperationContainer} from '../../../containers';
 import { PageTitle, Button, Icon, PointIcon, SwitchButton, Position } from '../../atoms';
 import { PageTemplate, ControlContentTemplate, MainContentTemplate, Tabs } from '../../templates';
 import { RobotStatusBar, RobotPositionControlPanel } from '../../organisms';
@@ -74,27 +73,25 @@ const PointPage = () => {
   }
   return(
   <PageTemplate>
-    <OperationContainer>
-      <MainContentTemplate title={'거점/가상벽 추가'}>
-        <CanvasMap />
-      </MainContentTemplate>
+    <MainContentTemplate title={'거점/가상벽 추가'}>
+      <CanvasMap />
+    </MainContentTemplate>
 
-      <ControlContentTemplate>
-        <Tabs>
-          <Tabs.Header title="거점관리">
-            <div className={cx('point-pannel-wrap')}>
-              <PointEditList />
-              <Button type={'gradiant-col'} onClick={handleClickApply}>적용하기</Button>
-              { showEdit && <PointEditPannel className={cx('edit-pannel-wrap')}/> }
-            </div>
-          </Tabs.Header>
-          <Tabs.Header title="가상벽관리">
-            가상벽관리
-          </Tabs.Header>
-        </Tabs>
-        <RobotStatusBar status='로딩중' />
-      </ControlContentTemplate>
-    </OperationContainer>
+    <ControlContentTemplate>
+      <Tabs>
+        <Tabs.Header title="거점관리">
+          <div className={cx('point-pannel-wrap')}>
+            <PointEditList />
+            <Button type={'gradiant-col'} onClick={handleClickApply}>적용하기</Button>
+            { showEdit && <PointEditPannel className={cx('edit-pannel-wrap')}/> }
+          </div>
+        </Tabs.Header>
+        <Tabs.Header title="가상벽관리">
+          가상벽관리
+        </Tabs.Header>
+      </Tabs>
+      <RobotStatusBar status='로딩중' />
+    </ControlContentTemplate>
   </PageTemplate>
   );
 };

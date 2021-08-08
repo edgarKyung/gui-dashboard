@@ -19,7 +19,6 @@ const MapPage = ({
   height
 }) => (
   <PageTemplate>
-    <OperationContainer>
       <MainContentTemplate title={'맵 생성'}>
         <CanvasMap 
           imgData={imgData} 
@@ -72,7 +71,6 @@ const MapPage = ({
         </div>
         <RobotStatusBar status='로딩중'/>
       </ControlContentTemplate>
-    </OperationContainer>
   </PageTemplate>
 );
 

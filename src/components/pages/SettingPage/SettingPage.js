@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
 import styles from './SettingPage.module.scss';
-import {OperationContainer} from '../../../containers';
 import { PageTitle, Icon } from '../../atoms';
 const cx = classNames.bind(styles);
 
@@ -21,16 +20,14 @@ const ControlContentTemplate = ({children}) => (
 
 const SettingPage = () => (
   <PageTemplate>
-    <OperationContainer>
-      <div className={cx('page-wrap')}>
-        <MainContentTemplate title={'세팅'}>
-        </MainContentTemplate>
+    <div className={cx('page-wrap')}>
+      <MainContentTemplate title={'세팅'}>
+      </MainContentTemplate>
 
-        <ControlContentTemplate>
-          엥
-        </ControlContentTemplate>
-      </div>
-    </OperationContainer>
+      <ControlContentTemplate>
+        엥
+      </ControlContentTemplate>
+    </div>
   </PageTemplate>
 );
 

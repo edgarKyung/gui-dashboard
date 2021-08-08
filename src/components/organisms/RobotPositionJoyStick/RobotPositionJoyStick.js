@@ -33,15 +33,14 @@ class JoyWrapper extends Component {
 
   managerListener(manager) {
       console.log(manager);
+      const { onRobotMoveStart, onRobotMoveEnd } = this.props;
       manager.on('move', (e, stick) => {
-          console.log('I moved!');
-          console.log('event', e);
-          console.log('stick', stick);
           this.setState({ active:true });
+          onRobotMoveStart(stick);
       })
       manager.on('end', () => {
-          console.log('I ended!')
           this.setState({ active:false });
+          onRobotMoveEnd();
       })
   }
 

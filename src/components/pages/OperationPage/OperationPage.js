@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
 import styles from './OperationPage.module.scss';
-import {OperationContainer} from '../../../containers';
 import { 
   ScheduleList, 
   PointList, 
@@ -20,24 +19,37 @@ const CanvasMap = () => (
 
 
 
-const OperationPage = () => (
+const OperationPage = ({
+  pointList,
+  onClickPoint,
+  onClickRobotControl,
+  onRobotMoveStart,
+  onRobotMoveEnd
+}) => (
   <PageTemplate>
-    <OperationContainer>
-        <MainContentTemplate title={'로봇운영'}>
-          <CanvasMap />
-          <div className={cx('content-wrap')}>
-            <ScheduleList />
-            <PointList />
-          </div>
-        </MainContentTemplate>
+    <MainContentTemplate title={'로봇운영'}>
+      <CanvasMap />
+      <div className={cx('content-wrap')}>
+        <ScheduleList />
+        <PointList 
+          pointList={pointList}
+          onClickPoint={onClickPoint}
+        />
+      </div>
+    </MainContentTemplate>
 
-        <ControlContentTemplate>
-          <RobotStatus status={'로딩중'}/>
-          <RobotPlayControlPanel />
-          <RobotPositionJoyStick />
-          <RobotStatusBar status={'로딩중'} battery={80}/>
-        </ControlContentTemplate>
-    </OperationContainer>
+    <ControlContentTemplate>
+      <RobotStatus status={'로딩중'}/>
+      <RobotPlayControlPanel onClickRobotControl={onClickRobotControl} />
+      <div className={cx('joystick-wrap')}>
+        <h3>Controller</h3>
+        <RobotPositionJoyStick 
+          onRobotMoveStart={onRobotMoveStart}
+          onRobotMoveEnd={onRobotMoveEnd}
+        />
+      </div>
+      <RobotStatusBar status={'로딩중'} battery={80}/>
+    </ControlContentTemplate>
   </PageTemplate>
 );
 
