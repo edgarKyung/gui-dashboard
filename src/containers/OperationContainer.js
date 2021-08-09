@@ -4,25 +4,23 @@ import * as RobotApi from '../lib/Robot';
 
 const OperationContainer = ({ children }) => {
 
-  const point = {
-    name: '거점 1',
-    x: 100,
-    y: 200,
-    degree: 0
-  };
   const pointList = [
-    point,
-    point,
-    point,
-    point,
-    point,
-    point,
+    { name: '거점 1', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 2', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 3', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 4', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 5', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 6', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 7', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 8', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 9', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 10', x: 1.3443, y: -2.1123, degree: 3.14159 },
   ]
 
   const handleClickPoint = async (point) => {
     try {
       console.log(point);
-      await RobotApi.setPoint(point);
+      await RobotApi.setGoal(point);
     } catch (err) {
       console.error(err)
     }
@@ -39,7 +37,7 @@ const OperationContainer = ({ children }) => {
   async function requestMoveControl(ms) {
     setTimeout(async () => {
       try {
-        await RobotApi.setPoint({ velocity: velocity, angle: angle });
+        await RobotApi.moveControl({ velocity: velocity, angle: angle });
       } catch (ex) {
         console.error(ex);
       } finally {

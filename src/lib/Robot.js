@@ -2,12 +2,21 @@ import HttpClient from './HttpClient';
 
 const httpClient = new HttpClient();
 
-const sleepAsync = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-export const setPoint = async (data) => {
+export const moveControl = async (data) => {
   try {
-    // await sleepAsync(30); // For Test
     const response = await httpClient.post('/move', data);
+    console.log(data, response);
+    return response;
+
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const setGoal = async (data) => {
+  try {
+    const response = await httpClient.post('/goal', data);
     console.log(data, response);
     return response;
 
@@ -19,7 +28,8 @@ export const setPoint = async (data) => {
 
 export const robotControl = async (type, data) => {
   try {
-    return await httpClient.post(`/set/${type}`, data);
+    return await httpClient.post(`/state`, { state: type });
+
   } catch (err) {
     console.error(err);
     throw err;
