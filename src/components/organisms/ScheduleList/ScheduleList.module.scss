@@ -3,8 +3,6 @@
 .schedule-wrap{
   display: flex;
   flex-direction: column;
-  width: 35%;
-  border-right: 1px solid $border-color;
 
   .schedule-title {
     text-align: left;
@@ -15,7 +13,7 @@
     flex: 1;
     padding: 0 2.8em;
     li{      
-      margin: .7em 0;
+      padding: 1em 0;
 
       .schedule-btn{
         text-align: left;

@@ -9,10 +9,12 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 2em 0;
+  padding: 1.5em 0;
   background-color: white;
   border-radius: 10px;
   box-shadow: rgba(0,0,0 ,.10) 1px 1px 5px;
+  font-size: 1.2em;
+
   li {
     width: 50%;
     display: flex;
@@ -24,13 +26,6 @@
     &:first-child{
       border-right: 2px solid $border-color;
     }
-  }
-  .status-logo {
-    display: inline-block;
-    width: 38px;
-    height: 38px;
-    background: url('/static/images/source/robot_status_logo.png');
-    margin-right: 20px;
   }
 
   .status-info {

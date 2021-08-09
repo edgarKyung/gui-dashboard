@@ -11,6 +11,10 @@
   border-top: 1px solid $border-color;
   overflow:hidden;
 
+  .schedule-wrap{
+    width: 28%;
+    border-right: 1px solid $border-color;  
+  }
   .point-wrap{
     flex: 1;
   }

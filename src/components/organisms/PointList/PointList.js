@@ -7,21 +7,35 @@ const cx = classNames.bind(styles);
 
 
 const PointList = ({
+  className,
+  pointMarkList, 
   pointList, 
   onClickPoint
 }) => (
-  <div className={cx('point-wrap')}>
+  <div className={cx('point-wrap', className)}>
     <PageTitle 
       title={'거점 목록'} 
       className={cx('point-title')} 
     />
+    <ul className={cx('point-mark-list')}>
+      {
+        pointMarkList && (pointMarkList.map((data, i) =>
+          <li key={i}>
+            <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data)}>
+              {data.name}
+              <Icon type='star' className={cx('on')}/>
+            </Button> 
+          </li>
+        ))
+      }
+    </ul>
     <ul className={cx('point-list')}>
       {
         pointList.map((data, i) =>
           <li key={i}>
             <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data)}>
               {data.name}
-              <Icon type='star' className={cx('on')}/>
+              <Icon type='star'/>
             </Button> 
           </li>
         )

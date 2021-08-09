@@ -17,10 +17,9 @@ const CanvasMap = () => (
   <div className={cx('canvas-image')}></div>
 )
 
-
-
 const OperationPage = ({
   pointList,
+  pointMarkList,
   onClickPoint,
   onClickRobotControl,
   onRobotMoveStart,
@@ -30,8 +29,10 @@ const OperationPage = ({
     <MainContentTemplate title={'로봇운영'}>
       <CanvasMap />
       <div className={cx('content-wrap')}>
-        <ScheduleList />
+        <ScheduleList className={cx('schedule-wrap')}/>
         <PointList 
+          className={cx('point-wrap')}
+          pointMarkList={pointMarkList}
           pointList={pointList}
           onClickPoint={onClickPoint}
         />

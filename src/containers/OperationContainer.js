@@ -4,6 +4,12 @@ import * as RobotApi from '../lib/Robot';
 
 const OperationContainer = ({ children }) => {
 
+  const pointMarkList = [
+    { name: '거점 11', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 12', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '거점 13', x: 1.3443, y: -2.1123, degree: 3.14159 },
+  ];
+
   const pointList = [
     { name: '거점 1', x: 1.3443, y: -2.1123, degree: 3.14159 },
     { name: '거점 2', x: 1.3443, y: -2.1123, degree: 3.14159 },
@@ -87,10 +93,10 @@ const OperationContainer = ({ children }) => {
     }
   }
 
-  console.log(pointList);
   return (
     <Fragment>
       <OperationPage
+        pointMarkList={pointMarkList}
         pointList={pointList}
         onClickPoint={handleClickPoint}
         onClickRobotControl={handleClickRobotControl}

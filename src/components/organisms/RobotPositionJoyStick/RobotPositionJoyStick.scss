@@ -6,7 +6,6 @@
   flex-direction: column;
   // flex: 1;
   justify-content: center;
-
   .front {
     transform: scale(2.6);
     opacity: 1 !important;
@@ -25,6 +24,6 @@
   transform: scale(2.4);
   background: url('/static/images/source/robot_controller_panel.png') center center !important;
   background-size: 100% !important;
-  box-shadow: rgba(0,0,0, .1) 1px 1px 10px;
+  box-shadow: 28px 28px 70px rgba(166, 171, 189, 0.25), -23px -23px 65px #FFFFFF;
   opacity: 1 !important;
 }
