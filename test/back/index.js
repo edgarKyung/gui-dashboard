@@ -27,11 +27,11 @@ app.post('/mode', (req, res) => {
 });
 
 app.post('/move', (req, res) => {
-  const velocity = req.body.velocity ? req.body.velocity : 0;
-  const angle = req.body.angle ? req.body.angle : 0;
+  const velocity_linear = req.body.linear ? req.body.linear : 0;
+  const velocity_angular = req.body.angular ? req.body.angular : 0;
   const data = {
-    linear: { x: velocity, y: 0, z: 0 },
-    angular: { x: 0, y: 0, z: angle }
+    linear: { x: velocity_linear, y: 0, z: 0 },
+    angular: { x: 0, y: 0, z: velocity_angular }
   };
   console.log(data);
   return res.send(JSON.stringify(data));

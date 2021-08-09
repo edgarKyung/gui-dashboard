@@ -28,16 +28,17 @@ const OperationContainer = ({ children }) => {
 
   // [TODO: 리팩토링]
   // 터치중일 경우 주기적으로 명령 전송
-  // velocity : 속도 m/s (최대값 : 0.75)
-  // angle : -PI ~ PI 범위의 값, 직진일때 0, 오른손법칙에 따라 좌회전방향이 양수
+  // 터치 종료 시점에 0,0 전송 (0,0이 마지막 전송이어야 됨)
+  // velocity_linear : 속도 m/s (최댓값: 0.75, 최솟값: -0.75)
+  // velocity_angular : 각속도 rad/s (최댓값: 0.75, 최솟값: -0.75) : 오른손법칙에 따라 좌회전 방향이 양수
   let sendRequestFlag = false;
-  let velocity = 0;
-  let angle = 0;
+  let velocity_linear = 0;
+  let velocity_angular = 0;
 
   async function requestMoveControl(ms) {
     setTimeout(async () => {
       try {
-        await RobotApi.moveControl({ velocity: velocity, angle: angle });
+        await RobotApi.moveControl({ linear: velocity_linear, angular: velocity_angular });
       } catch (ex) {
         console.error(ex);
       } finally {
@@ -54,10 +55,13 @@ const OperationContainer = ({ children }) => {
         sendRequestFlag = true;
         requestMoveControl(30);
       }
-      velocity = point.distance / 100;
-      angle = point.angle.radian - Math.PI / 2;
+      let angle = point.angle.radian - Math.PI / 2;
       angle = angle < 0 ? angle + 2 * Math.PI : angle;
       angle = angle > Math.PI ? angle - 2 * Math.PI : angle;
+
+      velocity_linear = point.distance / 100 * Math.cos(angle);
+      velocity_angular = point.distance / 100 * Math.sin(angle);
+
     } catch (err) {
       console.error(err)
     }
@@ -65,8 +69,8 @@ const OperationContainer = ({ children }) => {
 
   const handleRobotMoveEnd = async (point) => {
     try {
-      velocity = 0;
-      angle = 0;
+      velocity_linear = 0;
+      velocity_angular = 0;
       sendRequestFlag = false;
       requestMoveControl(100);
     } catch (err) {
