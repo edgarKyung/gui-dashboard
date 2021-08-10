@@ -1,5 +1,5 @@
-import React from 'react';
-import { Stage, Sprite, PixiComponent, useApp, Container } from '@inlet/react-pixi';
+import React, { useCallback } from 'react';
+import { Stage, Sprite, PixiComponent, useApp, Container, Graphics } from '@inlet/react-pixi';
 import { Viewport as PixiViewport } from "pixi-viewport";
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
@@ -37,9 +37,6 @@ const MiniMap = ({
       <Container
         width={width}
         height={height}
-        option={{
-          backgroundColor: 0xeef1f5
-        }} 
       >
         {/* <Sprite image={txtBG} options={width, height}/> */}
         <Sprite 
@@ -51,27 +48,38 @@ const MiniMap = ({
 
 
 const size = {
-  width:1066,
-  height:913,
+  width:1185,
+  height:479,
 }
 
 const CanvasMap = ({
-  imgData,
   width,
   height,
-}) => (
-  <div className={cx('canvas-image')}>
-      <Stage width={size.width} height={size.height} options={ {backgroundAlpha: .5, autoDensity: true}}>
+  imgData,
+  poseData,
+}) => {
+  const pointDraw = React.useCallback(g => {
+    g.clear();
+    g.beginFill(0xff0000, 1);
+    g.drawRect(poseData.x * 2 , Math.abs(poseData.y) * 5, 15, 15);
+    // g.drawRect(poseData.x, poseData.y, 15, 15);
+  }, [poseData.x, poseData.y]);
+  
+  return(
+    <div className={cx('canvas-image')}>
+      <Stage width={size.width} height={size.height} options={ {backgroundColor: '0xffffff', autoDensity: true}}>
         <PixiViewPortComponent width={size.width} height={size.height}>
           { imgData && (<Sprite image={imgData} option={width, height} scale={{ x: 3, y: 3 }} /> ) }
+          <Graphics draw={pointDraw}/>
         </PixiViewPortComponent>
-        { imgData && (<MiniMap 
+        {/* { imgData && (<MiniMap 
           imgData={imgData}
           width={500}
           height={290}
-        />) }
+        />) } */}
       </Stage>
-  </div>
-);
+    </div>
+  )
+};
 
 export default CanvasMap;

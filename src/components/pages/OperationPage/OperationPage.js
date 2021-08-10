@@ -9,13 +9,11 @@ import {
   RobotPlayControlPanel,
   RobotPositionJoyStick,
   RobotStatusBar,
+  CanvasMap,
 } from '../../organisms';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
+import { CanvasMapContainer } from '../../../containers';
 const cx = classNames.bind(styles);
-
-const CanvasMap = () => (
-  <div className={cx('canvas-image')}></div>
-)
 
 const OperationPage = ({
   pointList,
@@ -27,7 +25,7 @@ const OperationPage = ({
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'로봇운영'}>
-      <CanvasMap />
+      <CanvasMapContainer />
       <div className={cx('content-wrap')}>
         <ScheduleList className={cx('schedule-wrap')}/>
         <PointList 
