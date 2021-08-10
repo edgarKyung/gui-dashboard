@@ -18,9 +18,9 @@ app.post('/state', (req, res) => {
 app.post('/mode', (req, res) => {
   const mode = req.body.mode;
   const data = {
-    human: mode.human ? 'start' : 'stop',
-    line: mode.line ? 'start' : 'stop',
-    navigation: mode.navigation ? 'start' : 'stop'
+    human: mode === 'people' ? 'start' : 'stop',
+    line: mode === 'line' ? 'start' : 'stop',
+    navigation: mode === 'navigation' ? 'start' : 'stop'
   };
   console.log(data);
   return res.send(JSON.stringify(data));

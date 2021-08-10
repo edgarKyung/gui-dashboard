@@ -28,7 +28,9 @@ export const setGoal = async (data) => {
 
 export const robotControl = async (type, data) => {
   try {
-    return await httpClient.post(`/state`, { state: type });
+    // return await httpClient.post(`/state`, { state: type });
+    // TEMPORARY
+    return await httpClient.post(`/mode`, { mode: type });
 
   } catch (err) {
     console.error(err);

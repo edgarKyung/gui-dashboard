@@ -164,3 +164,32 @@
   background-image: url('/static/images/btn/btn_redo.png');
 }
 
+
+
+// TEMPORARY
+.navigation {
+  background-image: url('/static/images/source/btn_temp1.png');
+  background-size: 70px;
+  &.on {
+    background-image: url('/static/images/source/btn_temp1_on.png');
+    background-size: 100px;
+  }
+}
+
+.people {
+  background-image: url('/static/images/source/btn_temp2.png');
+  background-size: 70px;
+  &.on {
+    background-image: url('/static/images/source/btn_temp2_on.png');
+    background-size: 100px;
+  }
+}
+
+.line {
+  background-image: url('/static/images/source/btn_temp3.png');
+  background-size: 70px;
+  &.on {
+    background-image: url('/static/images/source/btn_temp3_on.png');
+    background-size: 100px;
+  }
+}
