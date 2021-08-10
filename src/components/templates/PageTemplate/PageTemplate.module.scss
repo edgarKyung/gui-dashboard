@@ -9,7 +9,7 @@
   overflow:hidden;
   margin: 0 auto;
   background-color: white;
-  transform-origin: left top;
+  transform-origin: 0 0%;
 
   .aside {
     width: 9%;
@@ -48,7 +48,7 @@
 
 @media screen and (max-width: 960px), screen and (max-height: 600px){ 
   .page-wrapper {
-    transform: scale(.466);
+    transform: scale(.5);
   }
 }
 

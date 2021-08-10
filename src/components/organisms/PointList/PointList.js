@@ -35,7 +35,6 @@ const PointList = ({
           <li key={i}>
             <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data)}>
               {data.name}
-              <Icon type='star'/>
             </Button> 
           </li>
         )

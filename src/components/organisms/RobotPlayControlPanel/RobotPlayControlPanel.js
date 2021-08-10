@@ -11,7 +11,7 @@ const RobotPlayControlPanel = ({
   <ul className={cx('robot-play-control-wrap')}>
     <li><Button type='people' active={false} className={cx('button')} onClick={() => onClickRobotControl('people')} /></li>
     <li><Button type='line' active={false} className={cx('button')} onClick={() => onClickRobotControl('line')} /></li>
-    <li><Button type='navigation' active={true} className={cx('button')} onClick={() => onClickRobotControl('navigation')} /></li>
+    <li><Button type='navigation' active={false} className={cx('button')} onClick={() => onClickRobotControl('navigation')} /></li>
     
     {/* <li><Button type='stop' className={cx('button')} onClick={() => onClickRobotControl('stop')} /></li>
     <li><Button type='start' active={true} className={cx('button')} onClick={() => onClickRobotControl('start')} /></li>

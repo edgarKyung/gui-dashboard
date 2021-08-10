@@ -7,7 +7,7 @@
   // flex: 1;
   justify-content: center;
   .front {
-    transform: scale(2.6);
+    transform: scale(2.9);
     opacity: 1 !important;
     background: url('/static/images/source/robot_control_button.png') center center !important;
     background-size: 100% 100% !important;
@@ -21,7 +21,7 @@
 
 
 .back{
-  transform: scale(2.4);
+  transform: scale(2.7);  
   background: url('/static/images/source/robot_controller_panel.png') center center !important;
   background-size: 100% !important;
   box-shadow: 28px 28px 70px rgba(166, 171, 189, 0.25), -23px -23px 65px #FFFFFF;

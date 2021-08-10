@@ -6,6 +6,9 @@
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-color: rgba(0,0,0 ,.0);
+  text-decoration: none;
+  border: none;
 }
 
 .default { 
@@ -170,7 +173,7 @@
 .navigation {
   background-image: url('/static/images/source/btn_temp1.png');
   background-size: 70px;
-  &.on {
+  &:active, &.on {
     background-image: url('/static/images/source/btn_temp1_on.png');
     background-size: 100px;
   }
@@ -179,7 +182,7 @@
 .people {
   background-image: url('/static/images/source/btn_temp2.png');
   background-size: 70px;
-  &.on {
+  &:active, &.on {
     background-image: url('/static/images/source/btn_temp2_on.png');
     background-size: 100px;
   }
@@ -188,7 +191,7 @@
 .line {
   background-image: url('/static/images/source/btn_temp3.png');
   background-size: 70px;
-  &.on {
+  &:active, &.on {
     background-image: url('/static/images/source/btn_temp3_on.png');
     background-size: 100px;
   }
