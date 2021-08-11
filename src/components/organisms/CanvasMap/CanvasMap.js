@@ -58,24 +58,25 @@ const CanvasMap = ({
   laserData,
 }) => {
   const pointDraw = React.useCallback(g => {
-    const pointSizeX = 5 * scale.x;
-    const pointSizeY = 5 * scale.y;
-    const scaledPoseX = poseData.x * scale.x - pointSizeX * 0.5;
-    const scaledPoseY = poseData.y * scale.y - pointSizeY * 0.5;
     g.clear();
-    g.beginFill(0xff0000, 1);
-    g.drawRect(scaledPoseX, scaledPoseY, pointSizeX, pointSizeY);
 
     const laserSize = 3 * scale.x;
-    g.beginFill(0xFFFF00, 1);
     for (let i = 0; i < laserData.length; i += 1) {
       const laser = laserData[i];
       const laserSizeX = 2 * scale.x;
       const laserSizeY = 2 * scale.y;
       const scaledLaserX = laser.x * scale.x - laserSizeX * 0.5;
       const scaledLaserY = laser.y * scale.y - laserSizeY * 0.5;
+      g.beginFill(0xFFFF00, 1);
       g.drawRect(scaledLaserX, scaledLaserY, laserSize, laserSize);
     }
+
+    const pointSizeX = 5 * scale.x;
+    const pointSizeY = 5 * scale.y;
+    const scaledPoseX = poseData.x * scale.x - pointSizeX * 0.5;
+    const scaledPoseY = poseData.y * scale.y - pointSizeY * 0.5;
+    g.beginFill(0xff0000, 1);
+    g.drawRect(scaledPoseX, scaledPoseY, pointSizeX, pointSizeY);
   }, [poseData.x, poseData.y]);
 
   return (

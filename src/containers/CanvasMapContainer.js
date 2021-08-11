@@ -46,7 +46,7 @@ const CanvasMapContainer = () => {
     setImgData(canvas.toDataURL());
   }
 
-  function drawLaser(canvasPos, angle, lasers) {
+  function getLaserData(canvasPos, angle, lasers) {
     const data = [];
     if (resolution_x && resolution_y) {
       for (let i = 0; i < lasers.length; i += 1) {
@@ -56,18 +56,18 @@ const CanvasMapContainer = () => {
         const y = canvasPos.y + Math.cos(targetAngle) * laser.range / resolution_y;
         data.push({ x, y });
       }
-      setLaserData(data);
     }
+    return data;
   }
 
   async function drawCanvas(map) {
     const reqStatus = await fetch('/status');
     const status = await reqStatus.json();
     const canvasPos = getCanvasPos(status.pose);
+    const laserData = getLaserData(canvasPos, status.pose.rz, status.laser);
     drawMap(map);
-    drawLaser(canvasPos, status.pose.rz, status.laser);
+    setLaserData(laserData);
     setPoseData(canvasPos);
-    setTimeout(drawCanvas, 1000, map);
   }
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const CanvasMapContainer = () => {
       origin_y = map.origin.y;
       resolution_x = map.resolution.x;
       resolution_y = map.resolution.y;
-      drawCanvas(map);
+      setInterval(drawCanvas, 250, map);
     }
     getInitData();
   }, []);
