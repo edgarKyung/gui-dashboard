@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { OperationPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 
 const OperationContainer = ({ children }) => {
-
+  const [activeBtn, setActiveBtn] = useState('');
   const pointMarkList = [
     { name: '거점 11', x: 1.3443, y: -2.1123, degree: 3.14159 },
     { name: '거점 12', x: 1.3443, y: -2.1123, degree: 3.14159 },
@@ -84,11 +84,14 @@ const OperationContainer = ({ children }) => {
     }
   }
 
-  const handleClickRobotControl = (type) => {
+  const handleClickRobotControl =  async (type) => {
     try {
       const data = {};
-      RobotApi.robotControl(type, data);
+      setActiveBtn('');
+      await RobotApi.robotControl(type, data);
+      setActiveBtn(type);
     } catch (err) {
+      setActiveBtn('');
       console.error(err);
     }
   }
@@ -102,6 +105,7 @@ const OperationContainer = ({ children }) => {
         onClickRobotControl={handleClickRobotControl}
         onRobotMoveStart={handleRobotMoveStart}
         onRobotMoveEnd={handleRobotMoveEnd}
+        activeBtn={activeBtn}
       />
     </Fragment>
   )

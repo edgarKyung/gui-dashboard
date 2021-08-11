@@ -9,7 +9,10 @@
   overflow:hidden;
   margin: 0 auto;
   background-color: white;
+  transform: scale(1) translateX(-50%);
   transform-origin: 0 0%;
+  position: absolute;
+  left: 50%;
 
   .aside {
     width: 9%;
@@ -24,31 +27,31 @@
 
 @media screen and (max-width: 1600px), screen and (max-height: 1000px){ 
   .page-wrapper {
-    transform: scale(.83);
+    transform: scale(.83)  translateX(-50%);
   }
 }
 
 @media screen and (max-width: 1366px), screen and (max-height: 853.75px){ 
   .page-wrapper {
-    transform: scale(.71);
+    transform: scale(.71) translateX(-50%);
   }
 }
 
 @media screen and (max-width: 1280px), screen and (max-height: 800px){ 
   .page-wrapper {
-    transform: scale(.66);
+    transform: scale(.66) translateX(-50%);
   }
 }
 
 @media screen and (max-width: 1096px), screen and (max-height: 685px){ 
   .page-wrapper {
-    transform: scale(.57);
+    transform: scale(.57) translateX(-50%);
   }
 }
 
 @media screen and (max-width: 960px), screen and (max-height: 600px){ 
   .page-wrapper {
-    transform: scale(.4669);
+    transform: scale(.4669) translateX(-50%);
   }
 }
 

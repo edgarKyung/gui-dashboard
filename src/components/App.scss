@@ -5,6 +5,7 @@
 
 * {
     box-sizing: border-box;
+    user-select: none;
 }
 
 #root, html, body{
@@ -17,7 +18,7 @@
 }
 
 
-html{
+html, button {
     color:#222222;
     font-size: 18px;
     font-family: 'Roboto', 'Noto Sans KR';
