@@ -12,7 +12,11 @@ const CanvasMapContainer = () => {
   const [width, setWidth] = useState(600);
   const [height, setHeight] = useState(600);
   const [imgData, setImgData] = useState();
-  const [poseData, setPoseData] = useState({x:null, y: null});
+  const [poseData, setPoseData] = useState({ x: null, y: null });
+  const [laserData, setLaserData] = useState([{ x: null, y: null }]);
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
 
   function getCanvasPos(pose) {
     const diffX = (pose.x - origin_x) / resolution_x;
@@ -23,34 +27,10 @@ const CanvasMapContainer = () => {
     };
   }
 
-  useEffect(() => {
-    async function getInitData(){
-      const req = await fetch('http://127.0.0.1/map');
-      const map = await req.json()
-      
-      setInterval(async () => {
-        const reqStatus = await fetch('http://127.0.0.1/status');
-        const status = await reqStatus.json();
-        const canvasPos = getCanvasPos(status.pose);
-        origin_x = map.origin.x;
-        origin_y = map.origin.y;
-        resolution_x = map.resolution.x;
-        resolution_y = map.resolution.y;
-        console.log(status.laser);
-        drawMap(map);
-        setPoseData(canvasPos);
-        // drawLaser(canvasPos, status.pose.rz, status.laser);
-      }, 1000);
-    }
-    getInitData();
-    
-  },[]);
-
-  const drawMap = ({data, width, height}) => {
-    const canvas = document.createElement('canvas');
-    let ctx = canvas.getContext('2d');
-    ctx.canvas.width = width;
-    ctx.canvas.height = height;
+  const drawMap = ({ data, width, height }) => {
+    // const canvas = document.createElement('canvas');
+    ctx.canvas.width = width + 2 * canvas_padding;
+    ctx.canvas.height = height + 2 * canvas_padding;
 
     const imageData = ctx.getImageData(0, 0, width, height);
     for (let cell = 0; cell < width * height; cell += 1) {
@@ -62,23 +42,48 @@ const CanvasMapContainer = () => {
       imageData.data[cell * 4 + 2] = color
       imageData.data[cell * 4 + 3] = 255;
     }
-    ctx.putImageData(imageData, 0, 0);
+    ctx.putImageData(imageData, canvas_padding, canvas_padding);
     setImgData(canvas.toDataURL());
   }
 
   function drawLaser(canvasPos, angle, lasers) {
-    const canvas = document.getElementById('map');
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = "yellow";
-
-    for (let i = 0; i < lasers.length; i += 1) {
-      const laser = lasers[i];
-      const targetAngle = Math.PI / 2 + laser.angle + angle;
-      const newPosX = canvasPos.x + Math.sin(targetAngle) * laser.range / resolution_x;
-      const newPosY = canvasPos.y + Math.cos(targetAngle) * laser.range / resolution_y;
-      ctx.fillRect(newPosX - 1, newPosY - 1, 2, 2);
+    const data = [];
+    if (resolution_x && resolution_y) {
+      for (let i = 0; i < lasers.length; i += 1) {
+        const laser = lasers[i];
+        const targetAngle = Math.PI / 2 + laser.angle + angle;
+        const x = canvasPos.x + Math.sin(targetAngle) * laser.range / resolution_x;
+        const y = canvasPos.y + Math.cos(targetAngle) * laser.range / resolution_y;
+        data.push({ x, y });
+      }
+      setLaserData(data);
     }
   }
+
+  async function drawCanvas(map) {
+    const reqStatus = await fetch('/status');
+    const status = await reqStatus.json();
+    const canvasPos = getCanvasPos(status.pose);
+    drawMap(map);
+    drawLaser(canvasPos, status.pose.rz, status.laser);
+    setPoseData(canvasPos);
+    setTimeout(drawCanvas, 1000, map);
+  }
+
+  useEffect(() => {
+    async function getInitData() {
+      const req = await fetch('/map');
+      const map = await req.json()
+      canvas_width = map.width;
+      canvas_height = map.height;
+      origin_x = map.origin.x;
+      origin_y = map.origin.y;
+      resolution_x = map.resolution.x;
+      resolution_y = map.resolution.y;
+      drawCanvas(map);
+    }
+    getInitData();
+  }, []);
 
   return (
     <CanvasMap
@@ -86,6 +91,7 @@ const CanvasMapContainer = () => {
       height={height}
       imgData={imgData}
       poseData={poseData}
+      laserData={laserData}
     />
   )
 }

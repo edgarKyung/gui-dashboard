@@ -9,6 +9,8 @@ const port = 80;
 app.use(express.json());
 app.use(cors());
 
+app.use(express.static('build'));
+
 app.post('/state', (req, res) => {
   const state = req.body.state;
   console.log(state);
