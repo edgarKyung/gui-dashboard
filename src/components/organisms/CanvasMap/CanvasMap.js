@@ -47,12 +47,11 @@ const MiniMap = ({
 }
 
 
-const size = { width: 1185, height: 479 };
 const scale = { x: 2.7, y: 2.7 };
 
 const CanvasMap = ({
-  width,
-  height,
+  width = 1185,
+  height = 479,
   imgData,
   poseData,
   laserData,
@@ -81,8 +80,8 @@ const CanvasMap = ({
 
   return (
     <div className={cx('canvas-image')}>
-      <Stage width={size.width} height={size.height} options={{ backgroundColor: '0xffffff', autoDensity: true }}>
-        <PixiViewPortComponent width={size.width} height={size.height}>
+      <Stage width={width} height={height} options={{ backgroundColor: '0xffffff', autoDensity: true }}>
+        <PixiViewPortComponent width={width} height={height}>
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
           <Graphics draw={pointDraw} />
         </PixiViewPortComponent>

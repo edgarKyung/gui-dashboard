@@ -1,15 +1,96 @@
 @import '../../../styles/variables.scss';
 .position-joy-stick-wrap{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: center;
-  .control-panel-wrap{
+  position: relative;
+  width: 360px;
+  height: 360px;
+  background: linear-gradient(180deg, #F7F8FC 0%, #F0F1F5 100%);
+  border: 1px solid #F4F4F4;
+  box-shadow: 28px 28px 70px rgba(166, 171, 189, 0.25), -23px -23px 65px #FFFFFF;
+  border-radius: 50%;
+  overflow: hidden;
+
+  .position-btn-wrap{
     width: 100%;
-    padding-top: 100%;
-    background: url('/static/images/source/potition_joy_stick.png') center center no-repeat;
-    background-size: 100%;
+    height: 100%;
+    background: url('/static/images/source/position_control_bg.png') center center no-repeat;
+    li{
+      width: 50%;
+      height: 50%;
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform-origin: top left;
+      overflow: hidden;
+
+      &.up { transform: rotate(225deg); }
+      &.right { transform: rotate(315deg); }
+      &.down { transform: rotate(45deg); }
+      &.left { transform: rotate(135deg); }
+
+      .control-btn{
+        width: 200%;
+        height: 200%;
+        background-size: 32px 36px;
+        margin-top: -50%;
+        margin-left: -50%;
+        padding: 0;
+        transform: rotate(45deg);
+        // transform: rotate(45deg);
+      }
+
+    }
+  }
+
+  .rotation-btn-bg-wrap{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    width: 192px;
+    height: 192px;
+    background: #E4E6ED;
+    box-shadow: inset 3px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 50%;
+    transform: translate(-50%, -50%);
+
+    .rotation-active-bg{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: aliceblue;
+      z-index: -1;
+      border-radius: 50%;
+      background: $gradiant-row;
+      opacity: 0;
+      &.active{
+        opacity: 1;
+      }
+    }
+
+    .rotation-btn-wrap{
+      display: flex;
+      width: 174px;
+      height: 174px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #F9F9FA 0%, #F0F1F5 50%, #E1E4EF 100%);
+      border: 0.7px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 3px 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      li{
+        width: 50%;
+        height: 100%;
+        &:first-child{
+          border-right: 1px solid $border-color;
+        }
+
+        .rotation-btn{
+          width: 100%;
+          height: 100%;
+          background-size: 24.68px 71.68px;
+        }
+      }
+    }
   }
 }

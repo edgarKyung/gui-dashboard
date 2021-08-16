@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useInterval } from 'react';
 import { CanvasMap } from '../components/organisms';
 
-const CanvasMapContainer = () => {
+const CanvasMapContainer = ({
+  canvasWidth = 600, 
+  canvasHeight = 600
+}) => {
   let canvas_padding = 10;
   let canvas_width = 0;
   let canvas_height = 0;
@@ -9,8 +12,8 @@ const CanvasMapContainer = () => {
   let origin_y = 0;
   let resolution_x = 0;
   let resolution_y = 0;
-  const [width, setWidth] = useState(600);
-  const [height, setHeight] = useState(600);
+  const [width, setWidth] = useState(canvasWidth);
+  const [height, setHeight] = useState(canvasHeight);
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
@@ -61,7 +64,7 @@ const CanvasMapContainer = () => {
   }
 
   async function drawCanvas(map) {
-    const reqStatus = await fetch('/status');
+    const reqStatus = await fetch('http://127.0.0.1:80/status');
     const status = await reqStatus.json();
     const canvasPos = getCanvasPos(status.pose);
     const laserData = getLaserData(canvasPos, status.pose.rz, status.laser);
@@ -72,7 +75,7 @@ const CanvasMapContainer = () => {
 
   useEffect(() => {
     async function getInitData() {
-      const req = await fetch('/map');
+      const req = await fetch('http://127.0.0.1:80/map');
       const map = await req.json()
       canvas_width = map.width;
       canvas_height = map.height;

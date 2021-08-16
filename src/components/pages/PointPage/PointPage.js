@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import classNames from 'classnames/bind';
 import styles from './PointPage.module.scss';
-import { PageTitle, Button, Icon, PointIcon, SwitchButton, Position } from '../../atoms';
+import { PageTitle, Button, Icon, SwitchButton } from '../../atoms';
 import { PageTemplate, ControlContentTemplate, MainContentTemplate, Tabs } from '../../templates';
-import { RobotStatusBar, RobotPositionControlPanel } from '../../organisms';
+import { RobotStatusBar, PointEditPannel } from '../../organisms';
+import { CanvasMapContainer } from '../../../containers';
 const cx = classNames.bind(styles);
 
-const CanvasMap = () => (
-  <div className={cx('canvas-image')}>  </div>
-);
-
-const pointList = ['거점1','거점2','거점3','거점4','거점5','거점6'];
-const PointEditList = ({points = pointList}) => (
+const PointEditList = ({points, onClickPoint}) => (
   <div className={cx('point-wrap')}>
     <PageTitle title='거점 목록' />
     <ul className={cx('list-wrap')}>
       {points.map(data => (
-        <li>
+        <li key={data.id}>
           <Button type='menu' />
-          <Button type='default' className={cx('point-button')}>
-            {data}
+          <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data.id)}>
+            {data.name}
             <Icon type='star'/>
           </Button> 
           <SwitchButton value={true} />
@@ -30,60 +27,40 @@ const PointEditList = ({points = pointList}) => (
   </div>
 );
 
-const PointEditPannel = ({className}) => (
-  <div className={cx('point-edit-wrap', className)}>
-    <div className={cx('point-edit-header')}><Button type='circle'>X</Button></div>
-    <div className={cx('point-edit-icon')}>
-      <PointIcon />
-      거점3
-    </div>
-    <div className={cx('point-pose-wrap')}>
-      <Position className={cx('point-pose')}>
-        <ul>
-          <li>X 000</li>
-          <li>Y 000</li>
-        </ul>
-      </Position>
-      <Position className={cx('point-pose')}>
-        <ul>
-          <li>X 000</li>
-          <li>Y 000</li>
-        </ul>
-      </Position>
-      <Position className={cx('point-pose')}>
-        <ul>
-          <li>X 000</li>
-          <li>Y 000</li>
-        </ul>
-      </Position>
-    </div>
-    <div className={cx('point-control-wrap')}>
-      <div>Contoller</div>
-      <RobotPositionControlPanel />
-    </div>
-
-  </div>
-);
-
-const PointPage = () => {
-  const [showEdit, setShowEdit] = useState(false);
-
-  const handleClickApply = () => {
-    setShowEdit(!showEdit);
-  }
+const PointPage = ({
+  showEdit,
+  editPointId,
+  points,
+  onClickEditClose,
+  onClickAddPoint,
+  onClickPoint,
+}) => {  
+  console.log(points);
   return(
   <PageTemplate>
     <MainContentTemplate title={'거점/가상벽 추가'}>
-      <CanvasMap />
+      <CanvasMapContainer
+      canvasWidth={1185}
+      canvasHeight={1069}
+      />
     </MainContentTemplate>
 
     <ControlContentTemplate>
       <Tabs>
         <Tabs.Header title="거점관리">
           <div className={cx('point-pannel-wrap')}>
-            <PointEditList />
-            <Button type={'gradiant-col'} onClick={handleClickApply}>적용하기</Button>
-            { showEdit && <PointEditPannel className={cx('edit-pannel-wrap')}/> }
+            <PointEditList 
+              points={points}
+              onClickPoint={onClickPoint}
+            />
+            <Button type={'gradiant-col'} onClick={onClickAddPoint}>추가하기</Button>
+            { showEdit && 
+              <PointEditPannel 
+                editPointId={editPointId}
+                className={cx('edit-pannel-wrap')}
+                onClickClose={onClickEditClose} 
+              />
+            }
           </div>
         </Tabs.Header>
         <Tabs.Header title="가상벽관리">

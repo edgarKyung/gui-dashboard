@@ -6,9 +6,9 @@ import {
   Redirect,
 } from "react-router-dom";
 import { 
-  PointPage, SettingPage, LogPage
+  SettingPage, LogPage
  } from './pages';
-import { MapContainer, OperationContainer } from "../containers";
+import { MapContainer, OperationContainer, PointContainer } from "../containers";
 import './App.scss'
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
         <Route exact path="/"><Redirect to="/operation" /></Route>
         <Route exact path="/operation"><OperationContainer /></Route>
         <Route path="/map"><MapContainer /></Route>
-        <Route path="/point"><PointPage /></Route>
+        <Route path="/point"><PointContainer /></Route>
         <Route path="/setting"><SettingPage /></Route>
         <Route path="/log"><LogPage /></Route>
       </Switch>

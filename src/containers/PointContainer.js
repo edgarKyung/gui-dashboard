@@ -1,78 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { Stage, Sprite } from '@inlet/react-pixi';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { PointPage } from '../components/pages';
+import { addPoint } from '../modules/reducers/point';
 
-import * as PIXI from "pixi.js";
 const PointContainer = () => {
-  const [width, setWidth] = useState(600);
-  const [height, setHeight] = useState(400);
-  const [imgData, setImgData] = useState();
-  const [points, setPoints] = useState([]);
-  useEffect(() => {
-    async function getInitData(){
-      const req = await fetch('http://localhost:8000');
-      const map = await req.json();
+  const dispatch = useDispatch()
+  const [showEdit, setShowEdit] = useState(false);
+  const [editPointId, setEditPointId] = useState(null);
+  const { points } = useSelector((store) => ({
+    points:store.point.get('points')
+  }));
 
-      draw(map);
-    }
-    getInitData();
-    setPoints([
-      { x:50, y:50, },
-      { x:150, y:50, },
-      { x:150, y:150, },
-      { x:50, y:150, },
-    ]);
-
-  },[]);
-  const draw = ({data, width, height}) => {
-    const canvas = document.createElement('canvas');
-    let ctx = canvas.getContext('2d');
-    ctx.canvas.width = width;
-    ctx.canvas.height = height;
-    const imageData = ctx.getImageData(0, 0, width, height);
-    for (let row = 0; row < width * height; row += 1) {
-        if (data[row] === 100) {
-            imageData.data[row * 4 + 0] = 77;
-            imageData.data[row * 4 + 1] = 77;
-            imageData.data[row * 4 + 2] = 77;
-            imageData.data[row * 4 + 3] = 255;
-            continue;
-        }
-        if (data[row] > 30 || data[row] === -1) {
-            imageData.data[row * 4 + 0] = 180;
-            imageData.data[row * 4 + 1] = 180;
-            imageData.data[row * 4 + 2] = 180;
-            imageData.data[row * 4 + 3] = 255;
-            continue;
-        }
-        imageData.data[row * 4 + 0] = 255 - data[row] * 2;
-        imageData.data[row * 4 + 1] = 255 - data[row] * 2;
-        imageData.data[row * 4 + 2] = 255 - data[row] * 2;
-        imageData.data[row * 4 + 3] = 255;
-    }
-    ctx.putImageData(imageData, 0, 0);
-    setWidth(width);
-    setHeight(height);
-    setImgData(canvas.toDataURL());
+  const handleToggleEditPannel = () => {
+    setShowEdit(!showEdit);
   }
 
-  const stageProps = {
-    width : width,
-    height : height,
-    options: {
-      backgroundAlpha: .5,
-    },
-  }
-  return (
-    <div>
-      <Stage {...stageProps}>
-        { imgData && (<Sprite texture={PIXI.Texture.from(imgData)} option={width, height} /> ) }
-        { points.map(point => (
-          <Sprite image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png" x={point.x} y={point.y} />
-        ))}
-        
-      </Stage>
-    </div>
-  )
-}
+  const setEditPoint = (pointId) => {
+    setShowEdit(true);
+    setEditPointId(pointId);
+  };
+
+  const handleClickAddPoint = () => {
+    const pointData = { 
+      id:Date.now(),
+      name: '거점 1', 
+      x: 1.3443, 
+      y: -2.1123, 
+      degree: 3.14159 
+    };
+    dispatch(addPoint(pointData));
+    setEditPoint(pointData.id);
+  };
+
+  const handleClickPoint = (pointId) => {
+    setEditPoint(pointId);
+  };
+  return(
+  <>
+    <PointPage
+      showEdit={showEdit}
+      points={points}
+      editPointId={editPointId}
+      onClickEditClose={handleToggleEditPannel}
+      onClickOpenEditPannel={handleToggleEditPannel}
+      onClickAddPoint={handleClickAddPoint}
+      onClickPoint={handleClickPoint}
+    />
+  </>
+  );
+};
 
 export default PointContainer;

@@ -196,3 +196,31 @@
     background-size: 100px;
   }
 }
+
+.position-control {
+  width: 32px;
+  height: 36px;
+  background-image: url('/static/images/btn/btn_position_control.png');
+  &:active, &.on {
+    background-image: url('/static/images/btn/btn_position_control_on.png');
+  }
+}
+
+.position-control-pos {
+  width: 19.68px;
+  height: 66.68px;
+  background-image: url('/static/images/btn/btn_position_control_left.png');
+  &:active, &.on {
+    background-image: url('/static/images/btn/btn_position_control_left_on.png');
+  }
+}
+
+.position-control-neg {
+  width: 19.68px;
+  height: 66.68px;
+  background-image: url('/static/images/btn/btn_position_control_right.png');
+  &:active, &.on {
+    background-image: url('/static/images/btn/btn_position_control_right_on.png');
+  }
+}
+

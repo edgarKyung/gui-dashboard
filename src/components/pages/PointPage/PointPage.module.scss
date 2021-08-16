@@ -31,52 +31,10 @@
   }
 }
 
-.point-edit-wrap{
-  align-items: center;
-  background-color: rgba(240,241,245, .8);
-  height: 100%;
-
-  .point-edit-header {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .point-edit-icon{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .point-pose-wrap{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    .point-pose{
-      width: 60%;
-      margin: .5em 0;
-      ul {
-        display: flex;
-        justify-content: space-evenly;
-      }
-    }
-  }
-
-  .point-control-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-    margin: 0 auto;
-  }
-}
-
 .point-pannel-wrap{
   position: relative;
   height: calc(100% + 32px + 2em);
   .edit-pannel-wrap {
-    width: 100%;
-    height: 100%;
     top: 0;
     left: -100%;
     position: absolute;
