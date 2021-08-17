@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { PointPage } from '../components/pages';
-import { addPoint } from '../modules/reducers/point';
+import { addPoint, removePoint } from '../modules/reducers/point';
 
 const PointContainer = () => {
   const dispatch = useDispatch()
@@ -15,11 +15,6 @@ const PointContainer = () => {
     setShowEdit(!showEdit);
   }
 
-  const setEditPoint = (pointId) => {
-    setShowEdit(true);
-    setEditPointId(pointId);
-  };
-
   const handleClickAddPoint = () => {
     const pointData = { 
       id:Date.now(),
@@ -29,12 +24,21 @@ const PointContainer = () => {
       degree: 3.14159 
     };
     dispatch(addPoint(pointData));
-    setEditPoint(pointData.id);
+  };
+
+  const handleClickRemove = (pointData) => {
+    if(editPointId === pointData.id){
+      setEditPointId(null);
+      setShowEdit(false);
+    }
+    dispatch(removePoint(pointData.id));
   };
 
   const handleClickPoint = (pointId) => {
-    setEditPoint(pointId);
+    setEditPointId(pointId);
+    setShowEdit(true);
   };
+
   return(
   <>
     <PointPage
@@ -42,9 +46,9 @@ const PointContainer = () => {
       points={points}
       editPointId={editPointId}
       onClickEditClose={handleToggleEditPannel}
-      onClickOpenEditPannel={handleToggleEditPannel}
       onClickAddPoint={handleClickAddPoint}
       onClickPoint={handleClickPoint}
+      onClickRemove={handleClickRemove}
     />
   </>
   );

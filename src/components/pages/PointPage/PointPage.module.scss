@@ -1,17 +1,9 @@
-.canvas-image {
-  background: url('/static/images/source/temp_map2.png');
-  width: 100%;
-  height: 100%;
-}
-
 .point-wrap {
   display: flex;
   flex-direction: column;
 
   .list-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow: auto;
 
     li{
       width: 100%;
@@ -31,12 +23,33 @@
   }
 }
 
-.point-pannel-wrap{
+.point-edit-pannel-wrap{
   position: relative;
-  height: calc(100% + 32px + 2em);
+  height: 1068px;
+
+  .point-pannel-wrap{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    .point-edit-list {
+      flex: 1;
+      max-height: 90%;
+    }
+  }
+
+  .point-btn-wrap{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 40px;
+  }
+
   .edit-pannel-wrap {
     top: 0;
     left: -100%;
     position: absolute;
+    height: 1137px;
   }
 }

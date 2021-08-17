@@ -8,8 +8,13 @@ import { RobotStatusBar, PointEditPannel } from '../../organisms';
 import { CanvasMapContainer } from '../../../containers';
 const cx = classNames.bind(styles);
 
-const PointEditList = ({points, onClickPoint}) => (
-  <div className={cx('point-wrap')}>
+const PointEditList = ({
+  className, 
+  points, 
+  onClickPoint,
+  onClickRemove,
+}) => (
+  <div className={cx('point-wrap', className)}>
     <PageTitle title='거점 목록' />
     <ul className={cx('list-wrap')}>
       {points.map(data => (
@@ -20,7 +25,7 @@ const PointEditList = ({points, onClickPoint}) => (
             <Icon type='star'/>
           </Button> 
           <SwitchButton value={true} />
-          <Button type='circle'>X</Button>
+          <Button type='circle' onClick={()=> onClickRemove(data)}>X</Button>
         </li>
       ))}
     </ul>
@@ -34,6 +39,7 @@ const PointPage = ({
   onClickEditClose,
   onClickAddPoint,
   onClickPoint,
+  onClickRemove,
 }) => {  
   console.log(points);
   return(
@@ -41,25 +47,31 @@ const PointPage = ({
     <MainContentTemplate title={'거점/가상벽 추가'}>
       <CanvasMapContainer
       canvasWidth={1185}
-      canvasHeight={1069}
+      canvasHeight={1200}
       />
     </MainContentTemplate>
 
     <ControlContentTemplate>
       <Tabs>
         <Tabs.Header title="거점관리">
-          <div className={cx('point-pannel-wrap')}>
-            <PointEditList 
-              points={points}
-              onClickPoint={onClickPoint}
-            />
-            <Button type={'gradiant-col'} onClick={onClickAddPoint}>추가하기</Button>
-            { showEdit && 
-              <PointEditPannel 
-                editPointId={editPointId}
-                className={cx('edit-pannel-wrap')}
-                onClickClose={onClickEditClose} 
+          <div className={cx('point-edit-pannel-wrap')}>
+            <div className={cx('point-pannel-wrap')}>
+              <PointEditList 
+                className={cx('point-edit-list')}
+                points={points}
+                onClickPoint={onClickPoint}
+                onClickRemove={onClickRemove}
               />
+              <div className={cx('point-btn-wrap')}>
+                <Button type={'gradiant-col'} onClick={onClickAddPoint}>추가하기</Button>
+              </div>
+            </div>
+            { showEdit && 
+                <PointEditPannel 
+                  editPointId={editPointId}
+                  className={cx('edit-pannel-wrap')}
+                  onClickClose={onClickEditClose} 
+                />
             }
           </div>
         </Tabs.Header>

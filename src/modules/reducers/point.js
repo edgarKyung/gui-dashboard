@@ -2,9 +2,15 @@ import { Record, fromJS } from 'immutable';
 
 export const GET_POINT = 'get/POINT';
 export const ADD_POINT = 'add/POINT';
+export const REMOVE_POINT = 'remove/POINT';
 
 export const addPoint = (payload) => ({
     type: ADD_POINT,
+    payload:payload
+});
+
+export const removePoint = (payload) => ({
+    type: REMOVE_POINT,
     payload:payload
 });
 
@@ -31,6 +37,8 @@ const point = (state = initialRecord, {type, payload}) => {
             return state.set('points', newList);
         case GET_POINT:
             return state.getIn(['points']);
+        case REMOVE_POINT:
+            return state.set('points', state.get('points').filter(point => point.id !== payload));
         default:
             return state;
     }
