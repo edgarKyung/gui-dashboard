@@ -4,6 +4,7 @@ import { Viewport as PixiViewport } from "pixi-viewport";
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import MiniMapBg from '../../../static/images/source/minimap_bg.png';
+import iconPoint from '../../../static/images/ico/icon_point.png';
 
 const cx = classNames.bind(styles);
 const PixiComponentViewport = PixiComponent("ViewPort", {
@@ -55,6 +56,7 @@ const CanvasMap = ({
   imgData,
   poseData,
   laserData,
+  points,
 }) => {
   const pointDraw = React.useCallback(g => {
     g.clear();
@@ -84,6 +86,15 @@ const CanvasMap = ({
         <PixiViewPortComponent width={width} height={height}>
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
           <Graphics draw={pointDraw} />
+          { points.map(point => (
+            <Sprite
+              image={iconPoint}
+              anchor={[0.5, 0.5]}
+              angle={point.degree}
+              x={point.x}
+              y={point.y}
+            />
+          ))}
         </PixiViewPortComponent>
         {/* { imgData && (<MiniMap 
           imgData={imgData}

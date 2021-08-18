@@ -2,6 +2,7 @@ import React, { useEffect, useState, useInterval } from 'react';
 import { CanvasMap } from '../components/organisms';
 
 const CanvasMapContainer = ({
+  points, 
   canvasWidth = 600, 
   canvasHeight = 600
 }) => {
@@ -95,6 +96,7 @@ const CanvasMapContainer = ({
       imgData={imgData}
       poseData={poseData}
       laserData={laserData}
+      points={points}
     />
   )
 }

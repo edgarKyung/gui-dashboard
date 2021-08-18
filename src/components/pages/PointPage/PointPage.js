@@ -34,20 +34,22 @@ const PointEditList = ({
 
 const PointPage = ({
   showEdit,
-  editPointId,
+  selectedPoint,
   points,
   onClickEditClose,
   onClickAddPoint,
   onClickPoint,
   onClickRemove,
+  onClickMovePoint,
+  onClickRotationPoint,
 }) => {  
-  console.log(points);
   return(
   <PageTemplate>
     <MainContentTemplate title={'거점/가상벽 추가'}>
       <CanvasMapContainer
-      canvasWidth={1185}
-      canvasHeight={1200}
+        points={points}
+        canvasWidth={1185}
+        canvasHeight={1200}
       />
     </MainContentTemplate>
 
@@ -68,9 +70,11 @@ const PointPage = ({
             </div>
             { showEdit && 
                 <PointEditPannel 
-                  editPointId={editPointId}
+                  selectedPoint={selectedPoint}
                   className={cx('edit-pannel-wrap')}
                   onClickClose={onClickEditClose} 
+                  onClickMovePoint={onClickMovePoint} 
+                  onClickRotationPoint={onClickRotationPoint} 
                 />
             }
           </div>

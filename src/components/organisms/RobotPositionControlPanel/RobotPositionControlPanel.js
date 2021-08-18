@@ -6,7 +6,8 @@ import { Button } from '../../atoms';
 const cx = classNames.bind(styles);
 
 const RobotPositionControlPanel = ({
-  onClick
+  onClickMovePoint,
+  onClickRotationPoint,
 }) => {
   const positoins = ['up','right','down','left'];
   const rotations = ['pos','neg'];
@@ -16,7 +17,7 @@ const RobotPositionControlPanel = ({
     <ul className={cx('position-btn-wrap')}>
       {positoins.map(position => (
         <li className={cx(position)}>
-          <Button type='position-control' className={cx('control-btn')}/>
+          <Button type='position-control' className={cx('control-btn')} onClick={() => onClickMovePoint(position)}/>
         </li>
       ))}
     </ul>
@@ -27,7 +28,7 @@ const RobotPositionControlPanel = ({
           <Button type={`position-control-${rotation}`} 
             onMouseDown={setActiveBg.bind(this, true)} 
             onMouseUp={setActiveBg.bind(this, false)} 
-            onClick={onClick} 
+            onClick={() => onClickRotationPoint(rotation)} 
             className={cx('rotation-btn')}
           />
         </li>
