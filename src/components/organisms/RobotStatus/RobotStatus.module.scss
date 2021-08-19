@@ -1,9 +1,10 @@
 @import '../../../styles/variables.scss';
 
-.robot-status-wrap{
-  padding: 3em;
+.robot-status-wrap {
+  padding: 4em 3em 5em;
   width: 100%;
 }
+
 .robot-status {
   display: flex;
   justify-content: center;
@@ -12,8 +13,8 @@
   padding: 1.5em 0;
   background-color: white;
   border-radius: 10px;
-  box-shadow: rgba(0,0,0 ,.10) 1px 1px 5px;
-  font-size: 1.2em;
+  box-shadow: rgba(0, 0, 0, .10) 1px 1px 5px;
+  font-size: 1.5em;
 
   li {
     width: 50%;
@@ -23,12 +24,12 @@
     text-align: center;
     color: #7E7E7E;
 
-    &:first-child{
+    &:first-child {
       border-right: 2px solid $border-color;
     }
   }
 
   .status-info {
-    color:#222222
+    color: #222222
   }
 }

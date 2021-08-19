@@ -47,12 +47,12 @@ const MiniMap = ({
   )
 }
 
-
+const size = { width: 1185, height: 580 };
 const scale = { x: 2.7, y: 2.7 };
 
 const CanvasMap = ({
   width = 1185,
-  height = 479,
+  height = 580,
   imgData,
   poseData,
   laserData,
@@ -68,16 +68,17 @@ const CanvasMap = ({
       const laserSizeY = 2 * scale.y;
       const scaledLaserX = laser.x * scale.x - laserSizeX * 0.5;
       const scaledLaserY = laser.y * scale.y - laserSizeY * 0.5;
-      g.beginFill(0xFFFF00, 1);
+      g.beginFill(0xFA0135, 1);
       g.drawRect(scaledLaserX, scaledLaserY, laserSize, laserSize);
     }
 
-    const pointSizeX = 5 * scale.x;
-    const pointSizeY = 5 * scale.y;
+    const pointSizeX = 3 * scale.x;
+    const pointSizeY = 3 * scale.y;
     const scaledPoseX = poseData.x * scale.x - pointSizeX * 0.5;
     const scaledPoseY = poseData.y * scale.y - pointSizeY * 0.5;
-    g.beginFill(0xff0000, 1);
-    g.drawRect(scaledPoseX, scaledPoseY, pointSizeX, pointSizeY);
+    g.beginFill(0x7A00FA, 1);
+    g.drawCircle(scaledPoseX, scaledPoseY, pointSizeX);
+    g.endFill();
   }, [poseData.x, poseData.y]);
 
   return (
@@ -86,7 +87,7 @@ const CanvasMap = ({
         <PixiViewPortComponent width={width} height={height}>
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
           <Graphics draw={pointDraw} />
-          { points.map(point => (
+          {points.map(point => (
             <Sprite
               image={iconPoint}
               anchor={[0.5, 0.5]}
