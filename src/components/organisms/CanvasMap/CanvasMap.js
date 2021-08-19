@@ -47,7 +47,6 @@ const MiniMap = ({
   )
 }
 
-const size = { width: 1185, height: 580 };
 const scale = { x: 2.7, y: 2.7 };
 
 const CanvasMap = ({
@@ -87,7 +86,7 @@ const CanvasMap = ({
         <PixiViewPortComponent width={width} height={height}>
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
           <Graphics draw={pointDraw} />
-          {points.map(point => (
+          {points && points.map(point => (
             <Sprite
               image={iconPoint}
               anchor={[0.5, 0.5]}
