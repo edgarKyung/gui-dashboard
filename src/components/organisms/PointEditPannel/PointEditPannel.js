@@ -11,8 +11,8 @@ const PointEditPannel = ({
   className,
   selectedPoint,
   onClickClose,
-  onClickMovePoint,
-  onClickRotationPoint,
+  onMovePoint,
+  onMoveRotation,
 }) => {
   return (
   <div className={cx('point-edit-pannel-wrap', className)}>
@@ -37,8 +37,9 @@ const PointEditPannel = ({
     <div className={cx('point-control-wrap')}>
       <h3>Contoller</h3>
       <RobotPositionControlPanel 
-        onClickMovePoint={onClickMovePoint}
-        onClickRotationPoint={onClickRotationPoint}
+        onMovePoint={onMovePoint}
+        onMoveRotation={onMoveRotation}
+      
       />
     </div>
   </div>

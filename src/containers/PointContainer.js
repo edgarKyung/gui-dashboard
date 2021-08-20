@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'
 import { PointPage } from '../components/pages';
 import { addPoint, removePoint, editPoint } from '../modules/reducers/point';
 
 const PointContainer = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
   const { points, selectedPoint } = useSelector((store) => ({
@@ -40,8 +41,8 @@ const PointContainer = () => {
     setShowEdit(true);
   };
 
-  const handleClickMovePoint = (position) => {
-    const newPose = JSON.parse(JSON.stringify(selectedPoint));
+  const movePoint = (position) => {
+    const newPose = _.cloneDeep(selectedPoint);
     switch(position){
       case'up':
         newPose.y -= 10; 
@@ -55,14 +56,22 @@ const PointContainer = () => {
       case'left':
         newPose.x -= 10; 
       break;
+      case'neg':
+        newPose.degree -= 10; 
+      break;
+      case'pos':
+        newPose.degree += 10; 
+      break;
     }
     dispatch(editPoint(newPose));
   };
 
-  const handleClickRotationPoint = (rotation) => {
-    const newPose = JSON.parse(JSON.stringify(selectedPoint));
-    newPose.degree = rotation === 'pos' ? newPose.degree + 10 : newPose.degree - 10; 
-    dispatch(editPoint(newPose));
+  const handleMovePoint = (e, position) => {
+    movePoint(position);
+  };
+
+  const handleMoveRotation = (e, rotation) => {
+    movePoint(rotation);
   };
 
   return(
@@ -75,8 +84,8 @@ const PointContainer = () => {
       onClickAddPoint={handleClickAddPoint}
       onClickPoint={handleClickPoint}
       onClickRemove={handleClickRemove}
-      onClickMovePoint={handleClickMovePoint}
-      onClickRotationPoint={handleClickRotationPoint}
+      onMovePoint={handleMovePoint}
+      onMoveRotation={handleMoveRotation}
     />
   </>
   );

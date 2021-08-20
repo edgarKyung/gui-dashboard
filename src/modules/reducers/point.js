@@ -46,7 +46,7 @@ const point = (state = initialRecord, {type, payload}) => {
         case REMOVE_POINT:
             return state.set('points', state.get('points').filter(point => point.id !== payload));
         case EDIT_POINT:
-            return state.set('points', state.get('points').map(point => point.id === payload.id ? payload : point));
+            return state.set('points', state.get('points').map(point => point.id === payload.id ? Object.assign(point, payload) : point));
         default:
             return state;
     }

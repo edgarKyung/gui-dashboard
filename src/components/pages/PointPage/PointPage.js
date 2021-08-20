@@ -40,8 +40,8 @@ const PointPage = ({
   onClickAddPoint,
   onClickPoint,
   onClickRemove,
-  onClickMovePoint,
-  onClickRotationPoint,
+  onMovePoint,
+  onMoveRotation,
 }) => {  
   return(
   <PageTemplate>
@@ -73,8 +73,8 @@ const PointPage = ({
                   selectedPoint={selectedPoint}
                   className={cx('edit-pannel-wrap')}
                   onClickClose={onClickEditClose} 
-                  onClickMovePoint={onClickMovePoint} 
-                  onClickRotationPoint={onClickRotationPoint} 
+                  onMovePoint={onMovePoint}
+                  onMoveRotation={onMoveRotation}
                 />
             }
           </div>
