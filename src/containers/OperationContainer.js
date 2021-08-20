@@ -5,23 +5,26 @@ import * as RobotApi from '../lib/Robot';
 const OperationContainer = ({ children }) => {
   const [activeBtn, setActiveBtn] = useState('');
   const pointMarkList = [
-    { name: '거점 11', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 12', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 13', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '메인홀', x: -0.5, y: 0.0, degree: -3.0 },
+    { name: '주방', x: 6.5, y: 1.0, degree: 0.0 },
+    { name: '충전소', x: 1.0, y: 0.2, degree: 1.5 }
   ];
 
   const pointList = [
-    { name: '거점 1', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 2', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 3', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 4', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 5', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 6', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 7', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 8', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 9', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '거점 10', x: 1.3443, y: -2.1123, degree: 3.14159 },
-  ]
+    { name: '테이블 1', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 2', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 3', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 4', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 5', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 6', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 7', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 8', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 9', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 10', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 11', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 12', x: 1.3443, y: -2.1123, degree: 3.14159 },
+    { name: '테이블 13', x: 1.3443, y: -2.1123, degree: 3.14159 }
+  ];
 
   const handleClickPoint = async (point) => {
     try {
@@ -84,7 +87,7 @@ const OperationContainer = ({ children }) => {
     }
   }
 
-  const handleClickRobotControl =  async (type) => {
+  const handleClickRobotControl = async (type) => {
     try {
       const data = {};
       setActiveBtn('');

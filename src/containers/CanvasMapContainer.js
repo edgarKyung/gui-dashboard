@@ -2,8 +2,8 @@ import React, { useEffect, useState, useInterval } from 'react';
 import { CanvasMap } from '../components/organisms';
 
 const CanvasMapContainer = ({
-  points, 
-  canvasWidth = 600, 
+  points,
+  canvasWidth = 600,
   canvasHeight = 600
 }) => {
   let canvas_padding = 10;
@@ -38,12 +38,13 @@ const CanvasMapContainer = ({
 
     const imageData = ctx.getImageData(0, 0, width, height);
     for (let cell = 0; cell < width * height; cell += 1) {
-      let color = 230; // Movable Area
-      color = (data[cell] === 100 || data[cell] > 127) ? 50 : color; // Unmovable Area
-      color = (data[cell] === -1 || data[cell] === 0) ? 255 : color; // Unknown Area
-      imageData.data[cell * 4 + 0] = color
-      imageData.data[cell * 4 + 1] = color
-      imageData.data[cell * 4 + 2] = color
+      let color = [240, 240, 236]; // Movable Area
+      color = (data[cell] === 100 || data[cell] > 127) ? [30, 30, 30] : color; // Unmovable Area
+      color = (data[cell] === -1 || data[cell] === 0) ? [255, 255, 255] : color; // Unknown Area
+      imageData.data[cell * 4 + 0] = color[0]
+      imageData.data[cell * 4 + 1] = color[1]
+      imageData.data[cell * 4 + 2] = color[2]
+
       imageData.data[cell * 4 + 3] = 255;
     }
     ctx.putImageData(imageData, canvas_padding, canvas_padding);

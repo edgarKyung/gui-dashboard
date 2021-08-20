@@ -5,13 +5,14 @@ import { PageTitle, Button } from '../../atoms';
 
 const cx = classNames.bind(styles);
 
-const scheduleList = ['거점1', '거점2', '거점3', '거점4'];
+// const scheduleList = ['거점1', '거점2', '거점3', '거점4'];
+const scheduleList = [];
 
-const ScheduleList = ({list = scheduleList, className}) => (
+const ScheduleList = ({ list = scheduleList, className }) => (
   <div className={cx('schedule-wrap', className)}>
-    <PageTitle 
-      title={'스케줄 목록'} 
-      className={cx('schedule-title')} 
+    <PageTitle
+      title={'스케줄 목록'}
+      className={cx('schedule-title')}
     />
     <ul className={cx('schedule-list')}>
       {
@@ -19,7 +20,7 @@ const ScheduleList = ({list = scheduleList, className}) => (
           <li key={i}>
             <Button type='gradiant-col' className={cx('schedule-btn')}>
               {data}
-            </Button> 
+            </Button>
             {/* <ScheduleItem key={i} item={data} /> */}
           </li>
         )
