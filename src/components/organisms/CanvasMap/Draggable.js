@@ -30,7 +30,7 @@ const Draggable = ({
     const sprite = event.currentTarget;
     const viewport = sprite.parent;
 
-    onMovePointEnd(sprite.data.getLocalPosition(viewport));
+    if (sprite.dragging) onMovePointEnd(sprite.data.getLocalPosition(viewport));
 
     sprite.alpha = 1;
     sprite.dragging = false;
