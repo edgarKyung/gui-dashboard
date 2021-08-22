@@ -1,11 +1,14 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './PointIcon.module.scss';
+import { transform } from 'lodash';
 const cx = classNames.bind(styles);
 
-const PointIcon = ({}) => {
+const PointIcon = ({
+  angle = 0,
+}) => {
   return (
-    <i className={cx('point_icon')}></i>
+    <i className={cx('point_icon')} style={{transform:`rotate(${angle}deg)`}}></i>
   )
 };
 

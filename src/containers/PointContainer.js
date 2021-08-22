@@ -95,6 +95,12 @@ const PointContainer = () => {
     dispatch(editPoint(newPose));
   };
 
+  const handleChangeEditPoint = (point) => {
+    const newPose = _.cloneDeep(selectedPoint);
+    console.log(newPose,point);
+    dispatch(editPoint(Object.assign(newPose, point)));
+  };
+
   return(
   <>
     <PointPage
@@ -112,6 +118,8 @@ const PointContainer = () => {
       onClickCanvas={handleClickCanvas}
       onMovePointStart={handleMoveStart}
       onMovePointEnd={handleMoveEnd}
+      
+      onChangeEditPoint={handleChangeEditPoint}
     />
   </>
   );

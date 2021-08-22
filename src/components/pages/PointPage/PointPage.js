@@ -46,6 +46,10 @@ const PointPage = ({
   onClickCanvas,
   onMovePointStart,
   onMovePointEnd,
+
+  onChangeEditPoint,
+  onChangeEditPointName,
+  onChangeEditPointPosition,
 }) => {  
   return(
   <PageTemplate>
@@ -84,6 +88,9 @@ const PointPage = ({
                   onClickClose={onClickEditClose} 
                   onMovePoint={onMovePoint}
                   onMoveRotation={onMoveRotation}
+                  onChangeEditPoint={onChangeEditPoint}
+                  onChangeEditPointName={onChangeEditPointName}
+                  onChangeEditPointPosition={onChangeEditPointPosition}
                 />
             }
           </div>
