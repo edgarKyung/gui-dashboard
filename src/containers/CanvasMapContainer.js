@@ -4,7 +4,12 @@ import { CanvasMap } from '../components/organisms';
 const CanvasMapContainer = ({
   points,
   canvasWidth = 600,
-  canvasHeight = 600
+  canvasHeight = 600,
+  disabledDrag = true,
+  onClickCanvas,
+  onClickPoint,
+  onMovePointStart,
+  onMovePointEnd,
 }) => {
   let canvas_padding = 10;
   let canvas_width = 0;
@@ -98,6 +103,11 @@ const CanvasMapContainer = ({
       poseData={poseData}
       laserData={laserData}
       points={points}
+      disabledDrag={disabledDrag}
+      onClickPoint={onClickPoint}
+      onClickCanvas={onClickCanvas}
+      onMovePointStart={onMovePointStart}
+      onMovePointEnd={onMovePointEnd}
     />
   )
 }

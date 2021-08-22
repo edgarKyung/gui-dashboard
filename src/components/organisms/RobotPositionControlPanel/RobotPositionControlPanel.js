@@ -6,26 +6,6 @@ import { Button } from '../../atoms';
 
 const cx = classNames.bind(styles);
 
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
-
 function useThrottle(callback, delay, args){
   const [active, setActive] = useState( false );
   const [arg, setArg] = useState(args);
@@ -73,8 +53,8 @@ const RobotPositionControlPanel = ({
   return (
   <div className={cx('position-joy-stick-wrap')}>
     <ul className={cx('position-btn-wrap')}>
-      {positoins.map(position => (
-        <li className={cx(position)}>
+      {positoins.map((position, idx) => (
+        <li key={idx} className={cx(position)}>
           <Button type='position-control' className={cx('control-btn')} 
             onMouseDown={(e) => handleClickPositionStart(e, position)}
             onMouseUp={handleClickPositionStop}
@@ -85,8 +65,8 @@ const RobotPositionControlPanel = ({
     </ul>
     <div className={cx('rotation-btn-bg-wrap')}>
       <ul className={cx('rotation-btn-wrap')}>
-      {rotations.map(rotation => (
-        <li className={cx('active')}>
+      {rotations.map((rotation, idx) => (
+        <li key={idx} className={cx('active')}>
           <Button type={`position-control-${rotation}`} 
             onMouseDown={(e) => {
               setActiveBg(true);

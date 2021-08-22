@@ -8,24 +8,19 @@ const PointContainer = () => {
   const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
+  const [activeAddMove, setActiveAddMove] = useState(false);
   const { points, selectedPoint } = useSelector((store) => ({
     points:store.point.get('points'),
     selectedPoint : store.point.get('points').filter(point => point.id === editPointId)[0]
   }));
+  console.log('activeAddMove', activeAddMove);
 
   const handleToggleEditPannel = () => {
     setShowEdit(!showEdit);
   }
 
   const handleClickAddPoint = () => {
-    const pointData = { 
-      id:Date.now(),
-      name: '거점 1', 
-      x: 1.3443, 
-      y: -2.1123, 
-      degree: 3.14159 
-    };
-    dispatch(addPoint(pointData));
+    setActiveAddMove(!activeAddMove);
   };
 
   const handleClickRemove = (pointData) => {
@@ -74,9 +69,36 @@ const PointContainer = () => {
     movePoint(rotation);
   };
 
+  const handleClickCanvas = (e) => {
+    console.log(e, activeAddMove);
+    if(activeAddMove){
+      const { screen } = e;
+      const pointData = { 
+        id:Date.now(),
+        name: '거점 1', 
+        x: screen.x, 
+        y: screen.y, 
+        degree: 0,
+      };
+      dispatch(addPoint(pointData));
+    }
+  };
+
+  const handleMoveStart = (pointId) => {
+    setEditPointId(pointId);
+  };  
+
+  const handleMoveEnd = (position) => {
+    const newPose = _.cloneDeep(selectedPoint);
+    newPose.x = position.x;
+    newPose.y = position.y;
+    dispatch(editPoint(newPose));
+  };
+
   return(
   <>
     <PointPage
+      activeAddMove={activeAddMove}
       showEdit={showEdit}
       points={points}
       selectedPoint={selectedPoint}
@@ -86,6 +108,10 @@ const PointContainer = () => {
       onClickRemove={handleClickRemove}
       onMovePoint={handleMovePoint}
       onMoveRotation={handleMoveRotation}
+
+      onClickCanvas={handleClickCanvas}
+      onMovePointStart={handleMoveStart}
+      onMovePointEnd={handleMoveEnd}
     />
   </>
   );

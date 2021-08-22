@@ -33,6 +33,7 @@ const PointEditList = ({
 );
 
 const PointPage = ({
+  activeAddMove,
   showEdit,
   selectedPoint,
   points,
@@ -42,6 +43,9 @@ const PointPage = ({
   onClickRemove,
   onMovePoint,
   onMoveRotation,
+  onClickCanvas,
+  onMovePointStart,
+  onMovePointEnd,
 }) => {  
   return(
   <PageTemplate>
@@ -49,7 +53,12 @@ const PointPage = ({
       <CanvasMapContainer
         points={points}
         canvasWidth={1185}
-        canvasHeight={1200}
+        canvasHeight={1137}
+        disabledDrag={activeAddMove}
+        onClickCanvas={onClickCanvas}
+        onClickPoint={onClickPoint}
+        onMovePointStart={onMovePointStart}
+        onMovePointEnd={onMovePointEnd}
       />
     </MainContentTemplate>
 
@@ -65,7 +74,7 @@ const PointPage = ({
                 onClickRemove={onClickRemove}
               />
               <div className={cx('point-btn-wrap')}>
-                <Button type={'gradiant-col'} onClick={onClickAddPoint}>추가하기</Button>
+                <Button type={activeAddMove ? 'gradiant-col' : 'default'} onClick={onClickAddPoint}>추가하기</Button>
               </div>
             </div>
             { showEdit && 
