@@ -27,12 +27,12 @@ router.get('/status', function (req, res) {
 });
 
 router.get('/pose', function (req, res) {
-  console.log('GET [/robot/pose]', JSON.stringify(gData.pose));
+  // console.log('GET [/robot/pose]', JSON.stringify(gData.pose));
   return res.send(gData.pose);
 });
 
 router.get('/sensor', function (req, res) {
-  console.log('GET [/robot/sensor]', JSON.stringify(gData.laser));
+  // console.log('GET [/robot/sensor]', JSON.stringify(gData.laser));
   return res.send(gData.laser);
 });
 

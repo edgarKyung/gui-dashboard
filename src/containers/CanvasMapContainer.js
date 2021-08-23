@@ -71,10 +71,12 @@ const CanvasMapContainer = ({
   }
 
   async function drawCanvas(map) {
-    const reqStatus = await fetch('http://127.0.0.1:80/status');
-    const status = await reqStatus.json();
-    const canvasPos = getCanvasPos(status.pose);
-    const laserData = getLaserData(canvasPos, status.pose.rz, status.laser);
+    const reqPose = await fetch('http://127.0.0.1:80/robot/pose');
+    const reqSensor = await fetch('http://127.0.0.1:80/robot/sensor');
+    const pose = await reqPose.json();
+    const sensor = await reqSensor.json();
+    const canvasPos = getCanvasPos(pose);
+    const laserData = getLaserData(canvasPos, pose.rz, sensor);
     drawMap(map);
     setLaserData(laserData);
     setPoseData(canvasPos);
@@ -82,7 +84,7 @@ const CanvasMapContainer = ({
 
   useEffect(() => {
     async function getInitData() {
-      const req = await fetch('http://127.0.0.1:80/map');
+      const req = await fetch('http://127.0.0.1:80/map/content?name=office');
       const map = await req.json()
       canvas_width = map.width;
       canvas_height = map.height;
