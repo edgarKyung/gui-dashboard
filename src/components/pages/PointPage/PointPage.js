@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ReactDragListView  from 'react-drag-listview';
 import classNames from 'classnames/bind';
 import styles from './PointPage.module.scss';
 import { PageTitle, Button, Icon, SwitchButton } from '../../atoms';
@@ -13,13 +13,26 @@ const PointEditList = ({
   points, 
   onClickPoint,
   onClickRemove,
-}) => (
+}) => {
+  const dragProps = {
+    onDragEnd(fromIndex, toIndex) {
+      // const data = [...that.state.data];
+      // const item = data.splice(fromIndex, 1)[0];
+      // data.splice(toIndex, 0, item);
+      // that.setState({ data });
+    },
+    nodeSelector: 'li',
+    handleSelector: 'span'
+  };
+
+  return (
   <div className={cx('point-wrap', className)}>
     <PageTitle title='거점 목록' />
+    <ReactDragListView {...dragProps}>
     <ul className={cx('list-wrap')}>
       {points.map(data => (
         <li key={data.id}>
-          <Button type='menu' />
+          <span><Icon type='menu' /></span>
           <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data.id)}>
             {data.name}
             <Icon type='star'/>
@@ -29,8 +42,11 @@ const PointEditList = ({
         </li>
       ))}
     </ul>
+
+    </ReactDragListView>
   </div>
-);
+  )
+};
 
 const PointPage = ({
   activeAddMove,

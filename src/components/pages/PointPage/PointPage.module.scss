@@ -4,9 +4,10 @@
 
   .list-wrap {
     overflow: auto;
+    height:100%;
 
     li{
-      width: 100%;
+      width: 100% !important;
       display: flex;
       align-items: center;
       justify-content: space-around;
