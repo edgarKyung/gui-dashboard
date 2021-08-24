@@ -6,17 +6,19 @@
   // height: 56.25vw;
   // max-height: 100vh;
   // max-width: 177.78vh;
-  overflow:hidden;
+  overflow: hidden;
   margin: 0 auto;
   background-color: white;
-  transform: scale(1) translateX(-50%);
+  transform: translateX(-50%) translateY(-50%);
   transform-origin: 0 0%;
   position: absolute;
   left: 50%;
+  top: 50%;
 
   .aside {
     width: 9%;
   }
+
   .content {
     display: flex;
     height: 100%;
@@ -25,33 +27,32 @@
   }
 }
 
-@media screen and (max-width: 1600px), screen and (max-height: 1000px){ 
-  .page-wrapper {
-    transform: scale(.83)  translateX(-50%);
-  }
-}
+// @media screen and (max-width: 1620px - 1px), screen and (max-height: 945px - 1px) {
+//   .page-wrapper {
+//     transform: scale(calc(min(1440/1920, 840/1200))) translateX(-50%) translateY(-50%);
+//   }
+// }
 
-@media screen and (max-width: 1366px), screen and (max-height: 853.75px){ 
-  .page-wrapper {
-    transform: scale(.71) translateX(-50%);
-  }
-}
+// @media screen and (max-width: 1440px - 1px), screen and (max-height: 840px - 1px) {
+//   .page-wrapper {
+//     transform: scale(calc(min(1200/1920, 700/1200))) translateX(-50%) translateY(-50%);
+//   }
+// }
 
-@media screen and (max-width: 1280px), screen and (max-height: 800px){ 
-  .page-wrapper {
-    transform: scale(.66) translateX(-50%);
-  }
-}
+// @media screen and (max-width: 1200px - 1px), screen and (max-height: 700px - 1px) {
+//   .page-wrapper {
+//     transform: scale(calc(min(960/1920, 560/1200))) translateX(-50%) translateY(-50%);
+//   }
+// }
 
-@media screen and (max-width: 1096px), screen and (max-height: 685px){ 
-  .page-wrapper {
-    transform: scale(.57) translateX(-50%);
-  }
-}
+// @media screen and (max-width: 960px - 1px), screen and (max-height: 560px - 1px) {
+//   .page-wrapper {
+//     transform: scale(calc(min(720/1920, 420/1200))) translateX(-50%) translateY(-50%);
+//   }
+// }
 
-@media screen and (max-width: 960px), screen and (max-height: 600px){ 
-  .page-wrapper {
-    transform: scale(.4669) translateX(-50%);
-  }
-}
-
+// @media screen and (max-width: 720px - 1px), screen and (max-height: 420px - 1px) {
+//   .page-wrapper {
+//     transform: scale(calc(min(516/1920, 301/1200))) translateX(-50%) translateY(-50%);
+//   }
+// }
