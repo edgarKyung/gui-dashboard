@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'
 import { PointPage } from '../components/pages';
-import { addPoint, removePoint, editPoint } from '../modules/reducers/point';
+import { addPoint, removePoint, editPoint, reOrderPoint } from '../modules/reducers/point';
 
 const PointContainer = () => {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ const PointContainer = () => {
     if(activeAddMove){
       const { screen } = e;
       const pointData = { 
-        id:Date.now(),
+        id:Date.now().toString(),
         name: '거점 1', 
         x: screen.x, 
         y: screen.y, 
@@ -101,6 +101,16 @@ const PointContainer = () => {
     dispatch(editPoint(Object.assign(newPose, point)));
   };
 
+  const handleDragPointEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    dispatch(reOrderPoint({
+      startIndex: result.source.index, 
+      endIndex: result.destination.index
+    }));
+  };
+
   return(
   <>
     <PointPage
@@ -118,6 +128,7 @@ const PointContainer = () => {
       onClickCanvas={handleClickCanvas}
       onMovePointStart={handleMoveStart}
       onMovePointEnd={handleMoveEnd}
+      onDragPointEnd={handleDragPointEnd}
       
       onChangeEditPoint={handleChangeEditPoint}
     />

@@ -1,5 +1,7 @@
 import React from 'react';
-import ReactDragListView  from 'react-drag-listview';
+// import ReactDragListView  from 'react-drag-listview';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import classNames from 'classnames/bind';
 import styles from './PointPage.module.scss';
 import { PageTitle, Button, Icon, SwitchButton } from '../../atoms';
@@ -13,37 +15,42 @@ const PointEditList = ({
   points, 
   onClickPoint,
   onClickRemove,
+  onDragPointEnd,
 }) => {
-  const dragProps = {
-    onDragEnd(fromIndex, toIndex) {
-      // const data = [...that.state.data];
-      // const item = data.splice(fromIndex, 1)[0];
-      // data.splice(toIndex, 0, item);
-      // that.setState({ data });
-    },
-    nodeSelector: 'li',
-    handleSelector: 'span'
-  };
-
   return (
   <div className={cx('point-wrap', className)}>
     <PageTitle title='거점 목록' />
-    <ReactDragListView {...dragProps}>
-    <ul className={cx('list-wrap')}>
-      {points.map(data => (
-        <li key={data.id}>
-          <span><Icon type='menu' /></span>
-          <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data.id)}>
-            {data.name}
-            <Icon type='star'/>
-          </Button> 
-          <SwitchButton value={true} />
-          <Button type='circle' onClick={()=> onClickRemove(data)}>X</Button>
-        </li>
-      ))}
-    </ul>
-
-    </ReactDragListView>
+    <DragDropContext onDragEnd={onDragPointEnd}>
+      <Droppable droppableId="droppable">
+        {(provided, snapshot) => (
+          <ul 
+            className={cx('list-wrap')}
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {points.map((data, index) => (
+              <Draggable key={data.id} draggableId={data.id} index={index}>
+                {(provided, snapshot) => (
+                  <li 
+                    key={data.id}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                  >
+                    <span {...provided.dragHandleProps}><Icon type='menu' /></span>
+                    <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data.id)}>
+                      {data.name}
+                      <Icon type='star'/>
+                    </Button> 
+                    <SwitchButton value={true} />
+                    <Button type='circle' onClick={()=> onClickRemove(data)}>X</Button>
+                  </li>
+                )}
+              </Draggable>
+            ))}
+          </ul>
+        )}
+      </Droppable>
+    </DragDropContext>
   </div>
   )
 };
@@ -62,7 +69,8 @@ const PointPage = ({
   onClickCanvas,
   onMovePointStart,
   onMovePointEnd,
-
+  onDragPointEnd,
+  
   onChangeEditPoint,
   onChangeEditPointName,
   onChangeEditPointPosition,
@@ -92,6 +100,7 @@ const PointPage = ({
                 points={points}
                 onClickPoint={onClickPoint}
                 onClickRemove={onClickRemove}
+                onDragPointEnd={onDragPointEnd}
               />
               <div className={cx('point-btn-wrap')}>
                 <Button type={activeAddMove ? 'gradiant-col' : 'default'} onClick={onClickAddPoint}>추가하기</Button>
