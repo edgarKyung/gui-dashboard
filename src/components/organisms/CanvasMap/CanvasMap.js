@@ -30,11 +30,11 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
       instance.app.onClickCanvas(event);
       console.log(event, instance);
     });
-  },  
+  },
 });
 
 
-const PixiViewPortComponent = ({width, height, children, onClickCanvas }) => {    
+const PixiViewPortComponent = ({ width, height, children, onClickCanvas }) => {
   const app = useApp();
   app.onClickCanvas = onClickCanvas;
   return <PixiComponentViewport app={app} width={width} height={height} >{children}</PixiComponentViewport>;
@@ -62,8 +62,8 @@ const MiniMap = ({
 const scale = { x: 2.7, y: 2.7 };
 
 const CanvasMap = ({
-  width = 1185,
-  height = 580,
+  width = 0,
+  height = 0,
   imgData,
   poseData,
   laserData,
@@ -100,22 +100,22 @@ const CanvasMap = ({
 
   return (
     <div className={cx('canvas-image')}>
-      <Stage width={width} height={height} options={{ backgroundColor:'0xffffff', autoDensity: true }}>
-        <PixiViewPortComponent 
-          width={width} 
-          height={height} 
+      <Stage width={width} height={height} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
+        <PixiViewPortComponent
+          width={width}
+          height={height}
           onClickCanvas={onClickCanvas}
-          // activeAddMove={activeAddMove}
+        // activeAddMove={activeAddMove}
         >
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
           <Graphics draw={pointDraw} />
-          { points && points.map((point,idx) => (
-            <Draggable 
+          {points && points.map((point, idx) => (
+            <Draggable
               key={idx}
-              image={iconPoint} 
-              id={point.id} 
-              x={point.x} 
-              y={point.y} 
+              image={iconPoint}
+              id={point.id}
+              x={point.x}
+              y={point.y}
               disabled={disabledDrag}
               angle={point.degree}
               onClickPoint={onClickPoint}
@@ -123,7 +123,7 @@ const CanvasMap = ({
               onMovePointEnd={onMovePointEnd}
             />
           ))}
-        
+
         </PixiViewPortComponent>
         {/* { imgData && (<MiniMap 
           imgData={imgData}
