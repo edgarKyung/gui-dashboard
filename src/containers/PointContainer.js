@@ -2,14 +2,15 @@ import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'
 import { PointPage } from '../components/pages';
-import { addPoint, removePoint, editPoint, reOrderPoint } from '../modules/reducers/point';
+import { addPoint, removePoint, editPoint, reOrderPoint, toggleDisablePoint } from '../modules/reducers/point';
 
 const PointContainer = () => {
   const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
   const [activeAddMove, setActiveAddMove] = useState(false);
-  const { points, selectedPoint } = useSelector((store) => ({
+  const { canvasPoints, points, selectedPoint } = useSelector((store) => ({
+    canvasPoints:store.point.get('points').filter(point => !point.disabled),
     points:store.point.get('points'),
     selectedPoint : store.point.get('points').filter(point => point.id === editPointId)[0]
   }));
@@ -34,6 +35,10 @@ const PointContainer = () => {
   const handleClickPoint = (pointId) => {
     setEditPointId(pointId);
     setShowEdit(true);
+  };
+
+  const handleClickPointToggleDisable = (pointData) => {
+    dispatch(toggleDisablePoint(pointData));
   };
 
   const movePoint = (position) => {
@@ -76,6 +81,7 @@ const PointContainer = () => {
       const pointData = { 
         id:Date.now().toString(),
         name: '거점 1', 
+        disabled:false,
         x: screen.x, 
         y: screen.y, 
         degree: 0,
@@ -116,11 +122,13 @@ const PointContainer = () => {
     <PointPage
       activeAddMove={activeAddMove}
       showEdit={showEdit}
+      canvasPoints={canvasPoints}
       points={points}
       selectedPoint={selectedPoint}
       onClickEditClose={handleToggleEditPannel}
       onClickAddPoint={handleClickAddPoint}
       onClickPoint={handleClickPoint}
+      onClickPointToggleDisable={handleClickPointToggleDisable}
       onClickRemove={handleClickRemove}
       onMovePoint={handleMovePoint}
       onMoveRotation={handleMoveRotation}

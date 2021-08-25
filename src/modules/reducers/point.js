@@ -4,7 +4,8 @@ export const GET_POINT = 'get/POINT';
 export const ADD_POINT = 'add/POINT';
 export const REMOVE_POINT = 'remove/POINT';
 export const EDIT_POINT = 'edit/POINT';
-export const REORDER_POINT = 'REORDER/POINT';
+export const RE_ORDER_POINT = 'RE_ORDER/POINT';
+export const TOGGLE_DISABLE_POINT = 'TOGGLE_DISABLE/POINT';
 
 export const addPoint = (payload) => ({
     type: ADD_POINT,
@@ -26,7 +27,12 @@ export const getPoint = () => ({
 });
 
 export const reOrderPoint = (payload) => ({
-    type: REORDER_POINT,
+    type: RE_ORDER_POINT,
+    payload:payload
+});
+
+export const toggleDisablePoint = (payload) => ({
+    type: TOGGLE_DISABLE_POINT,
     payload:payload
 });
 /*
@@ -53,13 +59,23 @@ const point = (state = initialRecord, {type, payload}) => {
             return state.set('points', state.get('points').filter(point => point.id !== payload));
         case EDIT_POINT:
             return state.set('points', state.get('points').map(point => point.id === payload.id ? Object.assign(point, payload) : point));
-        case REORDER_POINT:
+        case RE_ORDER_POINT:
             const { startIndex, endIndex } = payload;
             const newOrderList = state.get('points');
             const [removed] = newOrderList.splice(startIndex, 1);
             newOrderList.splice(endIndex, 0, removed);
           
             return state.set('points', newOrderList);
+        case TOGGLE_DISABLE_POINT:
+            return state.set('points', state.get('points').map(point => {
+                if(point.id === payload.id){
+                    return {
+                        ...point,
+                        disabled:!point.disabled,
+                    }
+                }
+                return point;
+            }));
         default:
             return state;
     }

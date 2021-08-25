@@ -19,7 +19,7 @@ class AsideMenu extends PureComponent {
         <ul className={cx('menu-list')} >
           {
             Object.entries(menus).map(([id, data])=>{
-              const { to, location } = this.props;
+              const { location } = this.props;
               return (
               <li key={id}>
                 <Link to={data.link}>

@@ -14,6 +14,7 @@ const PointEditList = ({
   className, 
   points, 
   onClickPoint,
+  onClickPointToggleDisable,
   onClickRemove,
   onDragPointEnd,
 }) => {
@@ -41,7 +42,7 @@ const PointEditList = ({
                       {data.name}
                       <Icon type='star'/>
                     </Button> 
-                    <SwitchButton value={true} />
+                    <SwitchButton value={!data.disabled} onClick={() => onClickPointToggleDisable(data)}/>
                     <Button type='circle' onClick={()=> onClickRemove(data)}>X</Button>
                   </li>
                 )}
@@ -59,10 +60,13 @@ const PointPage = ({
   activeAddMove,
   showEdit,
   selectedPoint,
+  canvasPoints,
   points,
   onClickEditClose,
   onClickAddPoint,
   onClickPoint,
+  onClickPointToggleDisable,
+
   onClickRemove,
   onMovePoint,
   onMoveRotation,
@@ -79,7 +83,7 @@ const PointPage = ({
   <PageTemplate>
     <MainContentTemplate title={'거점/가상벽 추가'}>
       <CanvasMapContainer
-        points={points}
+        points={canvasPoints}
         canvasWidth={1185}
         canvasHeight={1137}
         disabledDrag={activeAddMove}
@@ -99,6 +103,7 @@ const PointPage = ({
                 className={cx('point-edit-list')}
                 points={points}
                 onClickPoint={onClickPoint}
+                onClickPointToggleDisable={onClickPointToggleDisable}
                 onClickRemove={onClickRemove}
                 onDragPointEnd={onDragPointEnd}
               />

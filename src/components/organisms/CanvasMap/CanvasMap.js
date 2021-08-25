@@ -28,7 +28,6 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
     instance.on('clicked', (event) => {
       // if(onClick) onClick(event);
       instance.app.onClickCanvas(event);
-      console.log(event, instance);
     });
   },
 });
@@ -62,8 +61,8 @@ const MiniMap = ({
 const scale = { x: 2.7, y: 2.7 };
 
 const CanvasMap = ({
-  width = 0,
-  height = 0,
+  width,
+  height,
   imgData,
   poseData,
   laserData,
@@ -109,7 +108,7 @@ const CanvasMap = ({
         >
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
           <Graphics draw={pointDraw} />
-          {points && points.map((point, idx) => (
+          {(points.length > 0) && points.map((point, idx) => (
             <Draggable
               key={idx}
               image={iconPoint}
@@ -138,7 +137,27 @@ const CanvasMap = ({
 
 
 CanvasMap.propTypes = {
-  onClickCanvas: PropTypes.func
+  width: PropTypes.number,
+  height: PropTypes.number,
+  poseData: PropTypes.object,
+  laserData: PropTypes.array,
+  points: PropTypes.array,
+  disabledDrag: PropTypes.bool,
+  onClickPoint: PropTypes.func,
+  onClickCanvas: PropTypes.func,
+  onMovePointStart: PropTypes.func,
+  onMovePointEnd: PropTypes.func,
 }
 
+CanvasMap.defaultProps = {
+  width:0,
+  height:0,
+  poseData:{},
+  laserData:[],
+  points:[],
+  onClickPoint:() => {},
+  onClickCanvas:() => {},
+  onMovePointStart:() => {},
+  onMovePointEnd:() => {},
+}
 export default CanvasMap;

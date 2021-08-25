@@ -28,7 +28,7 @@ const PointEditPannel = ({
 
   useEffect(() => {
     setEditPoint(selectedPoint);
-  }, [selectedPoint.x, selectedPoint.y, selectedPoint.degree]);
+  }, [selectedPoint]);
 
   const positions = ['x','y'];
   return (

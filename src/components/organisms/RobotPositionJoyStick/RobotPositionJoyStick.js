@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types'
 import JoyStick from 'react-joystick';
 import classNames from 'classnames/bind';
 import styles from './RobotPositionJoyStick.scss';
@@ -22,38 +23,42 @@ const containerStyle = {
 }
 
 
-class JoyWrapper extends Component {
-  constructor() {
-      super();
-      this.managerListener = this.managerListener.bind(this);
-      this.state = {
-        active:false
-      }
+const JoyWrapper = ({ 
+  className, 
+  onRobotMoveStart, 
+  onRobotMoveEnd
+}) => {
+  const [active, setActive] = useState(false);
+
+  const managerListener = (manager) => {
+    console.log(manager);
+    manager.on('move', (e, stick) => {
+        setActive(true);
+        onRobotMoveStart(stick);
+    })
+    manager.on('end', () => {
+        setActive(false);
+        onRobotMoveEnd();
+    })
   }
 
-  managerListener(manager) {
-      console.log(manager);
-      const { onRobotMoveStart, onRobotMoveEnd } = this.props;
-      manager.on('move', (e, stick) => {
-          this.setState({ active:true });
-          onRobotMoveStart(stick);
-      })
-      manager.on('end', () => {
-          this.setState({ active:false });
-          onRobotMoveEnd();
-      })
-  }
+  return (
+    <div className={cx('robot-position-control-wrap', className, {
+      'active': active,
+    })}>
+      <JoyStick options={joyOptions} containerStyle={containerStyle} managerListener={managerListener}/>
+    </div>
+  )
+}
 
-  render() {
-      const { className } = this.props;
-      const { active } = this.state;
-      return (
-        <div className={cx('robot-position-control-wrap', className, {
-          'active': active,
-        })}>
-          <JoyStick options={joyOptions} containerStyle={containerStyle} managerListener={this.managerListener}/>
-        </div>
-      )
-  }
+JoyWrapper.propTypes = {
+  className: PropTypes.string,
+  onRobotMoveStart: PropTypes.func, 
+  onRobotMoveEnd: PropTypes.func,
+}
+
+JoyWrapper.defaultProps = {
+  onRobotMoveStart:() => {},
+  onRobotMoveEnd:() => {},
 }
 export default JoyWrapper;

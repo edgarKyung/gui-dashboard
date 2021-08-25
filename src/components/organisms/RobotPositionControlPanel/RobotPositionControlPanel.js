@@ -56,7 +56,9 @@ const RobotPositionControlPanel = ({
       {positoins.map((position, idx) => (
         <li key={idx} className={cx(position)}>
           <Button type='position-control' className={cx('control-btn')} 
+            onTouchStart={(e) => handleClickPositionStart(e, position)}
             onMouseDown={(e) => handleClickPositionStart(e, position)}
+            onTouchEnd={handleClickPositionStop}
             onMouseUp={handleClickPositionStop}
             onMouseLeave={handleClickPositionStop}
           />
@@ -68,6 +70,15 @@ const RobotPositionControlPanel = ({
       {rotations.map((rotation, idx) => (
         <li key={idx} className={cx('active')}>
           <Button type={`position-control-${rotation}`} 
+            onTouchStart={(e) => {
+              setActiveBg(true);
+              handleClickRotationStart(e, rotation);
+            }}
+            onTouchEnd={(e) => {
+              setActiveBg(false);
+              handleClickRotationStop(e);
+            }}
+
             onMouseDown={(e) => {
               setActiveBg(true);
               handleClickRotationStart(e, rotation);
