@@ -1,12 +1,22 @@
 {
   "wall": [],
   "schedule": [],
-  "waypoint": [{
-    "name": "메인홀",
-    "favorite": true,
-    "enable": true,
-    "x": 0,
-    "y": 0,
-    "rotation": 0
-  }]
+  "waypoint": [
+    { "name": "메인홀", "x": -0.5, "y": 0.0, "rotation": -3.0 ,"favorite": true, "enable": true},
+    { "name": "주방", "x": 6.5, "y": 1.0, "rotation": 0.0 ,"favorite": true, "enable": true},
+    { "name": "충전소", "x": 1.0, "y": 0.2, "rotation": 1.5 ,"favorite": true, "enable": true},
+    { "name": "테이블 1", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 2", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 3", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 4", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 5", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 6", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 7", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 8", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 9", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 10", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 11", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 12", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true},
+    { "name": "테이블 13", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "enable": true}
+  ]
 }

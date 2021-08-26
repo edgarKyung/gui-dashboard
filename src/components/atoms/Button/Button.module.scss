@@ -170,7 +170,6 @@
   background-image: url('/static/images/btn/btn_redo.png');
 }
 
-
 .position-control {
   width: 32px;
   height: 36px;
@@ -205,7 +204,61 @@
 }
 
 .edit {
-  width:25px;
-  height:25px;
+  width: 25px;
+  height: 25px;
   background-image: url('/static/images/btn/btn_edit.png');
+}
+
+
+
+
+
+
+
+
+
+
+// TEMPORARY
+.joystick {
+  background-image: url('/static/images/source/btn_temp1.png');
+  background-size: 70px;
+
+  &:active,
+  &.on {
+    background-image: url('/static/images/source/btn_temp1_on.png');
+    background-size: 150px;
+  }
+}
+
+.people {
+  background-image: url('/static/images/source/btn_temp2.png');
+  background-size: 70px;
+
+  &:active,
+  &.on {
+    background-image: url('/static/images/source/btn_temp2_on.png');
+    background-size: 150px;
+  }
+}
+
+.line {
+  background-image: url('/static/images/source/btn_temp3.png');
+  background-size: 70px;
+
+  &:active,
+  &.on {
+    background-image: url('/static/images/source/btn_temp3_on.png');
+    background-size: 150px;
+  }
+}
+
+.navigation {
+  background-image: url('/static/images/source/btn_temp4.png');
+  background-size: 70px;
+
+  &:active,
+  &.on {
+    background-image: url('/static/images/source/btn_temp4_on.png');
+    background-size: 150px;
+  }
 }

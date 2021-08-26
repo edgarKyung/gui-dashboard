@@ -97,3 +97,13 @@ export const loadMap = async () => {
     throw err;
   }
 };
+
+export const getWaypoint = async () => {
+  try {
+    return await httpClient.get(`/waypoint`, {});
+
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

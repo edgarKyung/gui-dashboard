@@ -1,30 +1,31 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { OperationPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 
+let pointMarkList = [];
+let pointList = [];
+
 const OperationContainer = ({ children }) => {
   const [activeBtn, setActiveBtn] = useState('');
-  const pointMarkList = [
-    { name: '메인홀', x: -0.5, y: 0.0, degree: -3.0 },
-    { name: '주방', x: 6.5, y: 1.0, degree: 0.0 },
-    { name: '충전소', x: 1.0, y: 0.2, degree: 1.5 }
-  ];
+  const [fakeUpdate, setFakeUpdate] = useState(true);
 
-  const pointList = [
-    { name: '테이블 1', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 2', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 3', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 4', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 5', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 6', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 7', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 8', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 9', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 10', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 11', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 12', x: 1.3443, y: -2.1123, degree: 3.14159 },
-    { name: '테이블 13', x: 1.3443, y: -2.1123, degree: 3.14159 }
-  ];
+  // TODO: 비동기 처리 어떻게 해야함?
+  (async function getWaypoint() {
+    const waypoints = await RobotApi.getWaypoint();
+    const tempMarkPoints = [];
+    const tempPoints = [];
+    for (let waypoint of waypoints) {
+      if (waypoint.enable) {
+        (waypoint.favorite) ? tempMarkPoints.push(waypoint) : tempPoints.push(waypoint);
+      }
+    }
+    if (JSON.stringify(tempMarkPoints) !== JSON.stringify(pointMarkList) ||
+      JSON.stringify(tempPoints) !== JSON.stringify(pointList)) {
+      pointMarkList = tempMarkPoints;
+      pointList = tempPoints;
+      setFakeUpdate(!fakeUpdate);
+    }
+  })();
 
   const handleClickPoint = async (point) => {
     try {

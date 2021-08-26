@@ -1,5 +1,5 @@
 import axios from 'axios';
-import networkConfig from '../configuration/networkConfig.json';
+import networkConfig from '../configuration/networkConfig';
 import statusDefine from '../static/constants/statusDefine';
 
 const HttpClient = (() => {
