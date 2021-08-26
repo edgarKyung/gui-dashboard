@@ -2,17 +2,22 @@ import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'
 import { PointPage } from '../components/pages';
-import { addPoint, removePoint, editPoint, reOrderPoint, toggleDisablePoint } from '../modules/reducers/point';
+import { addPoint, removePoint, editPoint, reOrderPoint, toggleDisablePoint, loadPoint } from '../modules/reducers/point';
+import * as FileApi from '../lib/File';
 
 const PointContainer = () => {
   const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
   const [activeAddMove, setActiveAddMove] = useState(false);
-  const { canvasPoints, points, selectedPoint } = useSelector((store) => ({
+  const { 
+    canvasPoints, 
+    selectedPoint,
+    points, 
+  } = useSelector((store) => ({
     canvasPoints:store.point.get('points').filter(point => !point.disabled),
+    selectedPoint : store.point.get('points').filter(point => point.id === editPointId)[0],
     points:store.point.get('points'),
-    selectedPoint : store.point.get('points').filter(point => point.id === editPointId)[0]
   }));
   console.log('activeAddMove', activeAddMove);
 
@@ -81,10 +86,11 @@ const PointContainer = () => {
       const pointData = { 
         id:Date.now().toString(),
         name: '거점 1', 
-        disabled:false,
         x: screen.x, 
         y: screen.y, 
         degree: 0,
+        disabled:false,
+        favorite:false,
       };
       dispatch(addPoint(pointData));
     }
@@ -117,6 +123,22 @@ const PointContainer = () => {
     }));
   };
 
+  const handleClickLoad = async () => {
+    try {
+      const loadPoints = await FileApi.loadWayPoint();
+      dispatch(loadPoint(loadPoints));
+    } catch (err) {
+      dispatch(loadPoint(points));
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const handleClickSave = async () => {
+    const res = await FileApi.saveWayPoint(points);
+    console.log(res);
+  };
+
   return(
   <>
     <PointPage
@@ -139,6 +161,8 @@ const PointContainer = () => {
       onDragPointEnd={handleDragPointEnd}
       
       onChangeEditPoint={handleChangeEditPoint}
+      onClickLoad={handleClickLoad}
+      onClickSave={handleClickSave}
     />
   </>
   );

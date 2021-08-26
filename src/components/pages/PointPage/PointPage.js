@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactDragListView  from 'react-drag-listview';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import classNames from 'classnames/bind';
@@ -78,6 +77,8 @@ const PointPage = ({
   onChangeEditPoint,
   onChangeEditPointName,
   onChangeEditPointPosition,
+  onClickLoad,
+  onClickSave,
 }) => {  
   return(
   <PageTemplate>
@@ -108,6 +109,8 @@ const PointPage = ({
                 onDragPointEnd={onDragPointEnd}
               />
               <div className={cx('point-btn-wrap')}>
+                <Button type='default' onClick={onClickLoad}>불러오기</Button>
+                <Button type='default' onClick={onClickSave}>저장하기</Button>
                 <Button type={activeAddMove ? 'gradiant-col' : 'default'} onClick={onClickAddPoint}>추가하기</Button>
               </div>
             </div>

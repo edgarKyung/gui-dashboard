@@ -1,14 +1,24 @@
 import { Record, fromJS } from 'immutable';
 
-export const GET_POINT = 'get/POINT';
-export const ADD_POINT = 'add/POINT';
-export const REMOVE_POINT = 'remove/POINT';
-export const EDIT_POINT = 'edit/POINT';
+export const GET_POINT = 'GET/POINT';
+export const ADD_POINT = 'ADD/POINT';
+export const LOAD_POINT = 'LOAD/POINT';
+export const REMOVE_POINT = 'REMOVE/POINT';
+export const EDIT_POINT = 'EDIT/POINT';
 export const RE_ORDER_POINT = 'RE_ORDER/POINT';
 export const TOGGLE_DISABLE_POINT = 'TOGGLE_DISABLE/POINT';
 
+export const getPoint = () => ({
+    type: GET_POINT,
+});
+
 export const addPoint = (payload) => ({
     type: ADD_POINT,
+    payload:payload
+});
+
+export const loadPoint = (payload) => ({
+    type: LOAD_POINT,
     payload:payload
 });
 
@@ -22,10 +32,6 @@ export const editPoint = (payload) => ({
     payload:payload
 });
 
-export const getPoint = () => ({
-    type: GET_POINT,
-});
-
 export const reOrderPoint = (payload) => ({
     type: RE_ORDER_POINT,
     payload:payload
@@ -35,15 +41,9 @@ export const toggleDisablePoint = (payload) => ({
     type: TOGGLE_DISABLE_POINT,
     payload:payload
 });
-/*
-    id:0,
-    position:{x:0,y:0},
-*/
 
 const initialState = {
     points:[],
-    editPoint:{},
-    schedules:[],
 };
 const initialRecord = Record(initialState)();
 
@@ -55,6 +55,8 @@ const point = (state = initialRecord, {type, payload}) => {
             return state.set('points', newList);
         case GET_POINT:
             return state.getIn(['points']);
+        case LOAD_POINT:
+            return state.set('points', payload);
         case REMOVE_POINT:
             return state.set('points', state.get('points').filter(point => point.id !== payload));
         case EDIT_POINT:
