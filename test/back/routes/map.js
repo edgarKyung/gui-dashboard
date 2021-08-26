@@ -42,7 +42,8 @@ function getImageData() {
   let cellIdx = 0;
   for (let j = rawData.height - 1; j >= 0; j -= 1) {
     for (let i = 0; i < rawData.width; i += 1) {
-      parsedData[rawData.width * j + i] = rawData.bin.readUInt8(cellIdx);
+      const cellData = rawData.bin.readUInt8(cellIdx);
+      parsedData[rawData.width * j + i] = cellData === 0 ? -1 : cellData;
       cellIdx += 1;
     }
   }
@@ -125,9 +126,8 @@ router.get('/', function (req, res) {
 });
 
 router.get('/content', function (req, res) {
-  console.log(req.query);
   if (req.query.name === 'office') {
-    console.log('GET [/map/content]', 'SUCCESS');
+    // console.log('GET [/map/content]', 'SUCCESS');
     return res.send(getImageData());
   }
   console.log('GET [/map/content]', 'FAILED');
@@ -145,6 +145,16 @@ router.post('/', function (req, res) {
 
 router.post('/scan', function (req, res) {
   console.log('POST [/map/scan]', 'SUCCESS');
+  return res.send('SUCCESS');
+});
+
+router.post('/save', function (req, res) {
+  console.log('POST [/map/save]', 'SUCCESS');
+  return res.send('SUCCESS');
+});
+
+router.post('/load', function (req, res) {
+  console.log('POST [/map/load]', 'SUCCESS');
   return res.send('SUCCESS');
 });
 

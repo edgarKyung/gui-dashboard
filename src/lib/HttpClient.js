@@ -13,7 +13,7 @@ const HttpClient = (() => {
             maxRedirects: 0,
             timeout: 1 * 60 * 1000,
             ...options,
-            // baseURL,
+            baseURL,
           });
         } catch (err) {
           throw err;

@@ -29,7 +29,7 @@ const OperationContainer = ({ children }) => {
   const handleClickPoint = async (point) => {
     try {
       console.log(point);
-      await RobotApi.setGoal(point);
+      await RobotApi.move(point);
     } catch (err) {
       console.error(err)
     }
@@ -47,7 +47,7 @@ const OperationContainer = ({ children }) => {
   async function requestMoveControl(ms) {
     setTimeout(async () => {
       try {
-        await RobotApi.moveControl({ linear: velocity_linear, angular: velocity_angular });
+        await RobotApi.jog({ linear: velocity_linear, angular: velocity_angular });
       } catch (ex) {
         console.error(ex);
       } finally {
@@ -89,9 +89,8 @@ const OperationContainer = ({ children }) => {
 
   const handleClickRobotControl = async (type) => {
     try {
-      const data = {};
       setActiveBtn('');
-      await RobotApi.robotControl(type, data);
+      await RobotApi.changeMode(type);
       setActiveBtn(type);
     } catch (err) {
       setActiveBtn('');

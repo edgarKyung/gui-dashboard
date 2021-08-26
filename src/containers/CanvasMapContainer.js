@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useInterval } from 'react';
 import { CanvasMap } from '../components/organisms';
+import * as RobotApi from '../lib/Robot';
+
+let drawInterval = null;
 
 const CanvasMapContainer = ({
   points,
@@ -11,6 +14,8 @@ const CanvasMapContainer = ({
   onMovePointStart,
   onMovePointEnd,
 }) => {
+  const canvas = document.createElement('canvas');
+
   let canvas_padding = 10;
   let canvas_width = 0;
   let canvas_height = 0;
@@ -24,9 +29,6 @@ const CanvasMapContainer = ({
   const [poseData, setPoseData] = useState({ x: null, y: null });
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
 
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
   function getCanvasPos(pose) {
     const diffX = (pose.x - origin_x) / resolution_x;
     const diffY = (pose.y - origin_y) / resolution_y;
@@ -37,7 +39,7 @@ const CanvasMapContainer = ({
   }
 
   const drawMap = ({ data, width, height }) => {
-    // const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     ctx.canvas.width = width + 2 * canvas_padding;
     ctx.canvas.height = height + 2 * canvas_padding;
 
@@ -45,11 +47,10 @@ const CanvasMapContainer = ({
     for (let cell = 0; cell < width * height; cell += 1) {
       let color = [240, 240, 236]; // Movable Area
       color = (data[cell] === 100 || data[cell] > 127) ? [30, 30, 30] : color; // Unmovable Area
-      color = (data[cell] === -1 || data[cell] === 0) ? [255, 255, 255] : color; // Unknown Area
+      color = (data[cell] === -1) ? [255, 255, 255] : color; // Unknown Area
       imageData.data[cell * 4 + 0] = color[0]
       imageData.data[cell * 4 + 1] = color[1]
       imageData.data[cell * 4 + 2] = color[2]
-
       imageData.data[cell * 4 + 3] = 255;
     }
     ctx.putImageData(imageData, canvas_padding, canvas_padding);
@@ -70,11 +71,21 @@ const CanvasMapContainer = ({
     return data;
   }
 
-  async function drawCanvas(map) {
-    const reqPose = await fetch('http://127.0.0.1:80/robot/pose');
-    const reqSensor = await fetch('http://127.0.0.1:80/robot/sensor');
-    const pose = await reqPose.json();
-    const sensor = await reqSensor.json();
+  async function getMapData() {
+    const map = await RobotApi.getMap('office');
+    canvas_width = map.width;
+    canvas_height = map.height;
+    origin_x = map.origin.x;
+    origin_y = map.origin.y;
+    resolution_x = map.resolution.x;
+    resolution_y = map.resolution.y;
+    return map;
+  }
+
+  async function drawCanvas() {
+    const map = await getMapData();
+    const pose = await RobotApi.getPose();
+    const sensor = await RobotApi.getSensor();
     const canvasPos = getCanvasPos(pose);
     const laserData = getLaserData(canvasPos, pose.rz, sensor);
     drawMap(map);
@@ -83,18 +94,11 @@ const CanvasMapContainer = ({
   }
 
   useEffect(() => {
-    async function getInitData() {
-      const req = await fetch('http://127.0.0.1:80/map/content?name=office');
-      const map = await req.json()
-      canvas_width = map.width;
-      canvas_height = map.height;
-      origin_x = map.origin.x;
-      origin_y = map.origin.y;
-      resolution_x = map.resolution.x;
-      resolution_y = map.resolution.y;
-      setInterval(drawCanvas, 250, map);
+    if (drawInterval) {
+      clearInterval(drawInterval);
+      drawInterval = null;
     }
-    getInitData();
+    drawInterval = setInterval(drawCanvas, 250);
   }, []);
 
   return (

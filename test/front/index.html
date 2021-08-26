@@ -37,7 +37,7 @@
       for (let cell = 0; cell < canvas_width * canvas_height; cell += 1) {
         let color = 230; // Movable Area
         color = (data[cell] === 100 || data[cell] > 127) ? 50 : color; // Unmovable Area
-        color = (data[cell] === -1 || data[cell] === 0) ? 255 : color; // Unknown Area
+        color = (data[cell] === -1) ? 255 : color; // Unknown Area
         imageData.data[cell * 4 + 0] = color
         imageData.data[cell * 4 + 1] = color
         imageData.data[cell * 4 + 2] = color
@@ -46,7 +46,7 @@
       ctx.putImageData(imageData, canvas_padding, canvas_padding);
     }
 
-    
+
     function drawPose(canvasPos) {
       const canvas = document.getElementById('map');
       const ctx = canvas.getContext('2d');
