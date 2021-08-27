@@ -17,7 +17,7 @@ import './App.scss'
   const height = window.screen.height - statusBarSize;
   const scale = Math.min(width / 1920, height / 1200);
   const viewport = document.querySelector("meta[name=viewport]");
-  viewport.setAttribute('content', `initial-scale=${scale}, user-scalable=yes`);
+  viewport.setAttribute('content', `initial-scale=${scale}, user-scalable=no`);
 })();
 
 export default function App() {

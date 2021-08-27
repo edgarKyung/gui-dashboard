@@ -18,6 +18,7 @@ export const move = async (data) => {
   try {
     data.x = data.real.x;
     data.y = data.real.y;
+    data.degree = data.real.degree;
     const response = await httpClient.post('/robot/move', data);
     console.log(data, response);
     return response;

@@ -74,13 +74,13 @@ const CanvasMapContainer = ({
 
   async function getMapData() {
     const map = await RobotApi.getMap('office');
-    FileApi.setMapData(map);
     canvas_width = map.width;
     canvas_height = map.height;
     origin_x = map.origin.x;
     origin_y = map.origin.y;
     resolution_x = map.resolution.x;
     resolution_y = map.resolution.y;
+    FileApi.setMapData(map);
     return map;
   }
 

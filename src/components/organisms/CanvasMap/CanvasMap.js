@@ -58,7 +58,7 @@ const MiniMap = ({
   )
 }
 
-const scale = { x: 2.7, y: 2.7 };
+const scale = { x: 3.5, y: 3.5 };
 
 const CanvasMap = ({
   width,
@@ -150,14 +150,14 @@ CanvasMap.propTypes = {
 }
 
 CanvasMap.defaultProps = {
-  width:0,
-  height:0,
-  poseData:{},
-  laserData:[],
-  points:[],
-  onClickPoint:() => {},
-  onClickCanvas:() => {},
-  onMovePointStart:() => {},
-  onMovePointEnd:() => {},
+  width: 0,
+  height: 0,
+  poseData: {},
+  laserData: [],
+  points: [],
+  onClickPoint: () => { },
+  onClickCanvas: () => { },
+  onMovePointStart: () => { },
+  onMovePointEnd: () => { },
 }
 export default CanvasMap;

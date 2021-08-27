@@ -6,7 +6,7 @@ const map = {};
 
 export const setMapData = async (data) => {
   try {
-    map.scale = 2.7;
+    map.scale = 3.5;
     map.canvas_padding = 10;
     map.canvas_width = data.width;
     map.canvas_height = data.height;
@@ -37,9 +37,9 @@ export const saveWayPoint = async (waypoint) => {
   try {
     for (let wp of waypoint) {
       wp.real = {};
-      console.log(wp.x);
-      wp.real.x = (wp.x - map.canvas_padding) * map.resolution_x / map.scale + map.origin_x;
-      wp.real.y = (map.canvas_padding + map.canvas_height - wp.y) * map.resolution_y / map.scale + map.origin_y;
+      wp.real.x = map.origin_x + (wp.x - map.canvas_padding) * map.resolution_x / map.scale;
+      wp.real.y = map.origin_y + (map.canvas_padding + map.canvas_height * map.scale - wp.y) * map.resolution_y / map.scale;
+      wp.real.degree = (wp.degree > 180 ? wp.degree : wp.degree - 360) / 180 * Math.PI;
     }
     return await httpClient.post('/waypoint', { waypoint });
 
