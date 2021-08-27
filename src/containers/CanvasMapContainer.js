@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useInterval } from 'react';
 import { CanvasMap } from '../components/organisms';
 import * as RobotApi from '../lib/Robot';
+import * as FileApi from '../lib/File';
 
 let drawInterval = null;
 
@@ -73,6 +74,7 @@ const CanvasMapContainer = ({
 
   async function getMapData() {
     const map = await RobotApi.getMap('office');
+    FileApi.setMapData(map);
     canvas_width = map.width;
     canvas_height = map.height;
     origin_x = map.origin.x;

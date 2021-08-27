@@ -15,7 +15,7 @@ const OperationContainer = ({ children }) => {
     const tempMarkPoints = [];
     const tempPoints = [];
     for (let waypoint of waypoints) {
-      if (waypoint.enable) {
+      if (waypoint.disabled === false) {
         (waypoint.favorite) ? tempMarkPoints.push(waypoint) : tempPoints.push(waypoint);
       }
     }
