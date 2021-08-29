@@ -8,3 +8,4 @@ export { default as RobotPositionControlPanel } from './RobotPositionControlPane
 export { default as RobotPositionJoyStick } from './RobotPositionJoyStick';
 export { default as CanvasMap } from './CanvasMap';
 export { default as PointEditPannel } from './PointEditPannel';
+export { default as MessageBoxWrapper } from './MessageBoxWrapper';

@@ -1,12 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'
+import { useActions } from '../services/hooks'
 import { PointPage } from '../components/pages';
 import { addPoint, removePoint, editPoint, reOrderPoint, toggleDisablePoint, loadPoint } from '../modules/reducers/point';
+import * as messageBoxActions from '../modules/reducers/message';
 import * as FileApi from '../lib/File';
 
 const PointContainer = () => {
   const dispatch = useDispatch();
+  const MessageBoxActions = useActions(messageBoxActions);
   const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
   const [activeAddMove, setActiveAddMove] = useState(false);
@@ -127,6 +130,10 @@ const PointContainer = () => {
     try {
       const loadPoints = await FileApi.loadWayPoint();
       dispatch(loadPoint(loadPoints));
+      MessageBoxActions.addMessage({
+        children: '성공',
+        buttonType: ['YES'],
+      });  
     } catch (err) {
       dispatch(loadPoint(points));
       console.error(err);
@@ -135,8 +142,17 @@ const PointContainer = () => {
   };
 
   const handleClickSave = async () => {
-    const res = await FileApi.saveWayPoint(points);
-    console.log(res);
+    try {
+      const res = await FileApi.saveWayPoint(points);
+      MessageBoxActions.addMessage({
+        children: '성공',
+        buttonType: ['YES'],
+      });
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   };
 
   return(

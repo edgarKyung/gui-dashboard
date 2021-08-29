@@ -2,21 +2,75 @@
   "wall": [],
   "schedule": [],
   "waypoint": [
-    { "id": "1629978924300", "name": "메인홀", "x": -0.5, "y": 0.0, "rotation": -3.0 ,"favorite": true, "disabled": false},
-    { "id": "1629978924626", "name": "주방", "x": 6.5, "y": 1.0, "rotation": 0.0 ,"favorite": true, "disabled": false},
-    { "id": "1629978924994", "name": "충전소", "x": 1.0, "y": 0.2, "rotation": 1.5 ,"favorite": true, "disabled": false},
-    { "id": "1629978925499", "name": "테이블 1", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978925868", "name": "테이블 2", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978954135", "name": "테이블 3", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978926162", "name": "테이블 4", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978931519", "name": "테이블 5", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978932329", "name": "테이블 6", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629976102185", "name": "테이블 7", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629975132156", "name": "테이블 8", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629913152656", "name": "테이블 9", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978432151", "name": "테이블 10", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629974135155", "name": "테이블 11", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978999784", "name": "테이블 12", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false},
-    { "id": "1629978513515", "name": "테이블 13", "x": 1.3443, "y": -2.1123, "rotation": 3.14159 ,"favorite": false, "disabled": false}
+    {
+      "id": "1630214394877",
+      "name": "거점 1",
+      "x": 522.2568359375,
+      "y": 367.9200134277344,
+      "degree": 0,
+      "disabled": false,
+      "favorite": false,
+      "real": {
+        "x": 1.0679568089071427,
+        "y": 1.8368592402830068,
+        "degree": -6.283185307179586
+      }
+    },
+    {
+      "id": "1630214395203",
+      "name": "거점 1",
+      "x": 960.966552734375,
+      "y": 376.52215576171875,
+      "degree": 0,
+      "disabled": false,
+      "favorite": false,
+      "real": {
+        "x": 7.335238565175871,
+        "y": 1.71397149093423,
+        "degree": -6.283185307179586
+      }
+    },
+    {
+      "id": "1630214395580",
+      "name": "거점 1",
+      "x": 228.06332397460938,
+      "y": 250.93075561523438,
+      "degree": 0,
+      "disabled": false,
+      "favorite": false,
+      "real": {
+        "x": -3.134807706544283,
+        "y": 3.5081343752880016,
+        "degree": -6.283185307179586
+      }
+    },
+    {
+      "id": "1630214396628",
+      "name": "거점 1",
+      "x": 704.6224365234375,
+      "y": 207.92001342773438,
+      "degree": 0,
+      "disabled": false,
+      "favorite": false,
+      "real": {
+        "x": 3.6731797108936544,
+        "y": 4.122573557997292,
+        "degree": -6.283185307179586
+      }
+    },
+    {
+      "id": "1630214396996",
+      "name": "거점 1",
+      "x": 558.3858642578125,
+      "y": 560.608154296875,
+      "degree": 0,
+      "disabled": false,
+      "favorite": false,
+      "real": {
+        "x": 1.5840857921374125,
+        "y": -0.9158285249566303,
+        "degree": -6.283185307179586
+      }
+    }
   ]
 }

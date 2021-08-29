@@ -23,6 +23,17 @@
 
 }
 
+.primary{
+  min-width: 100px;
+  font-size: 1em;
+  padding: 1em;
+  text-align: center;
+  color: white;
+  background: $gradiant-col;
+  border-radius: 1.2em;
+  box-shadow: rgba(0, 0, 0, .20) 1px 1px 5px;
+}
+
 .undo,
 .redo,
 .circle {

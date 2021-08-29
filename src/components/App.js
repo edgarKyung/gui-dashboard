@@ -8,7 +8,12 @@ import {
 import {
   SettingPage, LogPage
 } from './pages';
-import { MapContainer, OperationContainer, PointContainer } from "../containers";
+import { 
+  MapContainer, 
+  OperationContainer, 
+  PointContainer,
+  MessageBoxWrapperContainer,
+} from "../containers";
 import './App.scss'
 
 (function setViewportScale() {
@@ -31,6 +36,7 @@ export default function App() {
         <Route path="/setting"><SettingPage /></Route>
         <Route path="/log"><LogPage /></Route>
       </Switch>
+      <MessageBoxWrapperContainer />
     </Router>
   );
 }
