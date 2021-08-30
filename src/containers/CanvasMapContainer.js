@@ -30,6 +30,8 @@ const CanvasMapContainer = ({
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
+  
+  const [viewportScale, setViewportScale] = useState(1);
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - origin_x) / resolution_x;
@@ -107,8 +109,16 @@ const CanvasMapContainer = ({
     drawInterval = setInterval(drawCanvas, 2000);
   }, []);
 
+  const handleZoomEndCanvas = (e) => {
+    console.log('zoom end', e);
+    const { scaleX } = e.lastViewport;
+    setViewportScale(scaleX);
+  }
+
+
   return (
     <CanvasMap
+      viewportScale={viewportScale}
       scale={scale}
       width={width}
       height={height}
@@ -119,6 +129,7 @@ const CanvasMapContainer = ({
       disabledDrag={disabledDrag}
       onClickPoint={onClickPoint}
       onClickCanvas={onClickCanvas}
+      onZoomEndCanvas={handleZoomEndCanvas}
       onMovePointStart={onMovePointStart}
       onMovePointEnd={onMovePointEnd}
     />

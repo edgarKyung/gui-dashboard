@@ -69,7 +69,9 @@ const PointPage = ({
   onClickRemove,
   onMovePoint,
   onMoveRotation,
+
   onClickCanvas,
+
   onMovePointStart,
   onMovePointEnd,
   onDragPointEnd,

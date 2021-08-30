@@ -1,43 +1,13 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types'
-import { Stage, Sprite, PixiComponent, useApp, Container, Graphics } from '@inlet/react-pixi';
-import { Viewport as PixiViewport } from "pixi-viewport";
+import { Stage, Sprite, Container, Graphics } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import MiniMapBg from '../../../static/images/source/minimap_bg.png';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import Draggable from './Draggable';
+import PixiViewPort from './PixiViewPort';
 const cx = classNames.bind(styles);
-
-const PixiComponentViewport = PixiComponent("ViewPort", {
-  create: (props) => {
-    const viewport = new PixiViewport({
-      screenWidth: props.width,
-      screenHeight: props.height,
-      worldWidth: props.width,
-      worldHeight: props.height,
-      ticker: props.app.ticker,
-      interaction: props.app.renderer.plugins.interaction,
-      // passiveWheel: false,
-      // stopPropagation:true,
-    });
-    viewport.drag().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1 });
-    return viewport;
-  },
-  didMount: (instance, parent) => {
-    instance.on('clicked', (event) => {
-      // if(onClick) onClick(event);
-      instance.app.onClickCanvas(event);
-    });
-  },
-});
-
-
-const PixiViewPortComponent = ({ width, height, children, onClickCanvas }) => {
-  const app = useApp();
-  app.onClickCanvas = onClickCanvas;
-  return <PixiComponentViewport app={app} width={width} height={height} >{children}</PixiComponentViewport>;
-};
 
 const MiniMap = ({
   imgData,
@@ -59,6 +29,7 @@ const MiniMap = ({
 }
 
 const CanvasMap = ({
+  viewportScale,
   scale,
   width,
   height,
@@ -68,6 +39,7 @@ const CanvasMap = ({
   points,
   disabledDrag,
   onClickPoint,
+  onZoomEndCanvas,
   onClickCanvas,
   onMovePointStart,
   onMovePointEnd,
@@ -99,10 +71,11 @@ const CanvasMap = ({
   return (
     <div className={cx('canvas-image')}>
       <Stage width={width} height={height} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
-        <PixiViewPortComponent
+        <PixiViewPort
           width={width}
           height={height}
           onClickCanvas={onClickCanvas}
+          onZoomEndCanvas={onZoomEndCanvas}
         // activeAddMove={activeAddMove}
         >
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
@@ -116,18 +89,14 @@ const CanvasMap = ({
               y={point.y}
               disabled={disabledDrag}
               angle={point.degree}
+              viewportScale={viewportScale}
               onClickPoint={onClickPoint}
               onMovePointStart={onMovePointStart}
               onMovePointEnd={onMovePointEnd}
             />
           ))}
 
-        </PixiViewPortComponent>
-        {/* { imgData && (<MiniMap 
-          imgData={imgData}
-          width={500}
-          height={290}
-        />) } */}
+        </PixiViewPort>
       </Stage>
     </div>
   )
@@ -141,6 +110,7 @@ CanvasMap.propTypes = {
   poseData: PropTypes.object,
   laserData: PropTypes.array,
   points: PropTypes.array,
+  viewportScale: PropTypes.number,
   disabledDrag: PropTypes.bool,
   onClickPoint: PropTypes.func,
   onClickCanvas: PropTypes.func,
@@ -154,6 +124,7 @@ CanvasMap.defaultProps = {
   poseData: {},
   laserData: [],
   points: [],
+  viewportScale: 0,
   onClickPoint: () => { },
   onClickCanvas: () => { },
   onMovePointStart: () => { },
