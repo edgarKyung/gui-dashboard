@@ -83,7 +83,7 @@ const CanvasMapContainer = ({
     resolution_y = map.resolution.y;
     map.scale = Math.min(canvasWidth / map.width, canvasHeight / map.height);
     FileApi.setMapData(map);
-    setScale(map);
+    setScale(map.scale);
     return map;
   }
 
