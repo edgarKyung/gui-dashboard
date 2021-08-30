@@ -4,7 +4,7 @@ import * as RobotApi from '../lib/Robot';
 
 const MapContainer = () => {
   const [width, setWidth] = useState(1185);
-  const [height, setHeight] = useState(580);
+  const [height, setHeight] = useState(1137);
   // const [imgData, setImgData] = useState();
   // const canvas_padding = 10;
 

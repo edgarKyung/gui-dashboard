@@ -58,9 +58,8 @@ const MiniMap = ({
   )
 }
 
-const scale = { x: 3.5, y: 3.5 };
-
 const CanvasMap = ({
+  scale,
   width,
   height,
   imgData,
@@ -77,21 +76,21 @@ const CanvasMap = ({
   const pointDraw = useCallback(g => {
     g.clear();
 
-    const laserSize = 3 * scale.x;
+    const laserSize = 3 * scale;
     for (let i = 0; i < laserData.length; i += 1) {
       const laser = laserData[i];
-      const laserSizeX = 2 * scale.x;
-      const laserSizeY = 2 * scale.y;
-      const scaledLaserX = laser.x * scale.x - laserSizeX * 0.5;
-      const scaledLaserY = laser.y * scale.y - laserSizeY * 0.5;
+      const laserSizeX = 2 * scale;
+      const laserSizeY = 2 * scale;
+      const scaledLaserX = laser.x * scale - laserSizeX * 0.5;
+      const scaledLaserY = laser.y * scale - laserSizeY * 0.5;
       g.beginFill(0xFA0135, 1);
       g.drawRect(scaledLaserX, scaledLaserY, laserSize, laserSize);
     }
 
-    const pointSizeX = 3 * scale.x;
-    const pointSizeY = 3 * scale.y;
-    const scaledPoseX = poseData.x * scale.x - pointSizeX * 0.5;
-    const scaledPoseY = poseData.y * scale.y - pointSizeY * 0.5;
+    const pointSizeX = 3 * scale;
+    const pointSizeY = 3 * scale;
+    const scaledPoseX = poseData.x * scale - pointSizeX * 0.5;
+    const scaledPoseY = poseData.y * scale - pointSizeY * 0.5;
     g.beginFill(0x7A00FA, 1);
     g.drawCircle(scaledPoseX, scaledPoseY, pointSizeX);
     g.endFill();
