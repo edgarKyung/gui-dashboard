@@ -85,12 +85,12 @@ const PointContainer = () => {
   const handleClickCanvas = (e) => {
     console.log(e, activeAddMove);
     if(activeAddMove){
-      const { screen } = e;
+      const { world } = e;
       const pointData = { 
         id:Date.now().toString(),
         name: '거점 1', 
-        x: screen.x, 
-        y: screen.y, 
+        x: world.x, 
+        y: world.y, 
         degree: 0,
         disabled:false,
         favorite:false,
