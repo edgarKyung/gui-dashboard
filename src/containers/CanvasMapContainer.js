@@ -7,8 +7,8 @@ let drawInterval = null;
 
 const CanvasMapContainer = ({
   points,
-  canvasWidth = 600,
-  canvasHeight = 600,
+  canvasWidth = 1185,
+  canvasHeight = 580,
   disabledDrag = true,
   onClickCanvas,
   onClickPoint,
@@ -26,11 +26,12 @@ const CanvasMapContainer = ({
   let resolution_y = 0;
   const [width, setWidth] = useState(canvasWidth);
   const [height, setHeight] = useState(canvasHeight);
+  const [scale, setScale] = useState(1);
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
 
-  function getCanvasPos(pose) {
+  function convertRealToCanvas(pose) {
     const diffX = (pose.x - origin_x) / resolution_x;
     const diffY = (pose.y - origin_y) / resolution_y;
     return {
@@ -58,14 +59,14 @@ const CanvasMapContainer = ({
     setImgData(canvas.toDataURL());
   }
 
-  function getLaserData(canvasPos, angle, lasers) {
+  function getLaserData(robotPose, angle, lasers) {
     const data = [];
     if (resolution_x && resolution_y) {
       for (let i = 0; i < lasers.length; i += 1) {
         const laser = lasers[i];
         const targetAngle = Math.PI / 2 + laser.angle + angle;
-        const x = canvasPos.x + Math.sin(targetAngle) * laser.range / resolution_x;
-        const y = canvasPos.y + Math.cos(targetAngle) * laser.range / resolution_y;
+        const x = robotPose.x + Math.sin(targetAngle) * laser.range / resolution_x;
+        const y = robotPose.y + Math.cos(targetAngle) * laser.range / resolution_y;
         data.push({ x, y });
       }
     }
@@ -80,7 +81,9 @@ const CanvasMapContainer = ({
     origin_y = map.origin.y;
     resolution_x = map.resolution.x;
     resolution_y = map.resolution.y;
+    map.scale = Math.min(canvasWidth / map.width, canvasHeight / map.height);
     FileApi.setMapData(map);
+    setScale(map);
     return map;
   }
 
@@ -88,11 +91,11 @@ const CanvasMapContainer = ({
     const map = await getMapData();
     const pose = await RobotApi.getPose();
     const sensor = await RobotApi.getSensor();
-    const canvasPos = getCanvasPos(pose);
-    const laserData = getLaserData(canvasPos, pose.rz, sensor);
+    const robotPose = convertRealToCanvas(pose);
+    const laserData = getLaserData(robotPose, pose.rz, sensor);
     drawMap(map);
     setLaserData(laserData);
-    setPoseData(canvasPos);
+    setPoseData(robotPose);
   }
 
   useEffect(() => {
@@ -100,11 +103,13 @@ const CanvasMapContainer = ({
       clearInterval(drawInterval);
       drawInterval = null;
     }
-    drawInterval = setInterval(drawCanvas, 250);
+    drawCanvas();
+    drawInterval = setInterval(drawCanvas, 2000);
   }, []);
 
   return (
     <CanvasMap
+      scale={scale}
       width={width}
       height={height}
       imgData={imgData}
