@@ -8,7 +8,7 @@ let drawInterval = null;
 const CanvasMapContainer = ({
   points,
   canvasWidth = 1185,
-  canvasHeight = 580,
+  canvasHeight = 1173,
   disabledDrag = true,
   onClickCanvas,
   onClickPoint,
