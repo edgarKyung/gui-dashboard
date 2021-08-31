@@ -8,7 +8,7 @@ let drawInterval = null;
 const CanvasMapContainer = ({
   points,
   canvasWidth = 1185,
-  canvasHeight = 1173,
+  canvasHeight = 1137,
   disabledDrag = true,
   onClickCanvas,
   onClickPoint,
@@ -101,12 +101,11 @@ const CanvasMapContainer = ({
   }
 
   useEffect(() => {
-    if (drawInterval) {
-      clearInterval(drawInterval);
-      drawInterval = null;
-    }
     drawCanvas();
     drawInterval = setInterval(drawCanvas, 2000);
+    return () => {
+      clearInterval(drawInterval);
+    }
   }, []);
 
   const handleZoomEndCanvas = (e) => {

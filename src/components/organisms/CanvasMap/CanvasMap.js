@@ -1,29 +1,64 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types'
-import { Stage, Sprite, Container, Graphics } from '@inlet/react-pixi';
+import { Stage, Sprite, Container, Graphics, PixiComponent  } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import MiniMapBg from '../../../static/images/source/minimap_bg.png';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
+import * as PIXI from "pixi.js";
+
 const cx = classNames.bind(styles);
 
+const drawCircle = (x, y, r) => {
+  const g = new PIXI.Graphics();
+  g.clear();
+  g.beginFill();
+  g.drawRect(20, 20, 150, 150)
+  g.endFill();
+  return g;
+};
+
+const Mask = PixiComponent("Mask", 
+  {
+    create: ({ draw }) => {
+      const container = new PIXI.Container();
+      container.mask = draw();
+      return container;
+    },
+    applyProps: (instance, oldProps, { draw }) => {
+      instance.mask = draw();
+    }
+  },
+);
 const MiniMap = ({
   imgData,
-  width,
-  height,
+  worldWidth,
+  worldHeight,
+  laserDraw,
+  pointDraw,
 }) => {
-
+  const maskBgDraw = (g) => {
+    g.clear();
+    g.beginFill(0x000, 0.3);
+    g.drawRect(0, 0, worldWidth, worldHeight);
+    g.endFill()
+  };
   return (
     <Container
-      width={width}
-      height={height}
+      width={worldWidth}
+      height={worldHeight}
+      scale={.25}
+      alpha={1}
     >
-      {/* <Sprite image={txtBG} options={width, height}/> */}
-      <Sprite
-        image={MiniMapBg}
-      />
+      {imgData && ( <Sprite image={imgData} option={{width: worldHeight, height: worldHeight}} options={{ backgroundColor: 0x000 }} /> )}
+      <Graphics draw={laserDraw} />
+      <Graphics draw={pointDraw} />
+      <Graphics draw={maskBgDraw} />
+      <Mask draw={() => drawCircle(100, 100, 100)}>
+        {imgData && ( <Sprite image={imgData} option={{width: worldHeight, height: worldHeight}} options={{ backgroundColor: 0x000 }} /> )}
+      </Mask>
     </Container>
   )
 }
@@ -45,7 +80,7 @@ const CanvasMap = ({
   onMovePointEnd,
 }) => {
 
-  const pointDraw = useCallback(g => {
+  const laserDraw = useCallback(g => {
     g.clear();
 
     const laserSize = 3 * scale;
@@ -58,7 +93,11 @@ const CanvasMap = ({
       g.beginFill(0xFA0135, 1);
       g.drawRect(scaledLaserX, scaledLaserY, laserSize, laserSize);
     }
+    g.endFill();
+  }, [laserData]);
 
+  const pointDraw = useCallback(g => {
+    g.clear();
     const pointSizeX = 3 * scale;
     const pointSizeY = 3 * scale;
     const scaledPoseX = poseData.x * scale - pointSizeX * 0.5;
@@ -76,9 +115,9 @@ const CanvasMap = ({
           height={height}
           onClickCanvas={onClickCanvas}
           onZoomEndCanvas={onZoomEndCanvas}
-        // activeAddMove={activeAddMove}
         >
           {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
+          <Graphics draw={laserDraw} />
           <Graphics draw={pointDraw} />
           {(points.length > 0) && points.map((point, idx) => (
             <Draggable
@@ -97,6 +136,14 @@ const CanvasMap = ({
           ))}
 
         </PixiViewPort>
+        <MiniMap 
+          worldWidth={width}
+          worldHeight={width}
+          imgData={imgData}
+          points={points}
+          laserDraw={laserDraw}
+          pointDraw={pointDraw}
+        />
       </Stage>
     </div>
   )
