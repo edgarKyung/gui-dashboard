@@ -32,6 +32,7 @@ const CanvasMapContainer = ({
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
 
   const [viewportScale, setViewportScale] = useState(1);
+  const [viewportPosition, setViewportPosition] = useState({x:0, y:0});
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - origin_x) / resolution_x;
@@ -79,6 +80,7 @@ const CanvasMapContainer = ({
     const map = await RobotApi.getMap('office');
     canvas_width = map.width;
     canvas_height = map.height;
+    console.log(map);
     origin_x = map.origin.x;
     origin_y = map.origin.y;
     resolution_x = map.resolution.x;
@@ -114,10 +116,17 @@ const CanvasMapContainer = ({
     setViewportScale(scaleX);
   }
 
+  const handleMovedEnd = (e) => {
+    const { x, y } = e.lastViewport;
+    console.log('moved end', x, y, viewportScale);
+    setViewportPosition({x, y});
+  }
+
 
   return (
     <CanvasMap
       viewportScale={viewportScale}
+      viewportPosition={viewportPosition}
       scale={scale}
       width={width}
       height={height}
@@ -129,6 +138,7 @@ const CanvasMapContainer = ({
       onClickPoint={onClickPoint}
       onClickCanvas={onClickCanvas}
       onZoomEndCanvas={handleZoomEndCanvas}
+      onMovedEnd={handleMovedEnd}
       onMovePointStart={onMovePointStart}
       onMovePointEnd={onMovePointEnd}
     />

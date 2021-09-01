@@ -34,6 +34,9 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
     instance.on('wheel-scroll', (event) => {
       instance.app.onWheelScroll(event);
     });
+    instance.on('moved-end', (event) => {
+      instance.app.onMovedEnd(event);
+    });
   },
 });
 
@@ -44,15 +47,16 @@ const PixiViewPortComponent = ({
   children, 
   onZoomEndCanvas,
   onClickCanvas,
-  onZoomEnd,
   onWheel,
   onWheelScroll,
+  onMovedEnd,
 }) => {
   const app = useApp();
   app.onClickCanvas = onClickCanvas;
   app.onZoomEndCanvas = onZoomEndCanvas;
   app.onWheel = onWheel;
   app.onWheelScroll = onWheelScroll;
+  app.onMovedEnd = onMovedEnd;
   return <PixiComponentViewport app={app} width={width} height={height} >{children}</PixiComponentViewport>;
 };
 
@@ -63,6 +67,7 @@ PixiViewPortComponent.propTypes = {
   onZoomEndCanvas: PropTypes.func,
   onWheel: PropTypes.func,
   onWheelScroll: PropTypes.func,
+  onMovedEnd: PropTypes.func,
 }
 
 PixiViewPortComponent.defaultProps = {
@@ -75,6 +80,7 @@ PixiViewPortComponent.defaultProps = {
   onZoomEndCanvas: () => { },
   onWheel: () => { },
   onWheelScroll: () => { },
+  onMovedEnd: () => { },
 }
 
 export default PixiViewPortComponent;

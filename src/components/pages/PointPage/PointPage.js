@@ -87,8 +87,8 @@ const PointPage = ({
     <MainContentTemplate title={'거점/가상벽 추가'}>
       <CanvasMapContainer
         points={canvasPoints}
-        canvasWidth={1185}
-        canvasHeight={1137}
+        canvasWidth={1183}
+        canvasHeight={1125}
         disabledDrag={activeAddMove}
         onClickCanvas={onClickCanvas}
         onClickPoint={onClickPoint}
