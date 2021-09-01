@@ -7,8 +7,8 @@ let drawInterval = null;
 
 const CanvasMapContainer = ({
   points,
-  canvasWidth = 1185,
-  canvasHeight = 1137,
+  canvasWidth = 1180,
+  canvasHeight = 1125,
   disabledDrag = true,
   onClickCanvas,
   onClickPoint,
@@ -30,7 +30,7 @@ const CanvasMapContainer = ({
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
-  
+
   const [viewportScale, setViewportScale] = useState(1);
 
   function convertRealToCanvas(pose) {

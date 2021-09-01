@@ -26,8 +26,8 @@ const MapPage = ({
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
       <CanvasMapContainer
-        canvasWidth={1185}
-        canvasHeight={1173}
+        canvasWidth={1180}
+        canvasHeight={1125}
       />
     </MainContentTemplate>
 

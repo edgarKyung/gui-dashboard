@@ -1,22 +1,23 @@
 @import '../../../styles/variables.scss';
 
-.tabs-wrap{
+.tabs-wrap {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
 
-  .tabs-title{
+  .tabs-title {
     display: flex;
+
     li {
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       flex: 1;
-      padding: .7em 0;
-      font-size: 1.2em;
-      color:#7E7E7E;
+      padding: 19px 0;
+      font-size: 25px;
+      color: #7E7E7E;
       border-bottom: 1px solid $border-color;
 
       &.on {
@@ -25,7 +26,8 @@
       }
     }
   }
-  .tabs-content{
+
+  .tabs-content {
     flex: 1;
   }
 }

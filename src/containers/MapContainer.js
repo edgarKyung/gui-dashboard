@@ -3,8 +3,8 @@ import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 
 const MapContainer = () => {
-  const [width, setWidth] = useState(1185);
-  const [height, setHeight] = useState(1137);
+  const [width, setWidth] = useState(1180);
+  const [height, setHeight] = useState(1125);
   // const [imgData, setImgData] = useState();
   // const canvas_padding = 10;
 

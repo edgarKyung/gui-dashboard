@@ -27,8 +27,8 @@ const OperationPage = ({
   <PageTemplate>
     <MainContentTemplate title={'로봇운영'}>
       <CanvasMapContainer
-        canvasWidth={1185}
-        canvasHeight={580}
+        canvasWidth={1180}
+        canvasHeight={670}
       />
       <div className={cx('content-wrap')}>
         <ScheduleList className={cx('schedule-wrap')} />

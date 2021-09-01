@@ -23,7 +23,7 @@
 
 }
 
-.primary{
+.primary {
   min-width: 100px;
   font-size: 1em;
   padding: 1em;
@@ -144,8 +144,8 @@
 }
 
 .stop {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   background-image: url('/static/images/btn/btn_stop.png');
 
   &.on {
@@ -154,8 +154,8 @@
 }
 
 .start {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   background-image: url('/static/images/btn/btn_start.png');
 
   &.on {
@@ -164,8 +164,8 @@
 }
 
 .pause {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   background-image: url('/static/images/btn/btn_pause.png');
 
   &.on {
@@ -231,6 +231,8 @@
 
 // TEMPORARY
 .joystick {
+  width: 120px;
+  height: 120px;
   background-image: url('/static/images/source/btn_temp1.png');
   background-size: 70px;
 
@@ -242,6 +244,8 @@
 }
 
 .people {
+  width: 120px;
+  height: 120px;
   background-image: url('/static/images/source/btn_temp2.png');
   background-size: 70px;
 
@@ -253,6 +257,8 @@
 }
 
 .line {
+  width: 120px;
+  height: 120px;
   background-image: url('/static/images/source/btn_temp3.png');
   background-size: 70px;
 
@@ -264,6 +270,8 @@
 }
 
 .navigation {
+  width: 120px;
+  height: 120px;
   background-image: url('/static/images/source/btn_temp4.png');
   background-size: 70px;
 
