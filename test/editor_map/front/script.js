@@ -36,15 +36,18 @@ function getMapFromImage() {
   const imageData = ctx.getImageData(0, 0, width, height);
   const bin = [];
   for (let i = 0; i < imageData.data.length; i += 4) {
-    if (imageData.data[i] === 240) {
+    if (imageData.data[i] === 255) {
+      bin.push(-1);   // Unknown Area
+      continue;
+    }
+    if (imageData.data[i] > 200) {
       bin.push(127);      // Movable Area
       continue;
     }
-    if (imageData.data[i] === 30) {
+    if (imageData.data[i] > 10) {
       bin.push(255);  // Unmovable Area
       continue;
     }
-    bin.push(-1);   // Unknown Area
   }
   return {
     bin: bin,
@@ -76,13 +79,16 @@ async function save() {
 
 let drawable = false;
 let pos = { x: -1, y: -1 };
+let canvas2 = null;
+let ctx2 = null;
 
 function initCanvas() {
-  const canvas = document.getElementById("map");
-  canvas.addEventListener("mousedown", listener);
-  canvas.addEventListener("mousemove", listener);
-  canvas.addEventListener("mouseup", listener);
-  canvas.addEventListener("mouseout", listener);
+  canvas2 = document.getElementById("map");
+  ctx2 = canvas2.getContext("2d");
+  canvas2.addEventListener("mousedown", listener);
+  canvas2.addEventListener("mousemove", listener);
+  canvas2.addEventListener("mouseup", listener);
+  canvas2.addEventListener("mouseout", listener);
 }
 
 function listener(event) {
@@ -107,19 +113,16 @@ function startDraw(event) {
   getPosition(event);
   drawable = true;
 
-  const ctx = document.getElementById("map").getContext("2d");
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = 50 * scale;
-  ctx.beginPath();
-  ctx.moveTo(pos.X, pos.Y);
+  ctx2.lineWidth = document.getElementById('weight').value * scale;
+  ctx2.beginPath();
+  ctx2.moveTo(pos.X, pos.Y);
 }
 
 function moveDraw(event) {
   if (drawable) {
     getPosition(event);
-    const ctx = document.getElementById("map").getContext("2d");
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
+    ctx2.lineTo(pos.x, pos.y);
+    ctx2.stroke();
   }
 }
 
@@ -128,8 +131,11 @@ function endDraw() {
 }
 
 function getPosition(event) {
-  const canvas = document.getElementById("map");
-  pos.x = (event.pageX - canvas.offsetLeft) * scale;
-  pos.y = (event.pageY - canvas.offsetTop) * scale;
+  pos.x = (event.pageX - canvas2.offsetLeft) * scale;
+  pos.y = (event.pageY - canvas2.offsetTop) * scale;
 }
 
+function setColor(color) {
+  console.log(color);
+  ctx2.strokeStyle = color;
+}

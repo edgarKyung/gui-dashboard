@@ -50,7 +50,7 @@ function parseBin({ bin, width, height }) {
 }
 
 function getImageData(filename) {
-  loadRawData(`./map/${filename}`);
+  loadRawData(path.join(__dirname, `map/${filename}`));
   const parsedData = parseBin(rawData);
   return {
     bin: parsedData,
@@ -90,9 +90,10 @@ function saveMap({ bin, width, height }) {
   concatData[21] = sizeBuffer[3];
 
   const filename = `map/temp/${new Date().getTime()}.map`;
-  fs.writeFileSync(`./${filename}`, concatData);
+  const filepath = path.join(__dirname, filename);
+  fs.writeFileSync(filepath, concatData);
 
-  return path.join(__dirname, filename);
+  return filepath
 }
 
 module.exports = {
