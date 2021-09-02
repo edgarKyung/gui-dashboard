@@ -11,8 +11,8 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
     const viewport = new PixiViewport({
       screenWidth: props.width,
       screenHeight: props.height,
-      worldWidth: props.width,
-      worldHeight: props.height,
+      worldWidth: props.worldWidth,
+      worldHeight: props.worldHeight,
       ticker: props.app.ticker,
       interaction: props.app.renderer.plugins.interaction,
       passiveWheel: false,
@@ -44,6 +44,8 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
 const PixiViewPortComponent = ({ 
   width, 
   height, 
+  dataWidth, 
+  dataHeight, 
   children, 
   onZoomEndCanvas,
   onClickCanvas,
@@ -57,12 +59,14 @@ const PixiViewPortComponent = ({
   app.onWheel = onWheel;
   app.onWheelScroll = onWheelScroll;
   app.onMovedEnd = onMovedEnd;
-  return <PixiComponentViewport app={app} width={width} height={height} >{children}</PixiComponentViewport>;
+  return <PixiComponentViewport app={app} width={width} height={height} worldWidth={width} worldHeight={height}>{children}</PixiComponentViewport>;
 };
 
 PixiViewPortComponent.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
+  dataWidth: PropTypes.number,
+  dataHeight: PropTypes.number,
   onClickCanvas: PropTypes.func,
   onZoomEndCanvas: PropTypes.func,
   onWheel: PropTypes.func,

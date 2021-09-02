@@ -7,8 +7,6 @@ let drawInterval = null;
 
 const CanvasMapContainer = ({
   points,
-  canvasWidth = 1180,
-  canvasHeight = 1125,
   disabledDrag = true,
   onClickCanvas,
   onClickPoint,
@@ -16,16 +14,15 @@ const CanvasMapContainer = ({
   onMovePointEnd,
 }) => {
   const canvas = document.createElement('canvas');
-
+  let canvasWidth = 1183;
+  let canvasHeight = 1125;
   let canvas_padding = 10;
-  let canvas_width = 0;
-  let canvas_height = 0;
   let origin_x = 0;
   let origin_y = 0;
   let resolution_x = 0;
   let resolution_y = 0;
-  const [width, setWidth] = useState(canvasWidth);
-  const [height, setHeight] = useState(canvasHeight);
+  const [dataWidth, setDataWidth] = useState(0);
+  const [dataHeight, setDataHeight] = useState(0);
   const [scale, setScale] = useState(1);
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
@@ -39,7 +36,7 @@ const CanvasMapContainer = ({
     const diffY = (pose.y - origin_y) / resolution_y;
     return {
       x: canvas_padding + diffX,
-      y: canvas_padding + canvas_height - diffY
+      y: canvas_padding + dataHeight - diffY
     };
   }
 
@@ -78,8 +75,8 @@ const CanvasMapContainer = ({
 
   async function getMapData() {
     const map = await RobotApi.getMap('office');
-    canvas_width = map.width;
-    canvas_height = map.height;
+    setDataWidth(map.width);
+    setDataHeight(map.height);
     console.log(map);
     origin_x = map.origin.x;
     origin_y = map.origin.y;
@@ -128,8 +125,10 @@ const CanvasMapContainer = ({
       viewportScale={viewportScale}
       viewportPosition={viewportPosition}
       scale={scale}
-      width={width}
-      height={height}
+      canvasWidth={canvasWidth}
+      canvasHeight={canvasHeight}
+      dataWidth={dataWidth}
+      dataHeight={dataHeight}
       imgData={imgData}
       poseData={poseData}
       laserData={laserData}

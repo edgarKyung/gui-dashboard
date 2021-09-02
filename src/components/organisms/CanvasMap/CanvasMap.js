@@ -3,83 +3,21 @@ import PropTypes from 'prop-types'
 import { Stage, Sprite, Container, Graphics, PixiComponent  } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
-import MiniMapBg from '../../../static/images/source/minimap_bg.png';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
-import * as PIXI from "pixi.js";
+import MiniMap from './MiniMap';
 
 const cx = classNames.bind(styles);
-
-const drawCircle = ({x, y, width, height}) => {
-  const g = new PIXI.Graphics();
-  g.clear();
-  g.beginFill();
-  g.drawRect(x, y, width, height)
-  g.endFill();
-  return g;
-};
-
-const Mask = PixiComponent("Mask", 
-  {
-    create: ({ draw }) => {
-      const container = new PIXI.Container();
-      container.mask = draw();
-      return container;
-    },
-    applyProps: (instance, oldProps, { draw }) => {
-      instance.mask = draw();
-    }
-  },
-);
-const MiniMap = ({
-  miniMapScale,
-  viewportScale,
-  viewportPosition,
-  imgData,
-  worldWidth,
-  worldHeight,
-  laserDraw,
-  pointDraw,
-}) => {
-  const maskBgDraw = (g) => {
-    g.clear();
-    g.beginFill(0x000, 0.5);
-    g.drawRect(0, 0, worldWidth, worldHeight);
-    console.log(worldWidth, worldHeight);
-    g.endFill()
-  };
-  const maskPosition = {
-    x: -(viewportPosition.x * miniMapScale),
-    y: -(viewportPosition.y * miniMapScale),
-    width: ( worldWidth / viewportScale * miniMapScale),
-    height: ( worldHeight / viewportScale * miniMapScale),
-  };
-  return (
-    <Container
-      width={worldWidth}
-      height={worldHeight}
-      scale={miniMapScale}
-      alpha={1}
-    >
-      {imgData && ( <Sprite image={imgData} option={{width: worldHeight, height: worldHeight}} /> )}
-      <Graphics draw={laserDraw} />
-      <Graphics draw={pointDraw} />
-      <Graphics draw={maskBgDraw} />
-      <Mask draw={() => drawCircle(maskPosition)}>
-        {/* <Graphics draw={maskBgDraw} /> */}
-        {imgData && ( <Sprite image={imgData} option={{width: worldHeight, height: worldHeight}} /> )}
-      </Mask>
-    </Container>
-  )
-}
 
 const CanvasMap = ({
   viewportScale,
   viewportPosition,
   scale,
-  width,
-  height,
+  canvasWidth,
+  canvasHeight,
+  dataWidth,
+  dataHeight,
   imgData,
   poseData,
   laserData,
@@ -122,15 +60,17 @@ const CanvasMap = ({
 
   return (
     <div className={cx('canvas-image')}>
-      <Stage width={width} height={height} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
+      <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
         <PixiViewPort
-          width={width}
-          height={height}
+          width={canvasWidth}
+          height={canvasHeight}
+          dataWidth={dataWidth}
+          dataHeight={dataHeight}
           onClickCanvas={onClickCanvas}
           onZoomEndCanvas={onZoomEndCanvas}
           onMovedEnd={onMovedEnd}
         >
-          {imgData && (<Sprite image={imgData} option={width, height} scale={scale} />)}
+          {imgData && (<Sprite image={imgData} option={ {width:dataWidth, height:dataHeight}} scale={scale} />)}
           <Graphics draw={laserDraw} />
           <Graphics draw={pointDraw} />
           {(points.length > 0) && points.map((point, idx) => (
@@ -150,17 +90,20 @@ const CanvasMap = ({
           ))}
 
         </PixiViewPort>
-        {/* <MiniMap 
+        <MiniMap 
+          dataScale={scale}
           miniMapScale={.25}
           viewportScale={viewportScale}
           viewportPosition={viewportPosition}
-          worldWidth={width}
-          worldHeight={height}
+          canvasWidth={canvasWidth}
+          canvasHeight={canvasHeight}
+          dataWidth={dataWidth}
+          dataHeight={dataHeight}
           imgData={imgData}
           points={points}
           laserDraw={laserDraw}
           pointDraw={pointDraw}
-        /> */}
+        />
       </Stage>
     </div>
   )
