@@ -14,8 +14,15 @@ const CanvasMapContainer = ({
   onClickPoint,
   onMovePointStart,
   onMovePointEnd,
+  canvasWidth,
+  canvasHeight
 }) => {
   const canvas = document.createElement('canvas');
+<<<<<<< HEAD
+=======
+  // let canvasWidth = 1180;
+  // let canvasHeight = 1125;
+>>>>>>> cbc259802b79af80e1ad3c27c43ca1e406086c92
   let canvas_padding = 10;
   let origin_x = 0;
   let origin_y = 0;
@@ -29,7 +36,7 @@ const CanvasMapContainer = ({
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
 
   const [viewportScale, setViewportScale] = useState(1);
-  const [viewportPosition, setViewportPosition] = useState({x:0, y:0});
+  const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - origin_x) / resolution_x;
@@ -116,7 +123,7 @@ const CanvasMapContainer = ({
   const handleMovedEnd = (e) => {
     const { x, y } = e.lastViewport;
     console.log('moved end', x, y, viewportScale);
-    setViewportPosition({x, y});
+    setViewportPosition({ x, y });
   }
 
 
