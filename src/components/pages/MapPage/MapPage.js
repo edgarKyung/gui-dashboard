@@ -4,7 +4,7 @@ import { PageTemplate } from '../../templates';
 import styles from './MapPage.module.scss';
 import { PageTitle, Button, CheckBox } from '../../atoms';
 import { RobotPositionJoyStick, RobotStatusBar, CanvasMap } from '../../organisms';
-import { CanvasMapContainer } from '../../../containers';
+import { CanvasMapContainer, RobotPositionJoyStickContainer } from '../../../containers';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
 
 const cx = classNames.bind(styles);
@@ -14,18 +14,17 @@ const ColorBox = ({ color = 'white' }) => (
 )
 
 const MapPage = ({
-  width,
-  height,
+  drawType,
+  onClickDrawType,
   onClickSave,
   onClickLoad,
   onClickScan,
   onClickEnd,
-  onRobotMoveStart,
-  onRobotMoveEnd,
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
       <CanvasMapContainer
+        drawType={drawType}
         canvasWidth={1180}
         canvasHeight={1125}
       />
@@ -46,17 +45,17 @@ const MapPage = ({
         </div>
         <ul className={cx('filter-box-wrap')}>
           <li>
-            <CheckBox id='able' checked={true} />
+            <CheckBox onChange={() => onClickDrawType('able')} checked={drawType === 'able'} />
             <ColorBox color='white' />
             <span>이동가능영역</span>
           </li>
           <li>
-            <CheckBox />
+            <CheckBox onChange={() => onClickDrawType('undefined')} checked={drawType === 'undefined'}/>
             <ColorBox color='grey' />
             <span>알 수 없는 영역</span>
           </li>
           <li>
-            <CheckBox />
+            <CheckBox onChange={() => onClickDrawType('disable')} checked={drawType === 'disable'}/>
             <ColorBox color='dark' />
             <span>갈 수 없는 영역, 벽</span>
           </li>
@@ -72,10 +71,7 @@ const MapPage = ({
           </div>
         </div>
         {/* <RobotPositionJoyStick className={cx('robot-position-joystick')} /> */}
-        <RobotPositionJoyStick
-          onRobotMoveStart={onRobotMoveStart}
-          onRobotMoveEnd={onRobotMoveEnd}
-        />
+        <RobotPositionJoyStickContainer />
       </div>
       <RobotStatusBar status='로딩중' />
     </ControlContentTemplate>

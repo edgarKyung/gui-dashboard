@@ -5,3 +5,4 @@ export { default as PointContainer } from './PointContainer';
 export { default as PolygonContainer } from './PolygonContainer';
 export { default as CanvasMapContainer } from './CanvasMapContainer';
 export { default as MessageBoxWrapperContainer } from './MessageBoxWrapperContainer';
+export { default as RobotPositionJoyStickContainer } from './RobotPositionJoyStickContainer';

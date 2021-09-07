@@ -7,12 +7,10 @@ import {
   PointList,
   RobotStatus,
   RobotPlayControlPanel,
-  RobotPositionJoyStick,
   RobotStatusBar,
-  CanvasMap,
 } from '../../organisms';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
-import { CanvasMapContainer } from '../../../containers';
+import { CanvasMapContainer, RobotPositionJoyStickContainer } from '../../../containers';
 const cx = classNames.bind(styles);
 
 const OperationPage = ({
@@ -20,8 +18,6 @@ const OperationPage = ({
   pointMarkList,
   onClickPoint,
   onClickRobotControl,
-  onRobotMoveStart,
-  onRobotMoveEnd,
   activeBtn,
 }) => (
   <PageTemplate>
@@ -51,10 +47,7 @@ const OperationPage = ({
       />
       <div className={cx('joystick-wrap')}>
         <h3>Controller</h3>
-        <RobotPositionJoyStick
-          onRobotMoveStart={onRobotMoveStart}
-          onRobotMoveEnd={onRobotMoveEnd}
-        />
+        <RobotPositionJoyStickContainer />
       </div>
       <RobotStatusBar status={'로딩중'} battery={80} />
     </ControlContentTemplate>

@@ -6,6 +6,7 @@ import * as FileApi from '../lib/File';
 let drawInterval = null;
 
 const CanvasMapContainer = ({
+  drawType,
   canvasWidth,
   canvasHeight,
   points,
