@@ -14,15 +14,10 @@ const CanvasMapContainer = ({
   onClickPoint,
   onMovePointStart,
   onMovePointEnd,
-  canvasWidth,
-  canvasHeight
 }) => {
   const canvas = document.createElement('canvas');
-<<<<<<< HEAD
-=======
   // let canvasWidth = 1180;
   // let canvasHeight = 1125;
->>>>>>> cbc259802b79af80e1ad3c27c43ca1e406086c92
   let canvas_padding = 10;
   let origin_x = 0;
   let origin_y = 0;
