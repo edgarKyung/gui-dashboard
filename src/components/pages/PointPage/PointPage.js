@@ -13,6 +13,7 @@ const PointEditList = ({
   className, 
   points, 
   onClickPoint,
+  onClickFavorite,
   onClickPointToggleDisable,
   onClickRemove,
   onDragPointEnd,
@@ -39,7 +40,7 @@ const PointEditList = ({
                     <span {...provided.dragHandleProps}><Icon type='menu' /></span>
                     <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data.id)}>
                       {data.name}
-                      <Icon type='star'/>
+                      <Icon type='star' active={data.favorite} onClick={(e) => onClickFavorite(e, data)} />
                     </Button> 
                     <SwitchButton value={!data.disabled} onClick={() => onClickPointToggleDisable(data)}/>
                     <Button type='circle' onClick={()=> onClickRemove(data)}>X</Button>
@@ -64,6 +65,7 @@ const PointPage = ({
   onClickEditClose,
   onClickAddPoint,
   onClickPoint,
+  onClickFavorite,
   onClickPointToggleDisable,
 
   onClickRemove,
@@ -86,6 +88,8 @@ const PointPage = ({
   <PageTemplate>
     <MainContentTemplate title={'거점/가상벽 추가'}>
       <CanvasMapContainer
+        canvasWidth={1183}
+        canvasHeight={1125}
         points={canvasPoints}
         disabledDrag={activeAddMove}
         onClickCanvas={onClickCanvas}
@@ -104,6 +108,7 @@ const PointPage = ({
                 className={cx('point-edit-list')}
                 points={points}
                 onClickPoint={onClickPoint}
+                onClickFavorite={onClickFavorite}
                 onClickPointToggleDisable={onClickPointToggleDisable}
                 onClickRemove={onClickRemove}
                 onDragPointEnd={onDragPointEnd}

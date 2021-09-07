@@ -45,6 +45,13 @@ const PointContainer = () => {
     setShowEdit(true);
   };
 
+  const handleClickFavorite = (e, pointData) => {
+    e.stopPropagation();
+    const newPoint = _.cloneDeep(pointData);
+    newPoint.favorite = !newPoint.favorite;
+    dispatch(editPoint(newPoint));
+  };
+
   const handleClickPointToggleDisable = (pointData) => {
     dispatch(toggleDisablePoint(pointData));
   };
@@ -166,6 +173,7 @@ const PointContainer = () => {
       onClickEditClose={handleToggleEditPannel}
       onClickAddPoint={handleClickAddPoint}
       onClickPoint={handleClickPoint}
+      onClickFavorite={handleClickFavorite}
       onClickPointToggleDisable={handleClickPointToggleDisable}
       onClickRemove={handleClickRemove}
       onMovePoint={handleMovePoint}

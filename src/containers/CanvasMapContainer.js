@@ -6,6 +6,8 @@ import * as FileApi from '../lib/File';
 let drawInterval = null;
 
 const CanvasMapContainer = ({
+  canvasWidth,
+  canvasHeight,
   points,
   disabledDrag = true,
   onClickCanvas,
@@ -14,8 +16,6 @@ const CanvasMapContainer = ({
   onMovePointEnd,
 }) => {
   const canvas = document.createElement('canvas');
-  let canvasWidth = 1183;
-  let canvasHeight = 1125;
   let canvas_padding = 10;
   let origin_x = 0;
   let origin_y = 0;
