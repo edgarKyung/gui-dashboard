@@ -5,6 +5,7 @@ import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
 
 let drawInterval = null;
+let map = { origin: {}, resolution: {} };
 
 const CanvasMapContainer = ({
   drawType,
@@ -21,11 +22,7 @@ const CanvasMapContainer = ({
   const canvas = document.createElement('canvas');
   // let canvasWidth = 1180;
   // let canvasHeight = 1125;
-  let canvas_padding = 10;
-  let origin_x = 0;
-  let origin_y = 0;
-  let resolution_x = 0;
-  let resolution_y = 0;
+  const canvas_padding = 10;
   const [dataWidth, setDataWidth] = useState(0);
   const [dataHeight, setDataHeight] = useState(0);
   const [scale, setScale] = useState(1);
@@ -39,11 +36,11 @@ const CanvasMapContainer = ({
   const [dragging, setDragging] = useState(null);
 
   function convertRealToCanvas(pose) {
-    const diffX = (pose.x - origin_x) / resolution_x;
-    const diffY = (pose.y - origin_y) / resolution_y;
+    const diffX = (pose.x - map.origin.x) / map.resolution.x;
+    const diffY = (pose.y - map.origin.y) / map.resolution.y;
     return {
       x: canvas_padding + diffX,
-      y: canvas_padding + dataHeight - diffY
+      y: canvas_padding + map.height - diffY
     };
   }
 
@@ -52,50 +49,57 @@ const CanvasMapContainer = ({
     ctx.canvas.width = width + 2 * canvas_padding;
     ctx.canvas.height = height + 2 * canvas_padding;
 
+    const cache = {};
     const imageData = ctx.getImageData(0, 0, width, height);
     for (let cell = 0; cell < width * height; cell += 1) {
-      let color = [240, 240, 236]; // Movable Area
-      color = (data[cell] === 100 || data[cell] > 127) ? [30, 30, 30] : color; // Unmovable Area
-      color = (data[cell] === -1) ? [255, 255, 255] : color; // Unknown Area
+      cache[data[cell]] = cache[data[cell]] || [];
+      cache[data[cell]].push(cell);
+      let color = [255, 255, 255]; // Unknown Area
+      color = (data[cell] >= 0) ? [240, 240, 236] : color; // Movable Area
+      // color = (data[cell] > 40) ? [255, 255, 255] : color; // Unknown Area
+      // color = (data[cell] > 70) ? [30, 30, 30] : color; // Unmovable Area
+      color = (data[cell] > 127) ? [30, 30, 30] : color; // Unmovable Area
       imageData.data[cell * 4 + 0] = color[0]
       imageData.data[cell * 4 + 1] = color[1]
       imageData.data[cell * 4 + 2] = color[2]
       imageData.data[cell * 4 + 3] = 255;
     }
+    console.log(cache);
     ctx.putImageData(imageData, canvas_padding, canvas_padding);
     setImgData(canvas.toDataURL());
   }
 
-  function getLaserData(robotPose, angle, lasers) {
+  function getLaserData(robotPose, angle, sensor) {
     const data = [];
-    if (resolution_x && resolution_y) {
-      for (let i = 0; i < lasers.length; i += 1) {
-        const laser = lasers[i];
-        const targetAngle = Math.PI / 2 + laser.angle + angle;
-        const x = robotPose.x + Math.sin(targetAngle) * laser.range / resolution_x;
-        const y = robotPose.y + Math.cos(targetAngle) * laser.range / resolution_y;
-        data.push({ x, y });
+    if (map.resolution.x && map.resolution.y) {
+      for (let i = 0; i < sensor.laser?.length; i += 1) {
+        const laser = sensor.laser[i];
+        const targetAngle = sensor.degree + laser.angle + angle;
+        if (sensor.reverse) {
+          const x = robotPose.x + Math.cos(targetAngle) * laser.range / map.resolution.x;
+          const y = robotPose.y + Math.sin(targetAngle) * laser.range / map.resolution.y;
+          data.push({ x, y });
+        } else {
+          const x = robotPose.x + Math.sin(targetAngle) * laser.range / map.resolution.x;
+          const y = robotPose.y + Math.cos(targetAngle) * laser.range / map.resolution.y;
+          data.push({ x, y });
+        }
       }
     }
     return data;
   }
 
-  async function getMapData() {
-    const map = await RobotApi.getMap('office');
+  async function setMapData() {
+    map = await RobotApi.getMap('office');
+    map.scale = Math.min(canvasWidth / map.width, canvasHeight / map.height);
+    setScale(map.scale);
     setDataWidth(map.width);
     setDataHeight(map.height);
-    origin_x = map.origin.x;
-    origin_y = map.origin.y;
-    resolution_x = map.resolution.x;
-    resolution_y = map.resolution.y;
-    map.scale = Math.min(canvasWidth / map.width, canvasHeight / map.height);
     FileApi.setMapData(map);
-    setScale(map.scale);
-    return map;
   }
 
   async function drawCanvas() {
-    const map = await getMapData();
+    await setMapData();
     const pose = await RobotApi.getPose();
     const sensor = await RobotApi.getSensor();
     const robotPose = convertRealToCanvas(pose);
