@@ -97,12 +97,12 @@ function getData() {
   const y = targetData.robot_pose.translation.y;
   const rz = quaternion_to_euler(rotation.x, rotation.y, rotation.z, rotation.w).z;
 
-  const laser = [];
+  const data = { reverse: false, degree: Math.PI / 2, laser: [] };
   for (let i = 0; i < targetData.laser_scan.ranges.length; i += 1) {
     const range = targetData.laser_scan.ranges[i];
     if (range >= targetData.laser_scan.range_min && range <= targetData.laser_scan.range_max) {
       const angle = targetData.laser_scan.angle_min + i * targetData.laser_scan.angle_increment;
-      laser.push({
+      data.laser.push({
         angle: angle,
         range: range
       });
@@ -111,7 +111,7 @@ function getData() {
 
   return {
     pose: { x: x, y: y, rz: rz },
-    laser: laser
+    laser: data
   };
 }
 

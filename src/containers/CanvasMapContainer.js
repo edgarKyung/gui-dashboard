@@ -45,18 +45,22 @@ const CanvasMapContainer = ({
     ctx.canvas.width = width + 2 * canvas_padding;
     ctx.canvas.height = height + 2 * canvas_padding;
 
+    const cache = {};
     const imageData = ctx.getImageData(0, 0, width, height);
     for (let cell = 0; cell < width * height; cell += 1) {
+      cache[data[cell]] = cache[data[cell]] || [];
+      cache[data[cell]].push(cell);
       let color = [255, 255, 255]; // Unknown Area
       color = (data[cell] >= 0) ? [240, 240, 236] : color; // Movable Area
-      color = (data[cell] > 40) ? [255, 255, 255] : color; // Unmovable Area
-      color = (data[cell] > 70) ? [30, 30, 30] : color; // Unmovable Area
-      imageData.data[cell * 4 + 0] = color[0]
+      // color = (data[cell] > 40) ? [255, 255, 255] : color; // Unknown Area
+      // color = (data[cell] > 70) ? [30, 30, 30] : color; // Unmovable Area
+      color = (data[cell] > 127) ? [30, 30, 30] : color; // Unmovable Area
       imageData.data[cell * 4 + 0] = color[0]
       imageData.data[cell * 4 + 1] = color[1]
       imageData.data[cell * 4 + 2] = color[2]
       imageData.data[cell * 4 + 3] = 255;
     }
+    console.log(cache);
     ctx.putImageData(imageData, canvas_padding, canvas_padding);
     setImgData(canvas.toDataURL());
   }
