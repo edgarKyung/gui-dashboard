@@ -29,6 +29,8 @@ const CanvasMap = ({
   onClickCanvas,
   onMovePointStart,
   onMovePointEnd,
+  onDragStart,
+  onDragEnd,
 }) => {
 
   const laserDraw = useCallback(g => {
@@ -69,6 +71,8 @@ const CanvasMap = ({
           onClickCanvas={onClickCanvas}
           onZoomEndCanvas={onZoomEndCanvas}
           onMovedEnd={onMovedEnd}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
         >
           {imgData && (<Sprite image={imgData} option={ {width:dataWidth, height:dataHeight}} scale={scale} />)}
           <Graphics draw={laserDraw} />

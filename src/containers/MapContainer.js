@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
+import { addWall } from '../modules/reducers/wall';
 
 const MapContainer = () => {
   const [drawType, setDrawType] = useState('');
@@ -40,6 +41,10 @@ const MapContainer = () => {
     }
   }
 
+  const handleDrag = (e) => {
+    console.log('handleDrag', e.world);
+  };
+
   return (
     <MapPage
       drawType={drawType}
@@ -48,6 +53,7 @@ const MapContainer = () => {
       onClickLoad={handleClickLoad}
       onClickScan={handleClickScan}
       onClickEnd={handleClickEnd}
+      onDrag={handleDrag}
     />
   )
 }

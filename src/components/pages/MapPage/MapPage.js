@@ -20,6 +20,7 @@ const MapPage = ({
   onClickLoad,
   onClickScan,
   onClickEnd,
+  onDrag,
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
@@ -27,6 +28,7 @@ const MapPage = ({
         drawType={drawType}
         canvasWidth={1180}
         canvasHeight={1125}
+        onDrag={onDrag}
       />
     </MainContentTemplate>
 

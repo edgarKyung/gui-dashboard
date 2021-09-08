@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useInterval } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useInterval } from '../services/hooks';
 import { CanvasMap } from '../components/organisms';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
@@ -15,6 +16,7 @@ const CanvasMapContainer = ({
   onClickPoint,
   onMovePointStart,
   onMovePointEnd,
+  onDrag
 }) => {
   const canvas = document.createElement('canvas');
   // let canvasWidth = 1180;
@@ -33,6 +35,8 @@ const CanvasMapContainer = ({
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
+
+  const [dragging, setDragging] = useState(null);
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - origin_x) / resolution_x;
@@ -80,7 +84,6 @@ const CanvasMapContainer = ({
     const map = await RobotApi.getMap('office');
     setDataWidth(map.width);
     setDataHeight(map.height);
-    console.log(map);
     origin_x = map.origin.x;
     origin_y = map.origin.y;
     resolution_x = map.resolution.x;
@@ -122,6 +125,20 @@ const CanvasMapContainer = ({
     setViewportPosition({ x, y });
   }
 
+  useInterval(() => {
+    console.log(dragging.world);
+    // onDrag(dragging);
+  }, dragging ? 100 : null);
+
+  const handleDragStart = (e) => {
+    setDragging(e);
+    console.log('handleDragStart', dragging);
+  };
+
+  const handleDragEnd = (e) => {
+    setDragging();
+    console.log('handleDragEnd', dragging);
+  };
 
   return (
     <CanvasMap
@@ -143,8 +160,18 @@ const CanvasMapContainer = ({
       onMovedEnd={handleMovedEnd}
       onMovePointStart={onMovePointStart}
       onMovePointEnd={onMovePointEnd}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
     />
   )
 }
+
+CanvasMapContainer.defaultProps = {
+  onClickCanvas: () => { console.log('onClickCanvas is not defined'); },
+  onClickPoint: () => { console.log('onClickPoint is not defined'); },
+  onMovePointStart: () => { console.log('onMovePointStart is not defined'); },
+  onMovePointEnd: () => { console.log('onMovePointEnd is not defined'); },
+  onDrag: () => { console.log('onDrag is not defined'); }
+};
 
 export default CanvasMapContainer;

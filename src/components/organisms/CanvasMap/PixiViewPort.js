@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { PixiComponent, useApp } from '@inlet/react-pixi';
 import { Viewport as PixiViewport } from "pixi-viewport";
-import classNames from 'classnames/bind';
-import styles from './CanvasMap.module.scss';
-const cx = classNames.bind(styles);
+import * as PIXI from "pixi.js";
+
+const brush = new PIXI.Graphics();
+brush.beginFill(0x000000);
+brush.drawCircle(0, 0, 50);
+brush.endFill();
 
 const PixiComponentViewport = PixiComponent("ViewPort", {
   create: (props) => {
@@ -19,9 +22,16 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
       stopPropagation:true,
     });
     viewport.drag().pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
+    
     return viewport;
   },
   didMount: (instance, parent) => {
+    instance.on('drag-start', (event) => {
+      instance.app.onDragStart(event);
+    });
+    instance.on('drag-end', (event) => {
+      instance.app.onDragEnd(event);
+    });
     instance.on('clicked', (event) => {
       instance.app.onClickCanvas(event);
     });
@@ -52,6 +62,8 @@ const PixiViewPortComponent = ({
   onWheel,
   onWheelScroll,
   onMovedEnd,
+  onDragStart,
+  onDragEnd,
 }) => {
   const app = useApp();
   app.onClickCanvas = onClickCanvas;
@@ -59,6 +71,8 @@ const PixiViewPortComponent = ({
   app.onWheel = onWheel;
   app.onWheelScroll = onWheelScroll;
   app.onMovedEnd = onMovedEnd;
+  app.onDragStart = onDragStart;
+  app.onDragEnd = onDragEnd;
   return <PixiComponentViewport app={app} width={width} height={height} worldWidth={width} worldHeight={height}>{children}</PixiComponentViewport>;
 };
 

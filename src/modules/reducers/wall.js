@@ -1,41 +1,34 @@
+import { createAction, handleActions } from 'redux-actions';
 import { Record, fromJS } from 'immutable';
 
 export const GET_WALL = 'get/WALL';
 export const ADD_WALL = 'add/WALL';
 export const LOAD_WALL = 'load/WALL';
 
-export const getWall = () => ({
-    type: GET_WALL,
-});
-
-export const addWall = (payload) => ({
-    type: ADD_WALL,
-    payload:payload
-});
-
-export const loadWall = (payload) => ({
-    type: LOAD_WALL,
-    payload:payload
-});
+export const getWall = createAction(GET_WALL);
+export const addWall = createAction(ADD_WALL);
+export const loadWall = createAction(LOAD_WALL);
 
 const initialState = {
-    walls:[],
+    able:[],
+    disable:[],
+    undefined:[],
 };
 const initialRecord = Record(initialState)();
 
-const wall = (state = initialRecord, {type, payload}) => {
-    switch (type) {
-        case ADD_WALL:
-            const newList = state.get('walls');
-            newList.push(payload);
-            return state.set('walls', newList);
-        case GET_WALL:
-            return state.getIn(['walls']);
-        case LOAD_WALL:
-            return state.set('walls', payload);
-        default:
-            return state;
-    }
-};
+export default handleActions({
+    [ADD_WALL]: (state, { payload }) => {
+        const newList = state.get(payload.type);
+        newList.push(payload);
+        return state.set(payload.type, newList);
+    },
 
-export default wall;
+    [GET_WALL]: (state, { payload }) => {
+        return state.get(payload.type);
+    },
+
+    [LOAD_WALL]: (state, { payload: { excepts = [] } }) => {
+        const messageBoxes = state.get('messageBoxes').filter(a => excepts.includes(a.id));
+        return state.set('messageBoxes', messageBoxes);
+    },
+}, initialRecord);
