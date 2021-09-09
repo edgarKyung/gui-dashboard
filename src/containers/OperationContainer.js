@@ -6,12 +6,12 @@ import * as RobotApi from '../lib/Robot';
 const OperationContainer = ({ children }) => {
   const [activeBtn, setActiveBtn] = useState('');
   const [fakeUpdate, setFakeUpdate] = useState(true);
-  const { 
-    pointMarkList, 
-    pointList, 
+  const {
+    pointMarkList,
+    pointList,
   } = useSelector((store) => ({
-    pointMarkList:store.point.get('points').filter(point => point.favorite),
-    pointList : store.point.get('points').filter(point => !point.favoritePoints),
+    pointMarkList: store.point.get('points').filter(point => point.favorite),
+    pointList: store.point.get('points').filter(point => !point.favorite),
   }));
 
   // TODO: 비동기 처리 어떻게 해야함?
