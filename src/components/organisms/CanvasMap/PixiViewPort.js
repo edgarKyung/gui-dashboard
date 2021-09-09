@@ -21,17 +21,12 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
       passiveWheel: false,
       stopPropagation:true,
     });
-    viewport.drag().pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
     
     return viewport;
   },
   didMount: (instance, parent) => {
-    instance.on('drag-start', (event) => {
-      instance.app.onDragStart(event);
-    });
-    instance.on('drag-end', (event) => {
-      instance.app.onDragEnd(event);
-    });
+    instance.drag().pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
+
     instance.on('clicked', (event) => {
       instance.app.onClickCanvas(event);
     });
@@ -44,14 +39,15 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
     instance.on('wheel-scroll', (event) => {
       instance.app.onWheelScroll(event);
     });
-    instance.on('moved-end', (event) => {
-      instance.app.onMovedEnd(event);
+    instance.on('moved', (event) => {
+      instance.app.onMoved(event);
     });
   },
 });
 
 
 const PixiViewPortComponent = ({ 
+  disableViewPort, 
   width, 
   height, 
   dataWidth, 
@@ -61,22 +57,28 @@ const PixiViewPortComponent = ({
   onClickCanvas,
   onWheel,
   onWheelScroll,
-  onMovedEnd,
-  onDragStart,
-  onDragEnd,
+  onMoved,
 }) => {
   const app = useApp();
   app.onClickCanvas = onClickCanvas;
   app.onZoomEndCanvas = onZoomEndCanvas;
   app.onWheel = onWheel;
   app.onWheelScroll = onWheelScroll;
-  app.onMovedEnd = onMovedEnd;
-  app.onDragStart = onDragStart;
-  app.onDragEnd = onDragEnd;
-  return <PixiComponentViewport app={app} width={width} height={height} worldWidth={width} worldHeight={height}>{children}</PixiComponentViewport>;
+  app.onMoved = onMoved;
+  app.disableViewPort = disableViewPort;
+  return  <PixiComponentViewport 
+    app={app} 
+    width={width} 
+    height={height} 
+    worldWidth={width} 
+    worldHeight={height} 
+  >
+    {children}
+  </PixiComponentViewport>;
 };
 
 PixiViewPortComponent.propTypes = {
+  disableViewPort: PropTypes.bool,
   width: PropTypes.number,
   height: PropTypes.number,
   dataWidth: PropTypes.number,
@@ -89,6 +91,7 @@ PixiViewPortComponent.propTypes = {
 }
 
 PixiViewPortComponent.defaultProps = {
+  disableViewPort: false,
   width: 0,
   height: 0,
   poseData: {},

@@ -15,6 +15,7 @@ const ColorBox = ({ color = 'white' }) => (
 
 const MapPage = ({
   drawType,
+  disableViewPort,
   onClickDrawType,
   onClickSave,
   onClickLoad,
@@ -25,6 +26,7 @@ const MapPage = ({
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
       <CanvasMapContainer
+        disableViewPort={disableViewPort}
         drawType={drawType}
         canvasWidth={1180}
         canvasHeight={1125}

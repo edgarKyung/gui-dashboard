@@ -9,6 +9,7 @@ let map = { origin: {}, resolution: {} };
 
 const CanvasMapContainer = ({
   drawType,
+  disableViewPort,
   canvasWidth,
   canvasHeight,
   points,
@@ -32,8 +33,6 @@ const CanvasMapContainer = ({
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
-
-  const [dragging, setDragging] = useState(null);
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - map.origin.x) / map.resolution.x;
@@ -64,7 +63,6 @@ const CanvasMapContainer = ({
       imageData.data[cell * 4 + 2] = color[2]
       imageData.data[cell * 4 + 3] = 255;
     }
-    console.log(cache);
     ctx.putImageData(imageData, canvas_padding, canvas_padding);
     setImgData(canvas.toDataURL());
   }
@@ -123,29 +121,16 @@ const CanvasMapContainer = ({
     setViewportScale(scaleX);
   }
 
-  const handleMovedEnd = (e) => {
-    const { x, y } = e.lastViewport;
-    console.log('moved end', x, y, viewportScale);
+  const handleMoved = (e) => {
+    const { x, y } = e.viewport.lastViewport;
     setViewportPosition({ x, y });
-  }
-
-  useInterval(() => {
-    console.log(dragging.world);
-    // onDrag(dragging);
-  }, dragging ? 100 : null);
-
-  const handleDragStart = (e) => {
-    setDragging(e);
-    console.log('handleDragStart', dragging);
-  };
-
-  const handleDragEnd = (e) => {
-    setDragging();
-    console.log('handleDragEnd', dragging);
+    onDrag(e);
   };
 
   return (
     <CanvasMap
+      drawType={drawType}
+      disableViewPort={disableViewPort}
       viewportScale={viewportScale}
       viewportPosition={viewportPosition}
       scale={scale}
@@ -161,11 +146,9 @@ const CanvasMapContainer = ({
       onClickPoint={onClickPoint}
       onClickCanvas={onClickCanvas}
       onZoomEndCanvas={handleZoomEndCanvas}
-      onMovedEnd={handleMovedEnd}
       onMovePointStart={onMovePointStart}
       onMovePointEnd={onMovePointEnd}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
+      onMoved={handleMoved}
     />
   )
 }

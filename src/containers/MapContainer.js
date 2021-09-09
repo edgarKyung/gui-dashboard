@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 import { addWall } from '../modules/reducers/wall';
 
 const MapContainer = () => {
+  const dispatch = useDispatch();
   const [drawType, setDrawType] = useState('');
   const handleClickDrawType = (type) => {
     console.log(type);
@@ -42,12 +44,27 @@ const MapContainer = () => {
   }
 
   const handleDrag = (e) => {
-    console.log('handleDrag', e.world);
+    
+    console.log('handleDrag', e);
+    // console.log('handleDrag', e);
+    if(["clamp-x", "clamp-y"].includes(e.type)){
+
+    }
+    if(e.type === 'drag'){
+      // console.log('handleDrag', e.viewport.lastViewport);
+      // console.log('handleDrag', e.viewport.input.last);
+      // const { x, y } = e.viewport.hitArea;
+      // dispatch(addWall({
+      //   type:drawType,
+      //   position: {x, y}
+      // }));
+    }
   };
 
   return (
     <MapPage
       drawType={drawType}
+      disableViewPort={!!drawType}
       onClickDrawType={handleClickDrawType}
       onClickSave={handleClickSave}
       onClickLoad={handleClickLoad}

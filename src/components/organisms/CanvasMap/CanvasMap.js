@@ -11,6 +11,8 @@ import MiniMap from './MiniMap';
 const cx = classNames.bind(styles);
 
 const CanvasMap = ({
+  drawType,
+  disableViewPort,
   viewportScale,
   viewportPosition,
   scale,
@@ -25,12 +27,10 @@ const CanvasMap = ({
   disabledDrag,
   onClickPoint,
   onZoomEndCanvas,
-  onMovedEnd,
   onClickCanvas,
   onMovePointStart,
   onMovePointEnd,
-  onDragStart,
-  onDragEnd,
+  onMoved,
 }) => {
 
   const laserDraw = useCallback(g => {
@@ -64,15 +64,14 @@ const CanvasMap = ({
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
         <PixiViewPort
+          disableViewPort={disableViewPort}
           width={canvasWidth}
           height={canvasHeight}
           dataWidth={dataWidth}
           dataHeight={dataHeight}
           onClickCanvas={onClickCanvas}
           onZoomEndCanvas={onZoomEndCanvas}
-          onMovedEnd={onMovedEnd}
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
+          onMoved={onMoved}
         >
           {imgData && (<Sprite image={imgData} option={ {width:dataWidth, height:dataHeight}} scale={scale} />)}
           <Graphics draw={laserDraw} />
