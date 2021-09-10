@@ -43,22 +43,12 @@ const MapContainer = () => {
     }
   }
 
-  const handleDrag = (e) => {
-    
-    console.log('handleDrag', e);
-    // console.log('handleDrag', e);
-    if(["clamp-x", "clamp-y"].includes(e.type)){
-
-    }
-    if(e.type === 'drag'){
-      // console.log('handleDrag', e.viewport.lastViewport);
-      // console.log('handleDrag', e.viewport.input.last);
-      // const { x, y } = e.viewport.hitArea;
-      // dispatch(addWall({
-      //   type:drawType,
-      //   position: {x, y}
-      // }));
-    }
+  const handleDrag = (pose) => {
+    console.log(pose);
+    dispatch(addWall({
+      type:'able',
+      position: pose
+    }));
   };
 
   return (

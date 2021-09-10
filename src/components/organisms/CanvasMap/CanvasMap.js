@@ -11,6 +11,10 @@ import MiniMap from './MiniMap';
 const cx = classNames.bind(styles);
 
 const CanvasMap = ({
+  ableWall,
+  disableWall,
+  undefinedWall,
+
   drawType,
   disableViewPort,
   viewportScale,
@@ -31,6 +35,7 @@ const CanvasMap = ({
   onMovePointStart,
   onMovePointEnd,
   onMoved,
+  onDrag,
 }) => {
 
   const laserDraw = useCallback(g => {
@@ -60,6 +65,25 @@ const CanvasMap = ({
     g.endFill();
   }, [poseData.x, poseData.y]);
 
+  const wallDraw = useCallback((g,x,y,type) => {
+    let color;
+    switch(type){
+      case 'able':
+        color = 0xffffff;
+        break;
+      case 'disable':
+        color = 0xd8d8d8;
+        break;
+      case 'undefined':
+        color = 0x252525;
+        break;
+    }
+    g.clear();
+    g.beginFill(color, 1);
+    g.drawCircle(x, y, 30);
+    g.endFill();
+  }, []);
+
   return (
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
@@ -73,7 +97,28 @@ const CanvasMap = ({
           onZoomEndCanvas={onZoomEndCanvas}
           onMoved={onMoved}
         >
-          {imgData && (<Sprite image={imgData} option={ {width:dataWidth, height:dataHeight}} scale={scale} />)}
+          {imgData && (
+            <Sprite 
+              image={imgData} 
+              option={ {width:dataWidth, height:dataHeight}} 
+              interactive 
+              scale={scale}
+              pointermove={onDrag}
+            />
+          )}
+
+          {ableWall.map(wall => (
+            <Sprite
+              image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/coin.png"
+              scale={{ x: 0.5, y: 0.5 }}
+              anchor={0.5}
+              x={wall.x}
+              y={wall.y}
+            />
+          ))}
+          {/* {ableWall.map(wall => (
+            <Graphics draw={(g) => wallDraw(g, wall.x, wall.y, 'able')} />            
+          ))} */}
           <Graphics draw={laserDraw} />
           <Graphics draw={pointDraw} />
           {(points.length > 0) && points.map((point, idx) => (
@@ -126,6 +171,7 @@ CanvasMap.propTypes = {
   onClickCanvas: PropTypes.func,
   onMovePointStart: PropTypes.func,
   onMovePointEnd: PropTypes.func,
+  onDrag: PropTypes.func,
 }
 
 CanvasMap.defaultProps = {
@@ -139,5 +185,6 @@ CanvasMap.defaultProps = {
   onClickCanvas: () => { },
   onMovePointStart: () => { },
   onMovePointEnd: () => { },
+  onDrag: () => { },
 }
 export default CanvasMap;

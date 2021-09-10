@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useInterval } from '../services/hooks';
+import { useSelector } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
@@ -33,6 +33,15 @@ const CanvasMapContainer = ({
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
+  const { 
+    ableWall,
+    disableWall,
+    undefinedWall,
+  } = useSelector((store) => ({
+    ableWall:store.wall.get('able'),
+    disableWall:store.wall.get('disable'),
+    undefinedWall:store.wall.get('undefined'),
+  }));
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - map.origin.x) / map.resolution.x;
@@ -117,18 +126,43 @@ const CanvasMapContainer = ({
 
   const handleZoomEndCanvas = (e) => {
     console.log('zoom end', e);
-    const { scaleX } = e.lastViewport;
+    const { scaleX, x ,y } = e.lastViewport;
     setViewportScale(scaleX);
+    setViewportPosition({ x, y });
   }
 
-  const handleMoved = (e) => {
+  const handleViewPortMoved = (e) => {
     const { x, y } = e.viewport.lastViewport;
     setViewportPosition({ x, y });
-    onDrag(e);
   };
+
+  const _getLocalPoseFromGlobalPose = ({x,y}) => {
+    const padding = {
+      x: -(viewportPosition.x) > 0 ? (-(viewportPosition.x) / viewportScale) : 0,
+      y: -(viewportPosition.y) > 0 ? (-(viewportPosition.y) / viewportScale) : 0,
+    }
+    return {
+      x: (x/viewportScale) + padding.x,
+      y:(y/viewportScale) + padding.y,
+    }
+  }
+
+  const handleGlobalMove = (e) => {
+    const interaction = e.data;
+    if(interaction.pressure > 0){
+      const transPose = _getLocalPoseFromGlobalPose(interaction.global);
+      console.log('global', interaction.global);
+      console.log(transPose);
+      onDrag(transPose);
+    }
+  }
 
   return (
     <CanvasMap
+      ableWall={ableWall}
+      disableWall={disableWall}
+      undefinedWall={undefinedWall}
+      
       drawType={drawType}
       disableViewPort={disableViewPort}
       viewportScale={viewportScale}
@@ -148,7 +182,8 @@ const CanvasMapContainer = ({
       onZoomEndCanvas={handleZoomEndCanvas}
       onMovePointStart={onMovePointStart}
       onMovePointEnd={onMovePointEnd}
-      onMoved={handleMoved}
+      onMoved={handleViewPortMoved}
+      onDrag={handleGlobalMove}
     />
   )
 }
