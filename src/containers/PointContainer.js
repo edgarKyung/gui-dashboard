@@ -13,14 +13,14 @@ const PointContainer = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
   const [activeAddMove, setActiveAddMove] = useState(false);
-  const { 
-    canvasPoints, 
+  const {
+    canvasPoints,
     selectedPoint,
-    points, 
+    points,
   } = useSelector((store) => ({
-    canvasPoints:store.point.get('points').filter(point => !point.disabled),
-    selectedPoint : store.point.get('points').filter(point => point.id === editPointId)[0],
-    points:store.point.get('points'),
+    canvasPoints: store.point.get('points').filter(point => !point.disabled),
+    selectedPoint: store.point.get('points').filter(point => point.id === editPointId)[0],
+    points: store.point.get('points'),
   }));
   console.log('activeAddMove', activeAddMove);
 
@@ -33,7 +33,7 @@ const PointContainer = () => {
   };
 
   const handleClickRemove = (pointData) => {
-    if(editPointId === pointData.id){
+    if (editPointId === pointData.id) {
       setEditPointId(null);
       setShowEdit(false);
     }
@@ -58,25 +58,25 @@ const PointContainer = () => {
 
   const movePoint = (position) => {
     const newPose = _.cloneDeep(selectedPoint);
-    switch(position){
-      case'up':
-        newPose.y -= 10; 
-      break;
-      case'right':
-        newPose.x += 10; 
-      break;
-      case'down':
-        newPose.y += 10; 
-      break;
-      case'left':
-        newPose.x -= 10; 
-      break;
-      case'neg':
-        newPose.degree -= 10; 
-      break;
-      case'pos':
-        newPose.degree += 10; 
-      break;
+    switch (position) {
+      case 'up':
+        newPose.y -= 10;
+        break;
+      case 'right':
+        newPose.x += 10;
+        break;
+      case 'down':
+        newPose.y += 10;
+        break;
+      case 'left':
+        newPose.x -= 10;
+        break;
+      case 'neg':
+        newPose.degree -= 10;
+        break;
+      case 'pos':
+        newPose.degree += 10;
+        break;
     }
     dispatch(editPoint(newPose));
   };
@@ -91,16 +91,16 @@ const PointContainer = () => {
 
   const handleClickCanvas = (e) => {
     console.log(e, activeAddMove);
-    if(activeAddMove){
+    if (activeAddMove) {
       const { world } = e;
-      const pointData = { 
-        id:Date.now().toString(),
-        name: '거점 1', 
-        x: world.x, 
-        y: world.y, 
+      const pointData = {
+        id: Date.now().toString(),
+        name: '거점 ' + new Date().getTime() % 10000,
+        x: world.x,
+        y: world.y,
         degree: 0,
-        disabled:false,
-        favorite:false,
+        disabled: false,
+        favorite: false,
       };
       dispatch(addPoint(pointData));
     }
@@ -108,7 +108,7 @@ const PointContainer = () => {
 
   const handleMoveStart = (pointId) => {
     setEditPointId(pointId);
-  };  
+  };
 
   const handleMoveEnd = (position) => {
     const newPose = _.cloneDeep(selectedPoint);
@@ -119,7 +119,7 @@ const PointContainer = () => {
 
   const handleChangeEditPoint = (point) => {
     const newPose = _.cloneDeep(selectedPoint);
-    console.log(newPose,point);
+    console.log(newPose, point);
     dispatch(editPoint(Object.assign(newPose, point)));
   };
 
@@ -128,7 +128,7 @@ const PointContainer = () => {
       return;
     }
     dispatch(reOrderPoint({
-      startIndex: result.source.index, 
+      startIndex: result.source.index,
       endIndex: result.destination.index
     }));
   };
@@ -140,7 +140,7 @@ const PointContainer = () => {
       MessageBoxActions.addMessage({
         children: '성공',
         buttonType: ['YES'],
-      });  
+      });
     } catch (err) {
       dispatch(loadPoint(points));
       console.error(err);
@@ -162,33 +162,33 @@ const PointContainer = () => {
     }
   };
 
-  return(
-  <>
-    <PointPage
-      activeAddMove={activeAddMove}
-      showEdit={showEdit}
-      canvasPoints={canvasPoints}
-      points={points}
-      selectedPoint={selectedPoint}
-      onClickEditClose={handleToggleEditPannel}
-      onClickAddPoint={handleClickAddPoint}
-      onClickPoint={handleClickPoint}
-      onClickFavorite={handleClickFavorite}
-      onClickPointToggleDisable={handleClickPointToggleDisable}
-      onClickRemove={handleClickRemove}
-      onMovePoint={handleMovePoint}
-      onMoveRotation={handleMoveRotation}
+  return (
+    <>
+      <PointPage
+        activeAddMove={activeAddMove}
+        showEdit={showEdit}
+        canvasPoints={canvasPoints}
+        points={points}
+        selectedPoint={selectedPoint}
+        onClickEditClose={handleToggleEditPannel}
+        onClickAddPoint={handleClickAddPoint}
+        onClickPoint={handleClickPoint}
+        onClickFavorite={handleClickFavorite}
+        onClickPointToggleDisable={handleClickPointToggleDisable}
+        onClickRemove={handleClickRemove}
+        onMovePoint={handleMovePoint}
+        onMoveRotation={handleMoveRotation}
 
-      onClickCanvas={handleClickCanvas}
-      onMovePointStart={handleMoveStart}
-      onMovePointEnd={handleMoveEnd}
-      onDragPointEnd={handleDragPointEnd}
-      
-      onChangeEditPoint={handleChangeEditPoint}
-      onClickLoad={handleClickLoad}
-      onClickSave={handleClickSave}
-    />
-  </>
+        onClickCanvas={handleClickCanvas}
+        onMovePointStart={handleMoveStart}
+        onMovePointEnd={handleMoveEnd}
+        onDragPointEnd={handleDragPointEnd}
+
+        onChangeEditPoint={handleChangeEditPoint}
+        onClickLoad={handleClickLoad}
+        onClickSave={handleClickSave}
+      />
+    </>
   );
 };
 

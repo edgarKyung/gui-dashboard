@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { Sprite } from '@inlet/react-pixi';
 
-const Draggable = ({ 
-  id, 
-  image, 
-  x, 
-  y, 
-  angle, 
-  viewportScale, 
-  onClickPoint, 
-  onMovePointStart, 
+const Draggable = ({
+  id,
+  image,
+  x,
+  y,
+  angle,
+  viewportScale,
+  onClickPoint,
+  onMovePointStart,
   onMovePointEnd,
   disabled = true,
 }) => {
   const onDragStart = (event) => {
-    if(disabled) return false;
+    if (disabled) return false;
     const sprite = event.currentTarget;
     const viewport = sprite.parent;
 
@@ -27,11 +27,11 @@ const Draggable = ({
   };
 
   const onDragEnd = (event) => {
-    if(disabled) return false;
+    if (disabled) return false;
     const sprite = event.currentTarget;
     const viewport = sprite.parent;
 
-    if (sprite.dragging) onMovePointEnd(sprite.data.getLocalPosition(viewport));
+    // if (sprite.dragging) onMovePointEnd(sprite.data.getLocalPosition(viewport));
 
     sprite.alpha = 1;
     sprite.dragging = false;
@@ -40,12 +40,13 @@ const Draggable = ({
   };
 
   const onDragMove = (event) => {
-    if(disabled) return false;
+    if (disabled) return false;
     const sprite = event.currentTarget;
     if (sprite.dragging) {
       const newPosition = sprite.data.getLocalPosition(sprite.parent);
       sprite.x = newPosition.x;
       sprite.y = newPosition.y;
+      onMovePointEnd(newPosition);
     }
   };
 
@@ -58,7 +59,7 @@ const Draggable = ({
       angle={angle}
       interactive
       buttonMode
-      scale={ (1 / viewportScale)}
+      scale={(1 / viewportScale)}
       click={() => {
         onClickPoint(id);
       }}
