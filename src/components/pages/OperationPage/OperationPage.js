@@ -19,6 +19,8 @@ const OperationPage = ({
   onClickPoint,
   onClickRobotControl,
   activeBtn,
+  scheduleList,
+  points,
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'로봇운영'}>
@@ -27,10 +29,14 @@ const OperationPage = ({
           canvasWidth={1180}
           canvasHeight={675}
           margin={75}
+          points={points}
         />
       </div>
       <div className={cx('content-wrap')}>
-        <ScheduleList className={cx('schedule-wrap')} />
+        <ScheduleList
+          className={cx('schedule-wrap')}
+          scheduleList={scheduleList}
+        />
         <PointList
           className={cx('point-wrap')}
           pointMarkList={pointMarkList}

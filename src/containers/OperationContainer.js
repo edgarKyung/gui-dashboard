@@ -1,41 +1,46 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { OperationPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
+import * as FileApi from '../lib/File';
+import { addSchedule, shiftSchedule } from '../modules/reducers/schedule';
+import { loadPoint } from '../modules/reducers/point';
 
 const OperationContainer = ({ children }) => {
+  const dispatch = useDispatch();
   const [activeBtn, setActiveBtn] = useState('');
   const [fakeUpdate, setFakeUpdate] = useState(true);
+  const [points, setPoints] = useState([]);
   const {
     pointMarkList,
     pointList,
+    scheduleList,
   } = useSelector((store) => ({
     pointMarkList: store.point.get('points').filter(point => point.favorite),
     pointList: store.point.get('points').filter(point => !point.favorite),
+    scheduleList: store.schedule.get('schedules'),
   }));
+  console.log('scheduleList', scheduleList);
+  useEffect(async () => {
+    const loadPoints = await FileApi.loadWayPoint();
+    console.log('loadPoints', loadPoints);
+    dispatch(loadPoint(loadPoints));
+  }, []);
 
-  // TODO: 비동기 처리 어떻게 해야함?
-  // (async function getWaypoint() {
-  //   const waypoints = await RobotApi.getWaypoint();
-  //   const tempMarkPoints = [];
-  //   const tempPoints = [];
-  //   for (let waypoint of waypoints) {
-  //     if (waypoint.disabled === false) {
-  //       (waypoint.favorite) ? tempMarkPoints.push(waypoint) : tempPoints.push(waypoint);
-  //     }
-  //   }
-  //   if (JSON.stringify(tempMarkPoints) !== JSON.stringify(pointMarkList) ||
-  //     JSON.stringify(tempPoints) !== JSON.stringify(pointList)) {
-  //     pointMarkList = tempMarkPoints;
-  //     pointList = tempPoints;
-  //     setFakeUpdate(!fakeUpdate);
-  //   }
-  // })();
+  useEffect(() => {
+    console.log(scheduleList.length);
+    if (scheduleList.length) {
+      setPoints([scheduleList[0]]);
+    } else {
+      setPoints([]);
+    }
+  }, [scheduleList.length])
 
   const handleClickPoint = async (point) => {
     try {
+      dispatch(addSchedule(point));
       console.log(point);
-      await RobotApi.move(point);
+      // await RobotApi.move(point);
     } catch (err) {
       console.error(err)
     }
@@ -43,6 +48,11 @@ const OperationContainer = ({ children }) => {
 
   const handleClickRobotControl = async (type) => {
     try {
+      if (type === 'stop') {
+        if (scheduleList.length > 0) {
+          dispatch(shiftSchedule());
+        }
+      }
       setActiveBtn('');
       await RobotApi.changeMode(type);
       setActiveBtn(type);
@@ -60,6 +70,8 @@ const OperationContainer = ({ children }) => {
         onClickPoint={handleClickPoint}
         onClickRobotControl={handleClickRobotControl}
         activeBtn={activeBtn}
+        scheduleList={scheduleList}
+        points={points}
       />
     </Fragment>
   )

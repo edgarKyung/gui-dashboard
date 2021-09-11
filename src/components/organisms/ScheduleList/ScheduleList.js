@@ -5,10 +5,10 @@ import { PageTitle, Button } from '../../atoms';
 
 const cx = classNames.bind(styles);
 
-// const scheduleList = ['거점1', '거점2', '거점3', '거점4'];
-const scheduleList = [];
-
-const ScheduleList = ({ list = scheduleList, className }) => (
+const ScheduleList = ({
+  scheduleList,
+  className
+}) => (
   <div className={cx('schedule-wrap', className)}>
     <PageTitle
       title={'스케줄 목록'}
@@ -16,10 +16,10 @@ const ScheduleList = ({ list = scheduleList, className }) => (
     />
     <ul className={cx('schedule-list')}>
       {
-        list.map((data, i) =>
+        scheduleList && scheduleList.map((data, i) =>
           <li key={i}>
-            <Button type='gradiant-col' className={cx('schedule-btn')}>
-              {data}
+            <Button type={i === 0 ? 'gradiant-col' : 'default'} className={cx('schedule-btn')}>
+              {data.name}
             </Button>
             {/* <ScheduleItem key={i} item={data} /> */}
           </li>
@@ -28,5 +28,9 @@ const ScheduleList = ({ list = scheduleList, className }) => (
     </ul>
   </div>
 );
+
+ScheduleList.defaultProps = {
+  scheduleList: [],
+};
 
 export default ScheduleList;
