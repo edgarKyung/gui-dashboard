@@ -26,6 +26,7 @@ const OperationPage = ({
     <MainContentTemplate title={'로봇운영'}>
       <div className={cx('canvas-wrap')}>
         <CanvasMapContainer
+          drawOneTime={true}
           canvasWidth={1180}
           canvasHeight={675}
           margin={75}
@@ -53,7 +54,6 @@ const OperationPage = ({
         activeBtn={activeBtn}
       />
       <div className={cx('joystick-wrap')}>
-        <h3>Controller</h3>
         <RobotPositionJoyStickContainer />
       </div>
       <RobotStatusBar status={'로딩중'} battery={80} />

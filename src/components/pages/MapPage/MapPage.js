@@ -76,7 +76,7 @@ const MapPage = ({
           </div>
         </div>
         {/* <RobotPositionJoyStick className={cx('robot-position-joystick')} /> */}
-        <RobotPositionJoyStickContainer />
+        <RobotPositionJoyStickContainer className={cx('robot-position-joystick')} />
       </div>
       <RobotStatusBar status='로딩중' />
     </ControlContentTemplate>

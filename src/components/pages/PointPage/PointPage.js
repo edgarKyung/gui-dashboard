@@ -120,10 +120,11 @@ const PointPage = ({
                   <Button type={activeAddMove ? 'gradiant-col' : 'default'} onClick={onClickAddPoint}>추가하기</Button>
                 </div>
               </div>
-              {showEdit &&
+              <div className={cx('edit-pannel-wrap')}>
+                <PageTitle title='수정' />
                 <PointEditPannel
                   selectedPoint={selectedPoint}
-                  className={cx('edit-pannel-wrap')}
+                  className={cx('')}
                   onClickClose={onClickEditClose}
                   onMovePoint={onMovePoint}
                   onMoveRotation={onMoveRotation}
@@ -131,7 +132,7 @@ const PointPage = ({
                   onChangeEditPointName={onChangeEditPointName}
                   onChangeEditPointPosition={onChangeEditPointPosition}
                 />
-              }
+              </div>
             </div>
           </Tabs.Header>
           <Tabs.Header title="가상벽관리">

@@ -5,9 +5,12 @@ import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
 
 let drawInterval = null;
+let drawStatusInterval = null;
 let map = { origin: {}, resolution: {} };
 
 const CanvasMapContainer = ({
+  isDrawStatus,
+  drawOneTime,
   drawType,
   disableViewPort,
   canvasWidth,
@@ -110,20 +113,27 @@ const CanvasMapContainer = ({
 
   async function drawCanvas() {
     await setMapData();
+    drawMap(map);
+  }
+
+  async function drawStatus() {
     const pose = await RobotApi.getPose();
     const sensor = await RobotApi.getSensor();
     const robotPose = convertRealToCanvas(pose);
     const laserData = getLaserData(robotPose, pose.rz, sensor);
-    drawMap(map);
     setLaserData(laserData);
     setPoseData(robotPose);
   }
 
   useEffect(() => {
     drawCanvas();
-    drawInterval = setInterval(drawCanvas, 2000);
+    if (isDrawStatus) {
+      drawStatusInterval = setInterval(drawStatus, 100);
+    }
+    if (!drawOneTime) drawInterval = setInterval(drawCanvas, 2000);
     return () => {
-      clearInterval(drawInterval);
+      if (drawInterval) clearInterval(drawInterval);
+      if (drawStatusInterval) clearInterval(drawStatusInterval);
     }
   }, []);
 
@@ -193,6 +203,7 @@ const CanvasMapContainer = ({
 }
 
 CanvasMapContainer.defaultProps = {
+  drawOneTime: false,
   margin: 0,
   selectedPoint: {},
   onClickCanvas: () => { console.log('onClickCanvas is not defined'); },

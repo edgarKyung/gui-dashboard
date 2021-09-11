@@ -59,7 +59,7 @@ const MiniMap = ({
     width: (canvasWidth / viewportScale * miniMapScale),
     height: (canvasHeight / viewportScale * miniMapScale),
   };
-  console.log(canvasWidth, (canvasWidth / viewportScale), margin);
+
   return (
     <Container
       width={canvasWidth}

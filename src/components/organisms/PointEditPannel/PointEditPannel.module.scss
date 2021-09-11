@@ -1,8 +1,6 @@
-.point-edit-pannel-wrap{
-  align-items: center;
-  background-color: rgba(240,241,245, .8);
+.point-edit-pannel-wrap {
+  display: flex;
   width: 100%;
-  height: 100%;
 
   input {
     font-size: 1em;
@@ -12,58 +10,56 @@
     width: 7em;
   }
 
-  .point-edit-header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 15px;
-  }
+  .edit-pannel-left {
+    width: 40%;
+    padding: 3%;
 
-  .point-edit-icon{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    input {
-      width: 15em;
-    }
-    span {
-      margin: 0 1em;
-    }
-  }
+    .point-edit-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1em 0;
 
-  .point-pose-wrap{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    .point-pose{
-      width: 60%;
-      margin: .5em 0;
-      ul {
-        display: flex;
-        justify-content: space-evenly;
+      input {
+        width: 15em;
       }
 
       span {
-        padding: 0 .5em;
+        margin: 0 1em;
+      }
+    }
+
+    .point-pose-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+      .point-pose {
+        width: 80%;
+        margin: .5em 0;
+        padding: 1.2em 1em;
+
+        ul {
+          display: flex;
+          justify-content: space-evenly;
+        }
+
+        span {
+          padding: 0 .5em;
+        }
       }
     }
   }
 
-  .point-control-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-    margin: 2em auto;
+  .edit-pannel-right {
+    flex: 1;
+    padding: 3%;
 
-    h3{
-      padding: 1em 0;
+    .edit-pannel {
+      width: 320px;
+      height: 320px;
+      // transform: scale(.93);
     }
-  }
-
-  .btn-wrap{
-    display: flex;
-    justify-content: center;
-    gap: 1em;
   }
 }

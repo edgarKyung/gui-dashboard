@@ -1,3 +1,5 @@
+@import '../../../styles/variables.scss';
+
 .point-wrap {
   display: flex;
   flex-direction: column;
@@ -11,7 +13,7 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 1em 1em;
+      padding: .8em 1em;
 
       .point-button {
         display: flex;
@@ -26,32 +28,40 @@
 }
 
 .point-edit-pannel-wrap {
-  position: relative;
-  height: 1068px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  h3 {
+    background: none;
+  }
 
   .point-pannel-wrap {
+    height: 60%;
+    justify-content: space-between;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    justify-content: space-between;
+    border-bottom: 1px solid $border-color;
 
     .point-edit-list {
       flex: 1;
       max-height: 90%;
-    }
-  }
 
-  .point-btn-wrap {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 20px 40px;
+      .list-wrap {
+        height: 465px;
+      }
+    }
+
+    .point-btn-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      padding: 20px 40px;
+    }
+
   }
 
   .edit-pannel-wrap {
-    top: 0;
-    left: -100%;
-    position: absolute;
-    height: 1125px;
+    flex: 1;
   }
 }

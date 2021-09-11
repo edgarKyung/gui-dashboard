@@ -1,5 +1,6 @@
 @import '../../../styles/variables.scss';
-.position-joy-stick-wrap{
+
+.position-joy-stick-wrap {
   position: relative;
   width: 360px;
   height: 360px;
@@ -9,11 +10,12 @@
   border-radius: 50%;
   overflow: hidden;
 
-  .position-btn-wrap{
+  .position-btn-wrap {
     width: 100%;
     height: 100%;
     background: url('/static/images/source/position_control_bg.png') center center no-repeat;
-    li{
+
+    li {
       width: 50%;
       height: 50%;
       top: 50%;
@@ -22,12 +24,23 @@
       transform-origin: top left;
       overflow: hidden;
 
-      &.up { transform: rotate(225deg); }
-      &.right { transform: rotate(315deg); }
-      &.down { transform: rotate(45deg); }
-      &.left { transform: rotate(135deg); }
+      &.up {
+        transform: rotate(225deg);
+      }
 
-      .control-btn{
+      &.right {
+        transform: rotate(315deg);
+      }
+
+      &.down {
+        transform: rotate(45deg);
+      }
+
+      &.left {
+        transform: rotate(135deg);
+      }
+
+      .control-btn {
         width: 200%;
         height: 200%;
         background-size: 32px 36px;
@@ -41,20 +54,20 @@
     }
   }
 
-  .rotation-btn-bg-wrap{
+  .rotation-btn-bg-wrap {
     position: absolute;
     display: flex;
     align-items: center;
     top: 50%;
     left: 50%;
-    width: 192px;
-    height: 192px;
+    width: 55%;
+    height: 55%;
     background: #E4E6ED;
     box-shadow: inset 3px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 50%;
     transform: translate(-50%, -50%);
 
-    .rotation-active-bg{
+    .rotation-active-bg {
       width: 100%;
       height: 100%;
       position: absolute;
@@ -63,29 +76,33 @@
       border-radius: 50%;
       background: $gradiant-row;
       opacity: 0;
-      &.active{
+
+      &.active {
         opacity: 1;
       }
     }
 
-    .rotation-btn-wrap{
+    .rotation-btn-wrap {
       display: flex;
-      width: 174px;
-      height: 174px;
+      width: 90%;
+      height: 90%;
       margin: 0 auto;
       border-radius: 50%;
       background: linear-gradient(180deg, #F9F9FA 0%, #F0F1F5 50%, #E1E4EF 100%);
       border: 0.7px solid rgba(255, 255, 255, 0.5);
       box-shadow: 3px 2px 5px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      li{
+
+      li {
         width: 50%;
         height: 100%;
-        &:first-child{
+
+        &:first-child {
           border-right: 1px solid $border-color;
         }
 
-        .rotation-btn{
+        .rotation-btn {
+          transform: rotateX(180deg);
           width: 100%;
           height: 100%;
           background-size: 24.68px 71.68px;

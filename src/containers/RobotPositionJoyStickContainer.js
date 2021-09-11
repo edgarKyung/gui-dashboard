@@ -2,7 +2,9 @@ import React from 'react';
 import * as RobotApi from '../lib/Robot';
 import { RobotPositionJoyStick } from '../components/organisms';
 
-const RobotPositionJoyStickContainer = () => {
+const RobotPositionJoyStickContainer = ({
+  className
+}) => {
   let sendRequestFlag = false;
   let velocity_linear = 0;
   let velocity_angular = 0;
@@ -52,6 +54,7 @@ const RobotPositionJoyStickContainer = () => {
 
   return (
     <RobotPositionJoyStick
+      className={className}
       onRobotMoveStart={handleRobotMoveStart}
       onRobotMoveEnd={handleRobotMoveEnd}
     />
