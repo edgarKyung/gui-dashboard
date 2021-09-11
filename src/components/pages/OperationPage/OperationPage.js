@@ -22,10 +22,11 @@ const OperationPage = ({
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'로봇운영'}>
-      <div>
+      <div className={cx('canvas-wrap')}>
         <CanvasMapContainer
           canvasWidth={1180}
           canvasHeight={675}
+          margin={75}
         />
       </div>
       <div className={cx('content-wrap')}>

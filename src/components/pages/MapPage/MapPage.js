@@ -31,6 +31,7 @@ const MapPage = ({
         canvasWidth={1180}
         canvasHeight={1125}
         onDrag={onDrag}
+        margin={75}
       />
     </MainContentTemplate>
 
@@ -54,12 +55,12 @@ const MapPage = ({
             <span>이동가능영역</span>
           </li>
           <li>
-            <CheckBox onChange={() => onClickDrawType('undefined')} checked={drawType === 'undefined'}/>
+            <CheckBox onChange={() => onClickDrawType('undefined')} checked={drawType === 'undefined'} />
             <ColorBox color='grey' />
             <span>알 수 없는 영역</span>
           </li>
           <li>
-            <CheckBox onChange={() => onClickDrawType('disable')} checked={drawType === 'disable'}/>
+            <CheckBox onChange={() => onClickDrawType('disable')} checked={drawType === 'disable'} />
             <ColorBox color='dark' />
             <span>갈 수 없는 영역, 벽</span>
           </li>

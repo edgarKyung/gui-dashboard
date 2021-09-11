@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types'
-import { Stage, Sprite, Container, Graphics, PixiComponent  } from '@inlet/react-pixi';
+import { Stage, Sprite, Container, Graphics, PixiComponent } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
+import iconPointOn from '../../../static/images/ico/icon_point_on.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
@@ -28,6 +29,7 @@ const CanvasMap = ({
   poseData,
   laserData,
   points,
+  selectedPoint,
   disabledDrag,
   onClickPoint,
   onZoomEndCanvas,
@@ -65,9 +67,9 @@ const CanvasMap = ({
     g.endFill();
   }, [poseData.x, poseData.y]);
 
-  const wallDraw = useCallback((g,x,y,type) => {
+  const wallDraw = useCallback((g, x, y, type) => {
     let color;
-    switch(type){
+    switch (type) {
       case 'able':
         color = 0xffffff;
         break;
@@ -98,10 +100,10 @@ const CanvasMap = ({
           onMoved={onMoved}
         >
           {imgData && (
-            <Sprite 
-              image={imgData} 
-              option={ {width:dataWidth, height:dataHeight}} 
-              interactive 
+            <Sprite
+              image={imgData}
+              option={{ width: dataWidth, height: dataHeight }}
+              interactive
               scale={scale}
               pointermove={onDrag}
             />
@@ -124,7 +126,7 @@ const CanvasMap = ({
           {(points.length > 0) && points.map((point, idx) => (
             <Draggable
               key={idx}
-              image={iconPoint}
+              image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
               id={point.id}
               x={point.x}
               y={point.y}
@@ -138,7 +140,7 @@ const CanvasMap = ({
           ))}
 
         </PixiViewPort>
-        <MiniMap 
+        <MiniMap
           dataScale={scale}
           miniMapScale={.25}
           viewportScale={viewportScale}
@@ -181,6 +183,7 @@ CanvasMap.defaultProps = {
   laserData: [],
   points: [],
   viewportScale: 0,
+  selectedPoint: {},
   onClickPoint: () => { },
   onClickCanvas: () => { },
   onMovePointStart: () => { },

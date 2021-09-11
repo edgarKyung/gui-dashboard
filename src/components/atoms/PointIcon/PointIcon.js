@@ -7,7 +7,7 @@ const PointIcon = ({
   angle = 0,
 }) => {
   return (
-    <i className={cx('point_icon')} style={{transform:`rotate(${angle}deg)`}}></i>
+    <i className={cx('point_icon', 'on')} style={{ transform: `rotate(${angle}deg)` }}></i>
   )
 };
 

@@ -31,9 +31,10 @@ export const move = async (data) => {
 
 export const changeMode = async (data) => {
   try {
+    console.log(data);
     // return await httpClient.post(`/state`, { state: type });
     // TEMPORARY
-    return await httpClient.post(`/robot/mode`, { mode: data });
+    return await httpClient.post(`/robot/${data}`, {});
 
   } catch (err) {
     console.error(err);

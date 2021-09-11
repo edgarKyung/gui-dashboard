@@ -18,11 +18,13 @@ const CanvasMapContainer = ({
   onClickPoint,
   onMovePointStart,
   onMovePointEnd,
-  onDrag
+  onDrag,
+  margin,
+  selectedPoint,
 }) => {
   const canvas = document.createElement('canvas');
-  // let canvasWidth = 1180;
-  // let canvasHeight = 1125;
+  let calcCanvasWidth = canvasWidth - margin;
+  let calcCanvasHeight = canvasHeight - margin;
   const canvas_padding = 10;
   const [dataWidth, setDataWidth] = useState(0);
   const [dataHeight, setDataHeight] = useState(0);
@@ -33,14 +35,14 @@ const CanvasMapContainer = ({
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
-  const { 
+  const {
     ableWall,
     disableWall,
     undefinedWall,
   } = useSelector((store) => ({
-    ableWall:store.wall.get('able'),
-    disableWall:store.wall.get('disable'),
-    undefinedWall:store.wall.get('undefined'),
+    ableWall: store.wall.get('able'),
+    disableWall: store.wall.get('disable'),
+    undefinedWall: store.wall.get('undefined'),
   }));
 
   function convertRealToCanvas(pose) {
@@ -98,7 +100,8 @@ const CanvasMapContainer = ({
 
   async function setMapData() {
     map = await RobotApi.getMap('office');
-    map.scale = Math.min(canvasWidth / map.width, canvasHeight / map.height);
+    // map.scale = Math.min(canvasWidth / (map.width), canvasHeight / (map.height));
+    map.scale = Math.min(calcCanvasWidth / (map.width + 20), calcCanvasHeight / (map.height + 20));
     setScale(map.scale);
     setDataWidth(map.width);
     setDataHeight(map.height);
@@ -126,7 +129,7 @@ const CanvasMapContainer = ({
 
   const handleZoomEndCanvas = (e) => {
     console.log('zoom end', e);
-    const { scaleX, x ,y } = e.lastViewport;
+    const { scaleX, x, y } = e.lastViewport;
     setViewportScale(scaleX);
     setViewportPosition({ x, y });
   }
@@ -136,20 +139,20 @@ const CanvasMapContainer = ({
     setViewportPosition({ x, y });
   };
 
-  const _getLocalPoseFromGlobalPose = ({x,y}) => {
+  const _getLocalPoseFromGlobalPose = ({ x, y }) => {
     const padding = {
       x: -(viewportPosition.x) > 0 ? (-(viewportPosition.x) / viewportScale) : 0,
       y: -(viewportPosition.y) > 0 ? (-(viewportPosition.y) / viewportScale) : 0,
     }
     return {
-      x: (x/viewportScale) + padding.x,
-      y:(y/viewportScale) + padding.y,
+      x: (x / viewportScale) + padding.x,
+      y: (y / viewportScale) + padding.y,
     }
   }
 
   const handleGlobalMove = (e) => {
     const interaction = e.data;
-    if(interaction.pressure > 0){
+    if (interaction.pressure > 0) {
       const transPose = _getLocalPoseFromGlobalPose(interaction.global);
       console.log('global', interaction.global);
       console.log(transPose);
@@ -162,20 +165,21 @@ const CanvasMapContainer = ({
       ableWall={ableWall}
       disableWall={disableWall}
       undefinedWall={undefinedWall}
-      
+
       drawType={drawType}
       disableViewPort={disableViewPort}
       viewportScale={viewportScale}
       viewportPosition={viewportPosition}
       scale={scale}
-      canvasWidth={canvasWidth}
-      canvasHeight={canvasHeight}
+      canvasWidth={calcCanvasWidth}
+      canvasHeight={calcCanvasHeight}
       dataWidth={dataWidth}
       dataHeight={dataHeight}
       imgData={imgData}
       poseData={poseData}
       laserData={laserData}
       points={points}
+      selectedPoint={selectedPoint}
       disabledDrag={disabledDrag}
       onClickPoint={onClickPoint}
       onClickCanvas={onClickCanvas}
@@ -189,6 +193,8 @@ const CanvasMapContainer = ({
 }
 
 CanvasMapContainer.defaultProps = {
+  margin: 0,
+  selectedPoint: {},
   onClickCanvas: () => { console.log('onClickCanvas is not defined'); },
   onClickPoint: () => { console.log('onClickPoint is not defined'); },
   onMovePointStart: () => { console.log('onMovePointStart is not defined'); },
