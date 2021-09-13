@@ -43,7 +43,9 @@ function getImageData() {
   for (let j = rawData.height - 1; j >= 0; j -= 1) {
     for (let i = 0; i < rawData.width; i += 1) {
       const cellData = rawData.bin.readUInt8(cellIdx);
-      parsedData[rawData.width * j + i] = cellData === 0 ? -1 : cellData;
+      parsedData[rawData.width * j + i] = 10;
+      parsedData[rawData.width * j + i] = cellData === 0 ? -1 : parsedData[rawData.width * j + i];
+      parsedData[rawData.width * j + i] = cellData > 127 ? 90 : parsedData[rawData.width * j + i];
       cellIdx += 1;
     }
   }

@@ -6,9 +6,10 @@ import * as FileApi from '../lib/File';
 
 let drawInterval = null;
 let drawStatusInterval = null;
-let map = { origin: {}, resolution: {} };
+let map = { origin: {}, resolution: {}, padding: {} };
 
 const CanvasMapContainer = ({
+  isOp,
   isDrawStatus,
   drawOneTime,
   drawType,
@@ -28,7 +29,7 @@ const CanvasMapContainer = ({
   const canvas = document.createElement('canvas');
   let calcCanvasWidth = canvasWidth - margin;
   let calcCanvasHeight = canvasHeight - margin;
-  const canvas_padding = 10;
+  const canvas_padding = { top: 0, bottom: 0, left: 0, right: 0 };
   const [dataWidth, setDataWidth] = useState(0);
   const [dataHeight, setDataHeight] = useState(0);
   const [scale, setScale] = useState(1);
@@ -52,39 +53,41 @@ const CanvasMapContainer = ({
     const diffX = (pose.x - map.origin.x) / map.resolution.x;
     const diffY = (pose.y - map.origin.y) / map.resolution.y;
     return {
-      x: canvas_padding + diffX,
-      y: canvas_padding + map.height - diffY
+      x: canvas_padding.left + diffX,
+      y: canvas_padding.top + map.height - diffY
     };
   }
 
   const drawMap = ({ data, width, height }) => {
     const ctx = canvas.getContext('2d');
-    ctx.canvas.width = width + 2 * canvas_padding;
-    ctx.canvas.height = height + 2 * canvas_padding;
+    ctx.canvas.width = width + canvas_padding.left + canvas_padding.right;
+    ctx.canvas.height = height + canvas_padding.top + canvas_padding.bottom;
 
-    const cache = {};
+    // const cache = {};
     const imageData = ctx.getImageData(0, 0, width, height);
     for (let cell = 0; cell < width * height; cell += 1) {
-      cache[data[cell]] = cache[data[cell]] || [];
-      cache[data[cell]].push(cell);
+      // cache[data[cell]] = cache[data[cell]] || [];
+      // cache[data[cell]].push(cell);
       let color = [255, 255, 255]; // Unknown Area
       color = (data[cell] >= 0) ? [240, 240, 236] : color; // Movable Area
-      // color = (data[cell] > 40) ? [255, 255, 255] : color; // Unknown Area
-      // color = (data[cell] > 70) ? [30, 30, 30] : color; // Unmovable Area
-      color = (data[cell] > 127) ? [30, 30, 30] : color; // Unmovable Area
+      color = (data[cell] > 40) ? [255, 255, 255] : color; // Unknown Area
+      color = (data[cell] > 70) ? [30, 30, 30] : color; // Unmovable Area
+      // color = (data[cell] > 127) ? [30, 30, 30] : color; // Unmovable Area
       imageData.data[cell * 4 + 0] = color[0]
       imageData.data[cell * 4 + 1] = color[1]
       imageData.data[cell * 4 + 2] = color[2]
       imageData.data[cell * 4 + 3] = 255;
     }
-    ctx.putImageData(imageData, canvas_padding, canvas_padding);
+    // console.log(cache);
+    ctx.putImageData(imageData, canvas_padding.left, canvas_padding.top);
     setImgData(canvas.toDataURL());
   }
 
   function getLaserData(robotPose, angle, sensor) {
     const data = [];
     if (map.resolution.x && map.resolution.y) {
-      for (let i = 0; i < sensor.laser?.length; i += 1) {
+      // console.log(sensor);
+      for (let i = 0; i < sensor.laser.length; i += 1) {
         const laser = sensor.laser[i];
         const targetAngle = sensor.degree + laser.angle + angle;
         if (sensor.reverse) {
@@ -103,11 +106,35 @@ const CanvasMapContainer = ({
 
   async function setMapData() {
     map = await RobotApi.getMap('office');
-    // map.scale = Math.min(canvasWidth / (map.width), canvasHeight / (map.height));
-    map.scale = Math.min(calcCanvasWidth / (map.width + 20), calcCanvasHeight / (map.height + 20));
+
+    const scaleWidth = calcCanvasWidth / (map.width + 20);
+    const scaleHeight = calcCanvasHeight / (map.height + 20);
+    if (scaleWidth < scaleHeight) {
+      const padding = (calcCanvasHeight / scaleWidth - (map.height + 20));
+      canvas_padding.top = padding * 0.2;
+      canvas_padding.bottom = padding * 0.8;
+      canvas_padding.left = 10;
+      canvas_padding.right = 10;
+      map.padding = canvas_padding;
+      map.scale = scaleWidth;
+    }
+    if (scaleWidth > scaleHeight) {
+      const padding = (calcCanvasWidth / scaleHeight - (map.width + 20));
+      canvas_padding.top = 10;
+      canvas_padding.bottom = 10;
+      canvas_padding.left = padding * 0.2;
+      canvas_padding.right = padding * 0.8;
+      map.padding = canvas_padding;
+      map.scale = scaleHeight;
+    }
+
     setScale(map.scale);
     setDataWidth(map.width);
     setDataHeight(map.height);
+
+    if (isOp) {
+      FileApi.setOpMapData(map);
+    }
     FileApi.setMapData(map);
   }
 
@@ -127,10 +154,10 @@ const CanvasMapContainer = ({
 
   useEffect(() => {
     drawCanvas();
+    if (!drawOneTime) drawInterval = setInterval(drawCanvas, 2000);
     if (isDrawStatus) {
       drawStatusInterval = setInterval(drawStatus, 100);
     }
-    if (!drawOneTime) drawInterval = setInterval(drawCanvas, 2000);
     return () => {
       if (drawInterval) clearInterval(drawInterval);
       if (drawStatusInterval) clearInterval(drawStatusInterval);
@@ -138,7 +165,7 @@ const CanvasMapContainer = ({
   }, []);
 
   const handleZoomEndCanvas = (e) => {
-    console.log('zoom end', e);
+    // console.log('zoom end', e);
     const { scaleX, x, y } = e.lastViewport;
     setViewportScale(scaleX);
     setViewportPosition({ x, y });
@@ -164,8 +191,6 @@ const CanvasMapContainer = ({
     const interaction = e.data;
     if (interaction.pressure > 0) {
       const transPose = _getLocalPoseFromGlobalPose(interaction.global);
-      console.log('global', interaction.global);
-      console.log(transPose);
       onDrag(transPose);
     }
   }
@@ -210,7 +235,7 @@ CanvasMapContainer.defaultProps = {
   onClickPoint: () => { console.log('onClickPoint is not defined'); },
   onMovePointStart: () => { console.log('onMovePointStart is not defined'); },
   onMovePointEnd: () => { console.log('onMovePointEnd is not defined'); },
-  onDrag: () => { console.log('onDrag is not defined'); }
+  onDrag: () => { /* console.log('onDrag is not defined'); */ }
 };
 
 export default CanvasMapContainer;

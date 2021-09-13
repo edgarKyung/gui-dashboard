@@ -88,7 +88,7 @@ const PointPage = ({
     <PageTemplate>
       <MainContentTemplate title={'거점/가상벽 추가'}>
         <CanvasMapContainer
-          canvasWidth={1183}
+          canvasWidth={1180}
           canvasHeight={1125}
           points={canvasPoints}
           disabledDrag={activeAddMove}
@@ -97,6 +97,8 @@ const PointPage = ({
           onMovePointStart={onMovePointStart}
           onMovePointEnd={onMovePointEnd}
           selectedPoint={selectedPoint}
+          margin={75}
+          drawOneTime={true}
         />
       </MainContentTemplate>
 

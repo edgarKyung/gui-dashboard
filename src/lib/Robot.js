@@ -16,10 +16,7 @@ export const jog = async (data) => {
 
 export const move = async (data) => {
   try {
-    data.x = data.real.x;
-    data.y = data.real.y;
-    data.degree = data.real.degree;
-    const response = await httpClient.post('/robot/move', data);
+    const response = await httpClient.post('/robot/move', data.real);
     console.log(data, response);
     return response;
 

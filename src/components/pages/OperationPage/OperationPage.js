@@ -26,6 +26,8 @@ const OperationPage = ({
     <MainContentTemplate title={'로봇운영'}>
       <div className={cx('canvas-wrap')}>
         <CanvasMapContainer
+          isOp={true}
+          isDrawStatus={true}
           drawOneTime={true}
           canvasWidth={1180}
           canvasHeight={675}

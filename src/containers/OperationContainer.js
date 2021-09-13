@@ -9,7 +9,6 @@ import { loadPoint } from '../modules/reducers/point';
 const OperationContainer = ({ children }) => {
   const dispatch = useDispatch();
   const [activeBtn, setActiveBtn] = useState('');
-  const [fakeUpdate, setFakeUpdate] = useState(true);
   const [points, setPoints] = useState([]);
   const {
     pointMarkList,
@@ -20,6 +19,7 @@ const OperationContainer = ({ children }) => {
     pointList: store.point.get('points').filter(point => !point.favorite),
     scheduleList: store.schedule.get('schedules'),
   }));
+
   console.log('scheduleList', scheduleList);
   useEffect(async () => {
     const loadPoints = await FileApi.loadWayPoint();
@@ -27,10 +27,15 @@ const OperationContainer = ({ children }) => {
     dispatch(loadPoint(loadPoints));
   }, []);
 
-  useEffect(() => {
-    console.log(scheduleList.length);
+  useEffect(async () => {
     if (scheduleList.length) {
-      setPoints([scheduleList[0]]);
+      const target = scheduleList[0];
+      const screenPos = {
+        x: FileApi.realXToScreen(target.real.x),
+        y: FileApi.realYToScreen(target.real.y),
+        degree: target.degree
+      };
+      setPoints([screenPos]);
     } else {
       setPoints([]);
     }
@@ -48,11 +53,21 @@ const OperationContainer = ({ children }) => {
 
   const handleClickRobotControl = async (type) => {
     try {
+      if (type === 'start') {
+        setActiveBtn('');
+        console.log(JSON.stringify(scheduleList[0]));
+        await RobotApi.move(scheduleList[0]);
+        console.log(JSON.stringify(scheduleList[0]));
+        setActiveBtn(type);
+        return;
+      }
+
       if (type === 'stop') {
         if (scheduleList.length > 0) {
           dispatch(shiftSchedule());
         }
       }
+
       setActiveBtn('');
       await RobotApi.changeMode(type);
       setActiveBtn(type);
