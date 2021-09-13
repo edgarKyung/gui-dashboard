@@ -52,9 +52,9 @@ const MiniMap = ({
     return g;
   };
 
-  const margin = 50;
+  const margin = 5;
   const maskPosition = {
-    x: -(viewportPosition.x / viewportScale * miniMapScale) + canvasWidth * (1 - miniMapScale) - margin,
+    x: -(viewportPosition.x / viewportScale * miniMapScale) + margin,
     y: -(viewportPosition.y / viewportScale * miniMapScale) + canvasHeight * (1 - miniMapScale) - margin,
     width: (canvasWidth / viewportScale * miniMapScale),
     height: (canvasHeight / viewportScale * miniMapScale),
@@ -66,7 +66,7 @@ const MiniMap = ({
       height={canvasHeight}
       scale={miniMapScale}
       alpha={1}
-      position={[canvasWidth * (1 - miniMapScale) - margin, canvasHeight * (1 - miniMapScale) - margin]}
+      position={[ margin, canvasHeight * (1 - miniMapScale) - margin]}
     >
       <Graphics draw={dataBgDraw} />
       {imgData && (<Sprite image={imgData} option={{ width: dataWidth, height: dataHeight }} scale={dataScale} />)}
