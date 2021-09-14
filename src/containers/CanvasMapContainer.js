@@ -107,23 +107,23 @@ const CanvasMapContainer = ({
   async function setMapData() {
     map = await RobotApi.getMap('office');
 
-    const scaleWidth = calcCanvasWidth / (map.width + 20);
-    const scaleHeight = calcCanvasHeight / (map.height + 20);
+    const scaleWidth = calcCanvasWidth / map.width;
+    const scaleHeight = calcCanvasHeight / map.height;
     if (scaleWidth < scaleHeight) {
-      const padding = (calcCanvasHeight / scaleWidth - (map.height + 20));
-      canvas_padding.top = padding * 0.2;
-      canvas_padding.bottom = padding * 0.8;
-      canvas_padding.left = 10;
-      canvas_padding.right = 10;
+      const padding = calcCanvasHeight / scaleWidth - map.height;
+      canvas_padding.top = padding * 0.4;
+      canvas_padding.bottom = padding * 0.6;
+      canvas_padding.left = 0;
+      canvas_padding.right = 0;
       map.padding = canvas_padding;
       map.scale = scaleWidth;
     }
     if (scaleWidth > scaleHeight) {
-      const padding = (calcCanvasWidth / scaleHeight - (map.width + 20));
-      canvas_padding.top = 10;
-      canvas_padding.bottom = 10;
-      canvas_padding.left = padding * 0.2;
-      canvas_padding.right = padding * 0.8;
+      const padding = calcCanvasWidth / scaleHeight - map.width;
+      canvas_padding.top = 0;
+      canvas_padding.bottom = 0;
+      canvas_padding.left = padding * 0.6;
+      canvas_padding.right = padding * 0.4;
       map.padding = canvas_padding;
       map.scale = scaleHeight;
     }
@@ -134,8 +134,9 @@ const CanvasMapContainer = ({
 
     if (isOp) {
       FileApi.setOpMapData(map);
+    } else {
+      FileApi.setMapData(map);
     }
-    FileApi.setMapData(map);
   }
 
   async function drawCanvas() {

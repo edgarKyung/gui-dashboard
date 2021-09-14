@@ -51,11 +51,11 @@ export const loadWayPoint = async (data) => {
 };
 
 export const realXToScreen = (realX) => {
-  return opMap.padding.left + (realX - opMap.origin_x) / opMap.resolution_x * opMap.scale;
+  return (opMap.padding.left + (realX - opMap.origin_x) / opMap.resolution_x) * opMap.scale;
 }
 
 export const realYToScreen = (realY) => {
-  return opMap.padding.top + opMap.canvas_height * opMap.scale - (realY - opMap.origin_y) / opMap.resolution_y * opMap.scale;
+  return (opMap.padding.top + (opMap.canvas_height - (realY - opMap.origin_y) / opMap.resolution_y)) * opMap.scale;
 }
 
 export const saveWayPoint = async (waypoint) => {
@@ -63,9 +63,10 @@ export const saveWayPoint = async (waypoint) => {
     for (let wp of waypoint) {
       wp.real = {};
       wp.real.x = map.origin_x + (wp.x - map.padding.left) * map.resolution_x / map.scale;
-      wp.real.y = map.origin_y + (map.padding.top + map.canvas_height * map.scale - wp.y) * map.resolution_y / map.scale;
-      wp.real.degree = (wp.degree + 90) % 360;
+      wp.real.y = map.origin_y + ((map.canvas_height + map.padding.top) * map.scale - wp.y) / map.scale * map.resolution_y;
+      wp.real.degree = Math.floor((wp.degree + 90) % 360);
       wp.real.degree = (wp.real.degree > 180 ? wp.real.degree : wp.real.degree - 360) / 180 * Math.PI;
+      wp.degree = wp.real.degree;
     }
     return await httpClient.post('/waypoint', { waypoint });
 
