@@ -5,7 +5,9 @@ import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import iconPointOn from '../../../static/images/ico/icon_point_on.png';
-import tempWallBg from '../../../static/images/source/temp.png';
+import ablelBg from '../../../static/images/source/able.png';
+import disableBg from '../../../static/images/source/disable.png';
+import undefinedBg from '../../../static/images/source/undefined.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
@@ -16,6 +18,8 @@ const CanvasMap = ({
   ableWall,
   disableWall,
   undefinedWall,
+  
+  wallTemp,
 
   disableViewPort,
   viewportScale,
@@ -38,6 +42,7 @@ const CanvasMap = ({
   onMovePointEnd,
   onMoved,
   onDrag,
+  onDragEnd,
 }) => {
   const laserDraw = useCallback(g => {
     g.clear();
@@ -65,25 +70,6 @@ const CanvasMap = ({
     g.endFill();
   }, [poseData.x, poseData.y]);
 
-  const wallDraw = useCallback((g, x, y, type) => {
-    let color;
-    switch (type) {
-      case 'able':
-        color = 0xffffff;
-        break;
-      case 'disable':
-        color = 0xd8d8d8;
-        break;
-      case 'undefined':
-        color = 0x252525;
-        break;
-    }
-    g.clear();
-    g.beginFill(color, 1);
-    g.drawCircle(x, y, 30);
-    g.endFill();
-  }, []);
-
   return (
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
@@ -104,21 +90,21 @@ const CanvasMap = ({
               interactive
               scale={scale}
               pointermove={onDrag}
+              pointerup={onDragEnd}
             />
           )}
 
-          {ableWall.map(wall => (
+          {ableWall.reduce((prev, current) => prev.concat(current), wallTemp).map((wall,index) => (
             <Sprite
-              image={tempWallBg}
+              key={index}
+              image={ablelBg}
               scale={{ x: 1 / wall.scale, y: 1 / wall.scale }}
               anchor={0.5}
               x={wall.x}
               y={wall.y}
             />
           ))}
-          {/* {ableWall.map(wall => (
-            <Graphics draw={(g) => wallDraw(g, wall.x, wall.y, 'able')} />            
-          ))} */}
+
           <Graphics draw={laserDraw} />
           <Graphics draw={pointDraw} />
           {(points.length > 0) && points.map((point, idx) => (
@@ -182,6 +168,7 @@ CanvasMap.defaultProps = {
   points: [],
   viewportScale: 0,
   selectedPoint: {},
+  wallTemp: [],
   onClickPoint: () => { },
   onClickCanvas: () => { },
   onMovePointStart: () => { },

@@ -22,6 +22,7 @@ const CanvasMapContainer = ({
   onMovePointStart,
   onMovePointEnd,
   onDrag,
+  onDragEnd,
   margin,
   selectedPoint,
 }) => {
@@ -42,10 +43,12 @@ const CanvasMapContainer = ({
     ableWall,
     disableWall,
     undefinedWall,
+    wallTemp,
   } = useSelector((store) => ({
     ableWall: store.wall.get('able'),
     disableWall: store.wall.get('disable'),
     undefinedWall: store.wall.get('undefined'),
+    wallTemp: store.wall.get('wallTemp'),
   }));
 
   function convertRealToCanvas(pose) {
@@ -200,6 +203,7 @@ const CanvasMapContainer = ({
       ableWall={ableWall}
       disableWall={disableWall}
       undefinedWall={undefinedWall}
+      wallTemp={wallTemp}
 
       disableViewPort={disableViewPort}
       viewportScale={viewportScale}
@@ -222,6 +226,7 @@ const CanvasMapContainer = ({
       onMovePointEnd={onMovePointEnd}
       onMoved={handleViewPortMoved}
       onDrag={handleGlobalMove}
+      onDragEnd={onDragEnd}
     />
   )
 }
@@ -234,7 +239,8 @@ CanvasMapContainer.defaultProps = {
   onClickPoint: () => { console.log('onClickPoint is not defined'); },
   onMovePointStart: () => { console.log('onMovePointStart is not defined'); },
   onMovePointEnd: () => { console.log('onMovePointEnd is not defined'); },
-  onDrag: () => { /* console.log('onDrag is not defined'); */ }
+  onDrag: () => { /* console.log('onDrag is not defined'); */ },
+  onDragEnd: () => { /* console.log('onDrag is not defined'); */ },
 };
 
 export default CanvasMapContainer;

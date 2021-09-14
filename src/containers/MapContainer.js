@@ -2,11 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
-import { addWall } from '../modules/reducers/wall';
+import { addWall, addWallTemp, resetWallTemp } from '../modules/reducers/wall';
 
 const MapContainer = () => {
   const dispatch = useDispatch();
   const [drawType, setDrawType] = useState('');
+  const {
+    wallTemp,
+  } = useSelector((store) => ({
+    wallTemp: store.wall.get('wallTemp'),
+  }));
+
+
   const handleClickDrawType = (type) => {
     console.log(type);
     setDrawType(drawType === type ? '' : type);
@@ -45,11 +52,19 @@ const MapContainer = () => {
 
   const handleDrag = ({x, y, scale}) => {
     if(!!drawType){
+      dispatch(addWallTemp({ x, y, scale}));
+    }
+  };
+
+  const handleDragEnd = (e) => {
+    if(!!drawType){
       dispatch(addWall({
         type:drawType,
-        data: { x, y, scale},
+        data: wallTemp,
       }));
+      dispatch(resetWallTemp());
     }
+
   };
 
   return (
@@ -62,6 +77,7 @@ const MapContainer = () => {
       onClickScan={handleClickScan}
       onClickEnd={handleClickEnd}
       onDrag={handleDrag}
+      onDragEnd={handleDragEnd}
     />
   )
 }
