@@ -51,11 +51,19 @@ export const loadWayPoint = async (data) => {
 };
 
 export const realXToScreen = (realX) => {
-  return (opMap.padding.left + (realX - opMap.origin_x) / opMap.resolution_x) * opMap.scale;
+  try {
+    return (opMap.padding.left + (realX - opMap.origin_x) / opMap.resolution_x) * opMap.scale;
+  } catch (ex) {
+    return -100;
+  }
 }
 
 export const realYToScreen = (realY) => {
-  return (opMap.padding.top + (opMap.canvas_height - (realY - opMap.origin_y) / opMap.resolution_y)) * opMap.scale;
+  try {
+    return (opMap.padding.top + (opMap.canvas_height - (realY - opMap.origin_y) / opMap.resolution_y)) * opMap.scale;
+  } catch (ex) {
+    return -100;
+  }
 }
 
 export const saveWayPoint = async (waypoint) => {

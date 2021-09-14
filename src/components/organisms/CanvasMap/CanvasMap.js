@@ -54,16 +54,16 @@ const CanvasMap = ({
     }
   }, [laserData]);
 
-  const pointDraw = useCallback(g => {
-    g.clear();
-    const pointSizeX = 5 * scale;
-    const pointSizeY = 5 * scale;
-    const scaledPoseX = poseData.x * scale - pointSizeX * 0.5;
-    const scaledPoseY = poseData.y * scale - pointSizeY * 0.5;
-    g.beginFill(0xFA0135, 1);
-    g.drawCircle(scaledPoseX, scaledPoseY, pointSizeX);
-    g.endFill();
-  }, [poseData.x, poseData.y]);
+  // const pointDraw = useCallback(g => {
+  //   g.clear();
+  //   const pointSizeX = 5 * scale;
+  //   const pointSizeY = 5 * scale;
+  //   const scaledPoseX = poseData.x * scale - pointSizeX * 0.5;
+  //   const scaledPoseY = poseData.y * scale - pointSizeY * 0.5;
+  //   g.beginFill(0xFA0135, 1);
+  //   g.drawCircle(scaledPoseX, scaledPoseY, pointSizeX);
+  //   g.endFill();
+  // }, [poseData.x, poseData.y]);
 
   const wallDraw = useCallback((g, x, y, type) => {
     let color;
@@ -120,7 +120,7 @@ const CanvasMap = ({
             <Graphics draw={(g) => wallDraw(g, wall.x, wall.y, 'able')} />            
           ))} */}
           <Graphics draw={laserDraw} />
-          <Graphics draw={pointDraw} />
+          {/* <Graphics draw={pointDraw} /> */}
           {(points.length > 0) && points.map((point, idx) => (
             <Draggable
               key={idx}
@@ -150,7 +150,7 @@ const CanvasMap = ({
           imgData={imgData}
           points={points}
           laserDraw={laserDraw}
-          pointDraw={pointDraw}
+        // pointDraw={pointDraw}
         />
       </Stage>
     </div>

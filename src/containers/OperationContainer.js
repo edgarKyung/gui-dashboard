@@ -23,11 +23,31 @@ const OperationContainer = ({ children }) => {
   }));
 
   async function checkPose() {
+    const pose = await RobotApi.getPose();
+
+    const newPoints = [];
+    if (pose) {
+      newPoints.push({
+        x: FileApi.realXToScreen(pose.x),
+        y: FileApi.realYToScreen(pose.y),
+        degree: -pose.rz * 180 / Math.PI + 90
+      });
+    }
+    if (scheduleList.length) {
+      const target = scheduleList[0];
+      newPoints.push({
+        id: target.id,
+        x: FileApi.realXToScreen(target.real.x),
+        y: FileApi.realYToScreen(target.real.y),
+        degree: target.degree
+      });
+    }
+    setPoints(newPoints);
+
     if (scheduleList.length > 1) {
       const target = JSON.parse(JSON.stringify(scheduleList[0]));
-      const pose = await RobotApi.getPose();
       if (Math.abs(target.real.x - pose.x) < 0.5 && Math.abs(target.real.y - pose.y) < 0.5) {
-        console.log(target.real.x, pose.x, target.real.y, pose.y);
+        console.log(new Date(), target.real.x.toFixed(2), pose.x.toFixed(2), target.real.y.toFixed(2), pose.y.toFixed(2));
         const next = JSON.parse(JSON.stringify(scheduleList[1]));
         dispatch(shiftSchedule());
         await RobotApi.move(next);
@@ -35,32 +55,29 @@ const OperationContainer = ({ children }) => {
     }
   }
 
-  // console.log('scheduleList', scheduleList);
   useEffect(async () => {
     const loadPoints = await FileApi.loadWayPoint();
-    console.log('loadPoints', loadPoints);
     dispatch(loadPoint(loadPoints));
+
+    if (poseChecker) clearInterval(poseChecker);
+    poseChecker = setInterval(checkPose, 50);
+    return () => { }
   }, []);
 
-  useEffect(async () => {
-    if (scheduleList.length) {
-      const target = scheduleList[0];
-      const screenPos = {
-        x: FileApi.realXToScreen(target.real.x),
-        y: FileApi.realYToScreen(target.real.y),
-        degree: target.degree
-      };
-      setPoints([screenPos]);
-    } else {
-      setPoints([]);
-    }
-
-    if (!poseChecker) poseChecker = setInterval(checkPose, 100);
-    return () => {
-      if (poseChecker) clearInterval(poseChecker);
-    }
-
-  }, [scheduleList.length])
+  // useEffect(async () => {
+  //   if (scheduleList.length) {
+  //     const target = scheduleList[0];
+  //     const screenPos = {
+  //       id: target.id,
+  //       x: FileApi.realXToScreen(target.real.x),
+  //       y: FileApi.realYToScreen(target.real.y),
+  //       degree: target.degree
+  //     };
+  //     setPoints([screenPos]);
+  //   } else {
+  //     setPoints([]);
+  //   }
+  // }, [scheduleList.length])
 
   const handleClickPoint = async (point) => {
     try {
@@ -76,9 +93,7 @@ const OperationContainer = ({ children }) => {
     try {
       if (type === 'start') {
         setActiveBtn('');
-        console.log(JSON.stringify(scheduleList[0]));
         await RobotApi.move(scheduleList[0]);
-        console.log(JSON.stringify(scheduleList[0]));
         setActiveBtn(type);
         return;
       }

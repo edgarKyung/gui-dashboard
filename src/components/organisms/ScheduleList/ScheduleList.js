@@ -18,7 +18,7 @@ const ScheduleList = ({
       {
         scheduleList && scheduleList.map((data, i) =>
           <li key={i}>
-            <Button type={i === 0 ? 'gradiant-col' : 'default'} className={cx('schedule-btn')}>
+            <Button type={i === 0 ? 'gradiant-col' : 'grey'} className={cx('schedule-btn')}>
               {data.name}
             </Button>
             {/* <ScheduleItem key={i} item={data} /> */}
