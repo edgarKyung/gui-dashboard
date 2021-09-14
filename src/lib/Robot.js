@@ -17,7 +17,7 @@ export const jog = async (data) => {
 export const move = async (data) => {
   try {
     const response = await httpClient.post('/robot/move', data.real);
-    console.log(data, response);
+    // console.log(data, response);
     return response;
 
   } catch (err) {

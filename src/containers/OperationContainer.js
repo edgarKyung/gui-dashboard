@@ -6,6 +6,8 @@ import * as FileApi from '../lib/File';
 import { addSchedule, shiftSchedule } from '../modules/reducers/schedule';
 import { loadPoint } from '../modules/reducers/point';
 
+let poseChecker = null;
+
 const OperationContainer = ({ children }) => {
   const dispatch = useDispatch();
   const [activeBtn, setActiveBtn] = useState('');
@@ -20,7 +22,20 @@ const OperationContainer = ({ children }) => {
     scheduleList: store.schedule.get('schedules'),
   }));
 
-  console.log('scheduleList', scheduleList);
+  async function checkPose() {
+    if (scheduleList.length > 1) {
+      const target = JSON.parse(JSON.stringify(scheduleList[0]));
+      const pose = await RobotApi.getPose();
+      if (Math.abs(target.real.x - pose.x) < 0.5 && Math.abs(target.real.y - pose.y < 0.5)) {
+        console.log(target.real.x, pose.x, target.real.y, pose.y);
+        const next = JSON.parse(JSON.stringify(scheduleList[1]));
+        await RobotApi.move(next);
+        dispatch(shiftSchedule());
+      }
+    }
+  }
+
+  // console.log('scheduleList', scheduleList);
   useEffect(async () => {
     const loadPoints = await FileApi.loadWayPoint();
     console.log('loadPoints', loadPoints);
@@ -39,12 +54,18 @@ const OperationContainer = ({ children }) => {
     } else {
       setPoints([]);
     }
+
+    if (!poseChecker) poseChecker = setInterval(checkPose, 100);
+    return () => {
+      if (poseChecker) clearInterval(poseChecker);
+    }
+
   }, [scheduleList.length])
 
   const handleClickPoint = async (point) => {
     try {
       dispatch(addSchedule(point));
-      console.log(point);
+      // console.log(point);
       // await RobotApi.move(point);
     } catch (err) {
       console.error(err)
