@@ -27,7 +27,6 @@ const MapPage = ({
     <MainContentTemplate title={'맵 생성'}>
       <CanvasMapContainer
         disableViewPort={disableViewPort}
-        drawType={drawType}
         canvasWidth={1180}
         canvasHeight={1125}
         onDrag={onDrag}

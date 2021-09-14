@@ -21,27 +21,33 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
       passiveWheel: false,
       stopPropagation:true,
     });
-    
+
+    viewport.on('moved', (event) => {
+      props.app.onMoved(event);
+    });
+    viewport.on('clicked', (event) => {
+      props.app.onClickCanvas(event);
+    });
+    viewport.on('zoomed-end', (event) => {
+      props.app.onZoomEndCanvas(event);
+    });
+    viewport.on('wheel', (event) => {
+      props.app.onWheel(event);
+    });
+    viewport.on('wheel-scroll', (event) => {
+      props.app.onWheelScroll(event);
+    });
     return viewport;
   },
   didMount: (instance, parent) => {
-    instance.drag().pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
-
-    instance.on('clicked', (event) => {
-      instance.app.onClickCanvas(event);
-    });
-    instance.on('zoomed-end', (event) => {
-      instance.app.onZoomEndCanvas(event);
-    });
-    instance.on('wheel', (event) => {
-      instance.app.onWheel(event);
-    });
-    instance.on('wheel-scroll', (event) => {
-      instance.app.onWheelScroll(event);
-    });
-    instance.on('moved', (event) => {
-      instance.app.onMoved(event);
-    });
+    console.log('did', instance, parent);
+    // instance.drag().pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
+  },
+  applyProps: (instance, oldProps, newProps) => {
+    console.log('applyProps', instance, oldProps, newProps);
+    if(oldProps.disableViewPort !== newProps.disableViewPort){
+      instance.drag({pressDrag: !newProps.disableViewPort}).pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
+    }
   },
 });
 
@@ -72,6 +78,7 @@ const PixiViewPortComponent = ({
     height={height} 
     worldWidth={width} 
     worldHeight={height} 
+    disableViewPort={disableViewPort} 
   >
     {children}
   </PixiComponentViewport>;

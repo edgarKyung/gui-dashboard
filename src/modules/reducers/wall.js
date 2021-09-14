@@ -19,7 +19,8 @@ const initialRecord = Record(initialState)();
 export default handleActions({
     [ADD_WALL]: (state, { payload }) => {
         const newList = state.get(payload.type);
-        newList.push(payload.position);
+        newList.push(payload.data);
+        console.log(payload.data);
         return state.set(payload.type, newList);
     },
 
