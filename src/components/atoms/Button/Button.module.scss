@@ -20,7 +20,17 @@
   background-color: white;
   border-radius: 1.2em;
   box-shadow: rgba(0, 0, 0, .20) 1px 1px 5px;
+}
 
+.grey {
+  min-width: 100px;
+  font-size: 1em;
+  padding: 1em;
+  text-align: center;
+  color: #222222;
+  background-color: gainsboro;
+  border-radius: 1.2em;
+  box-shadow: rgba(0, 0, 0, .20) 1px 1px 5px;
 }
 
 .primary {
@@ -84,7 +94,6 @@
   background: $gradiant-col;
   border-radius: 1.2em;
   box-shadow: rgba(0, 0, 0, .20) 1px 1px 5px;
-
 }
 
 .logo {
