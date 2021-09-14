@@ -26,11 +26,11 @@ const OperationContainer = ({ children }) => {
     if (scheduleList.length > 1) {
       const target = JSON.parse(JSON.stringify(scheduleList[0]));
       const pose = await RobotApi.getPose();
-      if (Math.abs(target.real.x - pose.x) < 0.5 && Math.abs(target.real.y - pose.y < 0.5)) {
+      if (Math.abs(target.real.x - pose.x) < 0.5 && Math.abs(target.real.y - pose.y) < 0.5) {
         console.log(target.real.x, pose.x, target.real.y, pose.y);
         const next = JSON.parse(JSON.stringify(scheduleList[1]));
-        await RobotApi.move(next);
         dispatch(shiftSchedule());
+        await RobotApi.move(next);
       }
     }
   }
