@@ -12,7 +12,6 @@ const CanvasMapContainer = ({
   isOp,
   isDrawStatus,
   drawOneTime,
-  drawType,
   disableViewPort,
   canvasWidth,
   canvasHeight,
@@ -191,8 +190,8 @@ const CanvasMapContainer = ({
   const handleGlobalMove = (e) => {
     const interaction = e.data;
     if (interaction.pressure > 0) {
-      const transPose = _getLocalPoseFromGlobalPose(interaction.global);
-      onDrag(transPose);
+      const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
+      onDrag({x, y, scale: viewportScale});
     }
   }
 
@@ -202,7 +201,6 @@ const CanvasMapContainer = ({
       disableWall={disableWall}
       undefinedWall={undefinedWall}
 
-      drawType={drawType}
       disableViewPort={disableViewPort}
       viewportScale={viewportScale}
       viewportPosition={viewportPosition}

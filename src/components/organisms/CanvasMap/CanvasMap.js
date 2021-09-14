@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import iconPointOn from '../../../static/images/ico/icon_point_on.png';
+import tempWallBg from '../../../static/images/source/temp.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
@@ -16,7 +17,6 @@ const CanvasMap = ({
   disableWall,
   undefinedWall,
 
-  drawType,
   disableViewPort,
   viewportScale,
   viewportPosition,
@@ -109,8 +109,8 @@ const CanvasMap = ({
 
           {ableWall.map(wall => (
             <Sprite
-              image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/coin.png"
-              scale={{ x: 0.5, y: 0.5 }}
+              image={tempWallBg}
+              scale={{ x: 1 / wall.scale, y: 1 / wall.scale }}
               anchor={0.5}
               x={wall.x}
               y={wall.y}

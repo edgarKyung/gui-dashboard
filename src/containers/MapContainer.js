@@ -43,12 +43,13 @@ const MapContainer = () => {
     }
   }
 
-  const handleDrag = (pose) => {
-    console.log(pose);
-    dispatch(addWall({
-      type:'able',
-      position: pose
-    }));
+  const handleDrag = ({x, y, scale}) => {
+    if(!!drawType){
+      dispatch(addWall({
+        type:drawType,
+        data: { x, y, scale},
+      }));
+    }
   };
 
   return (
