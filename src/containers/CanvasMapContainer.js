@@ -40,14 +40,10 @@ const CanvasMapContainer = ({
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
   const {
-    ableWall,
-    disableWall,
-    undefinedWall,
+    wall,
     wallTemp,
   } = useSelector((store) => ({
-    ableWall: store.wall.get('able'),
-    disableWall: store.wall.get('disable'),
-    undefinedWall: store.wall.get('undefined'),
+    wall: store.wall.get('wall'),
     wallTemp: store.wall.get('wallTemp'),
   }));
 
@@ -190,19 +186,18 @@ const CanvasMapContainer = ({
     }
   }
 
+  const defualtWallSize = 35;
   const handleGlobalMove = (e) => {
     const interaction = e.data;
     if (interaction.pressure > 0) {
       const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
-      onDrag({x, y, scale: viewportScale});
+      onDrag({x, y, size: defualtWallSize / viewportScale});
     }
   }
 
   return (
     <CanvasMap
-      ableWall={ableWall}
-      disableWall={disableWall}
-      undefinedWall={undefinedWall}
+      wall={wall}
       wallTemp={wallTemp}
 
       disableViewPort={disableViewPort}

@@ -16,24 +16,20 @@ export const addWallTemp = createAction(ADD_WALL_TEMP);
 export const resetWallTemp = createAction(RESET_WALL_TEMP);
 
 const initialState = {
-    able:[],
-    disable:[],
-    undefined:[],
+    wall:[],
     wallTemp:[],
 };
 const initialRecord = Record(initialState)();
 
 export default handleActions({
     [ADD_WALL]: (state, { payload }) => {
-        const newList = state.get(payload.type);
-        newList.push(payload.data);
-        return state.set(payload.type, newList);
+        const newList = state.get('wall');
+        return state.set('wall', [...newList, payload.data]);
     },
 
     [ADD_WALL_TEMP]: (state, { payload }) => {
         const newList = state.get('wallTemp');
-        newList.push(payload);
-        return state.set('wallTemp', newList);
+        return state.set('wallTemp', [...newList, payload]);
     },
     [RESET_WALL_TEMP]: (state) => {
         return state.set('wallTemp', []);

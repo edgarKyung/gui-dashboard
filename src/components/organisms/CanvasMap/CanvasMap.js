@@ -1,13 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types'
-import { Stage, Sprite, Container, Graphics, PixiComponent } from '@inlet/react-pixi';
+import { Stage, Sprite, Graphics } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import iconPointOn from '../../../static/images/ico/icon_point_on.png';
-import ablelBg from '../../../static/images/source/able.png';
-import disableBg from '../../../static/images/source/disable.png';
-import undefinedBg from '../../../static/images/source/undefined.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
@@ -15,10 +12,7 @@ import MiniMap from './MiniMap';
 const cx = classNames.bind(styles);
 
 const CanvasMap = ({
-  ableWall,
-  disableWall,
-  undefinedWall,
-  
+  wall,
   wallTemp,
 
   disableViewPort,
@@ -59,16 +53,21 @@ const CanvasMap = ({
     }
   }, [laserData]);
 
-  // const pointDraw = useCallback(g => {
-  //   g.clear();
-  //   const pointSizeX = 5 * scale;
-  //   const pointSizeY = 5 * scale;
-  //   const scaledPoseX = poseData.x * scale - pointSizeX * 0.5;
-  //   const scaledPoseY = poseData.y * scale - pointSizeY * 0.5;
-  //   g.beginFill(0xFA0135, 1);
-  //   g.drawCircle(scaledPoseX, scaledPoseY, pointSizeX);
-  //   g.endFill();
-  // }, [poseData.x, poseData.y]);
+  const drawAbleWall = useCallback(g => {
+    g.clear();
+    wall.reduce((prev, current) => prev.concat(current), []).concat(wallTemp).forEach(data => {
+      const {x,y, size, type} = data;
+      let color;
+      switch(type){
+        case 'able': color = 0xffffff; break;
+        case 'undefined': color = 0xd8d8d8; break;
+        case 'disable': color = 0x222222; break;
+      }
+      g.beginFill(color, 1);
+      g.drawRect(x - (size/2), y- (size/2), size, size);
+    }); 
+    g.endFill();
+  }, [wallTemp.length, wall]);
 
   return (
     <div className={cx('canvas-image')}>
@@ -93,20 +92,10 @@ const CanvasMap = ({
               pointerup={onDragEnd}
             />
           )}
-
-          {ableWall.reduce((prev, current) => prev.concat(current), wallTemp).map((wall,index) => (
-            <Sprite
-              key={index}
-              image={ablelBg}
-              scale={{ x: 1 / wall.scale, y: 1 / wall.scale }}
-              anchor={0.5}
-              x={wall.x}
-              y={wall.y}
-            />
-          ))}
+          
+          <Graphics draw={drawAbleWall} />
 
           <Graphics draw={laserDraw} />
-          {/* <Graphics draw={pointDraw} /> */}
           {(points.length > 0) && points.map((point, idx) => (
             <Draggable
               key={idx}
@@ -136,7 +125,6 @@ const CanvasMap = ({
           imgData={imgData}
           points={points}
           laserDraw={laserDraw}
-        // pointDraw={pointDraw}
         />
       </Stage>
     </div>

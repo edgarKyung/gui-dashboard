@@ -15,7 +15,6 @@ const MapContainer = () => {
 
 
   const handleClickDrawType = (type) => {
-    console.log(type);
     setDrawType(drawType === type ? '' : type);
   };
 
@@ -50,9 +49,9 @@ const MapContainer = () => {
     }
   }
 
-  const handleDrag = ({x, y, scale}) => {
+  const handleDrag = ({x, y, size}) => {
     if(!!drawType){
-      dispatch(addWallTemp({ x, y, scale}));
+      dispatch(addWallTemp({ x, y, size, type: drawType}));
     }
   };
 
