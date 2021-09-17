@@ -79,6 +79,14 @@ const OperationContainer = ({ children }) => {
   //   }
   // }, [scheduleList.length])
 
+  const handleClickBattery = async (point) => {
+    try {
+      await RobotApi.charge();
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const handleClickPoint = async (point) => {
     try {
       dispatch(addSchedule(point));
@@ -120,6 +128,7 @@ const OperationContainer = ({ children }) => {
         pointList={pointList}
         onClickPoint={handleClickPoint}
         onClickRobotControl={handleClickRobotControl}
+        onClickBattery={handleClickBattery}
         activeBtn={activeBtn}
         scheduleList={scheduleList}
         points={points}

@@ -18,6 +18,7 @@ const OperationPage = ({
   pointMarkList,
   onClickPoint,
   onClickRobotControl,
+  onClickBattery,
   activeBtn,
   scheduleList,
   points,
@@ -58,7 +59,7 @@ const OperationPage = ({
       <div className={cx('joystick-wrap')}>
         <RobotPositionJoyStickContainer />
       </div>
-      <RobotStatusBar status={'로딩중'} battery={80} />
+      <RobotStatusBar onClickBattery={onClickBattery} status={'로딩중'} battery={80} />
     </ControlContentTemplate>
   </PageTemplate>
 );

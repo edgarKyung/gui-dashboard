@@ -108,3 +108,13 @@ export const getWaypoint = async () => {
     throw err;
   }
 };
+
+export const charge = async () => {
+  try {
+    return await httpClient.post(`/robot/charge`, {});
+
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
