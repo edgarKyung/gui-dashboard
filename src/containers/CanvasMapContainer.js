@@ -25,6 +25,9 @@ const CanvasMapContainer = ({
   onDragEnd,
   margin,
   selectedPoint,
+  virtualWall,
+  virtualWallList,
+  onClickFirstPoint,
 }) => {
   const canvas = document.createElement('canvas');
   let calcCanvasWidth = canvasWidth - margin;
@@ -199,6 +202,10 @@ const CanvasMapContainer = ({
     <CanvasMap
       wall={wall}
       wallTemp={wallTemp}
+
+      virtualWall={virtualWall}
+      virtualWallList={virtualWallList}
+      onClickFirstPoint={onClickFirstPoint}
 
       disableViewPort={disableViewPort}
       viewportScale={viewportScale}

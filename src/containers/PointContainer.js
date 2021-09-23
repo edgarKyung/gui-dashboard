@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import _ from 'lodash';
+import _, { words } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'
 import { useActions } from '../services/hooks'
 import { PointPage } from '../components/pages';
 import { addPoint, removePoint, editPoint, reOrderPoint, toggleDisablePoint, loadPoint } from '../modules/reducers/point';
+import { addVirtualWall } from '../modules/reducers/virtualWall';
 import * as messageBoxActions from '../modules/reducers/message';
 import * as FileApi from '../lib/File';
 
@@ -12,24 +13,26 @@ const PointContainer = () => {
   const MessageBoxActions = useActions(messageBoxActions);
   const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
-  const [activeAddMove, setActiveAddMove] = useState(false);
+  const [activeMove, setActiveMove] = useState('');
+  const [virtualWall, setvirtualWall] = useState([]);
   const {
     canvasPoints,
     selectedPoint,
     points,
+    virtualWallList,
   } = useSelector((store) => ({
     canvasPoints: store.point.get('points').filter(point => !point.disabled),
     selectedPoint: store.point.get('points').filter(point => point.id === editPointId)[0],
     points: store.point.get('points'),
+    virtualWallList: store.virtualWall.get('virtualWall'),
   }));
-  console.log('activeAddMove', activeAddMove);
 
   const handleToggleEditPannel = () => {
     setShowEdit(!showEdit);
   }
 
   const handleClickAddPoint = () => {
-    setActiveAddMove(!activeAddMove);
+    setActiveMove(activeMove !== 'point' ? 'point' : '');
   };
 
   const handleClickRemove = (pointData) => {
@@ -90,9 +93,8 @@ const PointContainer = () => {
   };
 
   const handleClickCanvas = (e) => {
-    console.log(e, activeAddMove);
-    if (activeAddMove) {
-      const { world } = e;
+    const { world } = e;
+    if (activeMove === 'point') {
       const pointData = {
         id: Date.now().toString(),
         name: '거점 ' + new Date().getTime() % 10000,
@@ -103,6 +105,8 @@ const PointContainer = () => {
         favorite: false,
       };
       dispatch(addPoint(pointData));
+    } else if (activeMove === 'wall'){
+      setvirtualWall([...virtualWall, {x: world.x, y: world.y}]);
     }
   };
 
@@ -162,10 +166,19 @@ const PointContainer = () => {
     }
   };
 
+  const handleClickAddWall = () => {
+    setActiveMove(activeMove !== 'wall' ? 'wall' : '');
+  };
+
+  const handleClickFirstPoint = (e) => {
+    dispatch(addVirtualWall(virtualWall));
+    setvirtualWall([]);
+  };
+
   return (
     <>
       <PointPage
-        activeAddMove={activeAddMove}
+        activeMove={activeMove}
         showEdit={showEdit}
         canvasPoints={canvasPoints}
         points={points}
@@ -187,6 +200,11 @@ const PointContainer = () => {
         onChangeEditPoint={handleChangeEditPoint}
         onClickLoad={handleClickLoad}
         onClickSave={handleClickSave}
+
+        virtualWall={virtualWall}
+        virtualWallList={virtualWallList}
+        onClickAddWall={handleClickAddWall}
+        onClickFirstPoint={handleClickFirstPoint}
       />
     </>
   );

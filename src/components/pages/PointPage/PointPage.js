@@ -57,7 +57,7 @@ const PointEditList = ({
 };
 
 const PointPage = ({
-  activeAddMove,
+  activeMove,
   showEdit,
   selectedPoint,
   canvasPoints,
@@ -83,6 +83,11 @@ const PointPage = ({
   onChangeEditPointPosition,
   onClickLoad,
   onClickSave,
+
+  virtualWall,
+  virtualWallList,
+  onClickAddWall,
+  onClickFirstPoint,
 }) => {
   return (
     <PageTemplate>
@@ -91,7 +96,7 @@ const PointPage = ({
           canvasWidth={1180}
           canvasHeight={1125}
           points={canvasPoints}
-          disabledDrag={activeAddMove}
+          disabledDrag={activeMove !== ''}
           onClickCanvas={onClickCanvas}
           onClickPoint={onClickPoint}
           onMovePointStart={onMovePointStart}
@@ -99,6 +104,9 @@ const PointPage = ({
           selectedPoint={selectedPoint}
           margin={75}
           drawOneTime={true}
+          virtualWall={virtualWall}
+          virtualWallList={virtualWallList}
+          onClickFirstPoint={onClickFirstPoint}
         />
       </MainContentTemplate>
 
@@ -119,7 +127,7 @@ const PointPage = ({
                 <div className={cx('point-btn-wrap')}>
                   <Button type='default' onClick={onClickLoad}>불러오기</Button>
                   <Button type='default' onClick={onClickSave}>저장하기</Button>
-                  <Button type={activeAddMove ? 'gradiant-col' : 'default'} onClick={onClickAddPoint}>추가하기</Button>
+                  <Button type={activeMove === 'point' ? 'gradiant-col' : 'default'} onClick={onClickAddPoint}>추가하기</Button>
                 </div>
               </div>
               <div className={cx('edit-pannel-wrap')}>
@@ -138,7 +146,12 @@ const PointPage = ({
             </div>
           </Tabs.Header>
           <Tabs.Header title="가상벽관리">
-            가상벽관리
+            <div className={cx('edit-pannel-wrap')}>
+              <PageTitle title='가상벽 목록' />
+              <div className={cx('virtual-btn-wrap')}>
+                <Button type={activeMove === 'wall' ? 'gradiant-col' : 'default'} onClick={onClickAddWall}>추가하기</Button>
+              </div>
+            </div>
           </Tabs.Header>
         </Tabs>
         <RobotStatusBar status='로딩중' />

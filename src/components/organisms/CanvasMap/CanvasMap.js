@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import iconPointOn from '../../../static/images/ico/icon_point_on.png';
+import virtualWallStart from '../../../static/images/source/virtual_wall_start.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
@@ -14,6 +15,10 @@ const cx = classNames.bind(styles);
 const CanvasMap = ({
   wall,
   wallTemp,
+
+  virtualWall,
+  virtualWallList,
+  onClickFirstPoint,
 
   disableViewPort,
   viewportScale,
@@ -69,6 +74,39 @@ const CanvasMap = ({
     g.endFill();
   }, [wallTemp.length, wall]);
 
+  const drawVirtualWallList = useCallback(g => {
+    g.clear();
+    virtualWallList.forEach(virtualWall => {
+      g.drawPolygon(virtualWall);
+      virtualWall.forEach(data => {
+        const { x, y } = data;
+        g.beginFill(0x6A6AD8, 1);
+        g.drawCircle(x, y, 10);
+      })
+    });
+
+  }, [virtualWallList]);
+
+  const drawVirtualWall = useCallback(g => {
+    g.clear();
+    virtualWall.forEach((data, index) => {
+      const { x, y } = data;
+      g.lineStyle(2, 0xffd900, 1);
+      if(index === 0){
+        g.moveTo(x, y); 
+      } else {
+        g.lineTo(x, y);
+      }
+    });
+    g.endFill();
+
+    g.lineStyle(1, '', 0);
+    virtualWall.forEach(data => {
+      const { x, y } = data;
+      g.beginFill(0x6A6AD8, 1);
+      g.drawCircle(x, y, 10);
+    });
+  }, [virtualWall]);
   return (
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
@@ -92,8 +130,24 @@ const CanvasMap = ({
               pointerup={onDragEnd}
             />
           )}
-          
           <Graphics draw={drawWall} />
+
+          <Graphics draw={drawVirtualWallList} />
+          
+          <Graphics draw={drawVirtualWall} />
+          {virtualWall[0] && (
+            <Sprite
+              image={virtualWallStart}
+              x={virtualWall[0].x - 15}
+              y={virtualWall[0].y - 15}
+              scale={1}
+              interactive
+              click={(e) => {
+                onClickFirstPoint(e);
+                e.stopPropagation();
+              }}
+            />
+          )}
 
           <Graphics draw={laserDraw} />
           {(points.length > 0) && points.map((point, idx) => (
@@ -157,6 +211,9 @@ CanvasMap.defaultProps = {
   viewportScale: 0,
   selectedPoint: {},
   wallTemp: [],
+  virtualWall: [],
+  virtualWallList: [],
+  onClickFirstPoint: () => { },
   onClickPoint: () => { },
   onClickCanvas: () => { },
   onMovePointStart: () => { },
