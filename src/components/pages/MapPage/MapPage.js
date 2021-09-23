@@ -23,6 +23,7 @@ const MapPage = ({
   onClickEnd,
   onDrag,
   onDragEnd,
+  onClickUndoRedo,
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
@@ -41,8 +42,8 @@ const MapPage = ({
       <div className={cx('control-content-wrap')}>
         <div className={cx('button-wrap')}>
           <ul>
-            <li><Button type="undo" /></li>
-            <li><Button type="redo" /></li>
+            <li><Button type="undo" onClick={() => onClickUndoRedo('undo')} /></li>
+            <li><Button type="redo" onClick={() => onClickUndoRedo('redo')} /></li>
           </ul>
           <ul>
             <li><Button type="default" onClick={onClickLoad}>불러오기</Button></li>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { ActionCreators } from 'redux-undo';
 import { useDispatch, useSelector } from 'react-redux'
 import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
-import { addWall, addWallTemp, resetWallTemp } from '../modules/reducers/wall';
+import { addWall } from '../modules/reducers/wall';
+import { addWallTemp, resetWallTemp } from '../modules/reducers/wallTemp';
 
 const MapContainer = () => {
   const dispatch = useDispatch();
@@ -10,9 +12,8 @@ const MapContainer = () => {
   const {
     wallTemp,
   } = useSelector((store) => ({
-    wallTemp: store.wall.get('wallTemp'),
+    wallTemp: store.wallTemp.get('wallTemp'),
   }));
-
 
   const handleClickDrawType = (type) => {
     setDrawType(drawType === type ? '' : type);
@@ -66,6 +67,14 @@ const MapContainer = () => {
 
   };
 
+  const handleClickUndoRedo = (type) => {
+    if(type =='undo'){
+      dispatch(ActionCreators.undo());
+    } else {
+      dispatch(ActionCreators.redo());
+    }
+  }
+
   return (
     <MapPage
       drawType={drawType}
@@ -77,6 +86,7 @@ const MapContainer = () => {
       onClickEnd={handleClickEnd}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
+      onClickUndoRedo={handleClickUndoRedo}
     />
   )
 }

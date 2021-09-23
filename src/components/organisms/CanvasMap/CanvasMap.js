@@ -53,7 +53,7 @@ const CanvasMap = ({
     }
   }, [laserData]);
 
-  const drawAbleWall = useCallback(g => {
+  const drawWall = useCallback(g => {
     g.clear();
     wall.reduce((prev, current) => prev.concat(current), []).concat(wallTemp).forEach(data => {
       const {x,y, size, type} = data;
@@ -93,7 +93,7 @@ const CanvasMap = ({
             />
           )}
           
-          <Graphics draw={drawAbleWall} />
+          <Graphics draw={drawWall} />
 
           <Graphics draw={laserDraw} />
           {(points.length > 0) && points.map((point, idx) => (
