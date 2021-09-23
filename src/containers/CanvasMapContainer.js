@@ -43,8 +43,8 @@ const CanvasMapContainer = ({
     wall,
     wallTemp,
   } = useSelector((store) => ({
-    wall: store.wall.get('wall'),
-    wallTemp: store.wall.get('wallTemp'),
+    wall: store.wall.present.get('wall'),
+    wallTemp: store.wallTemp.get('wallTemp'),
   }));
 
   function convertRealToCanvas(pose) {
