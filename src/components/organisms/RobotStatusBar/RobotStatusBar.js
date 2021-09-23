@@ -15,7 +15,7 @@ const RobotStatusBar = ({
     <ul className={cx('robot-status-bar-wrap', className)}>
       <li><Icon type={'info'} /></li>
       <li>{status}</li>
-      <li onClick={onClickBattery}>40% <Icon type={'battery'} percent={battery} /></li>
+      <li onClick={onClickBattery}>{battery}% <Icon type={'battery'} percent={battery} /></li>
     </ul>
   )
 }

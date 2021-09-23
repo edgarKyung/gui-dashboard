@@ -118,3 +118,13 @@ export const charge = async () => {
     throw err;
   }
 };
+
+export const battery = async () => {
+  try {
+    return await httpClient.get(`/robot/battery`, {});
+
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
