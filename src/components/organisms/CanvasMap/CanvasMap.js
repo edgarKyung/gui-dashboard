@@ -77,12 +77,12 @@ const CanvasMap = ({
   const drawVirtualWallList = useCallback(g => {
     g.clear();
     virtualWallList.forEach(virtualWall => {
-      g.drawPolygon(virtualWall);
-      virtualWall.forEach(data => {
+      g.beginFill(0x6A6AD8, .5);
+      virtualWall.data.forEach(data => {
         const { x, y } = data;
-        g.beginFill(0x6A6AD8, 1);
-        g.drawCircle(x, y, 10);
+        g.drawCircle(x, y, 5);
       })
+      g.drawPolygon(virtualWall.data);
     });
 
   }, [virtualWallList]);
@@ -143,6 +143,10 @@ const CanvasMap = ({
               scale={1}
               interactive
               click={(e) => {
+                onClickFirstPoint(e);
+                e.stopPropagation();
+              }}
+              pointerup={(e) => {
                 onClickFirstPoint(e);
                 e.stopPropagation();
               }}

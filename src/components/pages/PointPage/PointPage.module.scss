@@ -1,40 +1,9 @@
 @import '../../../styles/variables.scss';
 
-.point-wrap {
-  display: flex;
-  flex-direction: column;
-
-  .list-wrap {
-    overflow: auto;
-    height: 100%;
-
-    li {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      padding: .8em 1em;
-
-      .point-button {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex: 1;
-        max-width: 250px;
-      }
-    }
-
-  }
-}
-
 .point-edit-pannel-wrap {
   display: flex;
   flex-direction: column;
   height: 100%;
-
-  h3 {
-    background: none;
-  }
 
   .point-pannel-wrap {
     height: 60%;
@@ -45,11 +14,6 @@
 
     .point-edit-list {
       flex: 1;
-      max-height: 90%;
-
-      .list-wrap {
-        height: 465px;
-      }
     }
 
     .point-btn-wrap {
@@ -63,5 +27,16 @@
 
   .edit-pannel-wrap {
     flex: 1;
+  }
+}
+
+.wall-edit-pannel-wrap{ 
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+ 
+  .virtual-btn-wrap{
+    width: 100%;
+    padding: 20px 40px;
   }
 }

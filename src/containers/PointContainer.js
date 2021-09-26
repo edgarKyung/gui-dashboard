@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useActions } from '../services/hooks'
 import { PointPage } from '../components/pages';
 import { addPoint, removePoint, editPoint, reOrderPoint, toggleDisablePoint, loadPoint } from '../modules/reducers/point';
-import { addVirtualWall } from '../modules/reducers/virtualWall';
+import { addVirtualWall, removeVirtualWall, reOrderVirtualWall, toggleDisableVirtualWall } from '../modules/reducers/virtualWall';
 import * as messageBoxActions from '../modules/reducers/message';
 import * as FileApi from '../lib/File';
 
@@ -15,13 +15,12 @@ const PointContainer = () => {
   const [editPointId, setEditPointId] = useState(null);
   const [activeMove, setActiveMove] = useState('');
   const [virtualWall, setvirtualWall] = useState([]);
+  const [showWallList, setShowWallList] = useState([]);
   const {
-    canvasPoints,
     selectedPoint,
     points,
     virtualWallList,
   } = useSelector((store) => ({
-    canvasPoints: store.point.get('points').filter(point => !point.disabled),
     selectedPoint: store.point.get('points').filter(point => point.id === editPointId)[0],
     points: store.point.get('points'),
     virtualWallList: store.virtualWall.get('virtualWall'),
@@ -35,12 +34,25 @@ const PointContainer = () => {
     setActiveMove(activeMove !== 'point' ? 'point' : '');
   };
 
-  const handleClickRemove = (pointData) => {
-    if (editPointId === pointData.id) {
-      setEditPointId(null);
-      setShowEdit(false);
+  const handleClickRemove = (data, type) => {
+    if(type === 'point') {
+      if (editPointId === data.id) {
+        setEditPointId(null);
+        setShowEdit(false);
+      }
+      dispatch(removePoint(data.id));
+    } else {
+      dispatch(removeVirtualWall(data.id));
     }
-    dispatch(removePoint(pointData.id));
+  };
+
+  const handleClickWall = (virtualWallData) => {
+    const { id } = virtualWallData;
+    if(showWallList.includes(id)){
+      setShowWallList(showWallList.filter(data => data !== id));
+    } else {
+      setShowWallList([...showWallList, id]);
+    }
   };
 
   const handleClickPoint = (pointId) => {
@@ -55,8 +67,12 @@ const PointContainer = () => {
     dispatch(editPoint(newPoint));
   };
 
-  const handleClickPointToggleDisable = (pointData) => {
-    dispatch(toggleDisablePoint(pointData));
+  const handleClickToggleDisable = (data, type) => {
+    if(type === 'point'){
+      dispatch(toggleDisablePoint(data));
+    } else {
+      dispatch(toggleDisableVirtualWall(data));
+    }
   };
 
   const movePoint = (position) => {
@@ -131,7 +147,18 @@ const PointContainer = () => {
     if (!result.destination) {
       return;
     }
+    console.log(result);
     dispatch(reOrderPoint({
+      startIndex: result.source.index,
+      endIndex: result.destination.index
+    }));
+  };
+
+  const handleDragWallEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    dispatch(reOrderVirtualWall({
       startIndex: result.source.index,
       endIndex: result.destination.index
     }));
@@ -171,7 +198,12 @@ const PointContainer = () => {
   };
 
   const handleClickFirstPoint = (e) => {
-    dispatch(addVirtualWall(virtualWall));
+    dispatch(addVirtualWall({
+      id: Date.now().toString(),
+      name: '가상벽 ' + new Date().getTime() % 10000,
+      disabled: false,
+      data:virtualWall,
+    }));
     setvirtualWall([]);
   };
 
@@ -180,14 +212,14 @@ const PointContainer = () => {
       <PointPage
         activeMove={activeMove}
         showEdit={showEdit}
-        canvasPoints={canvasPoints}
         points={points}
         selectedPoint={selectedPoint}
         onClickEditClose={handleToggleEditPannel}
         onClickAddPoint={handleClickAddPoint}
+        onClickWall={handleClickWall}
         onClickPoint={handleClickPoint}
         onClickFavorite={handleClickFavorite}
-        onClickPointToggleDisable={handleClickPointToggleDisable}
+        onClickToggleDisable={handleClickToggleDisable}
         onClickRemove={handleClickRemove}
         onMovePoint={handleMovePoint}
         onMoveRotation={handleMoveRotation}
@@ -201,10 +233,12 @@ const PointContainer = () => {
         onClickLoad={handleClickLoad}
         onClickSave={handleClickSave}
 
+        showWallList={showWallList}
         virtualWall={virtualWall}
         virtualWallList={virtualWallList}
         onClickAddWall={handleClickAddWall}
         onClickFirstPoint={handleClickFirstPoint}
+        onDragWallEnd={handleDragWallEnd}
       />
     </>
   );

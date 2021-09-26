@@ -1,0 +1,33 @@
+@import '../../../styles/variables.scss';
+
+.point-wrap {
+  display: flex;
+  flex-direction: column;
+
+  h3 { 
+    background: none;
+  }
+
+  .list-wrap {
+    overflow: auto;
+    height: 100%;
+    max-height: 465px;
+    
+    li {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: .8em 1em;
+
+      .point-button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        max-width: 250px;
+      }
+    }
+
+  }
+}

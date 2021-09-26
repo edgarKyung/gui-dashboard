@@ -1,72 +1,24 @@
 import React from 'react';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import classNames from 'classnames/bind';
 import styles from './PointPage.module.scss';
-import { PageTitle, Button, Icon, SwitchButton } from '../../atoms';
+import { PageTitle, Button } from '../../atoms';
 import { PageTemplate, ControlContentTemplate, MainContentTemplate, Tabs } from '../../templates';
-import { RobotStatusBar, PointEditPannel } from '../../organisms';
+import { RobotStatusBar, PointEditPannel, PointEditList, WallEditList } from '../../organisms';
 import { CanvasMapContainer } from '../../../containers';
 const cx = classNames.bind(styles);
-
-const PointEditList = ({
-  className,
-  points,
-  onClickPoint,
-  onClickFavorite,
-  onClickPointToggleDisable,
-  onClickRemove,
-  onDragPointEnd,
-}) => {
-  return (
-    <div className={cx('point-wrap', className)}>
-      <PageTitle title='거점 목록' />
-      <DragDropContext onDragEnd={onDragPointEnd}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <ul
-              className={cx('list-wrap')}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {points.map((data, index) => (
-                <Draggable key={data.id} draggableId={data.id} index={index}>
-                  {(provided, snapshot) => (
-                    <li
-                      key={data.id}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                    >
-                      <span {...provided.dragHandleProps}><Icon type='menu' /></span>
-                      <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data.id)}>
-                        {data.name}
-                        <Icon type='star' active={data.favorite} onClick={(e) => onClickFavorite(e, data)} />
-                      </Button>
-                      <SwitchButton value={!data.disabled} onClick={() => onClickPointToggleDisable(data)} />
-                      <Button type='circle' onClick={() => onClickRemove(data)}>X</Button>
-                    </li>
-                  )}
-                </Draggable>
-              ))}
-            </ul>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
-  )
-};
 
 const PointPage = ({
   activeMove,
   showEdit,
   selectedPoint,
-  canvasPoints,
   points,
   onClickEditClose,
   onClickAddPoint,
+  onClickWall,
   onClickPoint,
   onClickFavorite,
-  onClickPointToggleDisable,
+  onClickToggleDisable,
 
   onClickRemove,
   onMovePoint,
@@ -84,10 +36,12 @@ const PointPage = ({
   onClickLoad,
   onClickSave,
 
+  showWallList,
   virtualWall,
   virtualWallList,
   onClickAddWall,
   onClickFirstPoint,
+  onDragWallEnd,
 }) => {
   return (
     <PageTemplate>
@@ -95,7 +49,7 @@ const PointPage = ({
         <CanvasMapContainer
           canvasWidth={1180}
           canvasHeight={1125}
-          points={canvasPoints}
+          points={points.filter(point => !point.disabled)}
           disabledDrag={activeMove !== ''}
           onClickCanvas={onClickCanvas}
           onClickPoint={onClickPoint}
@@ -105,7 +59,7 @@ const PointPage = ({
           margin={75}
           drawOneTime={true}
           virtualWall={virtualWall}
-          virtualWallList={virtualWallList}
+          virtualWallList={virtualWallList.filter(data => !data.disabled)}
           onClickFirstPoint={onClickFirstPoint}
         />
       </MainContentTemplate>
@@ -120,7 +74,7 @@ const PointPage = ({
                   points={points}
                   onClickPoint={onClickPoint}
                   onClickFavorite={onClickFavorite}
-                  onClickPointToggleDisable={onClickPointToggleDisable}
+                  onClickToggleDisable={onClickToggleDisable}
                   onClickRemove={onClickRemove}
                   onDragPointEnd={onDragPointEnd}
                 />
@@ -146,8 +100,17 @@ const PointPage = ({
             </div>
           </Tabs.Header>
           <Tabs.Header title="가상벽관리">
-            <div className={cx('edit-pannel-wrap')}>
-              <PageTitle title='가상벽 목록' />
+            <div className={cx('wall-edit-pannel-wrap')}>
+              <WallEditList 
+                className={cx('wall-edit-list')}
+                virtualWallList={virtualWallList}
+                onClickWall={onClickWall}
+                showWallList={showWallList}
+
+                onClickToggleDisable={onClickToggleDisable}
+                onClickRemove={onClickRemove}
+                onDragWallEnd={onDragWallEnd}
+              />
               <div className={cx('virtual-btn-wrap')}>
                 <Button type={activeMove === 'wall' ? 'gradiant-col' : 'default'} onClick={onClickAddWall}>추가하기</Button>
               </div>
