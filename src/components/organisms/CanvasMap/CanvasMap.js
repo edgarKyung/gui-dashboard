@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types'
-import { Stage, Sprite, Graphics, Container, withFilters } from '@inlet/react-pixi';
+import { Stage, Sprite, Graphics } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';

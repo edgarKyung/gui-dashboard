@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames/bind';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Stage, Graphics } from '@inlet/react-pixi';
@@ -17,6 +17,17 @@ const WallEditList = ({
   onClickRemove,
   onDragWallEnd,
 }) => {
+  const drawVirtualWallList = useCallback((g, data) => {
+    g.clear();
+    g.beginFill(0x6A6AD8, 1);
+    g.drawPolygon(data.map(pose => {
+      return {
+        x: pose.x/10,
+        y: pose.y/10,
+      }
+    }));
+  }, [virtualWallList]);
+
   return (
     <div className={cx('wall-wrap', className)}>
       <PageTitle title='가상벽 목록' />
@@ -41,8 +52,8 @@ const WallEditList = ({
                         <Button type='default' className={cx('wall-button')} onClick={() => onClickWall(data)}>
                           <span>{data.name}</span>
                           <div className={cx('wall-canvas')}>
-                            <Stage width={110} height={100} options={{ backgroundAlpha: 0 }}>
-
+                            <Stage width={110.5} height={105} options={{ backgroundAlpha: 0 }}>
+                              <Graphics draw={(g) => drawVirtualWallList(g, data.data)} />
                             </Stage>
                           </div>
                         </Button>
