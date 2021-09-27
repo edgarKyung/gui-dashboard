@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types'
-import { Stage, Sprite, Graphics } from '@inlet/react-pixi';
+import { Stage, Sprite, Graphics, Container, withFilters } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
@@ -13,7 +13,7 @@ import MiniMap from './MiniMap';
 const cx = classNames.bind(styles);
 
 const CanvasMap = ({
-  wall,
+  wall, 
   wallTemp,
 
   virtualWall,
@@ -43,6 +43,43 @@ const CanvasMap = ({
   onDrag,
   onDragEnd,
 }) => {
+
+  function drawDash(
+    target,
+    x1,
+    y1,
+    x2,
+    y2,
+    dashLength = 5,
+    spaceLength = 5
+  ) {
+    let x = x2 - x1;
+    let y = y2 - y1;
+    let hyp = Math.sqrt((x) * (x) + (y) * (y));
+    let units = hyp / (dashLength + spaceLength);
+    let dashSpaceRatio = dashLength / (dashLength + spaceLength);
+    let dashX = (x / units) * dashSpaceRatio;
+    let spaceX = (x / units) - dashX;
+    let dashY = (y / units) * dashSpaceRatio;
+    let spaceY = (y / units) - dashY;
+    target.moveTo(x1, y1);
+    while (hyp > 0) {
+    x1 += dashX;
+    y1 += dashY;
+    hyp -= dashLength;
+    if (hyp < 0) {
+    x1 = x2;
+    y1 = y2;
+    }
+    target.lineTo(x1, y1);
+    x1 += spaceX;
+    y1 += spaceY;
+    target.moveTo(x1, y1);
+    hyp -= spaceLength;
+    }
+    target.moveTo(x2, y2);
+  }
+  
   const laserDraw = useCallback(g => {
     g.clear();
     const laserSize = 2 * scale;
@@ -77,12 +114,29 @@ const CanvasMap = ({
   const drawVirtualWallList = useCallback(g => {
     g.clear();
     virtualWallList.forEach(virtualWall => {
-      g.beginFill(0x6A6AD8, .5);
+      g.beginFill(0x6A6AD8, 1);
       virtualWall.data.forEach(data => {
         const { x, y } = data;
         g.drawCircle(x, y, 5);
       })
-      g.drawPolygon(virtualWall.data);
+
+      g.lineStyle(2, 0x6A6AD8);      
+      for(let i = 0; i < virtualWall.data.length; i++){
+        const current = virtualWall.data[i];
+        const next = virtualWall.data[i+1] || virtualWall.data[0];
+        drawDash(
+          g,
+          current.x,
+          current.y,
+          next.x,
+          next.y,
+          10,
+          5
+        );
+      }
+
+      g.beginFill(0xDE0C0C, 1);
+      // g.drawPolygon(virtualWall.data);
     });
 
   }, [virtualWallList]);
@@ -107,6 +161,7 @@ const CanvasMap = ({
       g.drawCircle(x, y, 10);
     });
   }, [virtualWall]);
+
   return (
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
@@ -133,7 +188,7 @@ const CanvasMap = ({
           <Graphics draw={drawWall} />
 
           <Graphics draw={drawVirtualWallList} />
-          
+
           <Graphics draw={drawVirtualWall} />
           {virtualWall[0] && (
             <Sprite
@@ -142,10 +197,6 @@ const CanvasMap = ({
               y={virtualWall[0].y - 15}
               scale={1}
               interactive
-              click={(e) => {
-                onClickFirstPoint(e);
-                e.stopPropagation();
-              }}
               pointerup={(e) => {
                 onClickFirstPoint(e);
                 e.stopPropagation();
@@ -188,8 +239,6 @@ const CanvasMap = ({
     </div>
   )
 };
-
-
 
 CanvasMap.propTypes = {
   width: PropTypes.number,
