@@ -135,8 +135,9 @@ const CanvasMap = ({
         );
       }
 
-      g.beginFill(0xDE0C0C, 1);
-      // g.drawPolygon(virtualWall.data);
+      g.beginFill(0x6A6AD8, .2);
+      g.lineStyle(0, '');      
+      g.drawPolygon(virtualWall.data);
     });
 
   }, [virtualWallList]);
