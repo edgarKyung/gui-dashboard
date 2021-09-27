@@ -27,7 +27,7 @@ const RobotPositionControlPanel = ({
   onMoveRotation,
 }) => {
   const positoins = ['up', 'right', 'down', 'left'];
-  const rotations = ['pos', 'neg'];
+  const rotations = ['neg', 'pos'];
   const [activeBg, setActiveBg] = useState(false);
   const [pointState, pointToggle, setPointArg] = useThrottle(onMovePoint, 50);
   const [rotateState, rotateToggle, setRotateArg] = useThrottle(onMoveRotation, 50);
