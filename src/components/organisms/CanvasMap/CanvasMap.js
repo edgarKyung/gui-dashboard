@@ -16,6 +16,7 @@ const CanvasMap = ({
   wall, 
   wallTemp,
 
+  activeWallId,
   virtualWall,
   virtualWallList,
   onClickFirstPoint,
@@ -95,6 +96,7 @@ const CanvasMap = ({
     }
   }, [laserData]);
 
+  // 맵 데이터 그림
   const drawWall = useCallback(g => {
     g.clear();
     wall.reduce((prev, current) => prev.concat(current), []).concat(wallTemp).forEach(data => {
@@ -111,16 +113,18 @@ const CanvasMap = ({
     g.endFill();
   }, [wallTemp.length, wall]);
 
+  // 가상벽 목록을 그림
   const drawVirtualWallList = useCallback(g => {
     g.clear();
     virtualWallList.forEach(virtualWall => {
-      g.beginFill(0x6A6AD8, 1);
+      const color = activeWallId === virtualWall.id ? 0x6A6AD8 : 0x969696;
+      g.beginFill(color, 1);
       virtualWall.data.forEach(data => {
         const { x, y } = data;
         g.drawCircle(x, y, 5);
       })
 
-      g.lineStyle(2, 0x6A6AD8);      
+      g.lineStyle(2, color);      
       for(let i = 0; i < virtualWall.data.length; i++){
         const current = virtualWall.data[i];
         const next = virtualWall.data[i+1] || virtualWall.data[0];
@@ -135,13 +139,14 @@ const CanvasMap = ({
         );
       }
 
-      g.beginFill(0x6A6AD8, .2);
+      g.beginFill(color, .2);
       g.lineStyle(0, '');      
       g.drawPolygon(virtualWall.data);
     });
 
   }, [virtualWallList]);
 
+  // 가상벽 추가하면서 그리는 그림
   const drawVirtualWall = useCallback(g => {
     g.clear();
     virtualWall.forEach((data, index) => {
@@ -189,7 +194,7 @@ const CanvasMap = ({
           <Graphics draw={drawWall} />
 
           <Graphics draw={drawVirtualWallList} />
-
+          
           <Graphics draw={drawVirtualWall} />
           {virtualWall[0] && (
             <Sprite
@@ -267,6 +272,7 @@ CanvasMap.defaultProps = {
   wallTemp: [],
   virtualWall: [],
   virtualWallList: [],
+  activeWallId: '',
   onClickFirstPoint: () => { },
   onClickPoint: () => { },
   onClickCanvas: () => { },

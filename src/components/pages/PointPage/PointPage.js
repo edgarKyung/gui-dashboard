@@ -15,7 +15,6 @@ const PointPage = ({
   points,
   onClickEditClose,
   onClickAddPoint,
-  onClickWall,
   onClickPoint,
   onClickFavorite,
   onClickToggleDisable,
@@ -36,6 +35,8 @@ const PointPage = ({
   onClickLoad,
   onClickSave,
 
+  onClickWall,
+  activeWallId,
   showWallList,
   virtualWall,
   virtualWallList,
@@ -61,6 +62,7 @@ const PointPage = ({
           virtualWall={virtualWall}
           virtualWallList={virtualWallList.filter(data => !data.disabled)}
           onClickFirstPoint={onClickFirstPoint}
+          activeWallId={activeWallId}
         />
       </MainContentTemplate>
 

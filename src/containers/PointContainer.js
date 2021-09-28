@@ -16,6 +16,7 @@ const PointContainer = () => {
   const [activeMove, setActiveMove] = useState('');
   const [virtualWall, setvirtualWall] = useState([]);
   const [showWallList, setShowWallList] = useState([]);
+  const [activeWallId, setActiveWallId] = useState();
   const {
     selectedPoint,
     points,
@@ -48,7 +49,9 @@ const PointContainer = () => {
 
   const handleClickWall = (virtualWallData) => {
     const { id } = virtualWallData;
+    setActiveWallId(id);
     if(showWallList.includes(id)){
+      setShowWallList(showWallList.filter(data => data !== id));
       setShowWallList(showWallList.filter(data => data !== id));
     } else {
       setShowWallList([...showWallList, id]);
@@ -216,7 +219,6 @@ const PointContainer = () => {
         selectedPoint={selectedPoint}
         onClickEditClose={handleToggleEditPannel}
         onClickAddPoint={handleClickAddPoint}
-        onClickWall={handleClickWall}
         onClickPoint={handleClickPoint}
         onClickFavorite={handleClickFavorite}
         onClickToggleDisable={handleClickToggleDisable}
@@ -233,6 +235,8 @@ const PointContainer = () => {
         onClickLoad={handleClickLoad}
         onClickSave={handleClickSave}
 
+        onClickWall={handleClickWall}
+        activeWallId={activeWallId}
         showWallList={showWallList}
         virtualWall={virtualWall}
         virtualWallList={virtualWallList}

@@ -28,6 +28,7 @@ const CanvasMapContainer = ({
   virtualWall,
   virtualWallList,
   onClickFirstPoint,
+  activeWallId,
 }) => {
   const canvas = document.createElement('canvas');
   let calcCanvasWidth = canvasWidth - margin;
@@ -203,6 +204,7 @@ const CanvasMapContainer = ({
       wall={wall}
       wallTemp={wallTemp}
 
+      activeWallId={activeWallId}
       virtualWall={virtualWall}
       virtualWallList={virtualWallList}
       onClickFirstPoint={onClickFirstPoint}
