@@ -52,19 +52,19 @@ const MapPage = ({
         </div>
         <ul className={cx('filter-box-wrap')}>
           <li>
-            <CheckBox onChange={() => onClickDrawType('able')} checked={drawType === 'able'} />
-            <ColorBox color='white' />
-            <span>이동가능영역</span>
-          </li>
-          <li>
             <CheckBox onChange={() => onClickDrawType('undefined')} checked={drawType === 'undefined'} />
             <ColorBox color='grey' />
-            <span>알 수 없는 영역</span>
+            <span>길</span>
           </li>
           <li>
             <CheckBox onChange={() => onClickDrawType('disable')} checked={drawType === 'disable'} />
             <ColorBox color='dark' />
-            <span>갈 수 없는 영역, 벽</span>
+            <span>장애물</span>
+          </li>
+          <li>
+            <CheckBox onChange={() => onClickDrawType('able')} checked={drawType === 'able'} />
+            <ColorBox color='white' />
+            <span>미탐색</span>
           </li>
         </ul>
         <div className={cx('scan-btn-wrap')}>
@@ -78,6 +78,8 @@ const MapPage = ({
           </div>
         </div>
         {/* <RobotPositionJoyStick className={cx('robot-position-joystick')} /> */}
+      </div>
+      <div className={cx('joystick-wrap')}>
         <RobotPositionJoyStickContainer className={cx('robot-position-joystick')} />
       </div>
       <RobotStatusBar status='로딩중' />

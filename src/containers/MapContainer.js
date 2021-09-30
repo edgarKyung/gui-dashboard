@@ -50,16 +50,16 @@ const MapContainer = () => {
     }
   }
 
-  const handleDrag = ({x, y, size}) => {
-    if(!!drawType){
-      dispatch(addWallTemp({ x, y, size, type: drawType}));
+  const handleDrag = ({ x, y, size }) => {
+    if (!!drawType) {
+      dispatch(addWallTemp({ x, y, size, type: drawType }));
     }
   };
 
   const handleDragEnd = (e) => {
-    if(!!drawType){
+    if (!!drawType) {
       dispatch(addWall({
-        type:drawType,
+        type: drawType,
         data: wallTemp,
       }));
       dispatch(resetWallTemp());
@@ -68,7 +68,7 @@ const MapContainer = () => {
   };
 
   const handleClickUndoRedo = (type) => {
-    if(type =='undo'){
+    if (type == 'undo') {
       dispatch(ActionCreators.undo());
     } else {
       dispatch(ActionCreators.redo());

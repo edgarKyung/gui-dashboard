@@ -23,6 +23,8 @@ const OperationPage = ({
   activeBtn,
   scheduleList,
   points,
+  isModeSelect,
+  onClickMode,
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'로봇운영'}>
@@ -52,10 +54,11 @@ const OperationPage = ({
     </MainContentTemplate>
 
     <ControlContentTemplate>
-      <RobotStatus status={'로딩중'} />
+      <RobotStatus status={'로딩중'} onClickMode={onClickMode} />
       <RobotPlayControlPanel
         onClickRobotControl={onClickRobotControl}
         activeBtn={activeBtn}
+        isModeSelect={isModeSelect}
       />
       <div className={cx('joystick-wrap')}>
         <RobotPositionJoyStickContainer />

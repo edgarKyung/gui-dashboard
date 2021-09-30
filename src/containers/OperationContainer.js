@@ -14,6 +14,7 @@ const OperationContainer = ({ children }) => {
   const [battery, setBattery] = useState(0);
   const [activeBtn, setActiveBtn] = useState('');
   const [points, setPoints] = useState([]);
+  const [isModeSelect, setIsModeSelect] = useState(false);
   const {
     pointMarkList,
     pointList,
@@ -90,7 +91,11 @@ const OperationContainer = ({ children }) => {
   //   }
   // }, [scheduleList.length])
 
-  const handleClickBattery = async (point) => {
+  const handleClickMode = async () => {
+    setIsModeSelect(!isModeSelect);
+  }
+
+  const handleClickBattery = async () => {
     try {
       await RobotApi.charge();
     } catch (err) {
@@ -144,6 +149,8 @@ const OperationContainer = ({ children }) => {
         scheduleList={scheduleList}
         points={points}
         battery={battery}
+        isModeSelect={isModeSelect}
+        onClickMode={handleClickMode}
       />
     </Fragment>
   )
