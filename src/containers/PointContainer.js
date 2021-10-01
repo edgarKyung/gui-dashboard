@@ -27,6 +27,9 @@ const PointContainer = () => {
     virtualWallList: store.virtualWall.get('virtualWall'),
   }));
 
+  useEffect(() => {
+    setEditPointId(points[0].id);
+  }, []);
   const handleToggleEditPannel = () => {
     setShowEdit(!showEdit);
   }
@@ -197,7 +200,12 @@ const PointContainer = () => {
   };
 
   const handleClickAddWall = () => {
-    setActiveMove(activeMove !== 'wall' ? 'wall' : '');
+    if(activeMove !== 'wall') {
+      setActiveMove('wall');
+    } else {
+      setActiveMove('');
+      setvirtualWall([]);
+    }
   };
 
   const handleClickFirstPoint = (e) => {
@@ -232,7 +240,6 @@ const PointContainer = () => {
         onDragPointEnd={handleDragPointEnd}
 
         onChangeEditPoint={handleChangeEditPoint}
-        onClickLoad={handleClickLoad}
         onClickSave={handleClickSave}
 
         onClickWall={handleClickWall}

@@ -14,6 +14,7 @@ const PointEditList = ({
   onClickToggleDisable,
   onClickRemove,
   onDragPointEnd,
+  selectedPoint,
 }) => {
   return (
     <div className={cx('point-wrap', className)}>
@@ -26,7 +27,9 @@ const PointEditList = ({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {points.map((data, index) => (
+              {points.map((data, index) => {
+                const isActive = selectedPoint.id === data.id;
+                return (
                 <Draggable key={data.id} draggableId={data.id} index={index}>
                   {(provided, snapshot) => (
                     <li
@@ -35,7 +38,7 @@ const PointEditList = ({
                       {...provided.draggableProps}
                     >
                       <span {...provided.dragHandleProps}><Icon type='menu' /></span>
-                      <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data.id)}>
+                      <Button type='default' className={cx('point-button', isActive && 'active')} onClick={() => onClickPoint(data.id)}>
                         {data.name}
                         <Icon type='star' active={data.favorite} onClick={(e) => onClickFavorite(e, data)} />
                       </Button>
@@ -44,7 +47,7 @@ const PointEditList = ({
                     </li>
                   )}
                 </Draggable>
-              ))}
+              )})}
             </ul>
           )}
         </Droppable>
@@ -55,6 +58,7 @@ const PointEditList = ({
 
 PointEditList.defaultProps = {
   points: [],
+  selectedPoint: {},
 };
 
 export default PointEditList;

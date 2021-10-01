@@ -8,7 +8,7 @@ const Draggable = ({
   x,
   y,
   angle,
-  viewportScale,
+  scale,
   onClickPoint,
   onMovePointStart,
   onMovePointEnd,
@@ -59,7 +59,7 @@ const Draggable = ({
       angle={angle}
       interactive
       buttonMode
-      scale={(1 / viewportScale)}
+      scale={scale}
       click={() => {
         onClickPoint(id);
       }}
@@ -72,6 +72,7 @@ const Draggable = ({
 };
 
 Draggable.propTypes = {
+  scale: 1,
   onMovePointStart: PropTypes.func,
   onMovePointEnd: PropTypes.func,
   disabled: PropTypes.bool,

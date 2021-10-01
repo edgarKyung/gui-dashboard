@@ -5,6 +5,10 @@
   flex-direction: column;
   height: 100%;
 
+  h3 {
+    background: none;
+  }
+
   .point-pannel-wrap {
     height: 60%;
     justify-content: space-between;
@@ -21,6 +25,10 @@
       display: flex;
       justify-content: space-evenly;
       padding: 20px 40px;
+
+      button {
+        width: 250px;
+      }
     }
 
   }
@@ -38,5 +46,9 @@
   .virtual-btn-wrap{
     width: 100%;
     padding: 20px 40px;
+
+    button {
+      width: 250px;
+    }
   }
 }

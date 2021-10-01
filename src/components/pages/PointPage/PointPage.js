@@ -32,7 +32,6 @@ const PointPage = ({
   onChangeEditPoint,
   onChangeEditPointName,
   onChangeEditPointPosition,
-  onClickLoad,
   onClickSave,
 
   onClickWall,
@@ -51,6 +50,7 @@ const PointPage = ({
           canvasWidth={1180}
           canvasHeight={1125}
           points={points.filter(point => !point.disabled)}
+          activeMove={activeMove}
           disabledDrag={activeMove !== ''}
           onClickCanvas={onClickCanvas}
           onClickPoint={onClickPoint}
@@ -79,9 +79,9 @@ const PointPage = ({
                   onClickToggleDisable={onClickToggleDisable}
                   onClickRemove={onClickRemove}
                   onDragPointEnd={onDragPointEnd}
+                  selectedPoint={selectedPoint}
                 />
                 <div className={cx('point-btn-wrap')}>
-                  <Button type='default' onClick={onClickLoad}>불러오기</Button>
                   <Button type='default' onClick={onClickSave}>저장하기</Button>
                   <Button type={activeMove === 'point' ? 'gradiant-col' : 'default'} onClick={onClickAddPoint}>추가하기</Button>
                 </div>

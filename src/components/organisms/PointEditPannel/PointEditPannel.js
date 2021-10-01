@@ -37,7 +37,16 @@ const PointEditPannel = ({
         <div className={cx('point-edit-icon')}>
           {editNameFlag && (
             <>
-              <input type="text" name="name" value={editPoint.name} onChange={(e) => handleChangePoint(e, 'name')} />
+              <input 
+                type="text" name="name" value={editPoint.name} 
+                onKeyPress={e => {
+                  if(e.key === 'Enter'){
+                    onChangeEditPoint(editPoint);
+                    setEditNameFlag(false);
+                  }
+                }}
+                onChange={(e) => handleChangePoint(e, 'name')} 
+              />
               <Button type="edit" onClick={() => {
                 onChangeEditPoint(editPoint);
                 setEditNameFlag(false);

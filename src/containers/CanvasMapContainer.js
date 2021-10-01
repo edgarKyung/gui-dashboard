@@ -16,6 +16,7 @@ const CanvasMapContainer = ({
   canvasWidth,
   canvasHeight,
   points,
+  activeMove,
   disabledDrag = true,
   onClickCanvas,
   onClickPoint,
@@ -210,6 +211,7 @@ const CanvasMapContainer = ({
       virtualWallList={virtualWallList}
       onClickFirstPoint={onClickFirstPoint}
 
+      activeMove={activeMove}
       disableViewPort={disableViewPort}
       viewportScale={viewportScale}
       viewportPosition={viewportPosition}
