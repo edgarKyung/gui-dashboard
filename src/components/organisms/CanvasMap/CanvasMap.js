@@ -9,7 +9,6 @@ import virtualWallStart from '../../../static/images/source/virtual_wall_start.p
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
-import * as PIXI from "pixi.js";
 
 
 const cx = classNames.bind(styles);
@@ -171,14 +170,10 @@ const CanvasMap = ({
     });
   }, [virtualWall]);
 
-  let activeMessage;
-  switch(activeMove){
-    case 'point': activeMessage = '거점 추가'; break;
-    case 'wall': activeMessage = '가상벽 추가'; break;
-  }
-
   return (
-    <div className={cx('canvas-image')}>
+    <div className={cx('canvas-image', {
+      'active' : activeMove !== ''
+    })}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
         <PixiViewPort
           disableViewPort={disableViewPort}
@@ -250,27 +245,6 @@ const CanvasMap = ({
           points={points}
           laserDraw={laserDraw}
         />
-        { activeMessage && <Text 
-          text={activeMessage}
-          x={5}
-          y={5}
-          style={
-            new PIXI.TextStyle({
-              align: 'center',
-              fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-              fontSize: 25,
-              fontWeight: 3,
-              strokeThickness: 2,
-              letterSpacing: 0,
-              dropShadow: true,
-              dropShadowColor: '#ffffff',
-              dropShadowBlur: 2,
-              dropShadowAngle: Math.PI / 6,
-              dropShadowDistance: 6,
-            })
-          }          
-        /> }
-
       </Stage>
     </div>
   )

@@ -28,7 +28,7 @@ const PointContainer = () => {
   }));
 
   useEffect(() => {
-    setEditPointId(points[0].id);
+    if(points.length > 0) setEditPointId(points[0].id);
   }, []);
   const handleToggleEditPannel = () => {
     setShowEdit(!showEdit);
