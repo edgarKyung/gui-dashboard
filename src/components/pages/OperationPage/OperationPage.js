@@ -25,6 +25,7 @@ const OperationPage = ({
   points,
   isModeSelect,
   onClickMode,
+  viewportRef,
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'로봇운영'}>
@@ -37,6 +38,7 @@ const OperationPage = ({
           canvasHeight={675}
           margin={75}
           points={points}
+          viewportRef={viewportRef}
         />
       </div>
       <div className={cx('content-wrap')}>

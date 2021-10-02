@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, Fragment, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { OperationPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
@@ -11,6 +11,7 @@ let updateChecker = null;
 
 const OperationContainer = ({ children }) => {
   const dispatch = useDispatch();
+  const viewportRef = useRef();
   const [battery, setBattery] = useState(0);
   const [activeBtn, setActiveBtn] = useState('');
   const [points, setPoints] = useState([]);
@@ -32,8 +33,9 @@ const OperationContainer = ({ children }) => {
 
   async function checkPose() {
     const pose = await RobotApi.getPose();
-
     const newPoints = [];
+    const prepareToFocus = Object.keys(FileApi.opMap).length;
+    if(!prepareToFocus) return false;
     if (pose) {
       newPoints.push({
         x: FileApi.realXToScreen(pose.x),
@@ -63,9 +65,23 @@ const OperationContainer = ({ children }) => {
     }
   }
 
-  useEffect(async () => {
-    const loadPoints = await FileApi.loadWayPoint();
-    dispatch(loadPoint(loadPoints));
+  const focusPoint = (point) => {
+    const viewport = viewportRef.current;
+    const { screenWidth, screenHeight } = viewport.options;
+    viewport.snapZoom({ width: screenWidth / 3, height: screenHeight / 3, removeOnComplete: true });
+    viewport.snap(point.x, point.y, { removeOnComplete: true });
+  };
+
+  useEffect(() => {
+    if(points.length) focusPoint(points[0]);
+  }, [points.length]);
+
+  useEffect(() => {
+    const loadWayPoint = async () => {
+      const loadPoints = await FileApi.loadWayPoint();
+      dispatch(loadPoint(loadPoints));
+    }
+    loadWayPoint();
 
     if (poseChecker) clearInterval(poseChecker);
     poseChecker = setInterval(checkPose, 50);
@@ -73,6 +89,7 @@ const OperationContainer = ({ children }) => {
     updateInfo();
     if (updateChecker) clearInterval(updateChecker);
     updateChecker = setInterval(updateInfo, 10000);
+
     return () => { }
   }, []);
 
@@ -151,6 +168,7 @@ const OperationContainer = ({ children }) => {
         battery={battery}
         isModeSelect={isModeSelect}
         onClickMode={handleClickMode}
+        viewportRef={viewportRef}
       />
     </Fragment>
   )

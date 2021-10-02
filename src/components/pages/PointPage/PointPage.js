@@ -10,7 +10,6 @@ const cx = classNames.bind(styles);
 
 const PointPage = ({
   activeMove,
-  showEdit,
   selectedPoint,
   points,
   onClickEditClose,

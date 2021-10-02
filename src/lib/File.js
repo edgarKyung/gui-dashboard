@@ -3,7 +3,7 @@ import HttpClient from './HttpClient';
 const httpClient = new HttpClient();
 
 const map = {};
-const opMap = {};
+export const opMap = {};
 
 export const setOpMapData = async (data) => {
   try {

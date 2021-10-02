@@ -10,7 +10,6 @@ const cx = classNames.bind(styles);
 const PointEditPannel = ({
   className,
   selectedPoint,
-  onClickClose,
   onMovePoint,
   onMoveRotation,
   onChangeEditPoint,
@@ -62,8 +61,8 @@ const PointEditPannel = ({
 
         </div>
         <div className={cx('point-pose-wrap')}>
-          {positions.map(position => (
-            <Position className={cx('point-pose')}>
+          {positions.map((position, idx) => (
+            <Position className={cx('point-pose')} key={idx}>
               <ul>
                 <li key={position}>
                   <span>{position.toUpperCase()}</span>

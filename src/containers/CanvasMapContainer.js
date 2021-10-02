@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
 import * as RobotApi from '../lib/Robot';
@@ -30,6 +30,7 @@ const CanvasMapContainer = ({
   virtualWallList,
   onClickFirstPoint,
   activeWallId,
+  viewportRef,
 }) => {
   const canvas = document.createElement('canvas');
   let calcCanvasWidth = canvasWidth - margin;
@@ -158,6 +159,7 @@ const CanvasMapContainer = ({
 
   useEffect(() => {
     drawCanvas();
+
     if (!drawOneTime) drawInterval = setInterval(drawCanvas, 2000);
     if (isDrawStatus) {
       drawStatusInterval = setInterval(drawStatus, 100);
@@ -203,6 +205,7 @@ const CanvasMapContainer = ({
 
   return (
     <CanvasMap
+      viewportRef={viewportRef}
       wall={wall}
       wallTemp={wallTemp}
 

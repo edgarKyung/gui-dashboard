@@ -14,6 +14,7 @@ import MiniMap from './MiniMap';
 const cx = classNames.bind(styles);
 
 const CanvasMap = ({
+  viewportRef, 
   wall, 
   wallTemp,
 
@@ -172,10 +173,11 @@ const CanvasMap = ({
 
   return (
     <div className={cx('canvas-image', {
-      'active' : activeMove !== ''
+      'active' : activeMove
     })}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
         <PixiViewPort
+          ref={viewportRef}
           disableViewPort={disableViewPort}
           width={canvasWidth}
           height={canvasHeight}

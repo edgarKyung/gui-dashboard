@@ -11,7 +11,6 @@ import * as FileApi from '../lib/File';
 const PointContainer = () => {
   const dispatch = useDispatch();
   const MessageBoxActions = useActions(messageBoxActions);
-  const [showEdit, setShowEdit] = useState(false);
   const [editPointId, setEditPointId] = useState(null);
   const [activeMove, setActiveMove] = useState('');
   const [virtualWall, setvirtualWall] = useState([]);
@@ -30,9 +29,6 @@ const PointContainer = () => {
   useEffect(() => {
     if(points.length > 0) setEditPointId(points[0].id);
   }, []);
-  const handleToggleEditPannel = () => {
-    setShowEdit(!showEdit);
-  }
 
   const handleClickAddPoint = () => {
     setActiveMove(activeMove !== 'point' ? 'point' : '');
@@ -42,7 +38,6 @@ const PointContainer = () => {
     if(type === 'point') {
       if (editPointId === data.id) {
         setEditPointId(null);
-        setShowEdit(false);
       }
       dispatch(removePoint(data.id));
     } else {
@@ -63,7 +58,6 @@ const PointContainer = () => {
 
   const handleClickPoint = (pointId) => {
     setEditPointId(pointId);
-    setShowEdit(true);
   };
 
   const handleClickFavorite = (e, pointData) => {
@@ -127,6 +121,7 @@ const PointContainer = () => {
         favorite: false,
       };
       dispatch(addPoint(pointData));
+      setEditPointId(pointData.id);
     } else if (activeMove === 'wall'){
       setvirtualWall([...virtualWall, {x: world.x, y: world.y}]);
     }
@@ -222,10 +217,8 @@ const PointContainer = () => {
     <>
       <PointPage
         activeMove={activeMove}
-        showEdit={showEdit}
         points={points}
         selectedPoint={selectedPoint}
-        onClickEditClose={handleToggleEditPannel}
         onClickAddPoint={handleClickAddPoint}
         onClickPoint={handleClickPoint}
         onClickFavorite={handleClickFavorite}

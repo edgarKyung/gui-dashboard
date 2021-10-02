@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types'
 import { PixiComponent, useApp } from '@inlet/react-pixi';
 import { Viewport as PixiViewport } from "pixi-viewport";
@@ -52,7 +52,7 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
 });
 
 
-const PixiViewPortComponent = ({ 
+const PixiViewPortComponent = forwardRef(({ 
   disableViewPort, 
   width, 
   height, 
@@ -64,7 +64,7 @@ const PixiViewPortComponent = ({
   onWheel,
   onWheelScroll,
   onMoved,
-}) => {
+}, ref) => {
   const app = useApp();
   app.onClickCanvas = onClickCanvas;
   app.onZoomEndCanvas = onZoomEndCanvas;
@@ -73,6 +73,7 @@ const PixiViewPortComponent = ({
   app.onMoved = onMoved;
   app.disableViewPort = disableViewPort;
   return  <PixiComponentViewport 
+    ref={ref}
     app={app} 
     width={width} 
     height={height} 
@@ -82,7 +83,7 @@ const PixiViewPortComponent = ({
   >
     {children}
   </PixiComponentViewport>;
-};
+});
 
 PixiViewPortComponent.propTypes = {
   disableViewPort: PropTypes.bool,
