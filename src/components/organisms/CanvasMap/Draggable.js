@@ -60,11 +60,14 @@ const Draggable = ({
       interactive
       buttonMode
       scale={scale}
-      click={() => {
-        onClickPoint(id);
-      }}
+      // click={() => {
+      //   onClickPoint(id);
+      // }}
       pointerdown={onDragStart}
-      pointerup={onDragEnd}
+      pointerup={(e) => {
+        onClickPoint(id);
+        onDragEnd(e)
+      }}
       pointerupoutside={onDragEnd}
       pointermove={onDragMove}
     />

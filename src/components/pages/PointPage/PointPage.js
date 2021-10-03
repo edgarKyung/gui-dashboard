@@ -15,6 +15,7 @@ const PointPage = ({
   onClickEditClose,
   onClickAddPoint,
   onClickPoint,
+  onClickCanvasPoint,
   onClickFavorite,
   onClickToggleDisable,
 
@@ -52,7 +53,7 @@ const PointPage = ({
           activeMove={activeMove}
           disabledDrag={activeMove !== ''}
           onClickCanvas={onClickCanvas}
-          onClickPoint={onClickPoint}
+          onClickPoint={onClickCanvasPoint}
           onMovePointStart={onMovePointStart}
           onMovePointEnd={onMovePointEnd}
           selectedPoint={selectedPoint}

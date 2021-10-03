@@ -247,6 +247,7 @@ CanvasMapContainer.defaultProps = {
   selectedPoint: {},
   onClickCanvas: () => { console.log('onClickCanvas is not defined'); },
   onClickPoint: () => { console.log('onClickPoint is not defined'); },
+  onClickCanvasPoint: () => { console.log('onClickCanvasPoint is not defined'); },
   onMovePointStart: () => { console.log('onMovePointStart is not defined'); },
   onMovePointEnd: () => { console.log('onMovePointEnd is not defined'); },
   onDrag: () => { /* console.log('onDrag is not defined'); */ },

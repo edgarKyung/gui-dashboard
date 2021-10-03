@@ -33,6 +33,7 @@ const PointEditList = ({
                 <Draggable key={data.id} draggableId={data.id} index={index}>
                   {(provided, snapshot) => (
                     <li
+                      id={`point-${data.id}`}
                       key={data.id}
                       ref={provided.innerRef}
                       {...provided.draggableProps}

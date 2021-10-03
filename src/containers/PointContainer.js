@@ -60,6 +60,12 @@ const PointContainer = () => {
     setEditPointId(pointId);
   };
 
+  const handleClickCanvasPoint = (pointId) => {
+    const pointDom = document.getElementById(`point-${pointId}`);
+    pointDom.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+    setEditPointId(pointId);
+  }
+
   const handleClickFavorite = (e, pointData) => {
     e.stopPropagation();
     const newPoint = _.cloneDeep(pointData);
@@ -221,6 +227,7 @@ const PointContainer = () => {
         selectedPoint={selectedPoint}
         onClickAddPoint={handleClickAddPoint}
         onClickPoint={handleClickPoint}
+        onClickCanvasPoint={handleClickCanvasPoint}
         onClickFavorite={handleClickFavorite}
         onClickToggleDisable={handleClickToggleDisable}
         onClickRemove={handleClickRemove}
