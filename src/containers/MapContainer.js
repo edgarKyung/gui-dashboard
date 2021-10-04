@@ -10,7 +10,7 @@ const MapContainer = () => {
   const dispatch = useDispatch();
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(2);
-  const drawSizeList = [2,3,5,7];
+  const drawSizeList = [1,5,20];
   const {
     wallTemp,
   } = useSelector((store) => ({
