@@ -7,12 +7,10 @@ import { addSchedule, shiftSchedule } from '../modules/reducers/schedule';
 import { loadPoint } from '../modules/reducers/point';
 
 let poseChecker = null;
-let updateChecker = null;
 
 const OperationContainer = ({ children }) => {
   const dispatch = useDispatch();
   const viewportRef = useRef();
-  const [battery, setBattery] = useState(0);
   const [activeBtn, setActiveBtn] = useState('');
   const [points, setPoints] = useState([]);
   const [isModeSelect, setIsModeSelect] = useState(false);
@@ -25,11 +23,6 @@ const OperationContainer = ({ children }) => {
     pointList: store.point.get('points').filter(point => !point.favorite),
     scheduleList: store.schedule.get('schedules'),
   }));
-
-  async function updateInfo() {
-    const batteryInfo = await RobotApi.battery();
-    setBattery(batteryInfo.battery);
-  }
 
   async function checkPose() {
     const pose = await RobotApi.getPose();
@@ -85,10 +78,6 @@ const OperationContainer = ({ children }) => {
 
     if (poseChecker) clearInterval(poseChecker);
     poseChecker = setInterval(checkPose, 50);
-
-    updateInfo();
-    if (updateChecker) clearInterval(updateChecker);
-    updateChecker = setInterval(updateInfo, 10000);
 
     return () => { }
   }, []);
@@ -161,11 +150,9 @@ const OperationContainer = ({ children }) => {
         pointList={pointList}
         onClickPoint={handleClickPoint}
         onClickRobotControl={handleClickRobotControl}
-        onClickBattery={handleClickBattery}
         activeBtn={activeBtn}
         scheduleList={scheduleList}
         points={points}
-        battery={battery}
         isModeSelect={isModeSelect}
         onClickMode={handleClickMode}
         viewportRef={viewportRef}

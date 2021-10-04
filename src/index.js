@@ -7,11 +7,14 @@ import './styles/responsive.scss';
 import App from './components/App';
 import rootReducer from './modules/reducers';
 import reportWebVitals from './reportWebVitals';
+import dataCollector from './services/dataCollector';;
 
 const store = createStore(
   rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+dataCollector.injectStore(store);
 
 ReactDOM.render(
   <React.StrictMode>

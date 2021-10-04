@@ -75,7 +75,7 @@ const Draggable = ({
 };
 
 Draggable.propTypes = {
-  scale: 1,
+  scale: PropTypes.number,
   onMovePointStart: PropTypes.func,
   onMovePointEnd: PropTypes.func,
   disabled: PropTypes.bool,

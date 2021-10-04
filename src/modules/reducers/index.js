@@ -8,6 +8,7 @@ import wall from './wall';
 import wallTemp from './wallTemp';
 import message from './message';
 import virtualWall from './virtualWall';
+import monitoringData from './monitoringData';
 
 const rootReducer = combineReducers({
     common,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     wallTemp,
     message,
     virtualWall,
+    monitoringData,
 });
 
 export default rootReducer;

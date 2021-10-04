@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 const Icon = ({type, className, percent = 0, active, ...args}) => {
   return (
     <i className={cx('icon',className, `icon_${type}`, {'on': active})} {...args}>
-      {type === 'battery' && (<div className={cx('range', `range-${percent}`)}></div>)}
+      {['battery', 'battery_large'].includes(type) && (<div className={cx('range', `range-${percent}`)}></div>)}
     </i>
   )
 };

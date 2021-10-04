@@ -1,0 +1,12 @@
+.battery-info-wrap{
+  display: flex;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+        
+    text-align: left;
+    margin-left: 1em;
+  }
+}

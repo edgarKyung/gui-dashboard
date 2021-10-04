@@ -10,7 +10,7 @@ import {
   RobotStatusBar,
 } from '../../organisms';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
-import { CanvasMapContainer, RobotPositionJoyStickContainer } from '../../../containers';
+import { CanvasMapContainer, RobotPositionJoyStickContainer, RobotStatusBarContainer } from '../../../containers';
 const cx = classNames.bind(styles);
 
 const OperationPage = ({
@@ -65,7 +65,7 @@ const OperationPage = ({
       <div className={cx('joystick-wrap')}>
         <RobotPositionJoyStickContainer />
       </div>
-      <RobotStatusBar onClickBattery={onClickBattery} status={'로딩중'} battery={battery} />
+      <RobotStatusBarContainer />
     </ControlContentTemplate>
   </PageTemplate>
 );

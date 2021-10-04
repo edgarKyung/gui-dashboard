@@ -11,3 +11,4 @@ export { default as PointEditPannel } from './PointEditPannel';
 export { default as MessageBoxWrapper } from './MessageBoxWrapper';
 export { default as WallEditList } from './WallEditList';
 export { default as PointEditList } from './PointEditList';
+export { default as BatteryInfo } from './BatteryInfo';

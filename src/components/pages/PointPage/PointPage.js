@@ -5,7 +5,7 @@ import styles from './PointPage.module.scss';
 import { PageTitle, Button } from '../../atoms';
 import { PageTemplate, ControlContentTemplate, MainContentTemplate, Tabs } from '../../templates';
 import { RobotStatusBar, PointEditPannel, PointEditList, WallEditList } from '../../organisms';
-import { CanvasMapContainer } from '../../../containers';
+import { CanvasMapContainer, RobotStatusBarContainer } from '../../../containers';
 const cx = classNames.bind(styles);
 
 const PointPage = ({
@@ -119,7 +119,7 @@ const PointPage = ({
             </div>
           </Tabs.Header>
         </Tabs>
-        <RobotStatusBar status='로딩중' />
+        <RobotStatusBarContainer />
       </ControlContentTemplate>
     </PageTemplate>
   );
