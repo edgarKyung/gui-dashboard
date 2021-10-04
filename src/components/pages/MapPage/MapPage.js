@@ -3,8 +3,8 @@ import classNames from 'classnames/bind';
 import { PageTemplate } from '../../templates';
 import styles from './MapPage.module.scss';
 import { PageTitle, Button, CheckBox } from '../../atoms';
-import { RobotPositionJoyStick, RobotStatusBar, CanvasMap } from '../../organisms';
-import { CanvasMapContainer, RobotPositionJoyStickContainer } from '../../../containers';
+import { RobotPositionJoyStick, CanvasMap } from '../../organisms';
+import { RobotStatusBarContainer, CanvasMapContainer, RobotPositionJoyStickContainer } from '../../../containers';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
 
 const cx = classNames.bind(styles);
@@ -14,7 +14,9 @@ const ColorBox = ({ color = 'white' }) => (
 )
 
 const MapPage = ({
+  drawSize,
   drawType,
+  drawSizeList,
   disableViewPort,
   onClickDrawType,
   onClickSave,
@@ -24,6 +26,7 @@ const MapPage = ({
   onDrag,
   onDragEnd,
   onClickUndoRedo,
+  onClickDrawLine,
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
@@ -50,23 +53,37 @@ const MapPage = ({
             <li><Button type="gradiant-col" onClick={onClickSave}>저장하기</Button></li>
           </ul>
         </div>
-        <ul className={cx('filter-box-wrap')}>
-          <li>
-            <CheckBox onChange={() => onClickDrawType('undefined')} checked={drawType === 'undefined'} />
-            <ColorBox color='grey' />
-            <span>길</span>
-          </li>
-          <li>
-            <CheckBox onChange={() => onClickDrawType('disable')} checked={drawType === 'disable'} />
-            <ColorBox color='dark' />
-            <span>장애물</span>
-          </li>
-          <li>
-            <CheckBox onChange={() => onClickDrawType('able')} checked={drawType === 'able'} />
-            <ColorBox color='white' />
-            <span>미탐색</span>
-          </li>
-        </ul>
+        <div className={cx('edit-box-wrap')}>
+          <ul className={cx('filter-box-wrap')}>
+            <li>
+              <CheckBox onChange={() => onClickDrawType('undefined')} checked={drawType === 'undefined'} />
+              <ColorBox color='grey' />
+              <span>길</span>
+            </li>
+            <li>
+              <CheckBox onChange={() => onClickDrawType('disable')} checked={drawType === 'disable'} />
+              <ColorBox color='dark' />
+              <span>장애물</span>
+            </li>
+            <li>
+              <CheckBox onChange={() => onClickDrawType('able')} checked={drawType === 'able'} />
+              <ColorBox color='white' />
+              <span>미탐색</span>
+            </li>
+          </ul>
+          <ul className={cx('line-box-wrap')}>
+            {
+              drawSizeList.map(size => (
+                <li 
+                className={cx(`line-${size}`, {
+                  'active': drawSize === size
+                })}
+                onClick={() => onClickDrawLine(size)}
+                ><span/></li>
+              ))
+            }
+          </ul>
+        </div>
         <div className={cx('scan-btn-wrap')}>
           <div>
             <Button type='scan-start' active={true} onClick={onClickScan} />
@@ -82,7 +99,7 @@ const MapPage = ({
       <div className={cx('joystick-wrap')}>
         <RobotPositionJoyStickContainer className={cx('robot-position-joystick')} />
       </div>
-      <RobotStatusBar status='로딩중' />
+      <RobotStatusBarContainer />
     </ControlContentTemplate>
   </PageTemplate>
 );

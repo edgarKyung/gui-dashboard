@@ -20,6 +20,7 @@ const joyOptions = {
 const containerStyle = {
   position: 'relative',
   width: '100%',
+  zIndex:1,
 }
 
 

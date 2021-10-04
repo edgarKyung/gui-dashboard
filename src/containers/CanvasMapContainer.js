@@ -193,13 +193,12 @@ const CanvasMapContainer = ({
     }
   }
 
-  let defualtWallSize = 1;
   const handleGlobalMove = (e) => {
     const interaction = e.data;
     if (interaction.pressure > 0) {
       const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
       // onDrag({ x, y, size: defualtWallSize / viewportScale });
-      onDrag({ x, y, size: defualtWallSize });
+      onDrag({ x, y });
     }
   }
 

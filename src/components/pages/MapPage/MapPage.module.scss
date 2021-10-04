@@ -52,26 +52,57 @@
   }
 }
 
-.filter-box-wrap {
+.edit-box-wrap {
+  display: flex;
   background: #FFFFFF;
   border: 1px solid #F2F2F2;
   box-sizing: border-box;
   box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.1);
   border-radius: 1em;
   padding: 1em;
-
-  li {
+  
+  ul{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  ul.filter-box-wrap {
+    li {
+      display: flex;
+      align-items: center;
 
-    &:nth-child(2) {
-      margin: 1em 0;
+      &:nth-child(2) {
+        margin: 1em 0;
+      }
+
+      &>:nth-child(2) {
+        margin: 0 1em;
+      }
+
+    }
+  }
+
+  ul.line-box-wrap {
+    margin-left: 2em;
+    li {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      height: 25%;
+
+      &.active {
+        background-color: #e9f0ff;
+      }
+      span {
+        display: inline-block;
+        width: 200px;
+        background-color: #a3a3a3;
+      }
     }
 
-    &>:nth-child(2) {
-      margin: 0 1em;
+    @for $i from 1 to 50 {
+      li.line-#{$i} span { height: #{$i}px; }
     }
-
   }
 }
 

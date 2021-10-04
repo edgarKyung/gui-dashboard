@@ -9,6 +9,8 @@ import { addWallTemp, resetWallTemp } from '../modules/reducers/wallTemp';
 const MapContainer = () => {
   const dispatch = useDispatch();
   const [drawType, setDrawType] = useState('');
+  const [drawSize, setDrawSize] = useState(2);
+  const drawSizeList = [2,3,5,7];
   const {
     wallTemp,
   } = useSelector((store) => ({
@@ -50,9 +52,9 @@ const MapContainer = () => {
     }
   }
 
-  const handleDrag = ({ x, y, size }) => {
+  const handleDrag = ({ x, y }) => {
     if (!!drawType) {
-      dispatch(addWallTemp({ x, y, size, type: drawType }));
+      dispatch(addWallTemp({ x, y, size:drawSize, type: drawType }));
     }
   };
 
@@ -75,9 +77,15 @@ const MapContainer = () => {
     }
   }
 
+  const handleClickDrawLine = (size) => {
+    setDrawSize(size);
+  };
+
   return (
     <MapPage
       drawType={drawType}
+      drawSize={drawSize}
+      drawSizeList={drawSizeList}
       disableViewPort={!!drawType}
       onClickDrawType={handleClickDrawType}
       onClickSave={handleClickSave}
@@ -87,6 +95,7 @@ const MapContainer = () => {
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
       onClickUndoRedo={handleClickUndoRedo}
+      onClickDrawLine={handleClickDrawLine}
     />
   )
 }
