@@ -16,9 +16,12 @@ export const jog = async (data) => {
 
 export const move = async (data) => {
   try {
-    const response = await httpClient.post('/robot/move', data.real);
-    // console.log(data, response);
-    return response;
+    if (data) {
+      console.log(data);
+      const response = await httpClient.post('/robot/move', data.real);
+      // console.log(data, response);
+      return response;
+    }
 
   } catch (err) {
     console.error(err);
@@ -31,7 +34,7 @@ export const changeMode = async (data) => {
     console.log(data);
     // return await httpClient.post(`/state`, { state: type });
     // TEMPORARY
-    return await httpClient.post(`/robot/${data}`, {});
+    return await httpClient.post(`/robot/mode`, { mode: data });
 
   } catch (err) {
     console.error(err);
