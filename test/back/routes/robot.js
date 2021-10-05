@@ -6,44 +6,61 @@ const dataset = require('../mock/dataset');
 let gData = dataset.getData();
 setInterval(() => gData = dataset.getData(), 2000);
 
-router.get('/info', function (req, res) {
-  console.log('GET [/robot/info]', JSON.stringify({ title: 'Ardent Robot Corp.', version: 'v1.0.1', contact: 'contact@ardentrobot.com' }));
-  return res.send({ title: 'Ardent Robot Corp.', version: 'v1.0.1', contact: 'contact@ardentrobot.com' });
+router.get('/date', function (req, res) {
+  const data = { date: new Date().getTime() };
+  console.log('GET [/robot/date]', JSON.stringify(data));
+  return res.send(data);
 });
 
-router.get('/date', function (req, res) {
-  console.log('GET [/robot/date]', JSON.stringify({ date: new Date().getTime() }));
-  return res.send({ date: new Date().getTime() });
+router.get('/info', function (req, res) {
+  const data = { title: 'Ardent Robot Corp.', version: 'v1.0.1', contact: 'contact@ardentrobot.com' };
+  console.log('GET [/robot/info]', JSON.stringify(data));
+  return res.send(data);
 });
 
 router.get('/battery', function (req, res) {
-  console.log('GET [/robot/battery]', JSON.stringify({ battery: 90 }));
-  return res.send({ battery: 90 });
+  // current 음수(충전), 양수(방전)
+  // Time 단위 (m)
+  const data = { voltage: 10, current: 3, percent: 90, chargeTime: 0, dischargeTime: 321, temperature: 60 };
+  console.log('GET [/robot/battery]', JSON.stringify(data));
+  return res.send(data);
 });
 
 router.get('/status', function (req, res) {
-  console.log('GET [/robot/status]', JSON.stringify({ status: 'ready' }));
-  return res.send({ status: 'ready' });
+  const data = { status: 'ready', mode: 'joystick', state: 'stop' };
+  console.log('GET [/robot/status]', JSON.stringify(data));
+  return res.send(data);
 });
 
 router.get('/pose', function (req, res) {
-  // console.log('GET [/robot/pose]', JSON.stringify(gData.pose));
-  return res.send(gData.pose);
+  const data = gData.pose;
+  // console.log('GET [/robot/pose]', JSON.stringify(data));
+  return res.send(data);
 });
 
 router.get('/sensor', function (req, res) {
-  // console.log('GET [/robot/sensor]', JSON.stringify(gData.laser));
-  return res.send(gData.laser);
+  const data = gData.laser;
+  // console.log('GET [/robot/sensor]', JSON.stringify(data));
+  return res.send(data);
 });
 
-router.post('/jog', function (req, res) {
-  const velocity_linear = req.body.linear ? req.body.linear : 0;
-  const velocity_angular = req.body.angular ? req.body.angular : 0;
+router.post('/mode', function (req, res) {
+  const mode = req.body.mode;
   const data = {
-    linear: { x: velocity_linear, y: 0, z: 0 },
-    angular: { x: 0, y: 0, z: velocity_angular }
+    human: mode === 'people' ? 'start' : 'stop',
+    line: mode === 'line' ? 'start' : 'stop',
+    navigation: mode === 'navigation' ? 'start' : 'stop'
   };
-  console.log('POST [/robot/jog]', JSON.stringify(data));
+  console.log('POST [/robot/mode]', JSON.stringify(data));
+  return res.send(data);
+});
+
+router.post('/stop', function (req, res) {
+  const data = {
+    linear: { x: 0, y: 0, z: 0 },
+    angular: { x: 0, y: 0, z: 0 }
+  };
+  console.log('POST [/robot/stop]', JSON.stringify(data));
   return res.send(data);
 });
 
@@ -59,24 +76,28 @@ router.post('/move', function (req, res) {
   return res.send(data);
 });
 
-router.post('/stop', function (req, res) {
+router.post('/jog', function (req, res) {
+  const velocity_linear = req.body.linear ? req.body.linear : 0;
+  const velocity_angular = req.body.angular ? req.body.angular : 0;
   const data = {
-    linear: { x: 0, y: 0, z: 0 },
-    angular: { x: 0, y: 0, z: 0 }
+    linear: { x: velocity_linear, y: 0, z: 0 },
+    angular: { x: 0, y: 0, z: velocity_angular }
   };
-  console.log('POST [/robot/stop]', JSON.stringify(data));
+  console.log('POST [/robot/jog]', JSON.stringify(data));
   return res.send(data);
 });
 
-router.post('/mode', function (req, res) {
-  const mode = req.body.mode;
-  const data = {
-    human: mode === 'people' ? 'start' : 'stop',
-    line: mode === 'line' ? 'start' : 'stop',
-    navigation: mode === 'navigation' ? 'start' : 'stop'
-  };
-  console.log('POST [/robot/mode]', JSON.stringify(data));
+router.post('/pause', function (req, res) {
+  const data = { x: 0, y: 0, rz: 1.57 };
+  console.log('POST [/robot/pause]', 'pose:', JSON.stringify(data));
   return res.send(data);
 });
+
+router.post('/charge', function (req, res) {
+  const data = { charging: 'start' };
+  console.log('POST [/robot/charge]', JSON.stringify(data));
+  return res.send(data);
+});
+
 
 module.exports = router;

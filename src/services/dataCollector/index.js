@@ -6,27 +6,33 @@ class DataCollector {
   constructor() {
     this.init();
     this.prevData = {
-      battery: null
+      voltage: 0,
+      current: 0,
+      percent: 0,
+      chargeTime: 0,
+      dischargeTime: 0,
+      temperature: 0
     };
   }
 
   init() {
     try {
-      setInterval(this.batteryInfo.bind(this), 1000);
+      this.batteryInfo();
+      setInterval(this.batteryInfo.bind(this), 5000);
     } catch (err) {
       console.log(err);
     }
   }
 
   async batteryInfo() {
-    const { battery } = await RobotApi.battery();
-    if(this.prevData.battery !== battery){
-      this.store.dispatch(setBattery(battery));
-      this.prevData.battery = battery;
+    const battery = await RobotApi.battery();
+    if (this.prevData.percent !== battery.percent) {
+      this.store.dispatch(setBattery(battery.percent));
+      this.prevData = battery;
     }
   }
 
-  injectStore(store){
+  injectStore(store) {
     this.store = store;
     console.log('injectStore', store)
     console.log(this);
