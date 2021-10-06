@@ -14,6 +14,7 @@ const OperationContainer = ({ children }) => {
   const [activeBtn, setActiveBtn] = useState('');
   const [points, setPoints] = useState([]);
   const [isModeSelect, setIsModeSelect] = useState(false);
+  const [zoomFlag, setZoomFlag] = useState(true);
   const {
     pointMarkList,
     pointList,
@@ -28,7 +29,7 @@ const OperationContainer = ({ children }) => {
     const pose = await RobotApi.getPose();
     const newPoints = [];
     const prepareToFocus = Object.keys(FileApi.opMap).length;
-    if(!prepareToFocus) return false;
+    if (!prepareToFocus) return false;
     if (pose) {
       newPoints.push({
         x: FileApi.realXToScreen(pose.x),
@@ -61,12 +62,16 @@ const OperationContainer = ({ children }) => {
   const focusPoint = (point) => {
     const viewport = viewportRef.current;
     const { screenWidth, screenHeight } = viewport.options;
-    viewport.snapZoom({ width: screenWidth / 3, height: screenHeight / 3, removeOnComplete: true });
+    const zoomRate = FileApi.opMap.scale * 0.3;
     viewport.snap(point.x, point.y, { removeOnComplete: true });
+    viewport.snapZoom({ width: screenWidth * zoomRate, height: screenHeight * zoomRate, removeOnComplete: true });
   };
 
   useEffect(() => {
-    if(points.length) focusPoint(points[0]);
+    if (zoomFlag && points.length) {
+      setZoomFlag(false);
+      focusPoint(points[0]);
+    };
   }, [points.length]);
 
   useEffect(() => {

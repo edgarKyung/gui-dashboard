@@ -14,8 +14,8 @@ import MiniMap from './MiniMap';
 const cx = classNames.bind(styles);
 
 const CanvasMap = ({
-  viewportRef, 
-  wall, 
+  viewportRef,
+  wall,
   wallTemp,
 
   activeWallId,
@@ -68,22 +68,22 @@ const CanvasMap = ({
     let spaceY = (y / units) - dashY;
     target.moveTo(x1, y1);
     while (hyp > 0) {
-    x1 += dashX;
-    y1 += dashY;
-    hyp -= dashLength;
-    if (hyp < 0) {
-    x1 = x2;
-    y1 = y2;
-    }
-    target.lineTo(x1, y1);
-    x1 += spaceX;
-    y1 += spaceY;
-    target.moveTo(x1, y1);
-    hyp -= spaceLength;
+      x1 += dashX;
+      y1 += dashY;
+      hyp -= dashLength;
+      if (hyp < 0) {
+        x1 = x2;
+        y1 = y2;
+      }
+      target.lineTo(x1, y1);
+      x1 += spaceX;
+      y1 += spaceY;
+      target.moveTo(x1, y1);
+      hyp -= spaceLength;
     }
     target.moveTo(x2, y2);
   }
-  
+
   const laserDraw = useCallback(g => {
     g.clear();
     const laserSize = 2 * scale;
@@ -103,16 +103,16 @@ const CanvasMap = ({
   const drawWall = useCallback(g => {
     g.clear();
     wall.reduce((prev, current) => prev.concat(current), []).concat(wallTemp).forEach(data => {
-      const {x,y, size, type} = data;
+      const { x, y, size, type } = data;
       let color;
-      switch(type){
+      switch (type) {
         case 'able': color = 0xffffff; break;
         case 'undefined': color = 0xd8d8d8; break;
         case 'disable': color = 0x222222; break;
       }
       g.beginFill(color, 1);
-      g.drawRect(x - (size/2), y- (size/2), size, size);
-    }); 
+      g.drawRect(x - (size / 2), y - (size / 2), size, size);
+    });
     g.endFill();
   }, [wallTemp.length, wall]);
 
@@ -127,10 +127,10 @@ const CanvasMap = ({
         g.drawCircle(x, y, 5);
       })
 
-      g.lineStyle(2, color);      
-      for(let i = 0; i < virtualWall.data.length; i++){
+      g.lineStyle(2, color);
+      for (let i = 0; i < virtualWall.data.length; i++) {
         const current = virtualWall.data[i];
-        const next = virtualWall.data[i+1] || virtualWall.data[0];
+        const next = virtualWall.data[i + 1] || virtualWall.data[0];
         drawDash(
           g,
           current.x,
@@ -143,7 +143,7 @@ const CanvasMap = ({
       }
 
       g.beginFill(color, .2);
-      g.lineStyle(0, '');      
+      g.lineStyle(0, '');
       g.drawPolygon(virtualWall.data);
     });
 
@@ -155,8 +155,8 @@ const CanvasMap = ({
     virtualWall.forEach((data, index) => {
       const { x, y } = data;
       g.lineStyle(2, 0xffd900, 1);
-      if(index === 0){
-        g.moveTo(x, y); 
+      if (index === 0) {
+        g.moveTo(x, y);
       } else {
         g.lineTo(x, y);
       }
@@ -173,7 +173,7 @@ const CanvasMap = ({
 
   return (
     <div className={cx('canvas-image', {
-      'active' : activeMove
+      'active': activeMove
     })}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
         <PixiViewPort
@@ -200,7 +200,7 @@ const CanvasMap = ({
           <Graphics draw={drawWall} />
 
           <Graphics draw={drawVirtualWallList} />
-          
+
           <Graphics draw={drawVirtualWall} />
           {virtualWall[0] && (
             <Sprite
@@ -226,7 +226,7 @@ const CanvasMap = ({
               y={point.y}
               disabled={disabledDrag}
               angle={point.degree}
-              scale={(scale - .2)}
+              scale={(scale * 0.3)}
               onClickPoint={onClickPoint}
               onMovePointStart={onMovePointStart}
               onMovePointEnd={onMovePointEnd}
