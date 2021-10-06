@@ -178,7 +178,8 @@ const CanvasMapContainer = ({
   }
 
   const handleViewPortMoved = (e) => {
-    const { x, y } = e.viewport.lastViewport;
+    const { scaleX, x, y } = e.viewport.lastViewport;
+    setViewportScale(scaleX);
     setViewportPosition({ x, y });
   };
 
