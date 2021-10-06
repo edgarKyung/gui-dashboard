@@ -61,8 +61,6 @@ const MiniMap = ({
     height: canvasHeight * miniMapScale / viewportScale,
   };
 
-  console.log(maskPosition)
-
   return (
     <Container
       width={canvasWidth}

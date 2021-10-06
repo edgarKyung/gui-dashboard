@@ -9,8 +9,8 @@ import { addWallTemp, resetWallTemp } from '../modules/reducers/wallTemp';
 const MapContainer = () => {
   const dispatch = useDispatch();
   const [drawType, setDrawType] = useState('');
-  const [drawSize, setDrawSize] = useState(2);
-  const drawSizeList = [1,5,20];
+  const [drawSize, setDrawSize] = useState(1);
+  const drawSizeList = [1, 5, 10, 15];
   const {
     wallTemp,
   } = useSelector((store) => ({
@@ -54,7 +54,7 @@ const MapContainer = () => {
 
   const handleDrag = ({ x, y }) => {
     if (!!drawType) {
-      dispatch(addWallTemp({ x, y, size:drawSize, type: drawType }));
+      dispatch(addWallTemp({ x, y, size: drawSize, type: drawType }));
     }
   };
 

@@ -60,12 +60,13 @@
   box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.1);
   border-radius: 1em;
   padding: 1em;
-  
-  ul{
+
+  ul {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
   }
+
   ul.filter-box-wrap {
     li {
       display: flex;
@@ -83,25 +84,29 @@
   }
 
   ul.line-box-wrap {
-    margin-left: 2em;
+    margin-left: 5em;
+
     li {
       cursor: pointer;
       display: flex;
       align-items: center;
-      height: 25%;
+      height: 100%;
 
       &.active {
-        background-color: #e9f0ff;
+        background-color: #bbb5ff;
       }
+
       span {
         display: inline-block;
         width: 200px;
-        background-color: #a3a3a3;
+        background-color: #616161;
       }
     }
 
     @for $i from 1 to 50 {
-      li.line-#{$i} span { height: #{$i}px; }
+      li.line-#{$i} span {
+        height: #{$i}px;
+      }
     }
   }
 }

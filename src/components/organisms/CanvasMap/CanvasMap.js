@@ -105,11 +105,9 @@ const CanvasMap = ({
     wall.reduce((prev, current) => prev.concat(current), []).concat(wallTemp).forEach(data => {
       const { x, y, size, type } = data;
       let color;
-      switch (type) {
-        case 'able': color = 0xffffff; break;
-        case 'undefined': color = 0xd8d8d8; break;
-        case 'disable': color = 0x222222; break;
-      }
+      color = (type === 'able') ? 0xFFFFFF : color;
+      color = (type === 'undefined') ? 0xF0F0EC : color;
+      color = (type === 'disable') ? 0x000000 : color;
       g.beginFill(color, 1);
       g.drawRect(x - (size / 2), y - (size / 2), size, size);
     });

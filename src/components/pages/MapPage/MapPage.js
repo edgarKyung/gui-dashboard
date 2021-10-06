@@ -74,12 +74,12 @@ const MapPage = ({
           <ul className={cx('line-box-wrap')}>
             {
               drawSizeList.map(size => (
-                <li 
-                className={cx(`line-${size}`, {
-                  'active': drawSize === size
-                })}
-                onClick={() => onClickDrawLine(size)}
-                ><span/></li>
+                <li
+                  className={cx(`line-${size}`, {
+                    'active': drawSize === size
+                  })}
+                  onClick={() => onClickDrawLine(size)}
+                ><span /></li>
               ))
             }
           </ul>
