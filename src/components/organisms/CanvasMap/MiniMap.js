@@ -34,7 +34,7 @@ const MiniMap = ({
   const maskBgDraw = (g) => {
     g.clear();
     g.beginFill(0x000, 0.5);
-    g.lineStyle(30, 0x808080, 1)
+    g.lineStyle(50, 0x808080, 1)
     g.drawRect(0, 0, canvasWidth, canvasHeight);
     g.endFill()
   };
@@ -52,13 +52,16 @@ const MiniMap = ({
     return g;
   };
 
-  const margin = 5;
+  const margin = 10;
+  const offset = 1;
   const maskPosition = {
-    x: -(viewportPosition.x / viewportScale * miniMapScale) + margin,
-    y: -(viewportPosition.y / viewportScale * miniMapScale) + canvasHeight * (1 - miniMapScale) - margin,
-    width: (canvasWidth / viewportScale * miniMapScale),
-    height: (canvasHeight / viewportScale * miniMapScale),
+    x: -(viewportPosition.x / viewportScale * miniMapScale) + margin + offset,
+    y: (canvasHeight * (1 - miniMapScale)) - (viewportPosition.y / viewportScale * miniMapScale) - margin - offset,
+    width: canvasWidth * miniMapScale / viewportScale,
+    height: canvasHeight * miniMapScale / viewportScale,
   };
+
+  console.log(maskPosition)
 
   return (
     <Container
@@ -66,7 +69,7 @@ const MiniMap = ({
       height={canvasHeight}
       scale={miniMapScale}
       alpha={1}
-      position={[ margin, canvasHeight * (1 - miniMapScale) - margin]}
+      position={[margin, canvasHeight * (1 - miniMapScale) - margin]}
     >
       <Graphics draw={dataBgDraw} />
       {imgData && (<Sprite image={imgData} option={{ width: dataWidth, height: dataHeight }} scale={dataScale} />)}
