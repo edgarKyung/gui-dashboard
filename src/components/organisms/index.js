@@ -12,3 +12,4 @@ export { default as MessageBoxWrapper } from './MessageBoxWrapper';
 export { default as WallEditList } from './WallEditList';
 export { default as PointEditList } from './PointEditList';
 export { default as BatteryInfo } from './BatteryInfo';
+export { default as CompanyInfo } from './CompanyInfo';

@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { RobotStatusBar, BatteryInfo } from '../components/organisms';
-import { Icon } from '../components/atoms';
+import { RobotStatusBar, BatteryInfo, CompanyInfo } from '../components/organisms';
+import * as RobotApi from '../lib/Robot';
 import { addMessage } from '../modules/reducers/message';
 
-const RobotStatusBarContainer = ({ children }) => {
+const RobotStatusBarContainer = () => {
   const dispatch = useDispatch();
   const {
     battery,
   } = useSelector((store) => ({
-    battery: store.monitoringData.get('battery'),
+    battery: store.monitoringData.get('battery').toJS(),
   }));
-  const handleClickBattery = async () => {
-    console.log('onClick Battery');
+  const handleClickBattery = () => {
     dispatch(addMessage({
       title: '베터리 정보',
       children : BatteryInfo({battery}),
@@ -21,11 +20,21 @@ const RobotStatusBarContainer = ({ children }) => {
     
   };
 
+  const handleClickInfo = async () => {
+    const info = await RobotApi.info();
+    dispatch(addMessage({
+      title: info.title,
+      children : CompanyInfo({info}),
+      buttonType: ['OK']
+    }));
+  };
+
   return (
     <>
       <RobotStatusBar 
         status='로딩중' 
         battery={battery} 
+        onClickInfo={handleClickInfo}
         onClickBattery={handleClickBattery}
       />
     </>

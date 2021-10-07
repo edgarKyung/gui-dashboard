@@ -125,7 +125,15 @@ export const charge = async () => {
 export const battery = async () => {
   try {
     return await httpClient.get(`/robot/battery`, {});
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
 
+export const info = async () => {
+  try {
+    return await httpClient.get(`/robot/info`, {});
   } catch (err) {
     console.error(err);
     throw err;

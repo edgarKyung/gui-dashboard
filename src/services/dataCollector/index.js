@@ -27,7 +27,7 @@ class DataCollector {
   async batteryInfo() {
     const battery = await RobotApi.battery();
     if (this.prevData.percent !== battery.percent) {
-      this.store.dispatch(setBattery(battery.percent));
+      this.store.dispatch(setBattery(battery));
       this.prevData = battery;
     }
   }

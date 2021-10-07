@@ -1,19 +1,24 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Record, fromJS } from 'immutable';
+import { Record, fromJS, Map } from 'immutable';
 
 const SET_BATTERY = 'monitor/SET_BATTERY';
 
 export const setBattery = createAction(SET_BATTERY);
 
 const initialState = {
-    battery: 0,
+  battery: Map({
+    voltage: 0,
+    current: 0,
+    percent: 0,
+    chargeTime: 0,
+    dischargeTime: 0,
+    temperature: 0
+  }),
 };
 const initialRecord = Record(initialState)();
 
 export default handleActions({
   [SET_BATTERY]: (state, { payload }) => {
-    console.log(payload);
-    return state.set('battery', payload);
+    return state.set('battery', fromJS(payload));
   },
 }, initialRecord);
-  
