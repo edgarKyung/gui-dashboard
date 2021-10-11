@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types'
-import { Stage, Sprite, Graphics, Text } from '@inlet/react-pixi';
+import { Stage, Sprite, Graphics, Container } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
@@ -14,6 +14,7 @@ import MiniMap from './MiniMap';
 const cx = classNames.bind(styles);
 
 const CanvasMap = ({
+  canvasRef,
   viewportRef,
   wall,
   wallTemp,
@@ -173,7 +174,7 @@ const CanvasMap = ({
     <div className={cx('canvas-image', {
       'active': activeMove
     })}>
-      <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
+      <Stage ref={canvasRef} width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
         <PixiViewPort
           ref={viewportRef}
           disableViewPort={disableViewPort}
@@ -185,6 +186,7 @@ const CanvasMap = ({
           onZoomEndCanvas={onZoomEndCanvas}
           onMoved={onMoved}
         >
+          <Container>
           {imgData && (
             <Sprite
               image={imgData}
@@ -230,7 +232,7 @@ const CanvasMap = ({
               onMovePointEnd={onMovePointEnd}
             />
           ))}
-
+          </Container>
         </PixiViewPort>
         <MiniMap
           dataScale={scale}

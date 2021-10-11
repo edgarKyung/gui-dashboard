@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ActionCreators } from 'redux-undo';
 import { useDispatch, useSelector } from 'react-redux'
 import { MapPage } from '../components/pages';
@@ -7,6 +7,7 @@ import { addWall } from '../modules/reducers/wall';
 import { addWallTemp, resetWallTemp } from '../modules/reducers/wallTemp';
 
 const MapContainer = () => {
+  const canvasRef = useRef();
   const dispatch = useDispatch();
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(1);
@@ -21,9 +22,36 @@ const MapContainer = () => {
     setDrawType(drawType === type ? '' : type);
   };
 
+  function getMapFromImage(imageData) {
+    const bin = [];
+    for (let i = 0; i < imageData.length; i += 4) {
+      if (imageData[i] === 255) {
+        bin.push(-1);   // Unknown Area
+        continue;
+      }
+      if (imageData[i] > 200) {
+        bin.push(127);      // Movable Area
+        continue;
+      }
+      if (imageData[i] > 10) {
+        bin.push(255);  // Unmovable Area
+        continue;
+      }
+    }
+    console.log(bin);
+    return {
+      bin: bin,
+      // width: width,
+      // height: height
+    };
+  }
+  
   const handleClickSave = async () => {
     try {
-      await RobotApi.saveMap();
+      const app = canvasRef.current.app;
+      const container = app.stage.children[1];
+      const imageData = app.renderer.plugins.extract.pixels(container);
+      await RobotApi.saveMap(getMapFromImage(imageData));
     } catch (err) {
       console.error(err)
     }
@@ -83,6 +111,7 @@ const MapContainer = () => {
 
   return (
     <MapPage
+      canvasRef={canvasRef}
       drawType={drawType}
       drawSize={drawSize}
       drawSizeList={drawSizeList}
