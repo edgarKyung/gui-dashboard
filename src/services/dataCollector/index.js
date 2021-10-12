@@ -24,9 +24,16 @@ class DataCollector {
     }
   }
 
+  isEqualData(prev, current){
+    for(let key in prev){
+      if(prev[key] !== current[key]) return false;
+    }
+    return true;
+  }
+
   async batteryInfo() {
     const battery = await RobotApi.battery();
-    if (this.prevData.percent !== battery.percent) {
+    if (!this.isEqualData(this.prevData, battery)) {
       this.store.dispatch(setBattery(battery));
       this.prevData = battery;
     }
