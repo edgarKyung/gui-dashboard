@@ -17,7 +17,7 @@ const Draggable = ({
   const onDragStart = (event) => {
     if (disabled) return false;
     const sprite = event.currentTarget;
-    const viewport = sprite.parent;
+    const viewport = sprite.parent.parent;
 
     onMovePointStart(id);
     sprite.alpha = 0.5;
@@ -29,7 +29,7 @@ const Draggable = ({
   const onDragEnd = (event) => {
     if (disabled) return false;
     const sprite = event.currentTarget;
-    const viewport = sprite.parent;
+    const viewport = sprite.parent.parent;
 
     // if (sprite.dragging) onMovePointEnd(sprite.data.getLocalPosition(viewport));
 
