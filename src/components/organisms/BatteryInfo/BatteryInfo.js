@@ -4,19 +4,19 @@ import styles from './BatteryInfo.module.scss';
 import { Icon } from '../../atoms';
 const cx = classNames.bind(styles);
 
-const BatteryInfo = ({battery}) => {
+const BatteryInfo = ({ battery }) => {
   return (
     <div className={cx('battery-info-wrap')}>
       <div>
-        <Icon type={'battery_large'} percent={battery.percent}/>
+        <Icon type={'battery_large'} percent={battery.percent} />
         <div>{battery.percent}%</div>
       </div>
       <ul>
-        <li>충전중 [ ??? ]</li>
-        <li>충전까지  : {battery.dischargeTime}분</li>
-        <li>잔여량  : ???</li>
-        <li>전압  : {battery.voltage}v</li>
-        <li>온도  : {battery.temperature}</li>
+        {battery.current > 0 && <li>{Math.floor(battery.chargeTime / 60)}시간 {battery.chargeTime % 60}분 &nbsp; 충전완료</li>}
+        {battery.current < 0 && <li>{Math.floor(battery.dischargeTime / 60)}시간 {battery.dischargeTime % 60}분 &nbsp; 사용가능</li>}
+        <li>전류 &nbsp;&nbsp;&nbsp; {battery.current.toFixed(1)} A</li>
+        <li>전압 &nbsp;&nbsp;&nbsp; {battery.voltage.toFixed(1)} V</li>
+        <li>온도 &nbsp;&nbsp;&nbsp; {battery.temperature.toFixed(1)} °C</li>
       </ul>
     </div>
   );

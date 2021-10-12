@@ -162,9 +162,8 @@ const CanvasMapContainer = ({
     drawCanvas();
 
     if (!drawOneTime) drawInterval = setInterval(drawCanvas, 2000);
-    if (isDrawStatus) {
-      drawStatusInterval = setInterval(drawStatus, 100);
-    }
+    if (isDrawStatus) drawStatusInterval = setInterval(drawStatus, 500);
+
     return () => {
       if (drawInterval) clearInterval(drawInterval);
       if (drawStatusInterval) clearInterval(drawStatusInterval);

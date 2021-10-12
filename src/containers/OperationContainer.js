@@ -82,7 +82,7 @@ const OperationContainer = ({ children }) => {
     loadWayPoint();
 
     if (poseChecker) clearInterval(poseChecker);
-    poseChecker = setInterval(checkPose, 50);
+    poseChecker = setInterval(checkPose, 500);
 
     return () => { }
   }, []);
@@ -134,9 +134,11 @@ const OperationContainer = ({ children }) => {
       }
 
       if (type === 'stop') {
+        await RobotApi.stop();
         if (scheduleList.length > 0) {
           dispatch(shiftSchedule());
         }
+        return;
       }
 
       setActiveBtn('');
