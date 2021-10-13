@@ -21,4 +21,4 @@ const RobotStatusBar = ({
   )
 }
 
-export default RobotStatusBar;
+export default React.memo(RobotStatusBar);

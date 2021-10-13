@@ -11,4 +11,4 @@ const Icon = ({type, className, percent = 0, active, ...args}) => {
   )
 };
 
-export default Icon;
+export default React.memo(Icon);

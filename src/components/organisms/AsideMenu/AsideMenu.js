@@ -47,4 +47,4 @@ class AsideMenu extends PureComponent {
   }
 }
 
-export default withRouter(AsideMenu);
+export default React.memo(withRouter(AsideMenu));

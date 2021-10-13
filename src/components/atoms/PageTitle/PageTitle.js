@@ -7,4 +7,4 @@ const PageTitle = ({title, className}) => (
   <h3 className={cx('page-title', className)}>{title}</h3>
 );
 
-export default PageTitle;
+export default React.memo(PageTitle);

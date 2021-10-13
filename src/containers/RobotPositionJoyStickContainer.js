@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import * as RobotApi from '../lib/Robot';
 import { RobotPositionJoyStick } from '../components/organisms';
 
@@ -23,7 +23,7 @@ const RobotPositionJoyStickContainer = ({
     }, ms);
   }
 
-  const handleRobotMoveStart = async (point) => {
+  const handleRobotMoveStart = useCallback(async (point) => {
     try {
       if (sendRequestFlag === false) {
         sendRequestFlag = true;
@@ -39,9 +39,9 @@ const RobotPositionJoyStickContainer = ({
     } catch (err) {
       console.error(err)
     }
-  }
+  }, []);
 
-  const handleRobotMoveEnd = async (point) => {
+  const handleRobotMoveEnd = useCallback(async (point) => {
     try {
       velocity_linear = 0;
       velocity_angular = 0;
@@ -50,7 +50,7 @@ const RobotPositionJoyStickContainer = ({
     } catch (err) {
       console.error(err)
     }
-  }
+  }, []);
 
   return (
     <RobotPositionJoyStick
@@ -61,4 +61,4 @@ const RobotPositionJoyStickContainer = ({
   )
 }
 
-export default RobotPositionJoyStickContainer;
+export default React.memo(RobotPositionJoyStickContainer);

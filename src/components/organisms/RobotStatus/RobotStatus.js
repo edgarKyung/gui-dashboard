@@ -23,4 +23,4 @@ const RobotStatus = ({
   </div>
 )
 
-export default RobotStatus;
+export default React.memo(RobotStatus);

@@ -20,4 +20,5 @@ Button.propTypes = {
 Button.defaultProps = {
   type: 'default',
 };
-export default Button;
+
+export default React.memo(Button);

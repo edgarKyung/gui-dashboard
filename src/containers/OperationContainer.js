@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect, useRef } from 'react';
+import React, { useState, Fragment, useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { OperationPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
@@ -81,10 +81,10 @@ const OperationContainer = ({ children }) => {
     }
     loadWayPoint();
 
-    if (poseChecker) clearInterval(poseChecker);
     poseChecker = setInterval(checkPose, 500);
-
-    return () => { }
+    return () => {
+      clearInterval(poseChecker)
+    }
   }, []);
 
   // useEffect(async () => {
@@ -102,19 +102,12 @@ const OperationContainer = ({ children }) => {
   //   }
   // }, [scheduleList.length])
 
-  const handleClickMode = async () => {
+  const handleClickMode = useCallback(async () => {
     setIsModeSelect(!isModeSelect);
-  }
+  }, []);
 
-  const handleClickBattery = async () => {
-    try {
-      await RobotApi.charge();
-    } catch (err) {
-      console.error(err)
-    }
-  }
 
-  const handleClickPoint = async (point) => {
+  const handleClickPoint = useCallback(async (point) => {
     try {
       dispatch(addSchedule(point));
       // console.log(point);
@@ -122,9 +115,9 @@ const OperationContainer = ({ children }) => {
     } catch (err) {
       console.error(err)
     }
-  }
+  }, []);
 
-  const handleClickRobotControl = async (type) => {
+  const handleClickRobotControl = useCallback(async (type) => {
     try {
       if (type === 'start') {
         setActiveBtn('');
@@ -148,7 +141,7 @@ const OperationContainer = ({ children }) => {
       setActiveBtn('');
       console.error(err);
     }
-  }
+  }, []);
 
   return (
     <Fragment>

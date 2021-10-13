@@ -35,4 +35,4 @@ const RobotPlayControlPanel = ({
   );
 };
 
-export default RobotPlayControlPanel;
+export default React.memo(RobotPlayControlPanel);

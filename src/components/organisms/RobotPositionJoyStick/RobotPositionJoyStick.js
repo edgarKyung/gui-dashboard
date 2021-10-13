@@ -62,4 +62,4 @@ JoyWrapper.defaultProps = {
   onRobotMoveStart:() => {},
   onRobotMoveEnd:() => {},
 }
-export default JoyWrapper;
+export default React.memo(JoyWrapper);

@@ -43,4 +43,4 @@ const PointList = ({
   </div>
 );
 
-export default PointList;
+export default React.memo(PointList);

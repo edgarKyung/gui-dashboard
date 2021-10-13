@@ -7,7 +7,6 @@ import {
   PointList,
   RobotStatus,
   RobotPlayControlPanel,
-  RobotStatusBar,
 } from '../../organisms';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
 import { CanvasMapContainer, RobotPositionJoyStickContainer, RobotStatusBarContainer } from '../../../containers';
@@ -18,8 +17,6 @@ const OperationPage = ({
   pointMarkList,
   onClickPoint,
   onClickRobotControl,
-  battery,
-  onClickBattery,
   activeBtn,
   scheduleList,
   points,

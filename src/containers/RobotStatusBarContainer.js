@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RobotStatusBar, BatteryInfo, CompanyInfo } from '../components/organisms';
 import * as RobotApi from '../lib/Robot';
@@ -11,23 +11,23 @@ const RobotStatusBarContainer = () => {
   } = useSelector((store) => ({
     battery: store.monitoringData.get('battery').toJS(),
   }));
-  const handleClickBattery = () => {
+  const handleClickBattery = useCallback(() => {
     dispatch(addMessage({
       title: '베터리 정보',
       children : BatteryInfo({battery}),
       buttonType: ['OK']
     }));
     
-  };
+  }, []);
 
-  const handleClickInfo = async () => {
+  const handleClickInfo = useCallback(async () => {
     const info = await RobotApi.info();
     dispatch(addMessage({
       title: info.title,
       children : CompanyInfo({info}),
       buttonType: ['OK']
     }));
-  };
+  }, []);
 
   return (
     <>
@@ -42,4 +42,4 @@ const RobotStatusBarContainer = () => {
 }
 
 
-export default RobotStatusBarContainer;
+export default React.memo(RobotStatusBarContainer);
