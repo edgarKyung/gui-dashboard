@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
 import * as RobotApi from '../lib/Robot';
@@ -37,6 +37,7 @@ const CanvasMapContainer = ({
   let calcCanvasWidth = canvasWidth - margin;
   let calcCanvasHeight = canvasHeight - margin;
   const canvas_padding = { top: 0, bottom: 0, left: 0, right: 0 };
+  const [rotate, setRotate] = useState(0);
   const [dataWidth, setDataWidth] = useState(0);
   const [dataHeight, setDataHeight] = useState(0);
   const [scale, setScale] = useState(1);
@@ -170,18 +171,18 @@ const CanvasMapContainer = ({
     }
   }, []);
 
-  const handleZoomEndCanvas = (e) => {
+  const handleZoomEndCanvas = useCallback((e) => {
     // console.log('zoom end', e);
     const { scaleX, x, y } = e.lastViewport;
     setViewportScale(scaleX);
     setViewportPosition({ x, y });
-  }
+  }, []);
 
-  const handleViewPortMoved = (e) => {
+  const handleViewPortMoved = useCallback((e) => {
     const { scaleX, x, y } = e.viewport.lastViewport;
     setViewportScale(scaleX);
     setViewportPosition({ x, y });
-  };
+  }, []);
 
   const _getLocalPoseFromGlobalPose = ({ x, y }) => {
     const padding = {
@@ -194,14 +195,25 @@ const CanvasMapContainer = ({
     }
   }
 
-  const handleGlobalMove = (e) => {
+  const handleGlobalMove = useCallback((e) => {
     const interaction = e.data;
     if (interaction.pressure > 0) {
       const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
       // onDrag({ x, y, size: defualtWallSize / viewportScale });
       onDrag({ x, y });
     }
-  }
+  }, []);
+
+  const handleClickRotationClock = useCallback(() => {
+    console.log('handleClickRotationClock', rotate);
+    setRotate(rotate + 10);
+    
+  }, [rotate]);
+
+  const handleClickRotationUnClock = useCallback(() => {
+    console.log('handleClickRotationUnClock', rotate);
+    setRotate(rotate - 10);
+  }, [rotate]);
 
   return (
     <CanvasMap
@@ -238,6 +250,10 @@ const CanvasMapContainer = ({
       onMoved={handleViewPortMoved}
       onDrag={handleGlobalMove}
       onDragEnd={onDragEnd}
+
+      rotate={rotate}
+      onClickRotationClock={handleClickRotationClock}
+      onClickRotationUnClock={handleClickRotationUnClock}
     />
   )
 }

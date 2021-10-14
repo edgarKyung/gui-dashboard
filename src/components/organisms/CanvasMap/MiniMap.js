@@ -19,6 +19,7 @@ const Mask = PixiComponent("Mask",
   },
 );
 const MiniMap = ({
+  rotate,
   dataScale,
   miniMapScale,
   viewportScale,
@@ -31,26 +32,26 @@ const MiniMap = ({
   laserDraw,
   pointDraw,
 }) => {
-  const maskBgDraw = (g) => {
+  const maskBgDraw = useCallback((g) => {
     g.clear();
     g.beginFill(0x000, 0.5);
     g.lineStyle(50, 0x808080, 1)
     g.drawRect(0, 0, canvasWidth, canvasHeight);
     g.endFill()
-  };
-  const dataBgDraw = (g) => {
+  }, []);
+  const dataBgDraw = useCallback((g) => {
     g.clear();
     g.beginFill(0xffffff, 1);
     g.drawRect(0, 0, canvasWidth, canvasHeight);
     g.endFill()
-  };
-  const drawPositionSquare = ({ x, y, width, height }) => {
+  }, []);
+  const drawPositionSquare = useCallback(({ x, y, width, height }) => {
     const g = new PIXI.Graphics();
     g.clear();
     g.drawRect(x, y, width, height)
     g.endFill();
     return g;
-  };
+  }, []);
 
   const margin = 10;
   const offset = 1;
@@ -63,6 +64,7 @@ const MiniMap = ({
 
   return (
     <Container
+      angle={rotate}
       width={canvasWidth}
       height={canvasHeight}
       scale={miniMapScale}
@@ -74,7 +76,7 @@ const MiniMap = ({
       <Graphics draw={laserDraw} />
       <Graphics draw={pointDraw} />
       <Graphics draw={maskBgDraw} />
-      <Mask draw={() => drawPositionSquare(maskPosition)}>
+      <Mask draw={drawPositionSquare.bind(this, maskPosition)}>
         <Graphics draw={dataBgDraw} />
         {imgData && (<Sprite image={imgData} option={{ width: dataWidth, height: dataHeight }} scale={dataScale} />)}
       </Mask>
@@ -82,4 +84,4 @@ const MiniMap = ({
   )
 }
 
-export default MiniMap;
+export default React.memo(MiniMap);

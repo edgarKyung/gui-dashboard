@@ -21,7 +21,7 @@ const PointList = ({
       {
         pointMarkList && (pointMarkList.map((data, i) =>
           <li key={i}>
-            <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data)}>
+            <Button type='default' className={cx('point-button')} onClick={onClickPoint.bind(this, data)}>
               {data.name}
               <Icon type='star' className={cx('on')}/>
             </Button> 
@@ -33,7 +33,7 @@ const PointList = ({
       {
         pointList.map((data, i) =>
           <li key={i}>
-            <Button type='default' className={cx('point-button')} onClick={() => onClickPoint(data)}>
+            <Button type='default' className={cx('point-button')} onClick={onClickPoint.bind(this, data)}>
               {data.name}
             </Button> 
           </li>
@@ -43,4 +43,11 @@ const PointList = ({
   </div>
 );
 
-export default React.memo(PointList);
+function propsAreEqual(prev, next){
+  console.log('onClickPoint', prev.onClickPoint === next.onClickPoint);
+  console.log('pointList' ,prev.pointList === next.pointList);
+  console.log('pointMarkList' ,prev.pointMarkList === next.pointMarkList);
+  return false;
+}
+
+export default React.memo(PointList, propsAreEqual);

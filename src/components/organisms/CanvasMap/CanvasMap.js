@@ -6,10 +6,13 @@ import styles from './CanvasMap.module.scss';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import iconPointOn from '../../../static/images/ico/icon_point_on.png';
 import virtualWallStart from '../../../static/images/source/virtual_wall_start.png';
+import rotationIncrease from '../../../static/images/btn/btn_redo.png';
+import rotationDecrease from '../../../static/images/btn/btn_undo.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
-
+import * as PIXI from "pixi.js";
+console.log('PIXI', PIXI);
 
 const cx = classNames.bind(styles);
 
@@ -47,6 +50,10 @@ const CanvasMap = ({
   onMoved,
   onDrag,
   onDragEnd,
+
+  rotate,
+  onClickRotationClock,
+  onClickRotationUnClock,
 }) => {
 
   function drawDash(
@@ -186,7 +193,9 @@ const CanvasMap = ({
           onZoomEndCanvas={onZoomEndCanvas}
           onMoved={onMoved}
         >
-          <Container>
+          <Container 
+            angle={rotate} 
+          >
           {imgData && (
             <Sprite
               image={imgData}
@@ -234,7 +243,25 @@ const CanvasMap = ({
           ))}
           </Container>
         </PixiViewPort>
+        <Container position={[canvasWidth - 130, canvasHeight - 70]}>
+          <Sprite
+            image={rotationIncrease}
+            interactive
+            pointerup={onClickRotationClock}
+            angle={0}
+            scale={1.5}
+          />
+          <Sprite
+            x={60}
+            angle={0}
+            image={rotationDecrease}
+            interactive
+            pointerup={onClickRotationUnClock}
+            scale={1.5}
+          />
+        </Container>
         <MiniMap
+          rotate={rotate}
           dataScale={scale}
           miniMapScale={.25}
           viewportScale={viewportScale}
@@ -286,4 +313,4 @@ CanvasMap.defaultProps = {
   onMovePointEnd: () => { },
   onDrag: () => { },
 }
-export default CanvasMap;
+export default React.memo(CanvasMap);
