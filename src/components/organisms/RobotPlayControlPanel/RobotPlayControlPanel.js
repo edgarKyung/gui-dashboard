@@ -27,7 +27,9 @@ const RobotPlayControlPanel = ({
             <li><Button type='navigation' active={activeBtn === 'navigation'} className={cx('button')} onClick={() => onClickRobotControl('navigation')} /></li>
           </ul>
           <ul className={cx('robot-play-control-wrap')}>
-            <li><Button type='joystick' active={activeBtn === 'joystick'} className={cx('button')} onClick={() => onClickRobotControl('joystick')} /></li>
+            <li><Button type='move_forward' active={activeBtn === 'move_forward'} className={cx('button')} onClick={() => onClickRobotControl('move_forward')} /></li>
+            <li><Button type='move_backward' active={activeBtn === 'move_backward'} className={cx('button')} onClick={() => onClickRobotControl('move_backward')} /></li>
+            <li><Button type='move_stop' active={activeBtn === 'move_stop'} className={cx('button')} onClick={() => onClickRobotControl('move_stop')} /></li>
           </ul>
         </div>
       }

@@ -151,3 +151,30 @@ export const info = async () => {
     throw err;
   }
 };
+
+
+let slowMoveInterval = null;
+export const slowMove = async (type) => {
+  if (slowMoveInterval) {
+    clearInterval(slowMoveInterval);
+    slowMoveInterval = null;
+  }
+
+  if (type === 'forward') {
+    slowMoveInterval = setInterval(async () => {
+      console.log('forward')
+      await httpClient.post('/robot/jog', { linear: 0.35, angular: 0 });
+    }, 100);
+    return 'forward';
+  }
+
+  if (type === 'backward') {
+    slowMoveInterval = setInterval(async () => {
+      console.log('backward')
+      await httpClient.post('/robot/jog', { linear: -0.35, angular: 0 });
+    }, 100);
+    return 'backward';
+  }
+
+  return await httpClient.post('/robot/stop', {});
+};

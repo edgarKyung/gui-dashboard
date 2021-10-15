@@ -243,12 +243,12 @@
 .joystick {
   width: 120px;
   height: 120px;
-  background-image: url('/static/images/source/btn_temp1.png');
+  background-image: url('/static/images/btn/btn_joystick.png');
   background-size: 70px;
 
   &:active,
   &.on {
-    background-image: url('/static/images/source/btn_temp1_on.png');
+    background-image: url('/static/images/btn/btn_joystick_on.png');
     background-size: 150px;
   }
 }
@@ -256,12 +256,12 @@
 .people {
   width: 120px;
   height: 120px;
-  background-image: url('/static/images/source/btn_temp2.png');
+  background-image: url('/static/images/btn/btn_people.png');
   background-size: 70px;
 
   &:active,
   &.on {
-    background-image: url('/static/images/source/btn_temp2_on.png');
+    background-image: url('/static/images/btn/btn_people_on.png');
     background-size: 150px;
   }
 }
@@ -269,12 +269,12 @@
 .line {
   width: 120px;
   height: 120px;
-  background-image: url('/static/images/source/btn_temp3.png');
+  background-image: url('/static/images/btn/btn_line.png');
   background-size: 70px;
 
   &:active,
   &.on {
-    background-image: url('/static/images/source/btn_temp3_on.png');
+    background-image: url('/static/images/btn/btn_line_on.png');
     background-size: 150px;
   }
 }
@@ -282,12 +282,52 @@
 .navigation {
   width: 120px;
   height: 120px;
-  background-image: url('/static/images/source/btn_temp4.png');
+  background-image: url('/static/images/btn/btn_navigation.png');
   background-size: 70px;
 
   &:active,
   &.on {
-    background-image: url('/static/images/source/btn_temp4_on.png');
+    background-image: url('/static/images/btn/btn_navigation_on.png');
+    background-size: 150px;
+  }
+}
+
+.move_forward {
+  width: 120px;
+  height: 120px;
+  background-image: url('/static/images/btn/btn_start.png');
+  transform: rotate(-90deg);
+
+  &:active,
+  &.on {
+    background-image: url('/static/images/btn/btn_start_on.png');
+    background-size: 150px;
+    transform: rotate(-90deg);
+  }
+}
+
+.move_backward {
+  width: 120px;
+  height: 120px;
+  background-image: url('/static/images/btn/btn_start.png');
+  transform: rotate(90deg);
+
+  &:active,
+  &.on {
+    background-image: url('/static/images/btn/btn_start_on.png');
+    background-size: 150px;
+    transform: rotate(90deg);
+  }
+}
+
+.move_stop {
+  width: 120px;
+  height: 120px;
+  background-image: url('/static/images/btn/btn_stop.png');
+
+  &:active,
+  &.on {
+    background-image: url('/static/images/btn/btn_stop_on.png');
     background-size: 150px;
   }
 }

@@ -7,13 +7,14 @@ import { addSchedule, shiftSchedule } from '../modules/reducers/schedule';
 import { loadPoint } from '../modules/reducers/point';
 
 let poseChecker = null;
+let isModeSelect = false;
 
 const OperationContainer = ({ children }) => {
   const dispatch = useDispatch();
   const viewportRef = useRef();
   const [activeBtn, setActiveBtn] = useState('');
   const [points, setPoints] = useState([]);
-  const [isModeSelect, setIsModeSelect] = useState(false);
+  // const [isModeSelect, setIsModeSelect] = useState(false);
   const [zoomFlag, setZoomFlag] = useState(true);
   const {
     pointMarkList,
@@ -103,7 +104,9 @@ const OperationContainer = ({ children }) => {
   // }, [scheduleList.length])
 
   const handleClickMode = useCallback(async () => {
-    setIsModeSelect(!isModeSelect);
+    // TODO: 값 갱신이 안됨, 임시로 전역변수로 뺌
+    // setIsModeSelect(!isModeSelect);
+    isModeSelect = !isModeSelect;
   }, []);
 
 
@@ -127,10 +130,36 @@ const OperationContainer = ({ children }) => {
       }
 
       if (type === 'stop') {
+        setActiveBtn('');
         await RobotApi.stop();
         if (scheduleList.length > 0) {
           dispatch(shiftSchedule());
         }
+        setActiveBtn(type);
+        return;
+      }
+
+      if (type === 'move_forward') {
+        setActiveBtn('');
+        console.log('move_forward');
+        await RobotApi.slowMove('forward');
+        setActiveBtn(type);
+        return;
+      }
+
+      if (type === 'move_backward') {
+        setActiveBtn('');
+        console.log('move_backward');
+        await RobotApi.slowMove('backward');
+        setActiveBtn(type);
+        return;
+      }
+
+      if (type === 'move_stop') {
+        setActiveBtn('');
+        console.log('move_stop');
+        await RobotApi.slowMove('stop');
+        setActiveBtn(type);
         return;
       }
 

@@ -2,13 +2,18 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './BatteryInfo.module.scss';
 import { Icon } from '../../atoms';
+import * as RobotApi from '../../../lib/Robot';
 const cx = classNames.bind(styles);
 
 const BatteryInfo = ({ battery }) => {
+  const handleClickBattery = async () => {
+    await RobotApi.charge();
+  }
+
   return (
     <div className={cx('battery-info-wrap')}>
       <div>
-        <Icon type={'battery_large'} percent={battery.percent} />
+        <Icon type={'battery_large'} percent={battery.percent} onClick={handleClickBattery} />
         <div>{battery.percent}%</div>
       </div>
       <ul>
