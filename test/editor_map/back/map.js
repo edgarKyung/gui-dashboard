@@ -89,11 +89,13 @@ function saveMap({ bin, width, height }) {
   concatData[20] = sizeBuffer[2];
   concatData[21] = sizeBuffer[3];
 
-  const filename = `map/temp/${new Date().getTime()}.map`;
-  const filepath = path.join(__dirname, filename);
-  fs.writeFileSync(filepath, concatData);
+  const dirPath = path.join(__dirname, 'map', 'temp');
+  const filename = `${new Date().getTime()}.map`;
+  const filePath = path.join(dirPath, filename);
+  fs.mkdirSync(dirPath, { recursive: true });
+  fs.writeFileSync(filePath, concatData);
 
-  return filepath
+  return filePath
 }
 
 module.exports = {
