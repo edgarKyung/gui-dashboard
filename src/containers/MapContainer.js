@@ -38,7 +38,6 @@ const MapContainer = () => {
         continue;
       }
     }
-    console.log(bin);
     return {
       bin: bin,
       // width: width,
@@ -49,7 +48,8 @@ const MapContainer = () => {
   const handleClickSave = async () => {
     try {
       const app = canvasRef.current.app;
-      const container = app.stage.children[1];
+      const viewport = app.stage.children[0];
+      const container = viewport.children[0];
       const imageData = app.renderer.plugins.extract.pixels(container);
       await RobotApi.saveMap(getMapFromImage(imageData));
     } catch (err) {
