@@ -29,8 +29,6 @@ const MiniMap = ({
   canvasHeight,
   dataWidth,
   dataHeight,
-  laserDraw,
-  pointDraw,
 }) => {
   const maskBgDraw = useCallback((g) => {
     g.clear();
@@ -54,7 +52,6 @@ const MiniMap = ({
   }, []);
 
   const margin = 10;
-  const offset = 1;
   const maskPosition = {
     x: -(viewportPosition.x / viewportScale * miniMapScale) + margin,
     y: (canvasHeight * (1 - miniMapScale)) - (viewportPosition.y / viewportScale * miniMapScale) - margin,
@@ -84,8 +81,6 @@ const MiniMap = ({
             scale={dataScale} 
           />
         )}
-        <Graphics draw={laserDraw} />
-        <Graphics draw={pointDraw} />
       </Container>
       <Graphics draw={maskBgDraw} />
       <Mask draw={drawPositionSquare.bind(this, maskPosition)}>

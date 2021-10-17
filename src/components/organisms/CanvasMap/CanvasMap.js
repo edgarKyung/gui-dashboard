@@ -274,8 +274,8 @@ const CanvasMap = ({
           dataWidth={dataWidth}
           dataHeight={dataHeight}
           imgData={imgData}
-          points={points}
-          laserDraw={laserDraw}
+          // points={points}
+          // laserDraw={laserDraw}
         />
       </Stage>
     </div>

@@ -28,4 +28,4 @@ PageTemplate.defaultProps = {
     children: '',
 };
 
-export default PageTemplate;
+export default React.memo(PageTemplate);
