@@ -7,14 +7,13 @@ import { addSchedule, shiftSchedule } from '../modules/reducers/schedule';
 import { loadPoint } from '../modules/reducers/point';
 
 let poseChecker = null;
-let isModeSelect = false;
 
 const OperationContainer = ({ children }) => {
   const dispatch = useDispatch();
   const viewportRef = useRef();
   const [activeBtn, setActiveBtn] = useState('');
   const [points, setPoints] = useState([]);
-  // const [isModeSelect, setIsModeSelect] = useState(false);
+  const [isModeSelect, setIsModeSelect] = useState(false);
   const [zoomFlag, setZoomFlag] = useState(true);
   const {
     pointMarkList,
@@ -104,10 +103,8 @@ const OperationContainer = ({ children }) => {
   // }, [scheduleList.length])
 
   const handleClickMode = useCallback(async () => {
-    // TODO: 값 갱신이 안됨, 임시로 전역변수로 뺌
-    // setIsModeSelect(!isModeSelect);
-    isModeSelect = !isModeSelect;
-  }, []);
+    setIsModeSelect(!isModeSelect);
+  }, [isModeSelect]);
 
 
   const handleClickPoint = useCallback(async (point) => {

@@ -41,7 +41,7 @@ const MiniMap = ({
   }, []);
   const dataBgDraw = useCallback((g) => {
     g.clear();
-    g.beginFill(0xffffff, 1);
+    g.beginFill(0xfffffff, 1);
     g.drawRect(0, 0, canvasWidth, canvasHeight);
     g.endFill()
   }, []);
@@ -56,15 +56,14 @@ const MiniMap = ({
   const margin = 10;
   const offset = 1;
   const maskPosition = {
-    x: -(viewportPosition.x / viewportScale * miniMapScale) + margin + offset,
-    y: (canvasHeight * (1 - miniMapScale)) - (viewportPosition.y / viewportScale * miniMapScale) - margin - offset,
+    x: -(viewportPosition.x / viewportScale * miniMapScale) + margin,
+    y: (canvasHeight * (1 - miniMapScale)) - (viewportPosition.y / viewportScale * miniMapScale) - margin,
     width: canvasWidth * miniMapScale / viewportScale,
     height: canvasHeight * miniMapScale / viewportScale,
   };
-
+  
   return (
     <Container
-      angle={rotate}
       width={canvasWidth}
       height={canvasHeight}
       scale={miniMapScale}
@@ -72,13 +71,36 @@ const MiniMap = ({
       position={[margin, canvasHeight * (1 - miniMapScale) - margin]}
     >
       <Graphics draw={dataBgDraw} />
-      {imgData && (<Sprite image={imgData} option={{ width: dataWidth, height: dataHeight }} scale={dataScale} />)}
-      <Graphics draw={laserDraw} />
-      <Graphics draw={pointDraw} />
+      <Container
+        angle={rotate} 
+        pivot={[canvasWidth/2, canvasHeight/2]}
+        x={canvasWidth/2}
+        y={canvasHeight/2}      
+      >
+        {imgData && (
+          <Sprite 
+            image={imgData} 
+            option={{ width: dataWidth, height: dataHeight }} 
+            scale={dataScale} 
+          />
+        )}
+        <Graphics draw={laserDraw} />
+        <Graphics draw={pointDraw} />
+      </Container>
       <Graphics draw={maskBgDraw} />
       <Mask draw={drawPositionSquare.bind(this, maskPosition)}>
         <Graphics draw={dataBgDraw} />
-        {imgData && (<Sprite image={imgData} option={{ width: dataWidth, height: dataHeight }} scale={dataScale} />)}
+        {imgData && (
+          <Sprite 
+            image={imgData} 
+            option={{ width: dataWidth, height: dataHeight }} 
+            scale={dataScale} 
+            anchor={.5} 
+            angle={rotate} 
+            x={(canvasWidth / 2) - margin } 
+            y={(canvasHeight /2) - margin } 
+          />
+      )}
       </Mask>
     </Container >
   )

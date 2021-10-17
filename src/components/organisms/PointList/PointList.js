@@ -43,11 +43,4 @@ const PointList = ({
   </div>
 );
 
-function propsAreEqual(prev, next){
-  console.log('onClickPoint', prev.onClickPoint === next.onClickPoint);
-  console.log('pointList' ,prev.pointList === next.pointList);
-  console.log('pointMarkList' ,prev.pointMarkList === next.pointMarkList);
-  return false;
-}
-
-export default React.memo(PointList, propsAreEqual);
+export default PointList;

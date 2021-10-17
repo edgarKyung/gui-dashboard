@@ -195,6 +195,9 @@ const CanvasMap = ({
         >
           <Container 
             angle={rotate} 
+            pivot={[canvasWidth/2, canvasHeight/2]}
+            x={canvasWidth/2}
+            y={canvasHeight/2}
           >
           {imgData && (
             <Sprite
