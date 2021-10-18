@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Sprite, Container, Graphics, PixiComponent } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
@@ -30,7 +30,13 @@ const MiniMap = ({
   dataWidth,
   dataHeight,
 }) => {
-  const maskBgDraw = useCallback((g) => {
+  const mask = useRef();
+  const maskDraw = useCallback((g) => {
+    g.clear();
+    g.drawRect(0, 0, canvasWidth, canvasHeight);
+    g.endFill()
+  }, []);
+  const miniMapBlackBgDraw = useCallback((g) => {
     g.clear();
     g.beginFill(0x000, 0.5);
     g.lineStyle(50, 0x808080, 1)
@@ -67,12 +73,14 @@ const MiniMap = ({
       alpha={1}
       position={[margin, canvasHeight * (1 - miniMapScale) - margin]}
     >
-      <Graphics draw={dataBgDraw} />
+      <Graphics draw={maskDraw} ref={mask}/>
+      <Graphics draw={dataBgDraw}/>
       <Container
         angle={rotate} 
         pivot={[canvasWidth/2, canvasHeight/2]}
         x={canvasWidth/2}
         y={canvasHeight/2}      
+        mask={mask.current}
       >
         {imgData && (
           <Sprite 
@@ -82,7 +90,7 @@ const MiniMap = ({
           />
         )}
       </Container>
-      <Graphics draw={maskBgDraw} />
+      <Graphics draw={miniMapBlackBgDraw} />
       <Mask draw={drawPositionSquare.bind(this, maskPosition)}>
         <Graphics draw={dataBgDraw} />
         {imgData && (
@@ -92,8 +100,8 @@ const MiniMap = ({
             scale={dataScale} 
             anchor={.5} 
             angle={rotate} 
-            x={(canvasWidth / 2) - margin } 
-            y={(canvasHeight /2) - margin } 
+            x={(canvasWidth / 2)  } 
+            y={(canvasHeight /2)  } 
           />
       )}
       </Mask>
