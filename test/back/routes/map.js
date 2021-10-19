@@ -41,7 +41,9 @@ function getRawData(filepath) {
 
 
 function getImageData() {
-  gRawData = getRawData(path.join(__dirname, '../mock/map/default.map'));
+  const newMapPath = path.join(__dirname, '../mock/map/new.map');
+  const defaultMapPath = path.join(__dirname, '../mock/map/default.map');
+  gRawData = fs.existsSync(newMapPath) ? getRawData(newMapPath) : getRawData(defaultMapPath);
   const parsedData = new Array(gRawData.width * gRawData.height);
   let cellIdx = 0;
   for (let j = gRawData.height - 1; j >= 0; j -= 1) {
@@ -143,6 +145,7 @@ function saveMap({ bin, width, height }) {
   const filePath = path.join(dirPath, filename);
   fs.mkdirSync(dirPath, { recursive: true });
   fs.writeFileSync(filePath, concatData);
+  fs.writeFileSync(path.join(dirPath, 'new.map'), concatData);
 
   return filePath
 }
