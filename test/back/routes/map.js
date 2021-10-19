@@ -3,6 +3,8 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 
+let gRawData = null;
+
 function getRawData(filepath) {
   // const keys = ['dimension_height', 'dimension_width', 'origin_x', 'origin_y', 'resolution_x', 'resolution_y', 'type', 'explore'];
 
@@ -32,93 +34,32 @@ function getRawData(filepath) {
     height: dimension_height,
     origin: { x: origin_x, y: origin_y },
     resolution: { x: resolution_x, y: resolution_y },
-    bin: binData
+    bin: binData,
+    size: dataBuffer.readUInt32LE(18) - binData.length
   };
 }
 
+
 function getImageData() {
-  const rawData = getRawData(path.join(__dirname, '../mock/office.map'));
-  const parsedData = new Array(rawData.width * rawData.height);
+  gRawData = getRawData(path.join(__dirname, '../mock/map/default.map'));
+  const parsedData = new Array(gRawData.width * gRawData.height);
   let cellIdx = 0;
-  for (let j = rawData.height - 1; j >= 0; j -= 1) {
-    for (let i = 0; i < rawData.width; i += 1) {
-      const cellData = rawData.bin.readUInt8(cellIdx);
-      parsedData[rawData.width * j + i] = 10;
-      parsedData[rawData.width * j + i] = cellData === 0 ? -1 : parsedData[rawData.width * j + i];
-      parsedData[rawData.width * j + i] = cellData > 127 ? 90 : parsedData[rawData.width * j + i];
+  for (let j = gRawData.height - 1; j >= 0; j -= 1) {
+    for (let i = 0; i < gRawData.width; i += 1) {
+      const cellData = gRawData.bin.readUInt8(cellIdx);
+      parsedData[gRawData.width * j + i] = 10;
+      parsedData[gRawData.width * j + i] = cellData === 0 ? -1 : parsedData[gRawData.width * j + i];
+      parsedData[gRawData.width * j + i] = cellData > 127 ? 90 : parsedData[gRawData.width * j + i];
       cellIdx += 1;
     }
   }
   return {
-    width: rawData.width,
-    height: rawData.height,
-    origin: rawData.origin,
-    resolution: rawData.resolution,
+    width: gRawData.width,
+    height: gRawData.height,
+    origin: gRawData.origin,
+    resolution: gRawData.resolution,
     data: parsedData
   };
-}
-
-function rotaion(inputBuffer, radian, width, height) {
-  const cosValue = Math.cos(radian);
-  const sinValue = Math.sin(-radian);
-  const xCenter = width / 2;
-  const yCenter = height / 2;
-
-  const outputSquareX = [];
-  outputSquareX.push(parseInt(xCenter + (0 - yCenter) * sinValue + (0 - xCenter) * cosValue));
-  outputSquareX.push(parseInt(xCenter + (0 - yCenter) * sinValue + (width - xCenter) * cosValue));
-  outputSquareX.push(parseInt(xCenter + (height - yCenter) * sinValue + (0 - xCenter) * cosValue));
-  outputSquareX.push(parseInt(xCenter + (height - yCenter) * sinValue + (width - xCenter) * cosValue));
-  const minX = Math.min(...outputSquareX);
-  const maxX = Math.max(...outputSquareX);
-
-  const outputSquareY = [];
-  outputSquareY.push(parseInt(yCenter + (0 - yCenter) * cosValue - (0 - xCenter) * sinValue));
-  outputSquareY.push(parseInt(yCenter + (0 - yCenter) * cosValue - (width - xCenter) * sinValue));
-  outputSquareY.push(parseInt(yCenter + (height - yCenter) * cosValue - (0 - xCenter) * sinValue));
-  outputSquareY.push(parseInt(yCenter + (height - yCenter) * cosValue - (width - xCenter) * sinValue));
-  const minY = Math.min(...outputSquareY);
-  const maxY = Math.max(...outputSquareY);
-
-  const outputWidth = maxX - minX;
-  const outputHeight = maxY - minY;
-  const outputBuffer = Buffer.alloc((outputWidth) * (outputHeight), 0x00);
-
-  for (let y = minY; y < maxY; y += 1) {
-    for (let x = minX; x < maxX; x += 1) {
-      const orig_x = parseInt(xCenter + ((y) - yCenter) * sinValue + ((x) - xCenter) * cosValue);
-      const orig_y = parseInt(yCenter + ((y) - yCenter) * cosValue - ((x) - xCenter) * sinValue);
-      if ((orig_y >= 0 && orig_y < height) && (orig_x >= 0 && orig_x < width)) {
-        outputBuffer[(y - minY) * outputWidth + x - minX] = inputBuffer[orig_y * width + orig_x];
-      }
-    }
-  }
-
-  return {
-    width: outputWidth,
-    height: outputHeight,
-    bin: outputBuffer
-  };
-}
-
-function saveRotateMap(rawData, radian) {
-  const newData = rotaion(rawData.bin, radian, rawData.width, rawData.height);
-  const sizeBuffer = Buffer.alloc(4);
-  sizeBuffer.writeUInt32LE(newData.bin.length + 234);
-  rawData.header_pre_height[18] = sizeBuffer[0];
-  rawData.header_pre_height[19] = sizeBuffer[1];
-  rawData.header_pre_height[20] = sizeBuffer[2];
-  rawData.header_pre_height[21] = sizeBuffer[3];
-  const concatData = Buffer.concat([
-    rawData.header_pre_height,
-    Buffer.from(`${newData.height}`),
-    rawData.header_pre_width,
-    Buffer.from(`${newData.width}`),
-    rawData.header_post_width,
-    newData.bin,
-    rawData.footer
-  ]);
-  fs.writeFileSync('./rotate.map', concatData);
 }
 
 /* GET users listing. */
@@ -152,6 +93,7 @@ router.post('/scan', function (req, res) {
 
 router.post('/save', function (req, res) {
   console.log('POST [/map/save]', 'SUCCESS');
+  saveMap(req.body.data);
   return res.send('SUCCESS');
 });
 
@@ -159,5 +101,51 @@ router.post('/load', function (req, res) {
   console.log('POST [/map/load]', 'SUCCESS');
   return res.send('SUCCESS');
 });
+
+
+function saveMap({ bin, width, height }) {
+  const newBuffer = Buffer.alloc(bin.length, 0);
+  let cellIdx = 0;
+  for (let i = height - 1; i >= 0; i -= 1) {
+    for (let j = 0; j < width; j += 1) {
+      const data = bin[i * width + j];
+      newBuffer[cellIdx] = data === -1 ? 0 : data;
+      cellIdx += 1;
+    }
+  }
+
+  const newHeightLength = height.toString().length;
+  const newWidthLength = width.toString().length;
+  const diffLength = newHeightLength + newWidthLength - gRawData.height.toString().length - gRawData.width.toString().length;
+
+  gRawData.header_pre_height[gRawData.header_pre_height.length - 2] = newHeightLength;
+  gRawData.header_pre_width[gRawData.header_pre_width.length - 2] = newWidthLength;
+
+  const concatData = Buffer.concat([
+    gRawData.header_pre_height,
+    Buffer.from(`${height}`),
+    gRawData.header_pre_width,
+    Buffer.from(`${width}`),
+    gRawData.header_post_width,
+    newBuffer,
+    gRawData.footer
+  ]);
+
+  const sizeBuffer = Buffer.alloc(4);
+  sizeBuffer.writeUInt32LE(newBuffer.length + gRawData.size + diffLength);
+  concatData[18] = sizeBuffer[0];
+  concatData[19] = sizeBuffer[1];
+  concatData[20] = sizeBuffer[2];
+  concatData[21] = sizeBuffer[3];
+
+  const dirPath = path.join(__dirname, '..', 'mock', 'map');
+  const filename = `${new Date().getTime()}.map`;
+  const filePath = path.join(dirPath, filename);
+  fs.mkdirSync(dirPath, { recursive: true });
+  fs.writeFileSync(filePath, concatData);
+
+  return filePath
+}
+
 
 module.exports = router;

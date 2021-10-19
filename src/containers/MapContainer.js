@@ -22,36 +22,39 @@ const MapContainer = () => {
     setDrawType(drawType === type ? '' : type);
   };
 
-  function getMapFromImage(imageData) {
+  function getMapFromImage(imageData, width, height) {
     const bin = [];
     for (let i = 0; i < imageData.length; i += 4) {
-      if (imageData[i] === 255) {
-        bin.push(-1);   // Unknown Area
+      if (imageData[i] === 255 || imageData[i] === 0) {
+        // Unknown Area
+        bin.push(-1);
         continue;
       }
       if (imageData[i] > 200) {
-        bin.push(127);      // Movable Area
+        // Movable Area
+        bin.push(127);
         continue;
       }
-      if (imageData[i] > 10) {
-        bin.push(255);  // Unmovable Area
-        continue;
-      }
+      // Unmovable Area
+      bin.push(255);
     }
     return {
       bin: bin,
-      // width: width,
-      // height: height
+      width: width,
+      height: height
     };
   }
-  
+
   const handleClickSave = async () => {
     try {
       const app = canvasRef.current.app;
       const viewport = app.stage.children[0];
       const container = viewport.children[0];
       const imageData = app.renderer.plugins.extract.pixels(container);
-      await RobotApi.saveMap(getMapFromImage(imageData));
+      const width = Math.floor(container.width);
+      const height = Math.floor(container.height);
+      const mapData = getMapFromImage(imageData, width, height);
+      await RobotApi.saveMap(mapData);
     } catch (err) {
       console.error(err)
     }
