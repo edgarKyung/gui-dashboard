@@ -32,6 +32,8 @@ const CanvasMapContainer = ({
   activeWallId,
   viewportRef,
   canvasRef,
+  drawType,
+  drawSize,
 }) => {
   const canvas = document.createElement('canvas');
   let calcCanvasWidth = canvasWidth - margin;
@@ -200,9 +202,10 @@ const CanvasMapContainer = ({
     if (interaction.pressure > 0) {
       const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
       // onDrag({ x, y, size: defualtWallSize / viewportScale });
+      console.log(interaction);
       onDrag({ x, y });
     }
-  }, []);
+  }, [drawType, drawSize]);
 
   const handleClickRotationClock = useCallback(() => {
     console.log('handleClickRotationClock', rotate);
@@ -262,6 +265,8 @@ CanvasMapContainer.defaultProps = {
   drawOneTime: false,
   margin: 0,
   selectedPoint: {},
+  drawType: '',
+  drawSize: 1,
   onClickCanvas: () => { console.log('onClickCanvas is not defined'); },
   onClickPoint: () => { console.log('onClickPoint is not defined'); },
   onClickCanvasPoint: () => { console.log('onClickCanvasPoint is not defined'); },
