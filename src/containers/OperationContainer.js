@@ -107,7 +107,7 @@ const OperationContainer = ({ children }) => {
   }, [isModeSelect]);
 
 
-  const handleClickPoint = useCallback(async (point) => {
+  const handleClickPoint = useCallback((point) => {
     try {
       dispatch(addSchedule(point));
       // console.log(point);
