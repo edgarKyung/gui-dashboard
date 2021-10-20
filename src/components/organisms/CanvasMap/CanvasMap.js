@@ -115,7 +115,7 @@ const CanvasMap = ({
       let color;
       color = (type === 'able') ? 0xFFFFFF : color;
       color = (type === 'undefined') ? 0xF0F0EC : color;
-      color = (type === 'disable') ? 0x000000 : color;
+      color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
       g.drawRect(x - (size / 2), y - (size / 2), size, size);
     });

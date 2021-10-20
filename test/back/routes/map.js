@@ -105,7 +105,7 @@ function getAreaSize({ bin, width, height }) {
   const area = { top: -1, left: -1, right: -1, bottom: -1 };
   for (let i = 0; i < height; i += 1) {
     for (let j = 0; j < width; j += 1) {
-      if (bin[i * width + j] !== -1 && bin[i * width + j] !== 255) {
+      if (bin[i * width + j] !== 0) {
         area.top = i;
         break;
       }
@@ -117,7 +117,7 @@ function getAreaSize({ bin, width, height }) {
 
   for (let i = height - 1; i >= 0; i -= 1) {
     for (let j = 0; j < width; j += 1) {
-      if (bin[i * width + j] !== -1 && bin[i * width + j] !== 255) {
+      if (bin[i * width + j] !== 0) {
         area.bottom = i;
         break;
       }
@@ -129,7 +129,7 @@ function getAreaSize({ bin, width, height }) {
 
   for (let j = 0; j < width; j += 1) {
     for (let i = 0; i < height; i += 1) {
-      if (bin[i * width + j] !== -1 && bin[i * width + j] !== 255) {
+      if (bin[i * width + j] !== 0) {
         area.left = j;
         break;
       }
@@ -141,7 +141,7 @@ function getAreaSize({ bin, width, height }) {
 
   for (let j = width - 1; j >= 0; j -= 1) {
     for (let i = 0; i < height; i += 1) {
-      if (bin[i * width + j] !== -1 && bin[i * width + j] !== 255) {
+      if (bin[i * width + j] !== 0) {
         area.right = j;
         break;
       }

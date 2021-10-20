@@ -24,20 +24,34 @@ const MapContainer = () => {
 
   function getMapFromImage(imageData, width, height) {
     const bin = [];
-    for (let i = 0; i < imageData.length; i += 4) {
-      if (imageData[i] === 255 || imageData[i] === 0) {
-        // Unknown Area
-        bin.push(-1);
-        continue;
+    // Temporary
+    for (let i = 0; i < 4; i += 1) {
+      for (let j = 0; j < 4; j += 1) {
+        imageData[(width * i + j) * 4] = 0;
       }
-      if (imageData[i] > 200) {
-        // Movable Area
+    }
+
+    for (let i = 0; i < imageData.length; i += 4) {
+      // color = (data[cell] >= 0) ? [240, 240, 236] : color; // Movable Area
+      // color = (data[cell] > 40) ? [255, 255, 255] : color; // Unknown Area
+      // color = (data[cell] > 70) ? [30, 30, 30] : color; // Unmovable Area
+
+      // Movable Area
+      if (imageData[i] > 235 && imageData[i] < 250) {
         bin.push(127);
         continue;
       }
+
       // Unmovable Area
-      bin.push(255);
+      if (imageData[i] > 0 && imageData[i] < 140) {
+        bin.push(255);
+        continue;
+      }
+
+      // Unknown Area
+      bin.push(0);
     }
+
     return {
       bin: bin,
       width: width,
