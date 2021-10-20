@@ -84,7 +84,6 @@ const MapContainer = () => {
   }
 
   const handleDrag = ({ x, y }) => {
-    console.log('handleDrag', drawType);
     if (!!drawType) {
       dispatch(addWallTemp({ x, y, size: drawSize, type: drawType }));
     }

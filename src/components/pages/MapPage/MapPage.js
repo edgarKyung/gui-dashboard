@@ -41,6 +41,7 @@ const MapPage = ({
         margin={75}
         drawType={drawType}
         drawSize={drawSize}
+        disableRotate={false}
       />
     </MainContentTemplate>
 

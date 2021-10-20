@@ -34,6 +34,7 @@ const CanvasMapContainer = ({
   canvasRef,
   drawType,
   drawSize,
+  disableRotate,
 }) => {
   const canvas = document.createElement('canvas');
   let calcCanvasWidth = canvasWidth - margin;
@@ -115,8 +116,9 @@ const CanvasMapContainer = ({
   async function setMapData() {
     map = await RobotApi.getMap('office');
 
-    const scaleWidth = calcCanvasWidth / map.width;
-    const scaleHeight = calcCanvasHeight / map.height;
+    const [w, h] = imageSizeAfterRotation([map.width, map.height], rotate);
+    const scaleWidth = calcCanvasWidth / w;
+    const scaleHeight = calcCanvasHeight / h;
     if (scaleWidth < scaleHeight) {
       const padding = calcCanvasHeight / scaleWidth - map.height;
       canvas_padding.top = padding * 0.4;
@@ -147,6 +149,28 @@ const CanvasMapContainer = ({
     }
   }
 
+  function imageSizeAfterRotation(size, degrees) {
+    degrees = degrees % 180;
+    if (degrees < 0) {
+        degrees = 180 + degrees;
+    }
+    if (degrees >= 90) {
+        size = [ size[1], size[0] ];
+        degrees = degrees - 90;
+    }
+    if (degrees === 0) {
+        return size;
+    }
+    const radians = degrees * Math.PI / 180;
+    const width = (size[0] * Math.cos(radians)) + (size[1] * Math.sin(radians));
+    const height = (size[0] * Math.sin(radians)) + (size[1] * Math.cos(radians));
+    return [ width, height ];
+  }
+
+  function percentage(partialValue, totalValue) {
+    return (100 * partialValue) / totalValue;
+  } 
+
   async function drawCanvas() {
     await setMapData();
     drawMap(map);
@@ -171,7 +195,7 @@ const CanvasMapContainer = ({
       if (drawInterval) clearInterval(drawInterval);
       if (drawStatusInterval) clearInterval(drawStatusInterval);
     }
-  }, []);
+  }, [rotate]);
 
   const handleZoomEndCanvas = useCallback((e) => {
     // console.log('zoom end', e);
@@ -210,7 +234,6 @@ const CanvasMapContainer = ({
   const handleClickRotationClock = useCallback(() => {
     console.log('handleClickRotationClock', rotate);
     setRotate(rotate + 10);
-    
   }, [rotate]);
 
   const handleClickRotationUnClock = useCallback(() => {
@@ -254,6 +277,7 @@ const CanvasMapContainer = ({
       onDrag={handleGlobalMove}
       onDragEnd={onDragEnd}
 
+      disableRotate={disableRotate}
       rotate={rotate}
       onClickRotationClock={handleClickRotationClock}
       onClickRotationUnClock={handleClickRotationUnClock}
@@ -262,6 +286,7 @@ const CanvasMapContainer = ({
 }
 
 CanvasMapContainer.defaultProps = {
+  disableRotate: true,
   drawOneTime: false,
   margin: 0,
   selectedPoint: {},

@@ -75,8 +75,8 @@ const PixiViewPortComponent = forwardRef(({
   return  <PixiComponentViewport 
     ref={ref}
     app={app} 
-    width={width} 
-    height={height} 
+    width={dataWidth} 
+    height={dataHeight} 
     worldWidth={width} 
     worldHeight={height} 
     disableViewPort={disableViewPort} 

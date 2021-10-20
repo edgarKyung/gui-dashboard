@@ -51,6 +51,7 @@ const CanvasMap = ({
   onDrag,
   onDragEnd,
 
+  disableRotate,
   rotate,
   onClickRotationClock,
   onClickRotationUnClock,
@@ -119,6 +120,7 @@ const CanvasMap = ({
       g.beginFill(color, 1);
       g.drawRect(x - (size / 2), y - (size / 2), size, size);
     });
+
     g.endFill();
   }, [wallTemp.length, wall]);
 
@@ -205,6 +207,7 @@ const CanvasMap = ({
               option={{ width: dataWidth, height: dataHeight }}
               interactive
               scale={scale}
+              // tint={0xfff}
               pointermove={onDrag}
               pointerup={onDragEnd}
             />
@@ -246,6 +249,7 @@ const CanvasMap = ({
           ))}
           </Container>
         </PixiViewPort>
+        { !disableRotate && (
         <Container position={[canvasWidth - 130, canvasHeight - 70]}>
           <Sprite
             image={rotationIncrease}
@@ -263,6 +267,7 @@ const CanvasMap = ({
             scale={1.5}
           />
         </Container>
+        )}
         <MiniMap
           rotate={rotate}
           dataScale={scale}
@@ -274,8 +279,6 @@ const CanvasMap = ({
           dataWidth={dataWidth}
           dataHeight={dataHeight}
           imgData={imgData}
-          // points={points}
-          // laserDraw={laserDraw}
         />
       </Stage>
     </div>
@@ -309,6 +312,7 @@ CanvasMap.defaultProps = {
   virtualWall: [],
   virtualWallList: [],
   activeWallId: '',
+  disableRotate: true,
   onClickFirstPoint: () => { },
   onClickPoint: () => { },
   onClickCanvas: () => { },
@@ -316,4 +320,4 @@ CanvasMap.defaultProps = {
   onMovePointEnd: () => { },
   onDrag: () => { },
 }
-export default React.memo(CanvasMap);
+export default CanvasMap;
