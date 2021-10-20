@@ -1,5 +1,5 @@
-import React, { useState, Fragment, useEffect, useRef, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState, Fragment, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { OperationPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
@@ -23,7 +23,7 @@ const OperationContainer = ({ children }) => {
     pointMarkList: store.point.get('points').filter(point => point.favorite),
     pointList: store.point.get('points').filter(point => !point.favorite),
     scheduleList: store.schedule.get('schedules'),
-  }));
+  }), shallowEqual);
 
   async function checkPose() {
     const pose = await RobotApi.getPose();
@@ -107,7 +107,7 @@ const OperationContainer = ({ children }) => {
   }, [isModeSelect]);
 
 
-  const handleClickPoint = useCallback(async (point) => {
+  const handleClickPoint = useCallback((point) => {
     try {
       dispatch(addSchedule(point));
       // console.log(point);

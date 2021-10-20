@@ -39,6 +39,8 @@ const MapPage = ({
         onDrag={onDrag}
         onDragEnd={onDragEnd}
         margin={75}
+        drawType={drawType}
+        drawSize={drawSize}
       />
     </MainContentTemplate>
 
