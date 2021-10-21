@@ -203,11 +203,13 @@ const CanvasMap = ({
           >
           {imgData && (
             <Sprite
+              anchor={.5}
+              x={canvasWidth / 2}
+              y={canvasHeight / 2}
               image={imgData}
               option={{ width: dataWidth, height: dataHeight }}
               interactive
               scale={scale}
-              // tint={0xfff}
               pointermove={onDrag}
               pointerup={onDragEnd}
             />
