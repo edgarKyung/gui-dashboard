@@ -5,10 +5,20 @@ import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 import { addWall } from '../modules/reducers/wall';
 import { addWallTemp, resetWallTemp } from '../modules/reducers/wallTemp';
+import FileListPopupContainer from './FileListPopupContainer';
+import SavePopUpContainer from './SavePopUpContainer';
 
 const MapContainer = () => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
+  const [loadPopupInfo, setLoadPopupInfo] = useState({
+    show: false,
+    fileList: [],
+  });
+  const [savePopupInfo, setSavePopupInfo] = useState({
+    show: false,
+  });
+  
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(1);
   const drawSizeList = [1, 5, 10, 15];
@@ -61,6 +71,9 @@ const MapContainer = () => {
 
   const handleClickSave = async () => {
     try {
+      setSavePopupInfo({
+        show: true
+      });
       const app = canvasRef.current.app;
       const viewport = app.stage.children[0];
       const container = viewport.children[0];
@@ -76,7 +89,11 @@ const MapContainer = () => {
 
   const handleClickLoad = async () => {
     try {
-      await RobotApi.loadMap();
+      const fileList = await RobotApi.loadMap();
+      setLoadPopupInfo({
+        show: true,
+        fileList,
+      });
     } catch (err) {
       console.error(err)
     }
@@ -126,23 +143,65 @@ const MapContainer = () => {
     setDrawSize(size);
   };
 
+  const handleClickFileOk = (data) => {
+    console.log(data);
+    setLoadPopupInfo({
+      ...loadPopupInfo,
+      show: false,
+    });
+  };
+
+  const handleClickFileClose = () => {
+    setLoadPopupInfo({
+      ...loadPopupInfo,
+      show: false,
+    });
+  };
+
+  const handleClickSaveOk = (data) => {
+    console.log(data);
+    setSavePopupInfo({ show: false });
+  };
+
+  const handleClickSaveClose = () => {
+    setSavePopupInfo({ show: false });    
+  };
+
   return (
-    <MapPage
-      canvasRef={canvasRef}
-      drawType={drawType}
-      drawSize={drawSize}
-      drawSizeList={drawSizeList}
-      disableViewPort={!!drawType}
-      onClickDrawType={handleClickDrawType}
-      onClickSave={handleClickSave}
-      onClickLoad={handleClickLoad}
-      onClickScan={handleClickScan}
-      onClickEnd={handleClickEnd}
-      onDrag={handleDrag}
-      onDragEnd={handleDragEnd}
-      onClickUndoRedo={handleClickUndoRedo}
-      onClickDrawLine={handleClickDrawLine}
-    />
+    <>
+      <MapPage
+        canvasRef={canvasRef}
+        drawType={drawType}
+        drawSize={drawSize}
+        drawSizeList={drawSizeList}
+        disableViewPort={!!drawType}
+        onClickDrawType={handleClickDrawType}
+        onClickSave={handleClickSave}
+        onClickLoad={handleClickLoad}
+        onClickScan={handleClickScan}
+        onClickEnd={handleClickEnd}
+        onDrag={handleDrag}
+        onDragEnd={handleDragEnd}
+        onClickUndoRedo={handleClickUndoRedo}
+        onClickDrawLine={handleClickDrawLine}
+      />
+      { loadPopupInfo.show && 
+        <FileListPopupContainer
+          items={loadPopupInfo.fileList}
+          onClickOk={handleClickFileOk}
+          onClickCancel={handleClickFileClose}
+          onClickClose={handleClickFileClose}
+        /> 
+      }
+      { savePopupInfo.show && 
+        <SavePopUpContainer
+          items={loadPopupInfo.fileList}
+          onClickOk={handleClickSaveOk}
+          onClickCancel={handleClickSaveClose}
+          onClickClose={handleClickSaveClose}
+        /> 
+      }
+    </>
   )
 }
 

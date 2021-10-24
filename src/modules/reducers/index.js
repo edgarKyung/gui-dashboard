@@ -9,6 +9,7 @@ import wallTemp from './wallTemp';
 import message from './message';
 import virtualWall from './virtualWall';
 import monitoringData from './monitoringData';
+import fileListPopup from './fileListPopup';
 
 const rootReducer = combineReducers({
     common,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     message,
     virtualWall,
     monitoringData,
+    fileListPopup,
 });
 
 export default rootReducer;

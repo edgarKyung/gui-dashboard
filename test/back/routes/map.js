@@ -97,7 +97,8 @@ router.post('/save', function (req, res) {
 
 router.post('/load', function (req, res) {
   console.log('POST [/map/load]', 'SUCCESS');
-  return res.send('SUCCESS');
+  const temp_data = ['file1', 'file2', 'file3', 'file4'];
+  return res.send(temp_data);
 });
 
 
