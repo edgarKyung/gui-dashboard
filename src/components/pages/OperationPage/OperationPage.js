@@ -7,6 +7,7 @@ import {
   PointList,
   RobotStatus,
   RobotPlayControlPanel,
+  RobotPositionControlPanel
 } from '../../organisms';
 import { ControlContentTemplate, MainContentTemplate } from '../../templates';
 import { CanvasMapContainer, RobotPositionJoyStickContainer, RobotStatusBarContainer } from '../../../containers';
@@ -23,6 +24,8 @@ const OperationPage = ({
   isModeSelect,
   onClickMode,
   viewportRef,
+  onClickMovePoint,
+  onClickMoveRotation
 }) => (
   <PageTemplate>
     <MainContentTemplate title={'로봇운영'}>
@@ -60,7 +63,15 @@ const OperationPage = ({
         isModeSelect={isModeSelect}
       />
       <div className={cx('joystick-wrap')}>
-        <RobotPositionJoyStickContainer />
+        { !isModeSelect && ( 
+          <RobotPositionJoyStickContainer /> 
+        )}
+        { isModeSelect && ( 
+          <RobotPositionControlPanel 
+            onMovePoint={onClickMovePoint}
+            onMoveRotation={onClickMoveRotation}
+          /> 
+        )}
       </div>
       <RobotStatusBarContainer />
     </ControlContentTemplate>

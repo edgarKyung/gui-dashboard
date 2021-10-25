@@ -105,10 +105,9 @@ const RobotPositionControlPanel = ({
   );
 };
 
-// const RobotPositionControlPanel = () => (
-//   <div className={cx('position-joy-stick-wrap')}>
-//     <div className={cx('control-panel-wrap')}></div>
-//   </div>
-// );
+RobotPositionControlPanel.defaultProps = {
+  onMovePoint : () => { console.log('unbinded onMovePoint'); },
+  onMoveRotation: () => { console.log('unbinded onMoveRotation');},
+};
 
-export default RobotPositionControlPanel;
+export default React.memo(RobotPositionControlPanel);

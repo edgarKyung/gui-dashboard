@@ -169,6 +169,14 @@ const OperationContainer = ({ children }) => {
     }
   }, []);
 
+  const handleClickMovePoint = useCallback((e, data) => {
+    console.log('click Move Point', data);
+  }, [isModeSelect]);
+
+  const handleClickMoveRotation = useCallback((e, data) => {
+    console.log('click Move Rotation', data);
+  }, [isModeSelect]);
+
   return (
     <Fragment>
       <OperationPage
@@ -182,6 +190,9 @@ const OperationContainer = ({ children }) => {
         isModeSelect={isModeSelect}
         onClickMode={handleClickMode}
         viewportRef={viewportRef}
+
+        onClickMovePoint={handleClickMovePoint}
+        onClickmoveRotation={handleClickMoveRotation}
       />
     </Fragment>
   )
