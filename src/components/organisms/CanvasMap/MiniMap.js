@@ -30,12 +30,6 @@ const MiniMap = ({
   dataWidth,
   dataHeight,
 }) => {
-  const mask = useRef();
-  const maskDraw = useCallback((g) => {
-    g.clear();
-    g.drawRect(0, 0, canvasWidth, canvasHeight);
-    g.endFill()
-  }, []);
   const miniMapBlackBgDraw = useCallback((g) => {
     g.clear();
     g.beginFill(0x000, 0.5);
@@ -73,23 +67,19 @@ const MiniMap = ({
       alpha={1}
       position={[margin, canvasHeight * (1 - miniMapScale) - margin]}
     >
-      <Graphics draw={maskDraw} ref={mask}/>
       <Graphics draw={dataBgDraw}/>
-      <Container
-        angle={rotate} 
-        pivot={[canvasWidth/2, canvasHeight/2]}
-        x={canvasWidth/2}
-        y={canvasHeight/2}      
-        mask={mask.current}
-      >
-        {imgData && (
-          <Sprite 
-            image={imgData} 
-            option={{ width: dataWidth, height: dataHeight }} 
-            scale={dataScale} 
-          />
-        )}
-      </Container>
+      {imgData && (
+        <Sprite 
+          image={imgData} 
+          option={{ width: dataWidth, height: dataHeight }} 
+          scale={dataScale} 
+          anchor={.5} 
+          angle={rotate} 
+          x={(canvasWidth / 2)  } 
+          y={(canvasHeight /2)  } 
+
+        />
+      )}
       <Graphics draw={miniMapBlackBgDraw} />
       <Mask draw={drawPositionSquare.bind(this, maskPosition)}>
         <Graphics draw={dataBgDraw} />
