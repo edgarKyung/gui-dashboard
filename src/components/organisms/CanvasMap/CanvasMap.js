@@ -214,7 +214,13 @@ const CanvasMap = ({
               pointerup={onDragEnd}
             />
           )}
-          <Graphics draw={drawWall} />
+          <Graphics 
+            draw={drawWall} 
+            x={canvasWidth / 2}
+            y={canvasHeight / 2}
+            pivot={[canvasWidth/2, canvasHeight/2]}
+            scale={scale}
+          />
 
           <Graphics draw={drawVirtualWallList} />
 
