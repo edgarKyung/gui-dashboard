@@ -108,10 +108,19 @@ const CanvasMap = ({
     }
   }, [laserData]);
 
+  function getRotate(cx, cy, x, y, angle) {
+    var radians = (Math.PI / 180) * angle,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians),
+        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    return [nx, ny];
+  }  
   // 맵 데이터 그림
   const drawWall = useCallback(g => {
     g.clear();
-    wall.reduce((prev, current) => prev.concat(current), []).concat(wallTemp).forEach(data => {
+    console.log('render drawwall');
+    wall.reduce((prev, current) => prev.concat(current), []).forEach(data => {
       const { x, y, size, type } = data;
       let color;
       color = (type === 'able') ? 0xFFFFFF : color;
@@ -122,7 +131,19 @@ const CanvasMap = ({
     });
 
     g.endFill();
-  }, [wallTemp.length, wall]);
+  }, [wall]);
+
+  const drawTempWall = g => {
+    const data = wallTemp[wallTemp.length-1];
+    const { x, y, size, type } = data;
+    let color;
+    color = (type === 'able') ? 0xFFFFFF : color;
+    color = (type === 'undefined') ? 0xF0F0EC : color;
+    color = (type === 'disable') ? 0x1E1E1E : color;
+    g.beginFill(color, 1);
+    g.drawRect(x - (size / 2), y - (size / 2), size, size);
+    g.endFill();
+  };
 
   // 가상벽 목록을 그림
   const drawVirtualWallList = useCallback(g => {
@@ -214,6 +235,8 @@ const CanvasMap = ({
               pointerup={onDragEnd}
             />
           )}
+
+          {/* 마우스 draw 맵 그리기 */}
           <Graphics 
             draw={drawWall} 
             x={canvasWidth / 2}
@@ -221,7 +244,6 @@ const CanvasMap = ({
             pivot={[canvasWidth/2, canvasHeight/2]}
             scale={scale}
           />
-
           <Graphics draw={drawVirtualWallList} />
 
           <Graphics draw={drawVirtualWall} />
@@ -256,6 +278,15 @@ const CanvasMap = ({
             />
           ))}
           </Container>
+          {/* 그리는 중인거 그리기 */}
+          { wallTemp.length > 0 && (<Graphics 
+            draw={drawTempWall} 
+            x={canvasWidth / 2}
+            y={canvasHeight / 2}
+            pivot={[canvasWidth/2, canvasHeight/2]}
+            // scale={scale}
+          />) }
+
         </PixiViewPort>
         { !disableRotate && (
         <Container position={[canvasWidth - 130, canvasHeight - 70]}>

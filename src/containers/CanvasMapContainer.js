@@ -226,10 +226,9 @@ const CanvasMapContainer = ({
     if (interaction.pressure > 0) {
       const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
       // onDrag({ x, y, size: defualtWallSize / viewportScale });
-      console.log(interaction);
-      onDrag({ x, y });
+      onDrag({ x, y, rotate });
     }
-  }, [drawType, drawSize]);
+  }, [drawType, drawSize, rotate]);
 
   const handleClickRotationClock = useCallback(() => {
     console.log('handleClickRotationClock', rotate);
@@ -301,4 +300,4 @@ CanvasMapContainer.defaultProps = {
   onDragEnd: () => { /* console.log('onDrag is not defined'); */ },
 };
 
-export default CanvasMapContainer;
+export default React.memo(CanvasMapContainer);

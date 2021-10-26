@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ActionCreators } from 'redux-undo';
 import { useDispatch, useSelector } from 'react-redux'
 import { MapPage } from '../components/pages';
@@ -28,9 +28,9 @@ const MapContainer = () => {
     wallTemp: store.wallTemp.get('wallTemp'),
   }));
 
-  const handleClickDrawType = (type) => {
+  const handleClickDrawType = useCallback((type) => {
     setDrawType(drawType === type ? '' : type);
-  };
+  }, [drawType]);
 
   function getMapFromImage(imageData, width, height) {
     const bin = [];
@@ -99,26 +99,26 @@ const MapContainer = () => {
     }
   }
 
-  const handleClickScan = async () => {
+  const handleClickScan = useCallback(async () => {
     try {
       await RobotApi.scanMap();
     } catch (err) {
       console.error(err)
     }
-  }
+  }, []);
 
-  const handleClickEnd = async () => {
+  const handleClickEnd = useCallback(() => {
     try {
     } catch (err) {
       console.error(err)
     }
-  }
+  }, []);
 
-  const handleDrag = ({ x, y }) => {
+  const handleDrag = useCallback(({ x, y, rotate }) => {
     if (!!drawType) {
-      dispatch(addWallTemp({ x, y, size: drawSize, type: drawType }));
+      dispatch(addWallTemp({ x, y, rotate, size: drawSize, type: drawType }));
     }
-  };
+  }, [drawType, drawSize]);
 
   const handleDragEnd = (e) => {
     if (!!drawType) {
@@ -128,7 +128,6 @@ const MapContainer = () => {
       }));
       dispatch(resetWallTemp());
     }
-
   };
 
   const handleClickUndoRedo = (type) => {
@@ -143,20 +142,20 @@ const MapContainer = () => {
     setDrawSize(size);
   };
 
-  const handleClickFileOk = (data) => {
+  const handleClickFileOk = useCallback((data) => {
     console.log(data);
     setLoadPopupInfo({
       ...loadPopupInfo,
       show: false,
     });
-  };
+  }, [loadPopupInfo]);
 
-  const handleClickFileClose = () => {
+  const handleClickFileClose = useCallback(() => {
     setLoadPopupInfo({
       ...loadPopupInfo,
       show: false,
     });
-  };
+  }, [loadPopupInfo]);
 
   const handleClickSaveOk = (data) => {
     console.log(data);

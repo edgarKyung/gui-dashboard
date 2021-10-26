@@ -109,4 +109,4 @@ const MapPage = ({
   </PageTemplate>
 );
 
-export default MapPage;
+export default React.memo(MapPage);
