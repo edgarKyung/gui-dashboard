@@ -5,7 +5,6 @@ import common from './common';
 import point from './point';
 import schedule from './schedule';
 import wall from './wall';
-import wallTemp from './wallTemp';
 import message from './message';
 import virtualWall from './virtualWall';
 import monitoringData from './monitoringData';
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
     point,
     schedule,
     wall:undoable(wall),
-    wallTemp,
     message,
     virtualWall,
     monitoringData,

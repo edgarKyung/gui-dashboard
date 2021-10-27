@@ -18,14 +18,12 @@ const MapPage = ({
   drawSize,
   drawType,
   drawSizeList,
-  disableViewPort,
+  drawMode,
   onClickDrawType,
   onClickSave,
   onClickLoad,
   onClickScan,
   onClickEnd,
-  onDrag,
-  onDragEnd,
   onClickUndoRedo,
   onClickDrawLine,
 }) => (
@@ -33,11 +31,9 @@ const MapPage = ({
     <MainContentTemplate title={'맵 생성'}>
       <CanvasMapContainer
         canvasRef={canvasRef}
-        disableViewPort={disableViewPort}
+        drawMode={drawMode}
         canvasWidth={1180}
         canvasHeight={1125}
-        onDrag={onDrag}
-        onDragEnd={onDragEnd}
         margin={75}
         drawType={drawType}
         drawSize={drawSize}

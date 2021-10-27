@@ -45,15 +45,15 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
   },
   applyProps: (instance, oldProps, newProps) => {
     console.log('applyProps', instance, oldProps, newProps);
-    if(oldProps.disableViewPort !== newProps.disableViewPort){
-      instance.drag({pressDrag: !newProps.disableViewPort}).pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
+    if(oldProps.drawMode !== newProps.drawMode){
+      instance.drag({pressDrag: !newProps.drawMode}).pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
     }
   },
 });
 
 
 const PixiViewPortComponent = forwardRef(({ 
-  disableViewPort, 
+  drawMode, 
   width, 
   height, 
   dataWidth, 
@@ -71,7 +71,7 @@ const PixiViewPortComponent = forwardRef(({
   app.onWheel = onWheel;
   app.onWheelScroll = onWheelScroll;
   app.onMoved = onMoved;
-  app.disableViewPort = disableViewPort;
+  app.drawMode = drawMode;
   return  <PixiComponentViewport 
     ref={ref}
     app={app} 
@@ -79,14 +79,14 @@ const PixiViewPortComponent = forwardRef(({
     height={height} 
     worldWidth={width} 
     worldHeight={height} 
-    disableViewPort={disableViewPort} 
+    drawMode={drawMode} 
   >
     {children}
   </PixiComponentViewport>;
 });
 
 PixiViewPortComponent.propTypes = {
-  disableViewPort: PropTypes.bool,
+  drawMode: PropTypes.bool,
   width: PropTypes.number,
   height: PropTypes.number,
   dataWidth: PropTypes.number,
@@ -99,7 +99,7 @@ PixiViewPortComponent.propTypes = {
 }
 
 PixiViewPortComponent.defaultProps = {
-  disableViewPort: false,
+  drawMode: false,
   width: 0,
   height: 0,
   poseData: {},

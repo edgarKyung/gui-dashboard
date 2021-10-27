@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
+import { addWall } from '../modules/reducers/wall';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
 
@@ -12,7 +13,7 @@ const CanvasMapContainer = ({
   isOp,
   isDrawStatus,
   drawOneTime,
-  disableViewPort,
+  drawMode,
   canvasWidth,
   canvasHeight,
   points,
@@ -22,8 +23,6 @@ const CanvasMapContainer = ({
   onClickPoint,
   onMovePointStart,
   onMovePointEnd,
-  onDrag,
-  onDragEnd,
   margin,
   selectedPoint,
   virtualWall,
@@ -36,10 +35,12 @@ const CanvasMapContainer = ({
   drawSize,
   disableRotate,
 }) => {
+  const dispatch = useDispatch();
   const canvas = document.createElement('canvas');
   let calcCanvasWidth = canvasWidth - margin;
   let calcCanvasHeight = canvasHeight - margin;
   const canvas_padding = { top: 0, bottom: 0, left: 0, right: 0 };
+  const [wallTemp, setWallTemp] = useState([]);
   const [rotate, setRotate] = useState(0);
   const [dataWidth, setDataWidth] = useState(0);
   const [dataHeight, setDataHeight] = useState(0);
@@ -52,10 +53,10 @@ const CanvasMapContainer = ({
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
   const {
     wall,
-    wallTemp,
+    // wallTemp,
   } = useSelector((store) => ({
     wall: store.wall.present.get('wall'),
-    wallTemp: store.wallTemp.get('wallTemp'),
+    // wallTemp: store.wallTemp.get('wallTemp'),
   }));
 
   function convertRealToCanvas(pose) {
@@ -205,6 +206,7 @@ const CanvasMapContainer = ({
   }, []);
 
   const handleViewPortMoved = useCallback((e) => {
+    console.log('moved');
     const { scaleX, x, y } = e.viewport.lastViewport;
     setViewportScale(scaleX);
     setViewportPosition({ x, y });
@@ -222,13 +224,24 @@ const CanvasMapContainer = ({
   }
 
   const handleGlobalMove = useCallback((e) => {
-    const interaction = e.data;
-    if (interaction.pressure > 0) {
-      const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
-      // onDrag({ x, y, size: defualtWallSize / viewportScale });
-      onDrag({ x, y, rotate });
+    if(drawMode){
+      const interaction = e.data;
+      if (interaction.pressure > 0) {
+        const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
+        setWallTemp([...wallTemp, { x, y, rotate, size: drawSize, type: drawType }]);
+      }
     }
-  }, [drawType, drawSize, rotate]);
+  }, [drawMode, drawType, drawSize, wallTemp]);
+
+  const handleGlobalMoveEnd = useCallback(() => {
+    if(drawMode){
+      dispatch(addWall({
+        type: drawType,
+        data: wallTemp,
+      }));
+      setWallTemp([]);
+    }
+  }, [drawMode, drawType, wallTemp]);
 
   const handleClickRotationClock = useCallback(() => {
     console.log('handleClickRotationClock', rotate);
@@ -253,7 +266,7 @@ const CanvasMapContainer = ({
       onClickFirstPoint={onClickFirstPoint}
 
       activeMove={activeMove}
-      disableViewPort={disableViewPort}
+      drawMode={drawMode}
       viewportScale={viewportScale}
       viewportPosition={viewportPosition}
       scale={scale}
@@ -274,7 +287,7 @@ const CanvasMapContainer = ({
       onMovePointEnd={onMovePointEnd}
       onMoved={handleViewPortMoved}
       onDrag={handleGlobalMove}
-      onDragEnd={onDragEnd}
+      onDragEnd={handleGlobalMoveEnd}
 
       disableRotate={disableRotate}
       rotate={rotate}
@@ -296,8 +309,6 @@ CanvasMapContainer.defaultProps = {
   onClickCanvasPoint: () => { console.log('onClickCanvasPoint is not defined'); },
   onMovePointStart: () => { console.log('onMovePointStart is not defined'); },
   onMovePointEnd: () => { console.log('onMovePointEnd is not defined'); },
-  onDrag: () => { /* console.log('onDrag is not defined'); */ },
-  onDragEnd: () => { /* console.log('onDrag is not defined'); */ },
 };
 
 export default React.memo(CanvasMapContainer);

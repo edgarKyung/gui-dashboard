@@ -3,8 +3,6 @@ import { ActionCreators } from 'redux-undo';
 import { useDispatch, useSelector } from 'react-redux'
 import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
-import { addWall } from '../modules/reducers/wall';
-import { addWallTemp, resetWallTemp } from '../modules/reducers/wallTemp';
 import FileListPopupContainer from './FileListPopupContainer';
 import SavePopUpContainer from './SavePopUpContainer';
 
@@ -22,11 +20,6 @@ const MapContainer = () => {
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(1);
   const drawSizeList = [1, 5, 10, 15];
-  const {
-    wallTemp,
-  } = useSelector((store) => ({
-    wallTemp: store.wallTemp.get('wallTemp'),
-  }));
 
   const handleClickDrawType = useCallback((type) => {
     setDrawType(drawType === type ? '' : type);
@@ -114,22 +107,6 @@ const MapContainer = () => {
     }
   }, []);
 
-  const handleDrag = useCallback(({ x, y, rotate }) => {
-    if (!!drawType) {
-      dispatch(addWallTemp({ x, y, rotate, size: drawSize, type: drawType }));
-    }
-  }, [drawType, drawSize]);
-
-  const handleDragEnd = (e) => {
-    if (!!drawType) {
-      dispatch(addWall({
-        type: drawType,
-        data: wallTemp,
-      }));
-      dispatch(resetWallTemp());
-    }
-  };
-
   const handleClickUndoRedo = (type) => {
     if (type == 'undo') {
       dispatch(ActionCreators.undo());
@@ -173,14 +150,12 @@ const MapContainer = () => {
         drawType={drawType}
         drawSize={drawSize}
         drawSizeList={drawSizeList}
-        disableViewPort={!!drawType}
+        drawMode={!!drawType}
         onClickDrawType={handleClickDrawType}
         onClickSave={handleClickSave}
         onClickLoad={handleClickLoad}
         onClickScan={handleClickScan}
         onClickEnd={handleClickEnd}
-        onDrag={handleDrag}
-        onDragEnd={handleDragEnd}
         onClickUndoRedo={handleClickUndoRedo}
         onClickDrawLine={handleClickDrawLine}
       />

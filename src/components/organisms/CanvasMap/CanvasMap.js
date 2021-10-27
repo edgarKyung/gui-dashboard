@@ -28,7 +28,7 @@ const CanvasMap = ({
   onClickFirstPoint,
 
   activeMove,
-  disableViewPort,
+  drawMode,
   viewportScale,
   viewportPosition,
   scale,
@@ -108,6 +108,13 @@ const CanvasMap = ({
     }
   }, [laserData]);
 
+  const drawBackGround = useCallback((g) => {
+    g.clear();
+    g.beginFill(0xffffff, 0.1);
+    g.drawRect(0, 0, canvasWidth, canvasHeight);
+    g.endFill();
+  }, []);
+
   function getRotate(cx, cy, x, y, angle) {
     var radians = (Math.PI / 180) * angle,
         cos = Math.cos(radians),
@@ -121,17 +128,20 @@ const CanvasMap = ({
     g.clear();
     console.log('render drawwall');
     wall.reduce((prev, current) => prev.concat(current), []).forEach(data => {
-      const { x, y, size, type } = data;
+      const { x, y, rotate, size, type } = data;
       let color;
       color = (type === 'able') ? 0xFFFFFF : color;
       color = (type === 'undefined') ? 0xF0F0EC : color;
       color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
-      g.drawRect(x - (size / 2), y - (size / 2), size, size);
+      
+      const [newX, newY] = getRotate(canvasWidth/2, canvasHeight/2, x, y, rotate);
+
+      g.drawRect(newX - (size / 2), newY - (size / 2), size, size);
     });
 
     g.endFill();
-  }, [wall]);
+  }, [wall.length]);
 
   const drawTempWall = g => {
     const data = wallTemp[wallTemp.length-1];
@@ -207,7 +217,7 @@ const CanvasMap = ({
       <Stage ref={canvasRef} width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
         <PixiViewPort
           ref={viewportRef}
-          disableViewPort={disableViewPort}
+          drawMode={drawMode}
           width={canvasWidth}
           height={canvasHeight}
           dataWidth={dataWidth}
@@ -229,10 +239,7 @@ const CanvasMap = ({
               y={canvasHeight / 2}
               image={imgData}
               option={{ width: dataWidth, height: dataHeight }}
-              interactive
               scale={scale}
-              pointermove={onDrag}
-              pointerup={onDragEnd}
             />
           )}
 
@@ -278,6 +285,12 @@ const CanvasMap = ({
             />
           ))}
           </Container>
+          { drawMode && (<Graphics
+            draw={drawBackGround}
+            interactive
+            pointermove={onDrag}
+            pointerup={onDragEnd}
+          />)}
           {/* 그리는 중인거 그리기 */}
           { wallTemp.length > 0 && (<Graphics 
             draw={drawTempWall} 
@@ -286,7 +299,6 @@ const CanvasMap = ({
             pivot={[canvasWidth/2, canvasHeight/2]}
             // scale={scale}
           />) }
-
         </PixiViewPort>
         { !disableRotate && (
         <Container position={[canvasWidth - 130, canvasHeight - 70]}>
