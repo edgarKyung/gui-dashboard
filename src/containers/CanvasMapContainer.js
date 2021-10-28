@@ -51,13 +51,7 @@ const CanvasMapContainer = ({
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
-  const {
-    wall,
-    // wallTemp,
-  } = useSelector((store) => ({
-    wall: store.wall.present.get('wall'),
-    // wallTemp: store.wallTemp.get('wallTemp'),
-  }));
+  const { wall } = useSelector((store) => ({wall: store.wall.present.get('wall') }));
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - map.origin.x) / map.resolution.x;
@@ -228,7 +222,7 @@ const CanvasMapContainer = ({
       const interaction = e.data;
       if (interaction.pressure > 0) {
         const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
-        setWallTemp([...wallTemp, { x, y, rotate, size: drawSize, type: drawType }]);
+        setWallTemp([...wallTemp, { x, y, rotate, size: drawSize, type: drawType, scale }]);
       }
     }
   }, [drawMode, drawType, drawSize, wallTemp]);

@@ -115,33 +115,41 @@ const CanvasMap = ({
     g.endFill();
   }, []);
 
-  function getRotate(cx, cy, x, y, angle) {
-    var radians = (Math.PI / 180) * angle,
+  const calRotatePosition = (cx, cy, x, y, angle) => {
+    let radians = (Math.PI / 180) * angle,
         cos = Math.cos(radians),
         sin = Math.sin(radians),
         nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
         ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
     return [nx, ny];
   }  
+
+  const calSaclePosition = (x, y, drawScale) => {
+    // mapScale : x = scale : ?
+    const newX = (x * drawScale) / scale;
+    const newY = (y * drawScale) / scale;
+    return [newX, newY];
+  };
+
   // 맵 데이터 그림
   const drawWall = useCallback(g => {
     g.clear();
     console.log('render drawwall');
     wall.reduce((prev, current) => prev.concat(current), []).forEach(data => {
-      const { x, y, rotate, size, type } = data;
+      const { x, y, rotate, scale: drawScale,  size, type } = data;
       let color;
       color = (type === 'able') ? 0xFFFFFF : color;
       color = (type === 'undefined') ? 0xF0F0EC : color;
       color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
       
-      const [newX, newY] = getRotate(canvasWidth/2, canvasHeight/2, x, y, rotate);
-
+      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
+      // const [calX, calY] = calSaclePosition(newX, newY, drawScale);
       g.drawRect(newX - (size / 2), newY - (size / 2), size, size);
     });
 
     g.endFill();
-  }, [wall.length]);
+  }, [wall.length, rotate]);
 
   const drawTempWall = g => {
     const data = wallTemp[wallTemp.length-1];
@@ -249,7 +257,7 @@ const CanvasMap = ({
             x={canvasWidth / 2}
             y={canvasHeight / 2}
             pivot={[canvasWidth/2, canvasHeight/2]}
-            scale={scale}
+            // scale={scale}
           />
           <Graphics draw={drawVirtualWallList} />
 
