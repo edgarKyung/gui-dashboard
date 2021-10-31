@@ -124,25 +124,11 @@ const CanvasMap = ({
     return [nx, ny];
   }  
 
-  const calSaclePosition = (x, y, drawScale, scale) => {
-    // 1 : ? = scale : x
-    // 1 : origin = drawScale : ?
-    const diff = Math.abs(scale - drawScale);
-    let originX, originY;
-    if(diff !== 0) {
-      if(scale > drawScale){
-        originX = x + (x * diff);
-        originY = y + (y * diff);
-      } else {
-        originX = x;
-        originY = y;
-      }
-    } else{
-      originX = x;
-      originY = y;
-    }
-
-    return [originX, originY];
+  const calSaclePosition = (x, y, drawScale) => {
+    // 1 : x = drawScale : ????????????
+    const newX = x + (x - (x * drawScale));
+    const newY = y + (y - (y * drawScale));
+    return [newX, newY];
   };
 
   // 맵 데이터 그림
@@ -157,8 +143,7 @@ const CanvasMap = ({
       g.beginFill(color, 1);
       
       const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
-      // const [calX, calY] = calSaclePosition(x, y, drawScale, scale);
-      const [calX, calY] = [newX, newY];
+      const [calX, calY] = calSaclePosition(newX, newY, drawScale, scale);
       g.drawRect(calX - (size / 2), calY - (size / 2), size, size);
     });
 
