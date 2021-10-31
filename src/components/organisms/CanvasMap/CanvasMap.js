@@ -108,12 +108,12 @@ const CanvasMap = ({
     }
   }, [laserData]);
 
-  const drawBackGround = useCallback((g) => {
+  const drawBackGround = (g) => {
     g.clear();
-    g.beginFill(0xffffff, 0.1);
+    g.beginFill(0xffffff, .1);
     g.drawRect(0, 0, canvasWidth, canvasHeight);
     g.endFill();
-  }, []);
+  };
 
   const calRotatePosition = (cx, cy, x, y, angle) => {
     let radians = (Math.PI / 180) * angle,
@@ -124,17 +124,30 @@ const CanvasMap = ({
     return [nx, ny];
   }  
 
-  const calSaclePosition = (x, y, drawScale) => {
-    // mapScale : x = scale : ?
-    const newX = (x * drawScale) / scale;
-    const newY = (y * drawScale) / scale;
-    return [newX, newY];
+  const calSaclePosition = (x, y, drawScale, scale) => {
+    // 1 : ? = scale : x
+    // 1 : origin = drawScale : ?
+    const diff = Math.abs(scale - drawScale);
+    let originX, originY;
+    if(diff !== 0) {
+      if(scale > drawScale){
+        originX = x + (x * diff);
+        originY = y + (y * diff);
+      } else {
+        originX = x;
+        originY = y;
+      }
+    } else{
+      originX = x;
+      originY = y;
+    }
+
+    return [originX, originY];
   };
 
   // 맵 데이터 그림
   const drawWall = useCallback(g => {
     g.clear();
-    console.log('render drawwall');
     wall.reduce((prev, current) => prev.concat(current), []).forEach(data => {
       const { x, y, rotate, scale: drawScale,  size, type } = data;
       let color;
@@ -144,12 +157,13 @@ const CanvasMap = ({
       g.beginFill(color, 1);
       
       const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
-      // const [calX, calY] = calSaclePosition(newX, newY, drawScale);
-      g.drawRect(newX - (size / 2), newY - (size / 2), size, size);
+      // const [calX, calY] = calSaclePosition(x, y, drawScale, scale);
+      const [calX, calY] = [newX, newY];
+      g.drawRect(calX - (size / 2), calY - (size / 2), size, size);
     });
 
     g.endFill();
-  }, [wall.length, rotate]);
+  }, [wall.length, rotate, scale]);
 
   const drawTempWall = g => {
     const data = wallTemp[wallTemp.length-1];
@@ -257,7 +271,7 @@ const CanvasMap = ({
             x={canvasWidth / 2}
             y={canvasHeight / 2}
             pivot={[canvasWidth/2, canvasHeight/2]}
-            // scale={scale}
+            scale={scale}
           />
           <Graphics draw={drawVirtualWallList} />
 

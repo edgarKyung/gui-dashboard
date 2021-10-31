@@ -200,7 +200,6 @@ const CanvasMapContainer = ({
   }, []);
 
   const handleViewPortMoved = useCallback((e) => {
-    console.log('moved');
     const { scaleX, x, y } = e.viewport.lastViewport;
     setViewportScale(scaleX);
     setViewportPosition({ x, y });
@@ -238,13 +237,15 @@ const CanvasMapContainer = ({
   }, [drawMode, drawType, wallTemp]);
 
   const handleClickRotationClock = useCallback(() => {
-    console.log('handleClickRotationClock', rotate);
-    setRotate(rotate + 10);
+    const newRotate = rotate + 10;
+    console.log('handleClickRotationClock', newRotate);
+    setRotate(newRotate);
   }, [rotate]);
 
   const handleClickRotationUnClock = useCallback(() => {
-    console.log('handleClickRotationUnClock', rotate);
-    setRotate(rotate - 10);
+    const newRotate = rotate - 10;
+    console.log('handleClickRotationUnClock', newRotate);
+    setRotate(newRotate);
   }, [rotate]);
 
   return (
