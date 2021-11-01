@@ -16,6 +16,55 @@ console.log('PIXI', PIXI);
 
 const cx = classNames.bind(styles);
 
+const calRotatePosition = (cx, cy, x, y, angle) => {
+  let radians = (Math.PI / 180) * angle,
+      cos = Math.cos(radians),
+      sin = Math.sin(radians),
+      nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+      ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+  return [nx, ny];
+}  
+
+const calSaclePosition = (x, y, drawScale) => {
+  // 1 : x = drawScale : ????????????
+  const newX = x;
+  const newY = y;
+  return [newX, newY];
+};
+
+const percentage = (partialValue, totalValue) => {
+  return (100 * partialValue) / totalValue;
+} 
+
+const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, initScale, scale }) => {
+  const _drawLine = useCallback((g) => {
+    g.clear();
+    data.forEach(wallData => {
+      const { x, y, rotate, scale: drawScale,  size, type } = wallData;
+      let color;
+      color = (type === 'able') ? 0xFFFFFF : color;
+      color = (type === 'undefined') ? 0xF0F0EC : color;
+      color = (type === 'disable') ? 0x1E1E1E : color;
+      g.beginFill(color, 1);
+      
+      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
+      const [calX, calY] = calSaclePosition(newX, newY, drawScale, scale);
+      g.drawCircle(calX, calY, size / 2);
+    });
+    g.endFill();
+  }, []);
+  // console.log(scale, data[0]);
+  return (
+  <Graphics 
+    draw={_drawLine}
+    x={canvasWidth / 2}
+    y={canvasHeight / 2}
+    pivot={[canvasWidth/2, canvasHeight/2]}
+    scale={percentage(scale, initScale) * 0.01}
+  />
+  )
+});
+
 const CanvasMap = ({
   canvasRef,
   viewportRef,
@@ -31,6 +80,7 @@ const CanvasMap = ({
   drawMode,
   viewportScale,
   viewportPosition,
+  initScale,
   scale,
   canvasWidth,
   canvasHeight,
@@ -115,22 +165,6 @@ const CanvasMap = ({
     g.endFill();
   };
 
-  const calRotatePosition = (cx, cy, x, y, angle) => {
-    let radians = (Math.PI / 180) * angle,
-        cos = Math.cos(radians),
-        sin = Math.sin(radians),
-        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
-        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
-    return [nx, ny];
-  }  
-
-  const calSaclePosition = (x, y, drawScale) => {
-    // 1 : x = drawScale : ????????????
-    const newX = x + (x - (x * drawScale));
-    const newY = y + (y - (y * drawScale));
-    return [newX, newY];
-  };
-
   // 맵 데이터 그림
   const drawWall = useCallback(g => {
     g.clear();
@@ -144,7 +178,7 @@ const CanvasMap = ({
       
       const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
       const [calX, calY] = calSaclePosition(newX, newY, drawScale, scale);
-      g.drawRect(calX - (size / 2), calY - (size / 2), size, size);
+      g.drawCircle(calX, calY, size / 2);
     });
 
     g.endFill();
@@ -158,7 +192,7 @@ const CanvasMap = ({
     color = (type === 'undefined') ? 0xF0F0EC : color;
     color = (type === 'disable') ? 0x1E1E1E : color;
     g.beginFill(color, 1);
-    g.drawRect(x - (size / 2), y - (size / 2), size, size);
+    g.drawCircle(x, y, size / 2);
     g.endFill();
   };
 
@@ -251,13 +285,18 @@ const CanvasMap = ({
           )}
 
           {/* 마우스 draw 맵 그리기 */}
-          <Graphics 
-            draw={drawWall} 
-            x={canvasWidth / 2}
-            y={canvasHeight / 2}
-            pivot={[canvasWidth/2, canvasHeight/2]}
-            scale={scale}
-          />
+          {
+            wall.map((data, i) => (
+              <DrawLine 
+                key={i}
+                data={data}
+                canvasWidth={canvasWidth}
+                canvasHeight={canvasHeight}
+                initScale={initScale}
+                scale={scale}
+              />
+            ))
+          }
           <Graphics draw={drawVirtualWallList} />
 
           <Graphics draw={drawVirtualWall} />

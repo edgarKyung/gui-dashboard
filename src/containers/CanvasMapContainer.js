@@ -7,8 +7,8 @@ import * as FileApi from '../lib/File';
 
 let drawInterval = null;
 let drawStatusInterval = null;
-let map = { origin: {}, resolution: {}, padding: {} };
-
+let map = { origin: {}, resolution: {}, padding: {}};
+let _rotate = 0;
 const CanvasMapContainer = ({
   isOp,
   isDrawStatus,
@@ -44,6 +44,7 @@ const CanvasMapContainer = ({
   const [rotate, setRotate] = useState(0);
   const [dataWidth, setDataWidth] = useState(0);
   const [dataHeight, setDataHeight] = useState(0);
+  const [initScale, setInitScale] = useState(null);
   const [scale, setScale] = useState(1);
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
@@ -108,34 +109,28 @@ const CanvasMapContainer = ({
     return data;
   }
 
-  async function setMapData() {
-    map = await RobotApi.getMap('office');
-
-    const [w, h] = imageSizeAfterRotation([map.width, map.height], rotate);
+  const reSizeCanvasData = () => {
+    const [w, h] = imageSizeAfterRotation([map.width, map.height], _rotate);
     const scaleWidth = calcCanvasWidth / w;
     const scaleHeight = calcCanvasHeight / h;
     if (scaleWidth < scaleHeight) {
-      const padding = calcCanvasHeight / scaleWidth - map.height;
-      // canvas_padding.top = padding * 0.4;
-      // canvas_padding.bottom = padding * 0.6;
-      // canvas_padding.left = 0;
-      // canvas_padding.right = 0;
       map.padding = canvas_padding;
       map.scale = scaleWidth;
     }
     if (scaleWidth > scaleHeight) {
-      const padding = calcCanvasWidth / scaleHeight - map.width;
-      // canvas_padding.top = 0;
-      // canvas_padding.bottom = 0;
-      // canvas_padding.left = padding * 0.6;
-      // canvas_padding.right = padding * 0.4;
       map.padding = canvas_padding;
       map.scale = scaleHeight;
     }
 
+    if(!initScale) setInitScale(map.scale);
     setScale(map.scale);
     setDataWidth(map.width);
     setDataHeight(map.height);
+
+  };
+
+  async function setMapData() {
+    map = await RobotApi.getMap('office');
 
     if (isOp) {
       FileApi.setOpMapData(map);
@@ -162,12 +157,9 @@ const CanvasMapContainer = ({
     return [ width, height ];
   }
 
-  function percentage(partialValue, totalValue) {
-    return (100 * partialValue) / totalValue;
-  } 
-
   async function drawCanvas() {
     await setMapData();
+    reSizeCanvasData();
     drawMap(map);
   }
 
@@ -182,7 +174,6 @@ const CanvasMapContainer = ({
 
   useEffect(() => {
     drawCanvas();
-
     if (!drawOneTime) drawInterval = setInterval(drawCanvas, 2000);
     if (isDrawStatus) drawStatusInterval = setInterval(drawStatus, 500);
 
@@ -190,7 +181,7 @@ const CanvasMapContainer = ({
       if (drawInterval) clearInterval(drawInterval);
       if (drawStatusInterval) clearInterval(drawStatusInterval);
     }
-  }, [rotate]);
+  }, []);
 
   const handleZoomEndCanvas = useCallback((e) => {
     // console.log('zoom end', e);
@@ -221,7 +212,14 @@ const CanvasMapContainer = ({
       const interaction = e.data;
       if (interaction.pressure > 0) {
         const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
-        setWallTemp([...wallTemp, { x, y, rotate, size: drawSize, type: drawType, scale }]);
+        setWallTemp([...wallTemp, { 
+          x, 
+          y, 
+          rotate, 
+          size: drawSize, 
+          type: drawType, 
+          scale 
+        }]);
       }
     }
   }, [drawMode, drawType, drawSize, wallTemp]);
@@ -237,15 +235,19 @@ const CanvasMapContainer = ({
   }, [drawMode, drawType, wallTemp]);
 
   const handleClickRotationClock = useCallback(() => {
-    const newRotate = rotate + 10;
-    console.log('handleClickRotationClock', newRotate);
-    setRotate(newRotate);
+    // const newRotate = rotate + 10;
+    _rotate += 10;
+    console.log('handleClickRotationClock', _rotate);
+    setRotate(_rotate);
+    reSizeCanvasData();
   }, [rotate]);
 
   const handleClickRotationUnClock = useCallback(() => {
-    const newRotate = rotate - 10;
-    console.log('handleClickRotationUnClock', newRotate);
-    setRotate(newRotate);
+    // const newRotate = rotate - 10;
+    _rotate -= 10;
+    console.log('handleClickRotationUnClock', _rotate);
+    setRotate(_rotate);
+    reSizeCanvasData();
   }, [rotate]);
 
   return (
@@ -264,6 +266,7 @@ const CanvasMapContainer = ({
       drawMode={drawMode}
       viewportScale={viewportScale}
       viewportPosition={viewportPosition}
+      initScale={initScale}
       scale={scale}
       canvasWidth={calcCanvasWidth}
       canvasHeight={calcCanvasHeight}
