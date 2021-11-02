@@ -25,13 +25,6 @@ const calRotatePosition = (cx, cy, x, y, angle) => {
   return [nx, ny];
 }  
 
-const calSaclePosition = (x, y, drawScale) => {
-  // 1 : x = drawScale : ????????????
-  const newX = x;
-  const newY = y;
-  return [newX, newY];
-};
-
 const percentage = (partialValue, totalValue) => {
   return (100 * partialValue) / totalValue;
 } 
@@ -48,19 +41,18 @@ const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, initScale, scale
       g.beginFill(color, 1);
       
       const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
-      const [calX, calY] = calSaclePosition(newX, newY, drawScale, scale);
-      g.drawCircle(calX, calY, size / 2);
+      g.drawCircle(newX, newY, size / 2);
     });
     g.endFill();
   }, []);
-  // console.log(scale, data[0]);
+  console.log('percentage', percentage(scale, initScale));
   return (
   <Graphics 
     draw={_drawLine}
     x={canvasWidth / 2}
     y={canvasHeight / 2}
     pivot={[canvasWidth/2, canvasHeight/2]}
-    scale={percentage(scale, initScale) * 0.01}
+    scale={percentage(scale, data[0].scale) * 0.01}
   />
   )
 });
@@ -165,25 +157,6 @@ const CanvasMap = ({
     g.endFill();
   };
 
-  // 맵 데이터 그림
-  const drawWall = useCallback(g => {
-    g.clear();
-    wall.reduce((prev, current) => prev.concat(current), []).forEach(data => {
-      const { x, y, rotate, scale: drawScale,  size, type } = data;
-      let color;
-      color = (type === 'able') ? 0xFFFFFF : color;
-      color = (type === 'undefined') ? 0xF0F0EC : color;
-      color = (type === 'disable') ? 0x1E1E1E : color;
-      g.beginFill(color, 1);
-      
-      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
-      const [calX, calY] = calSaclePosition(newX, newY, drawScale, scale);
-      g.drawCircle(calX, calY, size / 2);
-    });
-
-    g.endFill();
-  }, [wall.length, rotate, scale]);
-
   const drawTempWall = g => {
     const data = wallTemp[wallTemp.length-1];
     const { x, y, size, type } = data;
@@ -272,6 +245,7 @@ const CanvasMap = ({
             pivot={[canvasWidth/2, canvasHeight/2]}
             x={canvasWidth/2}
             y={canvasHeight/2}
+            // scale={scale}
           >
           {imgData && (
             <Sprite
@@ -297,9 +271,13 @@ const CanvasMap = ({
               />
             ))
           }
-          <Graphics draw={drawVirtualWallList} />
+          <Graphics 
+            draw={drawVirtualWallList} 
+          />
 
-          <Graphics draw={drawVirtualWall} />
+          <Graphics 
+            draw={drawVirtualWall} 
+          />
           {virtualWall[0] && (
             <Sprite
               image={virtualWallStart}

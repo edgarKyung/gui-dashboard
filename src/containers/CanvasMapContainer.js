@@ -2,13 +2,13 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
 import { addWall } from '../modules/reducers/wall';
+import { useInterval } from '../services/hooks';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
 
 let drawInterval = null;
 let drawStatusInterval = null;
 let map = { origin: {}, resolution: {}, padding: {}};
-let _rotate = 0;
 const CanvasMapContainer = ({
   isOp,
   isDrawStatus,
@@ -110,7 +110,8 @@ const CanvasMapContainer = ({
   }
 
   const reSizeCanvasData = () => {
-    const [w, h] = imageSizeAfterRotation([map.width, map.height], _rotate);
+    const [w, h] = imageSizeAfterRotation([map.width, map.height], rotate);
+
     const scaleWidth = calcCanvasWidth / w;
     const scaleHeight = calcCanvasHeight / h;
     if (scaleWidth < scaleHeight) {
@@ -121,7 +122,6 @@ const CanvasMapContainer = ({
       map.padding = canvas_padding;
       map.scale = scaleHeight;
     }
-
     if(!initScale) setInitScale(map.scale);
     setScale(map.scale);
     setDataWidth(map.width);
@@ -160,6 +160,7 @@ const CanvasMapContainer = ({
   async function drawCanvas() {
     await setMapData();
     reSizeCanvasData();
+    
     drawMap(map);
   }
 
@@ -172,19 +173,21 @@ const CanvasMapContainer = ({
     setPoseData(robotPose);
   }
 
+  useInterval(() => {
+    drawCanvas();
+    drawStatus();
+  }, 2000);
+
+  useEffect(() => {
+    reSizeCanvasData();
+  }, [rotate]);
+
   useEffect(() => {
     drawCanvas();
-    if (!drawOneTime) drawInterval = setInterval(drawCanvas, 2000);
-    if (isDrawStatus) drawStatusInterval = setInterval(drawStatus, 500);
-
-    return () => {
-      if (drawInterval) clearInterval(drawInterval);
-      if (drawStatusInterval) clearInterval(drawStatusInterval);
-    }
   }, []);
 
+
   const handleZoomEndCanvas = useCallback((e) => {
-    // console.log('zoom end', e);
     const { scaleX, x, y } = e.lastViewport;
     setViewportScale(scaleX);
     setViewportPosition({ x, y });
@@ -235,19 +238,15 @@ const CanvasMapContainer = ({
   }, [drawMode, drawType, wallTemp]);
 
   const handleClickRotationClock = useCallback(() => {
-    // const newRotate = rotate + 10;
-    _rotate += 10;
-    console.log('handleClickRotationClock', _rotate);
-    setRotate(_rotate);
-    reSizeCanvasData();
+    const newRotate = rotate + 10;
+    console.log('handleClickRotationClock', newRotate);
+    setRotate(newRotate);
   }, [rotate]);
 
   const handleClickRotationUnClock = useCallback(() => {
-    // const newRotate = rotate - 10;
-    _rotate -= 10;
-    console.log('handleClickRotationUnClock', _rotate);
-    setRotate(_rotate);
-    reSizeCanvasData();
+    const newRotate = rotate - 10;
+    console.log('handleClickRotationUnClock', newRotate);
+    setRotate(newRotate);
   }, [rotate]);
 
   return (
