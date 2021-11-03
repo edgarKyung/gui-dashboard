@@ -40,12 +40,15 @@ const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, initScale, scale
       color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
       
-      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
+      const scaleX = x * drawScale;
+      const scaleY = y * drawScale;
+      console.log(scale, scaleX, scaleY);
+      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, scaleX, scaleY, rotate);
       g.drawCircle(newX, newY, size / 2);
     });
     g.endFill();
-  }, []);
-  console.log('percentage', percentage(scale, initScale));
+  }, [scale]);
+  // console.log('percentage', percentage(scale, initScale));
   return (
   <Graphics 
     draw={_drawLine}
@@ -148,7 +151,7 @@ const CanvasMap = ({
       g.drawCircle(scaledLaserX, scaledLaserY, laserSize);
       g.endFill();
     }
-  }, [laserData]);
+  }, [laserData, scale, initScale]);
 
   const drawBackGround = (g) => {
     g.clear();
@@ -243,71 +246,83 @@ const CanvasMap = ({
           <Container 
             angle={rotate} 
             pivot={[canvasWidth/2, canvasHeight/2]}
-            x={canvasWidth/2}
-            y={canvasHeight/2}
-            // scale={scale}
+            position={[canvasWidth / 2, canvasHeight / 2]}
           >
-          {imgData && (
-            <Sprite
-              anchor={.5}
-              x={canvasWidth / 2}
-              y={canvasHeight / 2}
-              image={imgData}
-              option={{ width: dataWidth, height: dataHeight }}
-              scale={scale}
-            />
-          )}
-
-          {/* 마우스 draw 맵 그리기 */}
-          {
-            wall.map((data, i) => (
-              <DrawLine 
-                key={i}
-                data={data}
-                canvasWidth={canvasWidth}
-                canvasHeight={canvasHeight}
-                initScale={initScale}
+            {imgData && (
+              <Sprite
+                anchor={.5}
+                x={canvasWidth / 2}
+                y={canvasHeight / 2}
+                image={imgData}
+                option={{ width: dataWidth, height: dataHeight }}
                 scale={scale}
               />
-            ))
-          }
-          <Graphics 
-            draw={drawVirtualWallList} 
-          />
+            )}
 
-          <Graphics 
-            draw={drawVirtualWall} 
-          />
-          {virtualWall[0] && (
-            <Sprite
-              image={virtualWallStart}
-              x={virtualWall[0].x - 15}
-              y={virtualWall[0].y - 15}
-              scale={1}
-              interactive
-              pointerup={(e) => {
-                onClickFirstPoint(e);
-                e.stopPropagation();
-              }}
-            />
-          )}
+            <Container 
+              position={[
+                (canvasWidth / 2) - ((dataWidth * scale) / 2), 
+                (canvasHeight / 2) - ((dataHeight * scale) / 2)
+              ]}
+            >
+              <Graphics 
+                draw={laserDraw} 
+                x={canvasWidth / 2}
+                y={canvasHeight / 2}
+                pivot={[canvasWidth/2, canvasHeight/2]}
+                // scale={percentage(scale, initScale) * 0.01}
+              />
+              {(points.length > 0) && points.map((point, idx) => (
+                <Draggable
+                  key={idx}
+                  image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
+                  id={point.id}
+                  x={point.x}
+                  y={point.y}
+                  disabled={disabledDrag}
+                  angle={point.degree}
+                  scale={(scale * 0.3)}
+                  onClickPoint={onClickPoint}
+                  onMovePointStart={onMovePointStart}
+                  onMovePointEnd={onMovePointEnd}
+                />
+              ))}
 
-          <Graphics draw={laserDraw} />
-          {(points.length > 0) && points.map((point, idx) => (
-            <Draggable
-              key={idx}
-              image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
-              id={point.id}
-              x={point.x}
-              y={point.y}
-              disabled={disabledDrag}
-              angle={point.degree}
-              scale={(scale * 0.3)}
-              onClickPoint={onClickPoint}
-              onMovePointStart={onMovePointStart}
-              onMovePointEnd={onMovePointEnd}
+            </Container>
+            {/* 마우스 draw 맵 그리기 */}
+            {
+              wall.map((data, i) => (
+                <DrawLine 
+                  key={i}
+                  data={data}
+                  canvasWidth={canvasWidth}
+                  canvasHeight={canvasHeight}
+                  initScale={initScale}
+                  scale={scale}
+                />
+              ))
+            }
+            <Graphics 
+              draw={drawVirtualWallList} 
             />
-          ))}
+
+            <Graphics 
+              draw={drawVirtualWall} 
+            />
+            {virtualWall[0] && (
+              <Sprite
+                image={virtualWallStart}
+                x={virtualWall[0].x - 15}
+                y={virtualWall[0].y - 15}
+                scale={1}
+                interactive
+                pointerup={(e) => {
+                  onClickFirstPoint(e);
+                  e.stopPropagation();
+                }}
+              />
+            )}
+
           </Container>
           { drawMode && (<Graphics
             draw={drawBackGround}
@@ -376,6 +391,12 @@ CanvasMap.propTypes = {
 }
 
 CanvasMap.defaultProps = {
+  scale: 1,
+  initScale: 1,
+  dataWidth: 0,
+  dataHeight: 0,
+  canvasWidth: 0,
+  canvasHeight: 0,
   width: 0,
   height: 0,
   poseData: {},

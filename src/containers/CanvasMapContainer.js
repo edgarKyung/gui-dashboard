@@ -228,10 +228,18 @@ const CanvasMapContainer = ({
   }, [drawMode, drawType, drawSize, wallTemp]);
 
   const handleGlobalMoveEnd = useCallback(() => {
+    // 1: ? = 0.4 : x
     if(drawMode){
+      const wallData = wallTemp.map(wallData => ({
+        ...wallData,
+        x: wallData.x / scale,
+        y: wallData.y / scale,
+      }));
+      console.log(wallTemp);
+      console.log(wallData);
       dispatch(addWall({
         type: drawType,
-        data: wallTemp,
+        data: wallData,
       }));
       setWallTemp([]);
     }
