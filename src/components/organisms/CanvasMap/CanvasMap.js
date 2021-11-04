@@ -29,8 +29,8 @@ const percentage = (partialValue, totalValue) => {
   return (100 * partialValue) / totalValue;
 } 
 
-const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, initScale, scale }) => {
-  const _drawLine = useCallback((g) => {
+const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, scale }) => {
+  const _drawLine = (g) => {
     g.clear();
     data.forEach(wallData => {
       const { x, y, rotate, scale: drawScale,  size, type } = wallData;
@@ -39,23 +39,24 @@ const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, initScale, scale
       color = (type === 'undefined') ? 0xF0F0EC : color;
       color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
-      
-      const scaleX = x * drawScale;
-      const scaleY = y * drawScale;
-      console.log(scale, scaleX, scaleY);
-      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, scaleX, scaleY, rotate);
+    
+      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
       g.drawCircle(newX, newY, size / 2);
     });
     g.endFill();
-  }, [scale]);
-  // console.log('percentage', percentage(scale, initScale));
+  };
+  const calScale = percentage(scale, data[0].scale) * 0.01;
+
+  const canvasWidthDiff = percentage(canvasWidth, data[0].canvasWidth) * 0.01;
+  const canvasHeightDiff = percentage(canvasHeight, data[0].canvasHeight) * 0.01;
+
   return (
   <Graphics 
     draw={_drawLine}
-    x={canvasWidth / 2}
-    y={canvasHeight / 2}
+    x={(canvasWidth / 2) * canvasWidthDiff}
+    y={(canvasHeight / 2) * canvasHeightDiff}
     pivot={[canvasWidth/2, canvasHeight/2]}
-    scale={percentage(scale, data[0].scale) * 0.01}
+    scale={calScale}
   />
   )
 });

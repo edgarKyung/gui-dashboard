@@ -221,25 +221,20 @@ const CanvasMapContainer = ({
           rotate, 
           size: drawSize, 
           type: drawType, 
-          scale 
+          scale,
+          initScale,
+          canvasWidth: calcCanvasWidth,
+          canvasHeight : calcCanvasHeight,
         }]);
       }
     }
   }, [drawMode, drawType, drawSize, wallTemp]);
 
   const handleGlobalMoveEnd = useCallback(() => {
-    // 1: ? = 0.4 : x
-    if(drawMode){
-      const wallData = wallTemp.map(wallData => ({
-        ...wallData,
-        x: wallData.x / scale,
-        y: wallData.y / scale,
-      }));
-      console.log(wallTemp);
-      console.log(wallData);
+    if(drawMode && wallTemp.length > 0){
       dispatch(addWall({
         type: drawType,
-        data: wallData,
+        data: wallTemp,
       }));
       setWallTemp([]);
     }
