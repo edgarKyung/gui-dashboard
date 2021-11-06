@@ -8,3 +8,4 @@ export { default as Position } from './Position';
 export { default as CheckBox } from './CheckBox';
 export { default as MessageBox } from './MessageBox';
 export { default as Input } from './Input';
+export { default as Slider } from './Slider';

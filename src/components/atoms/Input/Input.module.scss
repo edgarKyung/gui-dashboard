@@ -1,6 +1,9 @@
 .input {
-  border: 1px solid grey;
-  padding: .5em;
-  border-radius: 1em;  
+  background: #FFFFFF;
+  border: 1px solid #F2F2F2;
+  box-sizing: border-box;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, .2);
+  border-radius: 1.2em;  
   font-size: 1em;
+  padding: 1em;
 }
