@@ -230,11 +230,34 @@
   background-image: url('/static/images/btn/btn_edit.png');
 }
 
+.search {
+  width: 100px;
+  height: 100px;
+  background-image: url('/static/images/btn/btn_search.png');
+  background-size: 46px 46px;
+  border-radius: 50%;
+  border: 1px solid $border-color;
+  background-color: white;
+}
 
+.import, .export {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: 50px 50px;
+  background-repeat:no-repeat;
+  border: 1px solid #F4F4F4;
+  box-sizing: border-box;
+  box-shadow: 28px 28px 40px rgba(166, 171, 189, 0.15), -23px -23px 35px #FFFFFF;
+}
 
-
-
-
+.import {
+  background-image:url('/static/images/btn/btn_import.png');
+}
+.export {
+  background-image:url('/static/images/btn/btn_export.png');
+}
 
 
 

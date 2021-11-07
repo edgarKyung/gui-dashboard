@@ -4,7 +4,7 @@ import { RobotStatusBar, BatteryInfo, CompanyInfo } from '../components/organism
 import * as RobotApi from '../lib/Robot';
 import { addMessage } from '../modules/reducers/message';
 
-const RobotStatusBarContainer = () => {
+const RobotStatusBarContainer = ({className}) => {
   const dispatch = useDispatch();
   const {
     battery,
@@ -32,6 +32,7 @@ const RobotStatusBarContainer = () => {
   return (
     <>
       <RobotStatusBar 
+        className={className}
         status='로딩중' 
         battery={battery} 
         onClickInfo={handleClickInfo}
