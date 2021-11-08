@@ -44,6 +44,8 @@
   box-shadow: rgba(0, 0, 0, .20) 1px 1px 5px;
 }
 
+.next,
+.prev,
 .undo,
 .redo,
 .circle {
@@ -57,6 +59,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.prev {
+  background-image: url('/static/images/btn/btn_prev.png');  
+  background-size: auto;
+}
+
+.next {
+  background-image: url('/static/images/btn/btn_next.png');  
+  background-size: auto;
 }
 
 .scan-start,
@@ -258,6 +270,8 @@
 .export {
   background-image:url('/static/images/btn/btn_export.png');
 }
+
+
 
 
 
