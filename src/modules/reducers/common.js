@@ -1,38 +1,23 @@
-import menus from '../../static/constants/menus';
-import {Record} from 'immutable';
+import { createAction, handleActions } from 'redux-actions';
+import { Record, Map } from 'immutable';
 
-export const GET_POINT = 'get/POINT';
-export const SET_POINT = 'set/POINT';
+const INCREMENT_SPINNER = 'INCREMENT/SPINNER';
+const DECREMENT_SPINNER = 'DECREMENT/SPINNER';
+const DECREMENT_SPINNER_FORCE = 'DECREMENT/SPINNER_FORCE';
 
-export const addPoint = (payload) => ({
-    type: SET_POINT,
-    payload:payload
-});
-
-export const getPoint = () => ({
-    type: GET_POINT,
-});
-/*
-    id:0,
-    position:{x:0,y:0},
-*/
+export const incrementSpinner = createAction(INCREMENT_SPINNER);
+export const decrementSpinner = createAction(DECREMENT_SPINNER);
+export const decrementSpinnerForce = createAction(DECREMENT_SPINNER_FORCE);
 
 const initialState = {
-    menu:{
-        activeMenu: menus.operation.id
-    },
+    spinner:Map({
+        visibleCount:0
+    })
 };
 const initialRecord = Record(initialState)();
 
-const common = (state = initialRecord, {type, payload}) => {
-    switch (type) {
-        case SET_POINT:
-            return state.getIn(['points']);
-        case GET_POINT:
-            return state.getIn(['points']);
-        default:
-            return state;
-    }
-};
-
-export default common;
+export default handleActions({
+    [INCREMENT_SPINNER]: state => state.updateIn(['spinner', 'visibleCount'], count => count + 1),
+    [DECREMENT_SPINNER]: state => state.updateIn(['spinner', 'visibleCount'], count => count - 1),
+    [DECREMENT_SPINNER_FORCE]: state => state.updateIn(['spinner', 'visibleCount'], 0),
+}, initialRecord);

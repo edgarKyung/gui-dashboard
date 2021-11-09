@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
 import { addWall } from '../modules/reducers/wall';
 import { useInterval } from '../services/hooks';
+import { incrementSpinner, decrementSpinner } from '../modules/reducers/common';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
 
@@ -174,16 +175,17 @@ const CanvasMapContainer = ({
   }
 
   useInterval(() => {
-    drawCanvas();
+    // drawCanvas();
     drawStatus();
   }, 2000);
 
-  useEffect(() => {
-    reSizeCanvasData();
-  }, [rotate]);
+  // useEffect(() => {
+  //   reSizeCanvasData();
+  // }, [rotate]);
 
   useEffect(() => {
     drawCanvas();
+    drawStatus();
   }, []);
 
 
@@ -242,15 +244,20 @@ const CanvasMapContainer = ({
 
   const handleClickRotationClock = useCallback(() => {
     const newRotate = rotate + 10;
-    console.log('handleClickRotationClock', newRotate);
     setRotate(newRotate);
   }, [rotate]);
 
   const handleClickRotationUnClock = useCallback(() => {
     const newRotate = rotate - 10;
-    console.log('handleClickRotationUnClock', newRotate);
     setRotate(newRotate);
   }, [rotate]);
+
+  const handleClickRefreshMap = () => {
+    dispatch(incrementSpinner());
+    drawCanvas();
+    drawStatus();
+    dispatch(decrementSpinner());
+  };
 
   return (
     <CanvasMap
@@ -293,6 +300,7 @@ const CanvasMapContainer = ({
       rotate={rotate}
       onClickRotationClock={handleClickRotationClock}
       onClickRotationUnClock={handleClickRotationUnClock}
+      onClickRefreshMap={handleClickRefreshMap}
     />
   )
 }

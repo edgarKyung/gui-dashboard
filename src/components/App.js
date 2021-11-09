@@ -14,6 +14,7 @@ import {
   PointContainer,
   MessageBoxWrapperContainer,
   SettingContainer,
+  LoadSpinnerContainer,
 } from "../containers";
 import './App.scss'
 
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/log"><LogPage /></Route>
       </Switch>
       <MessageBoxWrapperContainer />
+      <LoadSpinnerContainer />
     </Router>
   );
 }

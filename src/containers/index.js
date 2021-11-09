@@ -10,3 +10,4 @@ export { default as RobotStatusBarContainer } from './RobotStatusBarContainer';
 export { default as FileListPopupContainer } from './FileListPopupContainer';
 export { default as SavePopUpContainer } from './SavePopUpContainer';
 export { default as SettingContainer } from './SettingContainer';
+export { default as LoadSpinnerContainer } from './LoadSpinnerContainer';

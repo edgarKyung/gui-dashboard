@@ -8,6 +8,7 @@ import iconPointOn from '../../../static/images/ico/icon_point_on.png';
 import virtualWallStart from '../../../static/images/source/virtual_wall_start.png';
 import rotationIncrease from '../../../static/images/btn/btn_redo.png';
 import rotationDecrease from '../../../static/images/btn/btn_undo.png';
+import reFresh from '../../../static/images/btn/btn_refresh.png';
 import Draggable from './Draggable';
 import PixiViewPort from './PixiViewPort';
 import MiniMap from './MiniMap';
@@ -101,6 +102,7 @@ const CanvasMap = ({
   rotate,
   onClickRotationClock,
   onClickRotationUnClock,
+  onClickRefreshMap,
 }) => {
 
   function drawDash(
@@ -273,7 +275,8 @@ const CanvasMap = ({
                 pivot={[canvasWidth/2, canvasHeight/2]}
                 // scale={percentage(scale, initScale) * 0.01}
               />
-              {(points.length > 0) && points.map((point, idx) => (
+            </Container>
+            {(points.length > 0) && points.map((point, idx) => (
                 <Draggable
                   key={idx}
                   image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
@@ -289,7 +292,6 @@ const CanvasMap = ({
                 />
               ))}
 
-            </Container>
             {/* 마우스 draw 맵 그리기 */}
             {
               wall.map((data, i) => (
@@ -341,8 +343,17 @@ const CanvasMap = ({
           />) }
         </PixiViewPort>
         { !disableRotate && (
-        <Container position={[canvasWidth - 130, canvasHeight - 70]}>
+        <Container position={[canvasWidth - 180, canvasHeight - 70]}>
           <Sprite
+            y={15}
+            image={reFresh}
+            interactive
+            pointerup={onClickRefreshMap}
+            angle={0}
+            scale={1.5}
+          />
+          <Sprite
+            x={50}
             image={rotationIncrease}
             interactive
             pointerup={onClickRotationClock}
@@ -350,7 +361,7 @@ const CanvasMap = ({
             scale={1.5}
           />
           <Sprite
-            x={60}
+            x={110}
             angle={0}
             image={rotationDecrease}
             interactive

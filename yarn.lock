@@ -13303,6 +13303,13 @@ react-joystick@^1.0.3:
     style-loader "^0.20.3"
     webpack "^4.2.0"
 
+react-loader-spinner@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-loader-spinner/-/react-loader-spinner-4.0.0.tgz#43d9e71b0574219f64216933c28ef5faa12262f6"
+  integrity sha512-RU2vpEej6G4ECei0h3q6bgLU10of9Lw5O+4AwF/mtkrX5oY20Sh/AxoPJ7etbrs/7Q3u4jN5qwCwGLRKCHpk6g==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-pixi-fiber@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/react-pixi-fiber/-/react-pixi-fiber-0.14.3.tgz#b8317805d1d1321f777e5c486cc4946180cad785"
