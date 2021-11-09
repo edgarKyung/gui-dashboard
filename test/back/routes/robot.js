@@ -38,6 +38,12 @@ router.get('/pose', function (req, res) {
   return res.send(data);
 });
 
+router.post('/pose', function (req, res) {
+  const data = req.body;
+  console.log('POST [/robot/pause]', 'pose:', JSON.stringify(data));
+  return res.send(data);
+});
+
 router.get('/sensor', function (req, res) {
   const data = gData.laser;
   // console.log('GET [/robot/sensor]', JSON.stringify(data));

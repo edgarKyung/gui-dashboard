@@ -70,11 +70,9 @@ let poseUpdateTimer = null;
 export const setPose = ({ x, y, rz }) => {
   try {
     editPoseCache = editPoseCache || JSON.parse(JSON.stringify(poseCache));
-    console.log(poseCache);
     editPoseCache.x += x;
     editPoseCache.y += y;
     editPoseCache.rz += rz;
-    console.log(editPoseCache);
 
     if (poseUpdateTimer) {
       clearTimeout(poseUpdateTimer);
@@ -82,9 +80,9 @@ export const setPose = ({ x, y, rz }) => {
 
     poseUpdateTimer = setTimeout(async () => {
       poseUpdateTimer = null;
-      // await httpClient.pose(`/robot/pose`, editPoseCache);
+      await httpClient.post(`/robot/pose`, editPoseCache);
       editPoseCache = null;
-    }, 3000);
+    }, 2000);
 
     return editPoseCache;
 
