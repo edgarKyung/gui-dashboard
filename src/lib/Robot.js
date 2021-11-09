@@ -64,9 +64,43 @@ export const getMap = async (name) => {
   }
 };
 
+let poseCache = {};
+let editPoseCache = null;
+let poseUpdateTimer = null;
+export const setPose = ({ x, y, rz }) => {
+  try {
+    editPoseCache = editPoseCache || JSON.parse(JSON.stringify(poseCache));
+    console.log(poseCache);
+    editPoseCache.x += x;
+    editPoseCache.y += y;
+    editPoseCache.rz += rz;
+    console.log(editPoseCache);
+
+    if (poseUpdateTimer) {
+      clearTimeout(poseUpdateTimer);
+    }
+
+    poseUpdateTimer = setTimeout(async () => {
+      poseUpdateTimer = null;
+      // await httpClient.pose(`/robot/pose`, editPoseCache);
+      editPoseCache = null;
+    }, 3000);
+
+    return editPoseCache;
+
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export const getPose = async () => {
   try {
-    return await httpClient.get(`/robot/pose`, {});
+    if (editPoseCache) {
+      return editPoseCache;
+    }
+    poseCache = await httpClient.get(`/robot/pose`, {});
+    return poseCache;
 
   } catch (err) {
     console.error(err);

@@ -170,11 +170,35 @@ const OperationContainer = ({ children }) => {
   }, []);
 
   const handleClickMovePoint = useCallback((e, data) => {
-    console.log('click Move Point', data);
+    const pos = { x: 0, y: 0, rz: 0 };
+    switch (data) {
+      case 'left':
+        pos.x = -0.5;
+        break;
+      case 'right':
+        pos.x = 0.5;
+        break;
+      case 'up':
+        pos.y = 0.5;
+        break;
+      case 'down':
+        pos.y = -0.5;
+        break;
+    }
+    RobotApi.setPose(pos);
   }, [isModeSelect]);
 
   const handleClickMoveRotation = useCallback((e, data) => {
-    console.log('click Move Rotation', data);
+    const pos = { x: 0, y: 0, rz: 0 };
+    switch (data) {
+      case 'pos':
+        pos.rz = -0.05;
+        break;
+      case 'neg':
+        pos.rz = 0.05;
+        break;
+    }
+    RobotApi.setPose(pos);
   }, [isModeSelect]);
 
   return (
@@ -192,7 +216,7 @@ const OperationContainer = ({ children }) => {
         viewportRef={viewportRef}
 
         onClickMovePoint={handleClickMovePoint}
-        onClickmoveRotation={handleClickMoveRotation}
+        onClickMoveRotation={handleClickMoveRotation}
       />
     </Fragment>
   )
