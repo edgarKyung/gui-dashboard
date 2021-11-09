@@ -94,9 +94,9 @@ export const scanMap = async () => {
   }
 };
 
-export const saveMap = async (mapData) => {
+export const saveMap = async (name, data) => {
   try {
-    return await httpClient.post(`/map/save`, { data: mapData });
+    return await httpClient.post(`/map/save`, { name, data });
 
   } catch (err) {
     console.error(err);

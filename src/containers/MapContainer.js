@@ -16,7 +16,7 @@ const MapContainer = () => {
   const [savePopupInfo, setSavePopupInfo] = useState({
     show: false,
   });
-  
+
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(1);
   const drawSizeList = [1, 5, 10, 15];
@@ -67,14 +67,7 @@ const MapContainer = () => {
       setSavePopupInfo({
         show: true
       });
-      const app = canvasRef.current.app;
-      const viewport = app.stage.children[0];
-      const container = viewport.children[0];
-      const imageData = app.renderer.plugins.extract.pixels(container);
-      const width = Math.floor(container.width);
-      const height = Math.floor(container.height);
-      const mapData = getMapFromImage(imageData, width, height);
-      await RobotApi.saveMap(mapData);
+
     } catch (err) {
       console.error(err)
     }
@@ -134,13 +127,21 @@ const MapContainer = () => {
     });
   }, [loadPopupInfo]);
 
-  const handleClickSaveOk = (data) => {
-    console.log(data);
+  const handleClickSaveOk = async (data) => {
+    // console.log(data);
     setSavePopupInfo({ show: false });
+    const app = canvasRef.current.app;
+    const viewport = app.stage.children[0];
+    const container = viewport.children[0];
+    const imageData = app.renderer.plugins.extract.pixels(container);
+    const width = Math.floor(container.width);
+    const height = Math.floor(container.height);
+    const mapData = getMapFromImage(imageData, width, height);
+    await RobotApi.saveMap(data, mapData);
   };
 
   const handleClickSaveClose = () => {
-    setSavePopupInfo({ show: false });    
+    setSavePopupInfo({ show: false });
   };
 
   return (
@@ -159,21 +160,21 @@ const MapContainer = () => {
         onClickUndoRedo={handleClickUndoRedo}
         onClickDrawLine={handleClickDrawLine}
       />
-      { loadPopupInfo.show && 
+      {loadPopupInfo.show &&
         <FileListPopupContainer
           items={loadPopupInfo.fileList}
           onClickOk={handleClickFileOk}
           onClickCancel={handleClickFileClose}
           onClickClose={handleClickFileClose}
-        /> 
+        />
       }
-      { savePopupInfo.show && 
+      {savePopupInfo.show &&
         <SavePopUpContainer
           items={loadPopupInfo.fileList}
           onClickOk={handleClickSaveOk}
           onClickCancel={handleClickSaveClose}
           onClickClose={handleClickSaveClose}
-        /> 
+        />
       }
     </>
   )

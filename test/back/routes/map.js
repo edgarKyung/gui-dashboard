@@ -91,7 +91,7 @@ router.post('/scan', function (req, res) {
 
 router.post('/save', function (req, res) {
   console.log('POST [/map/save]', 'SUCCESS');
-  saveMap(req.body.data);
+  saveMap(req.body.name, req.body.data);
   return res.send('SUCCESS');
 });
 
@@ -154,7 +154,7 @@ function getAreaSize({ bin, width, height }) {
   return area;
 }
 
-function saveMap({ bin, width, height }) {
+function saveMap(name, { bin, width, height }) {
   const origin_x = '0.000000';
   const origin_y = '0.000000';
   const buf_origin_x = Buffer.concat([Buffer.from([8, 0, 111, 114, 105, 103, 105, 110, 95, 120, origin_x.length, 0]), Buffer.from(origin_x)]);
@@ -204,7 +204,7 @@ function saveMap({ bin, width, height }) {
   ]);
 
   const dirPath = path.join(__dirname, '..', 'mock', 'map');
-  const filename = `${new Date().getTime()}.map`;
+  const filename = `${name}.map`;
   const filePath = path.join(dirPath, filename);
   fs.mkdirSync(dirPath, { recursive: true });
   fs.writeFileSync(filePath, concatData);
