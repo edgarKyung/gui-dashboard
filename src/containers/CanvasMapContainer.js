@@ -9,7 +9,7 @@ import * as FileApi from '../lib/File';
 
 let drawInterval = null;
 let drawStatusInterval = null;
-let map = { origin: {}, resolution: {}, padding: {}};
+let map = { origin: {}, resolution: {}, padding: {} };
 const CanvasMapContainer = ({
   isOp,
   isDrawStatus,
@@ -53,7 +53,7 @@ const CanvasMapContainer = ({
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
-  const { wall } = useSelector((store) => ({wall: store.wall.present.get('wall') }));
+  const { wall } = useSelector((store) => ({ wall: store.wall.present.get('wall') }));
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - map.origin.x) / map.resolution.x;
@@ -116,23 +116,33 @@ const CanvasMapContainer = ({
     const scaleWidth = calcCanvasWidth / w;
     const scaleHeight = calcCanvasHeight / h;
     if (scaleWidth < scaleHeight) {
+      const padding = calcCanvasHeight / scaleWidth - map.height;
+      canvas_padding.top = padding * 0.4;
+      canvas_padding.bottom = padding * 0.6;
+      canvas_padding.left = 0;
+      canvas_padding.right = 0;
       map.padding = canvas_padding;
       map.scale = scaleWidth;
     }
     if (scaleWidth > scaleHeight) {
+      const padding = calcCanvasWidth / scaleHeight - map.width;
+      canvas_padding.top = 0;
+      canvas_padding.bottom = 0;
+      canvas_padding.left = padding * 0.6;
+      canvas_padding.right = padding * 0.4;
       map.padding = canvas_padding;
       map.scale = scaleHeight;
     }
-    if(!initScale) setInitScale(map.scale);
+
+    if (!initScale) setInitScale(map.scale);
     setScale(map.scale);
     setDataWidth(map.width);
     setDataHeight(map.height);
-
   };
 
   async function setMapData() {
     map = await RobotApi.getMap('office');
-
+    reSizeCanvasData();
     if (isOp) {
       FileApi.setOpMapData(map);
     } else {
@@ -143,25 +153,23 @@ const CanvasMapContainer = ({
   function imageSizeAfterRotation(size, degrees) {
     degrees = degrees % 180;
     if (degrees < 0) {
-        degrees = 180 + degrees;
+      degrees = 180 + degrees;
     }
     if (degrees >= 90) {
-        size = [ size[1], size[0] ];
-        degrees = degrees - 90;
+      size = [size[1], size[0]];
+      degrees = degrees - 90;
     }
     if (degrees === 0) {
-        return size;
+      return size;
     }
     const radians = degrees * Math.PI / 180;
     const width = (size[0] * Math.cos(radians)) + (size[1] * Math.sin(radians));
     const height = (size[0] * Math.sin(radians)) + (size[1] * Math.cos(radians));
-    return [ width, height ];
+    return [width, height];
   }
 
   async function drawCanvas() {
     await setMapData();
-    reSizeCanvasData();
-    
     drawMap(map);
   }
 
@@ -170,6 +178,7 @@ const CanvasMapContainer = ({
     const sensor = await RobotApi.getSensor();
     const robotPose = convertRealToCanvas(pose);
     const laserData = getLaserData(robotPose, pose.rz, sensor);
+    console.log(robotPose, laserData)
     setLaserData(laserData);
     setPoseData(robotPose);
   }
@@ -177,11 +186,7 @@ const CanvasMapContainer = ({
   useInterval(() => {
     // drawCanvas();
     drawStatus();
-  }, 2000);
-
-  // useEffect(() => {
-  //   reSizeCanvasData();
-  // }, [rotate]);
+  }, 100);
 
   useEffect(() => {
     drawCanvas();
@@ -213,27 +218,27 @@ const CanvasMapContainer = ({
   }
 
   const handleGlobalMove = useCallback((e) => {
-    if(drawMode){
+    if (drawMode) {
       const interaction = e.data;
       if (interaction.pressure > 0) {
         const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
-        setWallTemp([...wallTemp, { 
-          x, 
-          y, 
-          rotate, 
-          size: drawSize, 
-          type: drawType, 
+        setWallTemp([...wallTemp, {
+          x,
+          y,
+          rotate,
+          size: drawSize,
+          type: drawType,
           scale,
           initScale,
           canvasWidth: calcCanvasWidth,
-          canvasHeight : calcCanvasHeight,
+          canvasHeight: calcCanvasHeight,
         }]);
       }
     }
   }, [drawMode, drawType, drawSize, wallTemp]);
 
   const handleGlobalMoveEnd = useCallback(() => {
-    if(drawMode && wallTemp.length > 0){
+    if (drawMode && wallTemp.length > 0) {
       dispatch(addWall({
         type: drawType,
         data: wallTemp,
