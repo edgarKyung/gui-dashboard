@@ -79,6 +79,8 @@ const CanvasMap = ({
   viewportPosition,
   initScale,
   scale,
+  scaleWidth,
+  scaleHeight,
   canvasWidth,
   canvasHeight,
   dataWidth,
@@ -159,7 +161,9 @@ const CanvasMap = ({
   const drawBackGround = (g) => {
     g.clear();
     g.beginFill(0xffffff, .1);
-    g.drawRect(0, 0, canvasWidth, canvasHeight);
+    const dw = dataWidth * scale;
+    const dh = dataHeight * scale;
+    g.drawRect((canvasWidth / 2) - dw / 2, (canvasHeight / 2) - dh / 2, dw, dh);
     g.endFill();
   };
 
@@ -253,12 +257,13 @@ const CanvasMap = ({
           >
             {imgData && (
               <Sprite
+                image={imgData}
                 anchor={.5}
                 x={canvasWidth / 2}
                 y={canvasHeight / 2}
-                image={imgData}
                 option={{ width: dataWidth, height: dataHeight }}
                 scale={scale}
+                // tint={'#fff'}
               />
             )}
 
@@ -275,8 +280,7 @@ const CanvasMap = ({
                 pivot={[canvasWidth/2, canvasHeight/2]}
                 // scale={percentage(scale, initScale) * 0.01}
               />
-            </Container>
-            {(points.length > 0) && points.map((point, idx) => (
+              {(points.length > 0) && points.map((point, idx) => (
                 <Draggable
                   key={idx}
                   image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
@@ -291,6 +295,8 @@ const CanvasMap = ({
                   onMovePointEnd={onMovePointEnd}
                 />
               ))}
+
+            </Container>
 
             {/* 마우스 draw 맵 그리기 */}
             {

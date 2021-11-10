@@ -47,6 +47,8 @@ const CanvasMapContainer = ({
   const [dataHeight, setDataHeight] = useState(0);
   const [initScale, setInitScale] = useState(null);
   const [scale, setScale] = useState(1);
+  const [scaleWidth, setScaleWidth] = useState(1);
+  const [scaleHeight, setScaleHeight] = useState(1);
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
@@ -117,8 +119,8 @@ const CanvasMapContainer = ({
     const scaleHeight = calcCanvasHeight / h;
     if (scaleWidth < scaleHeight) {
       const padding = calcCanvasHeight / scaleWidth - map.height;
-      canvas_padding.top = padding * 0.4;
-      canvas_padding.bottom = padding * 0.6;
+      // canvas_padding.top = padding * 0.4;
+      // canvas_padding.bottom = padding * 0.6;
       canvas_padding.left = 0;
       canvas_padding.right = 0;
       map.padding = canvas_padding;
@@ -128,14 +130,16 @@ const CanvasMapContainer = ({
       const padding = calcCanvasWidth / scaleHeight - map.width;
       canvas_padding.top = 0;
       canvas_padding.bottom = 0;
-      canvas_padding.left = padding * 0.6;
-      canvas_padding.right = padding * 0.4;
+      // canvas_padding.left = padding * 0.6;
+      // canvas_padding.right = padding * 0.4;
       map.padding = canvas_padding;
       map.scale = scaleHeight;
     }
 
     if (!initScale) setInitScale(map.scale);
     setScale(map.scale);
+    setScaleWidth(scaleWidth);
+    setScaleHeight(scaleHeight);
     setDataWidth(map.width);
     setDataHeight(map.height);
   };
@@ -178,7 +182,7 @@ const CanvasMapContainer = ({
     const sensor = await RobotApi.getSensor();
     const robotPose = convertRealToCanvas(pose);
     const laserData = getLaserData(robotPose, pose.rz, sensor);
-    console.log(robotPose, laserData)
+    // console.log(robotPose, laserData)
     setLaserData(laserData);
     setPoseData(robotPose);
   }
@@ -282,6 +286,8 @@ const CanvasMapContainer = ({
       viewportPosition={viewportPosition}
       initScale={initScale}
       scale={scale}
+      scaleWidth={scaleWidth}
+      scaleHeight={scaleHeight}
       canvasWidth={calcCanvasWidth}
       canvasHeight={calcCanvasHeight}
       dataWidth={dataWidth}

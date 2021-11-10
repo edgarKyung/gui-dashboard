@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { withRouter } from "react-router";
 import { ActionCreators } from 'redux-undo';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 import FileListPopupContainer from './FileListPopupContainer';
 import SavePopUpContainer from './SavePopUpContainer';
+import { resetWall } from '../modules/reducers/wall';
 
-const MapContainer = () => {
+const MapContainer = ({history}) => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
   const [loadPopupInfo, setLoadPopupInfo] = useState({
@@ -20,10 +22,14 @@ const MapContainer = () => {
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(1);
   const drawSizeList = [1, 5, 10, 15];
-
+  
   const handleClickDrawType = useCallback((type) => {
     setDrawType(drawType === type ? '' : type);
   }, [drawType]);
+
+  useEffect(() => history.listen(() => {
+    dispatch(resetWall());
+  }), [])
 
   function getMapFromImage(imageData, width, height) {
     const bin = [];
@@ -180,4 +186,4 @@ const MapContainer = () => {
   )
 }
 
-export default MapContainer;
+export default withRouter(MapContainer);

@@ -61,9 +61,11 @@ const OperationContainer = ({ children }) => {
 
   const focusPoint = (point) => {
     const viewport = viewportRef.current;
+    const wrapperContainer = viewport.children[0].children[1];
     const { screenWidth, screenHeight } = viewport.options;
     const zoomRate = FileApi.opMap.scale * 0.3;
-    viewport.snap(point.x, point.y, { removeOnComplete: true });
+    const { _x, _y } = wrapperContainer.position;
+    viewport.snap(_x + point.x, _y + point.y, { removeOnComplete: true });
     viewport.snapZoom({ width: screenWidth * zoomRate, height: screenHeight * zoomRate, removeOnComplete: true });
   };
 
