@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import _, { words } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux'
 import { useActions } from '../services/hooks'
@@ -9,6 +9,7 @@ import * as messageBoxActions from '../modules/reducers/message';
 import * as FileApi from '../lib/File';
 
 const PointContainer = () => {
+  const canvasRef = useRef();
   const dispatch = useDispatch();
   const MessageBoxActions = useActions(messageBoxActions);
   const [editPointId, setEditPointId] = useState(null);
@@ -116,12 +117,33 @@ const PointContainer = () => {
 
   const handleClickCanvas = (e) => {
     const { world } = e;
+    console.log('handleClickCanvas', world);
+  };
+
+  const _getLocalPoseFromGlobalPose = ({ x, y }, viewport) => {
+    const { scaleX: viewportScale, x:viewportPositionX, y:viewportPositionY } = viewport.lastViewport;
+    const padding = {
+      x: -(viewportPositionX) > 0 ? (-(viewportPositionX) / viewportScale) : 0,
+      y: -(viewportPositionY) > 0 ? (-(viewportPositionY) / viewportScale) : 0,
+    }
+    return {
+      x: (x / viewportScale) + padding.x,
+      y: (y / viewportScale) + padding.y,
+    }
+  }
+
+  const handleClickCanvasImage = (e) => {
+    const viewport = canvasRef.current.app.stage.children[0]
+    const { x:globalX, y:globalY } = _getLocalPoseFromGlobalPose(e.data.global, viewport);
+    const [diffX, diffY] = [ e.currentTarget.x - e.currentTarget.width / 2, e.currentTarget.y - e.currentTarget.height / 2];
+    const [x , y] = [globalX - diffX, globalY - diffY];
+    console.log(x, y);
     if (activeMove === 'point') {
       const pointData = {
         id: Date.now().toString(),
         name: '거점 ' + new Date().getTime() % 10000,
-        x: world.x,
-        y: world.y,
+        x,
+        y,
         degree: 0,
         disabled: false,
         favorite: false,
@@ -129,8 +151,9 @@ const PointContainer = () => {
       dispatch(addPoint(pointData));
       setEditPointId(pointData.id);
     } else if (activeMove === 'wall'){
-      setvirtualWall([...virtualWall, {x: world.x, y: world.y}]);
+      setvirtualWall([...virtualWall, {x, y}]);
     }
+
   };
 
   const handleMoveStart = (pointId) => {
@@ -222,6 +245,7 @@ const PointContainer = () => {
   return (
     <>
       <PointPage
+        canvasRef={canvasRef}
         activeMove={activeMove}
         points={points}
         selectedPoint={selectedPoint}
@@ -233,8 +257,9 @@ const PointContainer = () => {
         onClickRemove={handleClickRemove}
         onMovePoint={handleMovePoint}
         onMoveRotation={handleMoveRotation}
-
         onClickCanvas={handleClickCanvas}
+        onClickCanvasImage={handleClickCanvasImage}
+
         onMovePointStart={handleMoveStart}
         onMovePointEnd={handleMoveEnd}
         onDragPointEnd={handleDragPointEnd}

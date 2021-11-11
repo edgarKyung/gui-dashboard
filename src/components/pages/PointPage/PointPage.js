@@ -9,6 +9,7 @@ import { CanvasMapContainer, RobotStatusBarContainer } from '../../../containers
 const cx = classNames.bind(styles);
 
 const PointPage = ({
+  canvasRef,
   activeMove,
   selectedPoint,
   points,
@@ -24,6 +25,7 @@ const PointPage = ({
   onMoveRotation,
 
   onClickCanvas,
+  onClickCanvasImage,
 
   onMovePointStart,
   onMovePointEnd,
@@ -47,12 +49,14 @@ const PointPage = ({
     <PageTemplate>
       <MainContentTemplate title={'거점/가상벽 추가'}>
         <CanvasMapContainer
+          canvasRef={canvasRef}
           canvasWidth={1180}
           canvasHeight={1125}
           points={points.filter(point => !point.disabled)}
           activeMove={activeMove}
           disabledDrag={activeMove !== ''}
           onClickCanvas={onClickCanvas}
+          onClickCanvasImage={onClickCanvasImage}
           onClickPoint={onClickCanvasPoint}
           onMovePointStart={onMovePointStart}
           onMovePointEnd={onMovePointEnd}

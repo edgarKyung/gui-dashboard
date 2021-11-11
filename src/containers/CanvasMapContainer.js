@@ -22,6 +22,7 @@ const CanvasMapContainer = ({
   disabledDrag = true,
   onClickCanvas,
   onClickPoint,
+  onClickCanvasImage,
   onMovePointStart,
   onMovePointEnd,
   margin,
@@ -47,8 +48,6 @@ const CanvasMapContainer = ({
   const [dataHeight, setDataHeight] = useState(0);
   const [initScale, setInitScale] = useState(null);
   const [scale, setScale] = useState(1);
-  const [scaleWidth, setScaleWidth] = useState(1);
-  const [scaleHeight, setScaleHeight] = useState(1);
   const [imgData, setImgData] = useState();
   const [poseData, setPoseData] = useState({ x: null, y: null });
   const [laserData, setLaserData] = useState([{ x: null, y: null }]);
@@ -138,8 +137,6 @@ const CanvasMapContainer = ({
 
     if (!initScale) setInitScale(map.scale);
     setScale(map.scale);
-    setScaleWidth(scaleWidth);
-    setScaleHeight(scaleHeight);
     setDataWidth(map.width);
     setDataHeight(map.height);
   };
@@ -173,8 +170,10 @@ const CanvasMapContainer = ({
   }
 
   async function drawCanvas() {
+    dispatch(incrementSpinner());
     await setMapData();
     drawMap(map);
+    dispatch(decrementSpinner());
   }
 
   async function drawStatus() {
@@ -286,8 +285,6 @@ const CanvasMapContainer = ({
       viewportPosition={viewportPosition}
       initScale={initScale}
       scale={scale}
-      scaleWidth={scaleWidth}
-      scaleHeight={scaleHeight}
       canvasWidth={calcCanvasWidth}
       canvasHeight={calcCanvasHeight}
       dataWidth={dataWidth}
@@ -300,6 +297,7 @@ const CanvasMapContainer = ({
       disabledDrag={disabledDrag}
       onClickPoint={onClickPoint}
       onClickCanvas={onClickCanvas}
+      onClickCanvasImage={onClickCanvasImage}
       onZoomEndCanvas={handleZoomEndCanvas}
       onMovePointStart={onMovePointStart}
       onMovePointEnd={onMovePointEnd}
@@ -325,6 +323,7 @@ CanvasMapContainer.defaultProps = {
   drawSize: 1,
   onClickCanvas: () => { console.log('onClickCanvas is not defined'); },
   onClickPoint: () => { console.log('onClickPoint is not defined'); },
+  onClickCanvasImage: () => { console.log('onClickCanvasImage is not defined'); },
   onClickCanvasPoint: () => { console.log('onClickCanvasPoint is not defined'); },
   onMovePointStart: () => { console.log('onMovePointStart is not defined'); },
   onMovePointEnd: () => { console.log('onMovePointEnd is not defined'); },

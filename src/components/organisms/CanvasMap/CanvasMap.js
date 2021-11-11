@@ -79,8 +79,6 @@ const CanvasMap = ({
   viewportPosition,
   initScale,
   scale,
-  scaleWidth,
-  scaleHeight,
   canvasWidth,
   canvasHeight,
   dataWidth,
@@ -94,6 +92,7 @@ const CanvasMap = ({
   onClickPoint,
   onZoomEndCanvas,
   onClickCanvas,
+  onClickCanvasImage,
   onMovePointStart,
   onMovePointEnd,
   onMoved,
@@ -246,8 +245,8 @@ const CanvasMap = ({
           height={canvasHeight}
           dataWidth={dataWidth}
           dataHeight={dataHeight}
-          onClickCanvas={onClickCanvas}
           onZoomEndCanvas={onZoomEndCanvas}
+          onClickCanvas={onClickCanvas}
           onMoved={onMoved}
         >
           <Container 
@@ -263,6 +262,8 @@ const CanvasMap = ({
                 y={canvasHeight / 2}
                 option={{ width: dataWidth, height: dataHeight }}
                 scale={scale}
+                interactive
+                pointerup={onClickCanvasImage}
                 // tint={'#fff'}
               />
             )}
@@ -295,6 +296,26 @@ const CanvasMap = ({
                   onMovePointEnd={onMovePointEnd}
                 />
               ))}
+              <Graphics 
+                draw={drawVirtualWallList} 
+              />
+
+              <Graphics 
+                draw={drawVirtualWall} 
+              />
+              {virtualWall[0] && (
+                <Sprite
+                  image={virtualWallStart}
+                  x={virtualWall[0].x - 15}
+                  y={virtualWall[0].y - 15}
+                  scale={1}
+                  interactive
+                  pointerup={(e) => {
+                    onClickFirstPoint(e);
+                    e.stopPropagation();
+                  }}
+                />
+              )}
 
             </Container>
 
@@ -311,26 +332,6 @@ const CanvasMap = ({
                 />
               ))
             }
-            <Graphics 
-              draw={drawVirtualWallList} 
-            />
-
-            <Graphics 
-              draw={drawVirtualWall} 
-            />
-            {virtualWall[0] && (
-              <Sprite
-                image={virtualWallStart}
-                x={virtualWall[0].x - 15}
-                y={virtualWall[0].y - 15}
-                scale={1}
-                interactive
-                pointerup={(e) => {
-                  onClickFirstPoint(e);
-                  e.stopPropagation();
-                }}
-              />
-            )}
 
           </Container>
           { drawMode && (<Graphics
