@@ -223,8 +223,10 @@ const CanvasMapContainer = ({
   const handleGlobalMove = useCallback((e) => {
     if (drawMode) {
       const interaction = e.data;
-      if (interaction.pressure > 0) {
-        const { x, y } = _getLocalPoseFromGlobalPose(interaction.global);
+      if (e.target === e.currentTarget && interaction.pressure > 0){
+        const { x: globalX, y:globalY } = _getLocalPoseFromGlobalPose(interaction.global);
+        const [diffX, diffY] = [ (calcCanvasWidth - e.target.width) / 2, (calcCanvasHeight - e.target.height) / 2];
+        const [x,y] = [globalX - diffX, globalY - diffY];
         setWallTemp([...wallTemp, {
           x,
           y,
@@ -236,7 +238,13 @@ const CanvasMapContainer = ({
           canvasWidth: calcCanvasWidth,
           canvasHeight: calcCanvasHeight,
         }]);
-      }
+      } else if (wallTemp.length > 0) {
+        dispatch(addWall({
+          type: drawType,
+          data: wallTemp,
+        }));
+        setWallTemp([]);
+      } 
     }
   }, [drawMode, drawType, drawSize, wallTemp]);
 

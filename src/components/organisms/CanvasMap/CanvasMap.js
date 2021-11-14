@@ -260,7 +260,7 @@ const CanvasMap = ({
                 anchor={.5}
                 x={canvasWidth / 2}
                 y={canvasHeight / 2}
-                option={{ width: dataWidth, height: dataHeight }}
+                option={{ width: dataWidth, height: dataHeight}}
                 scale={scale}
                 interactive
                 pointerup={onClickCanvasImage}
@@ -317,9 +317,6 @@ const CanvasMap = ({
                 />
               )}
 
-            </Container>
-
-            {/* 마우스 draw 맵 그리기 */}
             {
               wall.map((data, i) => (
                 <DrawLine 
@@ -332,22 +329,26 @@ const CanvasMap = ({
                 />
               ))
             }
+            {/* 그리는 중인거 그리기 */}
+            { wallTemp.length > 0 && (<Graphics 
+              draw={drawTempWall} 
+              x={canvasWidth / 2}
+              y={canvasHeight / 2}
+              pivot={[canvasWidth/2, canvasHeight/2]}
+              // scale={scale}
+            />) }
+
+            </Container>
+
 
           </Container>
           { drawMode && (<Graphics
             draw={drawBackGround}
             interactive
+            pointerout={onDragEnd}
             pointermove={onDrag}
             pointerup={onDragEnd}
           />)}
-          {/* 그리는 중인거 그리기 */}
-          { wallTemp.length > 0 && (<Graphics 
-            draw={drawTempWall} 
-            x={canvasWidth / 2}
-            y={canvasHeight / 2}
-            pivot={[canvasWidth/2, canvasHeight/2]}
-            // scale={scale}
-          />) }
         </PixiViewPort>
         { !disableRotate && (
         <Container position={[canvasWidth - 180, canvasHeight - 70]}>
