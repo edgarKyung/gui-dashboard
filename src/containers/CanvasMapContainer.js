@@ -135,7 +135,7 @@ const CanvasMapContainer = ({
       map.scale = scaleHeight;
     }
 
-    map.scale = pageType === 'map' ? 1 : map.scale;
+    // map.scale = pageType === 'map' ? 1 : map.scale;
 
     if (!initScale) setInitScale(map.scale);
     setScale(map.scale);

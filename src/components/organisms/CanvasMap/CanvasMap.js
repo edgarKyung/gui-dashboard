@@ -253,6 +253,7 @@ const CanvasMap = ({
             angle={rotate} 
             pivot={[canvasWidth/2, canvasHeight/2]}
             position={[canvasWidth / 2, canvasHeight / 2]}
+            scale={1}
           >
             {imgData && (
               <Sprite
@@ -389,6 +390,7 @@ const CanvasMap = ({
           dataWidth={dataWidth}
           dataHeight={dataHeight}
           imgData={imgData}
+          wall={wall}
         />
       </Stage>
     </div>
