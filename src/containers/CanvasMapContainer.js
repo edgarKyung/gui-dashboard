@@ -301,7 +301,7 @@ const CanvasMapContainer = ({
       dataHeight={dataHeight}
       imgData={imgData}
       poseData={poseData}
-      laserData={laserData}
+      laserData={pageType === 'operation' ? laserData : []}
       points={points}
       selectedPoint={selectedPoint}
       disabledDrag={disabledDrag}
