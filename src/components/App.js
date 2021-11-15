@@ -8,9 +8,9 @@ import {
 import {
   LogPage
 } from './pages';
-import { 
-  MapContainer, 
-  OperationContainer, 
+import {
+  MapContainer,
+  OperationContainer,
   PointContainer,
   MessageBoxWrapperContainer,
   SettingContainer,
@@ -31,8 +31,8 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/"><Redirect to="/operation" /></Route>
-        <Route exact path="/operation"><OperationContainer /></Route>
+        {/* <Route exact path="/"><Redirect to="/operation" /></Route> */}
+        <Route exact path="/"><OperationContainer /></Route>
         <Route path="/map"><MapContainer /></Route>
         <Route path="/point"><PointContainer /></Route>
         <Route path="/setting"><SettingContainer /></Route>

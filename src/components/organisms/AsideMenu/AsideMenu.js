@@ -11,30 +11,30 @@ const AsideMenu = ({ location }) => {
   return (
     <div className={cx('aside-wrap')}>
       <div className={cx('logo-wrap')}>
-        <Link to='/operation'>
-          <Button type='logo' className={cx('logo')}/>
+        <Link to='/'>
+          <Button type='logo' className={cx('logo')} />
         </Link>
       </div>
       <ul className={cx('menu-list')} >
         {
-          Object.entries(menus).map(([id, data])=>{
+          Object.entries(menus).map(([id, data]) => {
             return (
-            <li key={id}>
-              <Link to={data.link}>
-                <Button type={data.id} className={cx('menu-btn')} active={location.pathname === data.link}></Button>
-              </Link>
-            </li>)
+              <li key={id}>
+                <Link to={data.link}>
+                  <Button type={data.id} className={cx('menu-btn')} active={location.pathname === data.link}></Button>
+                </Link>
+              </li>)
           })
         }
       </ul>
       <div className={cx('info-wrap')}>
         <ul>
           <li>
-            <Icon type='calendar' className={cx('icon')} /> 
+            <Icon type='calendar' className={cx('icon')} />
             2021.07.01
           </li>
           <li>
-            <Icon type='time' className={cx('icon')} /> 
+            <Icon type='time' className={cx('icon')} />
             오후 2:00
           </li>
         </ul>
