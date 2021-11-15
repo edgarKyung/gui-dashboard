@@ -11,7 +11,7 @@ let drawInterval = null;
 let drawStatusInterval = null;
 let map = { origin: {}, resolution: {}, padding: {} };
 const CanvasMapContainer = ({
-  isOp,
+  pageType,
   isDrawStatus,
   drawOneTime,
   drawMode,
@@ -135,6 +135,8 @@ const CanvasMapContainer = ({
       map.scale = scaleHeight;
     }
 
+    map.scale = pageType === 'map' ? 1 : map.scale;
+
     if (!initScale) setInitScale(map.scale);
     setScale(map.scale);
     setDataWidth(map.width);
@@ -144,11 +146,11 @@ const CanvasMapContainer = ({
   async function setMapData() {
     map = await RobotApi.getMap('office');
     reSizeCanvasData();
-    if (isOp) {
+    if (pageType === 'operation') {
       FileApi.setOpMapData(map);
-    } else {
-      FileApi.setMapData(map);
+      return;
     }
+    FileApi.setMapData(map);
   }
 
   function imageSizeAfterRotation(size, degrees) {

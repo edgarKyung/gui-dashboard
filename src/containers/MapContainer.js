@@ -8,7 +8,7 @@ import FileListPopupContainer from './FileListPopupContainer';
 import SavePopUpContainer from './SavePopUpContainer';
 import { resetWall } from '../modules/reducers/wall';
 
-const MapContainer = ({history}) => {
+const MapContainer = ({ history }) => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
   const [loadPopupInfo, setLoadPopupInfo] = useState({
@@ -22,7 +22,7 @@ const MapContainer = ({history}) => {
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(1);
   const drawSizeList = [1, 5, 10, 15];
-  
+
   const handleClickDrawType = useCallback((type) => {
     setDrawType(drawType === type ? '' : type);
   }, [drawType]);
@@ -46,19 +46,19 @@ const MapContainer = ({history}) => {
       // color = (data[cell] > 70) ? [30, 30, 30] : color; // Unmovable Area
 
       // Movable Area
-      if (imageData[i] > 235 && imageData[i] < 250) {
+      if (imageData[i] > 200 && imageData[i] < 255) {
         bin.push(127);
         continue;
       }
 
-      // Unmovable Area
-      if (imageData[i] > 0 && imageData[i] < 140) {
-        bin.push(255);
-        continue;
-      }
+      // // Unmovable Area
+      // if (imageData[i] > 0 && imageData[i] < 140) {
+      //   bin.push(255);
+      //   continue;
+      // }
 
       // Unknown Area
-      bin.push(0);
+      bin.push(255);
     }
 
     return {
