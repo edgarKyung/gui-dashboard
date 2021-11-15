@@ -31,7 +31,7 @@ const OperationPage = ({
     <MainContentTemplate title={'로봇운영'}>
       <div className={cx('canvas-wrap')}>
         <CanvasMapContainer
-          isOp={true}
+          pageType='operation'
           isDrawStatus={true}
           drawOneTime={true}
           canvasWidth={1180}
@@ -63,14 +63,14 @@ const OperationPage = ({
         isModeSelect={isModeSelect}
       />
       <div className={cx('joystick-wrap')}>
-        { !isModeSelect && ( 
-          <RobotPositionJoyStickContainer /> 
+        {!isModeSelect && (
+          <RobotPositionJoyStickContainer />
         )}
-        { isModeSelect && ( 
-          <RobotPositionControlPanel 
+        {isModeSelect && (
+          <RobotPositionControlPanel
             onMovePoint={onClickMovePoint}
             onMoveRotation={onClickMoveRotation}
-          /> 
+          />
         )}
       </div>
       <RobotStatusBarContainer />

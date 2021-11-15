@@ -30,6 +30,7 @@ const MapPage = ({
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
       <CanvasMapContainer
+        pageType='map'
         canvasRef={canvasRef}
         drawMode={drawMode}
         canvasWidth={1180}

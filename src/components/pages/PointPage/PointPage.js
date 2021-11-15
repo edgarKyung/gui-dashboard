@@ -49,6 +49,7 @@ const PointPage = ({
     <PageTemplate>
       <MainContentTemplate title={'거점/가상벽 추가'}>
         <CanvasMapContainer
+          pageType='point'
           canvasRef={canvasRef}
           canvasWidth={1180}
           canvasHeight={1125}
@@ -107,7 +108,7 @@ const PointPage = ({
           </Tabs.Header>
           <Tabs.Header title="가상벽관리">
             <div className={cx('wall-edit-pannel-wrap')}>
-              <WallEditList 
+              <WallEditList
                 className={cx('wall-edit-list')}
                 virtualWallList={virtualWallList}
                 onClickWall={onClickWall}
