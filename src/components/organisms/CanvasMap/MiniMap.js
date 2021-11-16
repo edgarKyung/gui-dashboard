@@ -44,23 +44,6 @@ const MapData = ({
         ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
     return [nx, ny];
   }  
-  const lineDraw = (g) => {
-    g.clear();
-    wall.forEach(data => {
-      data.forEach(wallData => {
-        const { x, y, rotate, scale: drawScale,  size, type } = wallData;
-        let color;
-        color = (type === 'able') ? 0xFFFFFF : color;
-        color = (type === 'undefined') ? 0xF0F0EC : color;
-        color = (type === 'disable') ? 0x1E1E1E : color;
-        g.beginFill(color, 1);
-      
-        const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
-        g.drawCircle(newX, newY, size / 2);
-      });  
-    })
-    g.endFill();
-  };
   return (
     <>
       <Graphics draw={dataBgDraw}/>
@@ -80,14 +63,6 @@ const MapData = ({
 
           />
         )}
-        <Container
-          position={[
-            (canvasWidth / 2) - ((dataWidth * scale) / 2), 
-            (canvasHeight / 2) - ((dataHeight * scale) / 2)
-          ]}
-        >
-          <Graphics draw={lineDraw}/>
-        </Container>
       </Container>
     </>    
   )
@@ -104,7 +79,6 @@ const MiniMap = ({
   canvasHeight,
   dataWidth,
   dataHeight,
-  wall,
 }) => {
   const miniMapBlackBgDraw = useCallback((g) => {
     g.clear();
@@ -145,7 +119,6 @@ const MiniMap = ({
         scale={dataScale}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
-        wall={wall}
       />
       <Graphics draw={miniMapBlackBgDraw} />
       <Mask draw={drawPositionSquare.bind(this, maskPosition)}>
@@ -157,7 +130,6 @@ const MiniMap = ({
           scale={dataScale}
           canvasWidth={canvasWidth}
           canvasHeight={canvasHeight}
-          wall={wall}
         />
       </Mask>
     </Container >

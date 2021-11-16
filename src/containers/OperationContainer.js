@@ -46,6 +46,8 @@ const OperationContainer = ({ children }) => {
         degree: target.degree
       });
     }
+    console.log(scheduleList[0]);
+    console.log(newPoints[0]);
     setPoints(newPoints);
 
     if (scheduleList.length > 1) {
@@ -62,11 +64,11 @@ const OperationContainer = ({ children }) => {
   const focusPoint = (point) => {
     const viewport = viewportRef.current;
     const wrapperContainer = viewport.children[0];
-    const objectContainer = wrapperContainer.children[wrapperContainer.children.length - 1];
     const { screenWidth, screenHeight } = viewport.options;
     const zoomRate = FileApi.opMap.scale * 0.3;
-    const { _x, _y } = objectContainer.position;
-    viewport.snap(_x + point.x, _y + point.y, { removeOnComplete: true });
+    const { x:scaleX, y:scaleY } = wrapperContainer.scale;
+    const [ marginX, marginY ] = [ (viewport.options.screenWidth - viewport.width) / 2,  (viewport.options.screenHeight - viewport.height) / 2]
+    viewport.snap((point.x * scaleX) + marginX, (point.y * scaleY) + marginY, { removeOnComplete: true });
     viewport.snapZoom({ width: screenWidth * zoomRate, height: screenHeight * zoomRate, removeOnComplete: true });
   };
 

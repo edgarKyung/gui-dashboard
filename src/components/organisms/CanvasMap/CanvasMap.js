@@ -41,8 +41,8 @@ const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, scale }) => {
       color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
     
-      const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
-      g.drawCircle(newX, newY, size / 2);
+      // const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
+      g.drawCircle(x, y, size / 2);
     });
     g.endFill();
   };
@@ -54,10 +54,11 @@ const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, scale }) => {
   return (
   <Graphics 
     draw={_drawLine}
-    x={(canvasWidth / 2) * canvasWidthDiff}
-    y={(canvasHeight / 2) * canvasHeightDiff}
-    pivot={[canvasWidth/2, canvasHeight/2]}
-    scale={calScale}
+    // x={(canvasWidth / 2) * canvasWidthDiff}
+    // y={(canvasHeight / 2) * canvasHeightDiff}
+    // pivot={[canvasWidth/2, canvasHeight/2]}
+    // scale={calScale}
+    // tint={'#fff'}
   />
   )
 });
@@ -144,13 +145,13 @@ const CanvasMap = ({
 
   const laserDraw = useCallback(g => {
     g.clear();
-    const laserSize = 2 * scale;
+    const laserSize = 2;
     for (let i = 0; i < laserData.length; i += 1) {
       const laser = laserData[i];
-      const laserSizeX = 2 * scale;
-      const laserSizeY = 2 * scale;
-      const scaledLaserX = laser.x * scale - laserSizeX * 0.5;
-      const scaledLaserY = laser.y * scale - laserSizeY * 0.5;
+      const laserSizeX = 2;
+      const laserSizeY = 2;
+      const scaledLaserX = laser.x - laserSizeX * 0.5;
+      const scaledLaserY = laser.y - laserSizeY * 0.5;
       g.beginFill(0x7A00FA, 0.75);
       g.drawCircle(scaledLaserX, scaledLaserY, laserSize);
       g.endFill();
@@ -251,35 +252,46 @@ const CanvasMap = ({
         >
           <Container 
             angle={rotate} 
-            pivot={[canvasWidth/2, canvasHeight/2]}
+            pivot={[dataWidth/2, dataHeight/2]}
             position={[canvasWidth / 2, canvasHeight / 2]}
-            scale={1}
+            scale={scale}
           >
             {imgData && (
               <Sprite
                 image={imgData}
-                anchor={.5}
-                x={canvasWidth / 2}
-                y={canvasHeight / 2}
+                // anchor={.5}
+                // x={canvasWidth / 2}
+                // y={canvasHeight / 2}
                 option={{ width: dataWidth, height: dataHeight}}
-                scale={scale}
+                // scale={scale}
                 interactive
                 pointerup={onClickCanvasImage}
                 // tint={'#fff'}
               />
             )}
+            {
+              wall.map((data, i) => (
+                <DrawLine 
+                  key={i}
+                  data={data}
+                  canvasWidth={canvasWidth}
+                  canvasHeight={canvasHeight}
+                  initScale={initScale}
+                  scale={scale}
+                />
+              ))
+            }
+            {/* 그리는 중인거 그리기 */}
+            { wallTemp.length > 0 && (<Graphics 
+              draw={drawTempWall} 
+              x={canvasWidth / 2}
+              y={canvasHeight / 2}
+              pivot={[canvasWidth/2, canvasHeight/2]}
+              // scale={scale}
+            />) }
 
-            <Container 
-              position={[
-                (canvasWidth / 2) - ((dataWidth * scale) / 2), 
-                (canvasHeight / 2) - ((dataHeight * scale) / 2)
-              ]}
-            >
               <Graphics 
                 draw={laserDraw} 
-                x={canvasWidth / 2}
-                y={canvasHeight / 2}
-                pivot={[canvasWidth/2, canvasHeight/2]}
                 // scale={percentage(scale, initScale) * 0.01}
               />
               {(points.length > 0) && points.map((point, idx) => (
@@ -291,7 +303,7 @@ const CanvasMap = ({
                   y={point.y}
                   disabled={disabledDrag}
                   angle={point.degree}
-                  scale={(scale * 0.3)}
+                  scale={(scale)}
                   onClickPoint={onClickPoint}
                   onMovePointStart={onMovePointStart}
                   onMovePointEnd={onMovePointEnd}
@@ -317,30 +329,6 @@ const CanvasMap = ({
                   }}
                 />
               )}
-
-            {
-              wall.map((data, i) => (
-                <DrawLine 
-                  key={i}
-                  data={data}
-                  canvasWidth={canvasWidth}
-                  canvasHeight={canvasHeight}
-                  initScale={initScale}
-                  scale={scale}
-                />
-              ))
-            }
-            {/* 그리는 중인거 그리기 */}
-            { wallTemp.length > 0 && (<Graphics 
-              draw={drawTempWall} 
-              x={canvasWidth / 2}
-              y={canvasHeight / 2}
-              pivot={[canvasWidth/2, canvasHeight/2]}
-              // scale={scale}
-            />) }
-
-            </Container>
-
 
           </Container>
           { drawMode && (<Graphics
@@ -390,7 +378,6 @@ const CanvasMap = ({
           dataWidth={dataWidth}
           dataHeight={dataHeight}
           imgData={imgData}
-          wall={wall}
         />
       </Stage>
     </div>

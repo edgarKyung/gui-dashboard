@@ -10,6 +10,7 @@ import * as FileApi from '../lib/File';
 
 const PointContainer = () => {
   const canvasRef = useRef();
+  const viewportRef = useRef();
   const dispatch = useDispatch();
   const MessageBoxActions = useActions(messageBoxActions);
   const [editPointId, setEditPointId] = useState(null);
@@ -115,11 +116,6 @@ const PointContainer = () => {
     movePoint(rotation);
   };
 
-  const handleClickCanvas = (e) => {
-    const { world } = e;
-    console.log('handleClickCanvas', world);
-  };
-
   const _getLocalPoseFromGlobalPose = ({ x, y }, viewport) => {
     const { scaleX: viewportScale, x:viewportPositionX, y:viewportPositionY } = viewport.lastViewport;
     const padding = {
@@ -133,17 +129,19 @@ const PointContainer = () => {
   }
 
   const handleClickCanvasImage = (e) => {
-    const viewport = canvasRef.current.app.stage.children[0]
+    const viewport = canvasRef.current.app.stage.children[0];
+    const container = viewport.children[0];
     const { x:globalX, y:globalY } = _getLocalPoseFromGlobalPose(e.data.global, viewport);
-    const [diffX, diffY] = [ e.currentTarget.x - e.currentTarget.width / 2, e.currentTarget.y - e.currentTarget.height / 2];
+    const [diffX, diffY] = [(viewport.worldWidth - container.width) / 2, (viewport.worldHeight - container.height) / 2];
     const [x , y] = [globalX - diffX, globalY - diffY];
-    console.log(x, y);
+    const [scaleX, scaleY] = [ x / container.scale.x, y / container.scale.y ];
+    console.log(scaleX, scaleY);
     if (activeMove === 'point') {
       const pointData = {
         id: Date.now().toString(),
         name: '거점 ' + new Date().getTime() % 10000,
-        x,
-        y,
+        x:scaleX,
+        y:scaleY,
         degree: 0,
         disabled: false,
         favorite: false,
@@ -151,7 +149,7 @@ const PointContainer = () => {
       dispatch(addPoint(pointData));
       setEditPointId(pointData.id);
     } else if (activeMove === 'wall'){
-      setvirtualWall([...virtualWall, {x, y}]);
+      setvirtualWall([...virtualWall, {x: scaleX, y:scaleY, scale:container.scale.x }]);
     }
 
   };
@@ -246,6 +244,7 @@ const PointContainer = () => {
     <>
       <PointPage
         canvasRef={canvasRef}
+        viewportRef={viewportRef}
         activeMove={activeMove}
         points={points}
         selectedPoint={selectedPoint}
@@ -257,7 +256,6 @@ const PointContainer = () => {
         onClickRemove={handleClickRemove}
         onMovePoint={handleMovePoint}
         onMoveRotation={handleMoveRotation}
-        onClickCanvas={handleClickCanvas}
         onClickCanvasImage={handleClickCanvasImage}
 
         onMovePointStart={handleMoveStart}

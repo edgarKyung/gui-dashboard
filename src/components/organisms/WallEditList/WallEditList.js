@@ -22,12 +22,11 @@ const WallEditList = ({
     g.beginFill(0x6A6AD8, 1);
     g.drawPolygon(data.map(pose => {
       return {
-        x: pose.x/10,
-        y: pose.y/10,
+        x: pose.x * pose.scale / 10,
+        y: pose.y * pose.scale / 10,
       }
     }));
   }, [virtualWallList]);
-
   return (
     <div className={cx('wall-wrap', className)}>
       <PageTitle title='가상벽 목록' />

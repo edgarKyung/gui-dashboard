@@ -115,14 +115,14 @@ const MapContainer = ({ history }) => {
   }, [loadPopupInfo]);
 
   const handleClickSaveOk = async (data) => {
-    // console.log(data);
     setSavePopupInfo({ show: false });
     const app = canvasRef.current.app;
     const viewport = app.stage.children[0];
     const container = viewport.children[0];
+    const imageSprite = container.children[0];
     const imageData = app.renderer.plugins.extract.pixels(container);
-    const width = Math.floor(container.width);
-    const height = Math.floor(container.height);
+    const width = Math.floor(imageSprite.width);
+    const height = Math.floor(imageSprite.height);
     const mapData = getMapFromImage(imageData, width, height);
     await RobotApi.saveMap(data, mapData);
   };

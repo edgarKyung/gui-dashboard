@@ -10,6 +10,7 @@ const cx = classNames.bind(styles);
 
 const PointPage = ({
   canvasRef,
+  viewportRef,
   activeMove,
   selectedPoint,
   points,
@@ -24,7 +25,6 @@ const PointPage = ({
   onMovePoint,
   onMoveRotation,
 
-  onClickCanvas,
   onClickCanvasImage,
 
   onMovePointStart,
@@ -56,7 +56,6 @@ const PointPage = ({
           points={points.filter(point => !point.disabled)}
           activeMove={activeMove}
           disabledDrag={activeMove !== ''}
-          onClickCanvas={onClickCanvas}
           onClickCanvasImage={onClickCanvasImage}
           onClickPoint={onClickCanvasPoint}
           onMovePointStart={onMovePointStart}

@@ -183,7 +183,6 @@ const CanvasMapContainer = ({
     const sensor = await RobotApi.getSensor();
     const robotPose = convertRealToCanvas(pose);
     const laserData = getLaserData(robotPose, pose.rz, sensor);
-    // console.log(robotPose, laserData)
     setLaserData(laserData);
     setPoseData(robotPose);
   }
@@ -191,7 +190,7 @@ const CanvasMapContainer = ({
   useInterval(() => {
     // drawCanvas();
     drawStatus();
-  }, 100);
+  }, 1000);
 
   useEffect(() => {
     drawCanvas();
@@ -229,9 +228,10 @@ const CanvasMapContainer = ({
         const { x: globalX, y:globalY } = _getLocalPoseFromGlobalPose(interaction.global);
         const [diffX, diffY] = [ (calcCanvasWidth - e.target.width) / 2, (calcCanvasHeight - e.target.height) / 2];
         const [x,y] = [globalX - diffX, globalY - diffY];
+        const [scaleX, scaleY] = [x / scale, y / scale];
         setWallTemp([...wallTemp, {
-          x,
-          y,
+          x : scaleX,
+          y : scaleY,
           rotate,
           size: drawSize,
           type: drawType,
