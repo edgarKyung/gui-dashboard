@@ -73,8 +73,8 @@ export const saveWayPoint = async (waypoint) => {
       wp.real.x = map.origin_x + (wp.x - (map.padding.left) * map.scale) / map.scale * map.resolution_x;
       wp.real.y = map.origin_y - (wp.y - (map.padding.top + map.canvas_height) * map.scale) / map.scale * map.resolution_y;
       wp.degree = Math.floor((wp.degree + 3600) % 360);
-      wp.real.degree = (wp.degree - 90) % 360;
-      wp.real.degree = (wp.real.degree > 180 ? wp.real.degree : wp.real.degree - 360) / 180 * Math.PI;
+      wp.real.degree = (-wp.degree + 90) % 360;
+      wp.real.degree = (wp.real.degree < 180 ? wp.real.degree : wp.real.degree - 360) / 180 * Math.PI;
     }
     return await httpClient.post('/waypoint', { waypoint });
 
