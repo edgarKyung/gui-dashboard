@@ -80,8 +80,8 @@ const OperationContainer = ({ children }) => {
     const wrapperContainer = viewport.children[0];
     const { screenWidth, screenHeight } = viewport.options;
     const zoomRate = FileApi.opMap.scale * 0.3;
-    const { x:scaleX, y:scaleY } = wrapperContainer.scale;
-    const [ marginX, marginY ] = [ (viewport.options.screenWidth - viewport.width) / 2,  (viewport.options.screenHeight - viewport.height) / 2]
+    const { x: scaleX, y: scaleY } = wrapperContainer.scale;
+    const [marginX, marginY] = [(viewport.options.screenWidth - viewport.width) / 2, (viewport.options.screenHeight - viewport.height) / 2]
     viewport.snap((point.x * scaleX) + marginX, (point.y * scaleY) + marginY, { removeOnComplete: true });
     viewport.snapZoom({ width: screenWidth * zoomRate, height: screenHeight * zoomRate, removeOnComplete: true });
   };
@@ -100,7 +100,7 @@ const OperationContainer = ({ children }) => {
     }
     loadWayPoint();
 
-    poseChecker = setInterval(checkPose, 500);
+    poseChecker = setInterval(checkPose, 100);
     return () => {
       clearInterval(poseChecker)
     }

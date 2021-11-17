@@ -190,7 +190,7 @@ const CanvasMapContainer = ({
   useInterval(() => {
     // drawCanvas();
     drawStatus();
-  }, 1000);
+  }, 100);
 
   useEffect(() => {
     drawCanvas();
@@ -224,14 +224,14 @@ const CanvasMapContainer = ({
   const handleGlobalMove = useCallback((e) => {
     if (drawMode) {
       const interaction = e.data;
-      if (e.target === e.currentTarget && interaction.pressure > 0){
-        const { x: globalX, y:globalY } = _getLocalPoseFromGlobalPose(interaction.global);
-        const [diffX, diffY] = [ (calcCanvasWidth - e.target.width) / 2, (calcCanvasHeight - e.target.height) / 2];
-        const [x,y] = [globalX - diffX, globalY - diffY];
+      if (e.target === e.currentTarget && interaction.pressure > 0) {
+        const { x: globalX, y: globalY } = _getLocalPoseFromGlobalPose(interaction.global);
+        const [diffX, diffY] = [(calcCanvasWidth - e.target.width) / 2, (calcCanvasHeight - e.target.height) / 2];
+        const [x, y] = [globalX - diffX, globalY - diffY];
         const [scaleX, scaleY] = [x / scale, y / scale];
         setWallTemp([...wallTemp, {
-          x : scaleX,
-          y : scaleY,
+          x: scaleX,
+          y: scaleY,
           rotate,
           size: drawSize,
           type: drawType,
@@ -246,7 +246,7 @@ const CanvasMapContainer = ({
           data: wallTemp,
         }));
         setWallTemp([]);
-      } 
+      }
     }
   }, [drawMode, drawType, drawSize, wallTemp]);
 
