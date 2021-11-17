@@ -50,13 +50,27 @@ const OperationContainer = ({ children }) => {
 
     if (scheduleList.length > 1) {
       const target = JSON.parse(JSON.stringify(scheduleList[0]));
-      if (Math.abs(target.real.x - pose.x) < 0.5 && Math.abs(target.real.y - pose.y) < 0.5) {
+      // console.log(
+      //   Math.abs(target.real.x - pose.x),
+      //   Math.abs(target.real.y - pose.y),
+      //   Math.abs(target.real.degree - pose.rz) % 3.14,
+      // );
+      if (
+        Math.abs(target.real.x - pose.x) < 0.5
+        && Math.abs(target.real.y - pose.y) < 0.5
+        // && (Math.abs(target.real.degree - pose.rz) % 3.14 < 0.35 || Math.abs(target.real.degree - pose.rz) % 3.14 > 2.64)
+      ) {
         console.log(new Date(), target.real.x.toFixed(2), pose.x.toFixed(2), target.real.y.toFixed(2), pose.y.toFixed(2));
         const next = JSON.parse(JSON.stringify(scheduleList[1]));
         dispatch(shiftSchedule());
         await RobotApi.move(next);
       }
     }
+
+    // if (scheduleList.length === 2) {
+    //   scheduleList.push(scheduleList[0]);
+    //   scheduleList.push(scheduleList[1]);
+    // }
   }
 
   const focusPoint = (point) => {
