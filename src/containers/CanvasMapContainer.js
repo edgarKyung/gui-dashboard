@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
 import { addWall } from '../modules/reducers/wall';
 import { useInterval } from '../services/hooks';
-import { incrementSpinner, decrementSpinner } from '../modules/reducers/common';
+import { incrementSpinner, decrementSpinner, setLoadCanvas } from '../modules/reducers/common';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
 
@@ -172,10 +172,17 @@ const CanvasMapContainer = ({
   }
 
   async function drawCanvas() {
-    dispatch(incrementSpinner());
-    await setMapData();
-    drawMap(map);
-    dispatch(decrementSpinner());
+    try {
+      dispatch(incrementSpinner());
+      dispatch(setLoadCanvas(false));
+      await setMapData();
+      drawMap(map);
+      dispatch(setLoadCanvas(true));
+      dispatch(decrementSpinner());
+    } catch (err) {
+      dispatch(setLoadCanvas(false));
+      dispatch(decrementSpinner());
+    }
   }
 
   async function drawStatus() {

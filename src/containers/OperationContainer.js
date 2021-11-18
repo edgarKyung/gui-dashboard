@@ -14,15 +14,16 @@ const OperationContainer = ({ children }) => {
   const [activeBtn, setActiveBtn] = useState('');
   const [points, setPoints] = useState([]);
   const [isModeSelect, setIsModeSelect] = useState(false);
-  const [zoomFlag, setZoomFlag] = useState(true);
   const {
     pointMarkList,
     pointList,
     scheduleList,
+    loadCanvas,
   } = useSelector((store) => ({
     pointMarkList: store.point.get('points').filter(point => point.favorite),
     pointList: store.point.get('points').filter(point => !point.favorite),
     scheduleList: store.schedule.get('schedules'),
+    loadCanvas: store.common.get('loadCanvas'),
   }), shallowEqual);
 
   async function checkPose() {
@@ -85,11 +86,10 @@ const OperationContainer = ({ children }) => {
   };
 
   useEffect(() => {
-    if (zoomFlag && points.length) {
-      setZoomFlag(false);
+    if (loadCanvas && points.length) {
       focusPoint(points[0]);
     };
-  }, [points.length]);
+  }, [loadCanvas, points.length]);
 
   useEffect(() => {
     const loadWayPoint = async () => {
