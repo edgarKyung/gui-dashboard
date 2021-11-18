@@ -46,8 +46,6 @@ const OperationContainer = ({ children }) => {
         degree: target.degree
       });
     }
-    console.log(scheduleList[0]);
-    console.log(newPoints[0]);
     setPoints(newPoints);
 
     if (scheduleList.length > 1) {

@@ -30,35 +30,25 @@ const percentage = (partialValue, totalValue) => {
   return (100 * partialValue) / totalValue;
 } 
 
-const DrawLine = React.memo(({ data, canvasWidth, canvasHeight, scale }) => {
+const DrawLine = React.memo(({ data }) => {
   const _drawLine = (g) => {
     g.clear();
     data.forEach(wallData => {
-      const { x, y, rotate, scale: drawScale,  size, type } = wallData;
+      const { x, y, size, type } = wallData;
       let color;
       color = (type === 'able') ? 0xFFFFFF : color;
       color = (type === 'undefined') ? 0xF0F0EC : color;
       color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
     
-      // const [newX, newY] = calRotatePosition(canvasWidth/2, canvasHeight/2, x, y, rotate);
       g.drawCircle(x, y, size / 2);
     });
     g.endFill();
   };
-  const calScale = percentage(scale, data[0].scale) * 0.01;
-
-  const canvasWidthDiff = percentage(canvasWidth, data[0].canvasWidth) * 0.01;
-  const canvasHeightDiff = percentage(canvasHeight, data[0].canvasHeight) * 0.01;
 
   return (
   <Graphics 
     draw={_drawLine}
-    // x={(canvasWidth / 2) * canvasWidthDiff}
-    // y={(canvasHeight / 2) * canvasHeightDiff}
-    // pivot={[canvasWidth/2, canvasHeight/2]}
-    // scale={calScale}
-    // tint={'#fff'}
   />
   )
 });
@@ -274,20 +264,12 @@ const CanvasMap = ({
                 <DrawLine 
                   key={i}
                   data={data}
-                  canvasWidth={canvasWidth}
-                  canvasHeight={canvasHeight}
-                  initScale={initScale}
-                  scale={scale}
                 />
               ))
             }
             {/* 그리는 중인거 그리기 */}
             { wallTemp.length > 0 && (<Graphics 
               draw={drawTempWall} 
-              x={canvasWidth / 2}
-              y={canvasHeight / 2}
-              pivot={[canvasWidth/2, canvasHeight/2]}
-              // scale={scale}
             />) }
 
               <Graphics 
@@ -303,7 +285,7 @@ const CanvasMap = ({
                   y={point.y}
                   disabled={disabledDrag}
                   angle={point.degree}
-                  scale={(scale)}
+                  scale={(scale * 0.3)}
                   onClickPoint={onClickPoint}
                   onMovePointStart={onMovePointStart}
                   onMovePointEnd={onMovePointEnd}

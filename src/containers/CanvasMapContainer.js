@@ -197,6 +197,9 @@ const CanvasMapContainer = ({
     drawStatus();
   }, []);
 
+  useEffect(() => {
+    reSizeCanvasData();
+  }, [rotate]);
 
   const handleZoomEndCanvas = useCallback((e) => {
     const { scaleX, x, y } = e.lastViewport;
@@ -221,6 +224,15 @@ const CanvasMapContainer = ({
     }
   }
 
+  const calRotatePosition = (cx, cy, x, y, angle) => {
+    let radians = (Math.PI / 180) * angle,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians),
+        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    return [nx, ny];
+  }  
+  
   const handleGlobalMove = useCallback((e) => {
     if (drawMode) {
       const interaction = e.data;
@@ -229,9 +241,11 @@ const CanvasMapContainer = ({
         const [diffX, diffY] = [(calcCanvasWidth - e.target.width) / 2, (calcCanvasHeight - e.target.height) / 2];
         const [x, y] = [globalX - diffX, globalY - diffY];
         const [scaleX, scaleY] = [x / scale, y / scale];
+        const [rotateX, rotateY] = calRotatePosition(dataWidth/2, dataHeight/2, scaleX, scaleY, rotate);
+  
         setWallTemp([...wallTemp, {
-          x: scaleX,
-          y: scaleY,
+          x: rotateX,
+          y: rotateY,
           rotate,
           size: drawSize,
           type: drawType,
