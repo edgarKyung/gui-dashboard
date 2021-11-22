@@ -7,6 +7,7 @@ import * as RobotApi from '../lib/Robot';
 import FileListPopupContainer from './FileListPopupContainer';
 import SavePopUpContainer from './SavePopUpContainer';
 import { resetWall } from '../modules/reducers/wall';
+import { incrementSpinner, decrementSpinner, setLoadCanvas } from '../modules/reducers/common';
 
 const MapContainer = ({ history }) => {
   const canvasRef = useRef();
@@ -62,7 +63,7 @@ const MapContainer = ({ history }) => {
 
   const handleClickLoad = async () => {
     try {
-      const fileList = await RobotApi.loadMap();
+      const fileList = await RobotApi.getMapList();
       setLoadPopupInfo({
         show: true,
         fileList,
@@ -99,12 +100,15 @@ const MapContainer = ({ history }) => {
     setDrawSize(size);
   };
 
-  const handleClickFileOk = useCallback((data) => {
-    console.log(data);
+  const handleClickFileOk = useCallback(async (data) => {
+    dispatch(incrementSpinner());
+    await RobotApi.loadMap(data);
     setLoadPopupInfo({
       ...loadPopupInfo,
       show: false,
     });
+    dispatch(decrementSpinner());
+
   }, [loadPopupInfo]);
 
   const handleClickFileClose = useCallback(() => {

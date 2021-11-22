@@ -136,9 +136,19 @@ export const saveMap = async (name, data) => {
   }
 };
 
-export const loadMap = async () => {
+export const getMapList = async () => {
   try {
-    return await httpClient.post(`/map/load`, {});
+    return await httpClient.get(`/map`, {});
+
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const loadMap = async (mapFileName) => {
+  try {
+    return await httpClient.post(`/map/load`, { file: mapFileName });
 
   } catch (err) {
     console.error(err);
@@ -195,7 +205,7 @@ export const slowMove = async (type) => {
   if (type === 'forward') {
     slowMoveInterval = setInterval(async () => {
       console.log('forward')
-      await httpClient.post('/robot/jog', { linear: 0.35, angular: 0 });
+      await httpClient.post('/robot/jog', { linear: 0.3, angular: 0 });
     }, 100);
     return 'forward';
   }
@@ -203,7 +213,7 @@ export const slowMove = async (type) => {
   if (type === 'backward') {
     slowMoveInterval = setInterval(async () => {
       console.log('backward')
-      await httpClient.post('/robot/jog', { linear: -0.35, angular: 0 });
+      await httpClient.post('/robot/jog', { linear: -0.3, angular: 0 });
     }, 100);
     return 'backward';
   }
