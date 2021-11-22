@@ -123,10 +123,9 @@ const MapContainer = ({ history }) => {
     const app = canvasRef.current.app;
     const viewport = app.stage.children[0];
     const container = viewport.children[0];
-    const imageSprite = container.children[0];
     const imageData = app.renderer.plugins.extract.pixels(container);
-    const width = Math.floor(imageSprite.width);
-    const height = Math.floor(imageSprite.height);
+    const width = Math.floor(container.width / container.scale.x);
+    const height = Math.floor(container.height / container.scale.y);
     const mapData = getMapFromImage(imageData, width, height);
     await RobotApi.saveMap(data, mapData);
   };
