@@ -43,6 +43,15 @@ const OperationContainer = ({ children }) => {
         degree: -pose.rz * 180 / Math.PI + 90
       });
     }
+    if (scheduleList.length) {
+      const target = scheduleList[0];
+      newPoints.push({
+        id: target.id,
+        x: FileApi.realXToScreen(target.real.x),
+        y: FileApi.realYToScreen(target.real.y),
+        degree: target.degree
+      });
+    }
     setPoints(newPoints);
 
     if (scheduleList.length > 1) {
@@ -64,10 +73,10 @@ const OperationContainer = ({ children }) => {
       }
     }
 
-    if (scheduleList.length === 2) {
-      scheduleList.push(scheduleList[0]);
-      scheduleList.push(scheduleList[1]);
-    }
+    // if (scheduleList.length === 2) {
+    //   scheduleList.push(scheduleList[0]);
+    //   scheduleList.push(scheduleList[1]);
+    // }
   }
 
   const focusPoint = (point) => {
@@ -89,7 +98,7 @@ const OperationContainer = ({ children }) => {
     if (loadCanvas && points.length) {
       focusPoint(points[0]);
     };
-  }, [loadCanvas, points.length]);
+  }, [loadCanvas]);
 
   useEffect(() => {
     const loadWayPoint = async () => {

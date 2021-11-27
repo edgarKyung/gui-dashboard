@@ -203,6 +203,15 @@ export const info = async () => {
   }
 };
 
+export const date = async () => {
+  try {
+    return await httpClient.get(`/robot/date`, {});
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 
 let slowMoveInterval = null;
 export const slowMove = async (type) => {

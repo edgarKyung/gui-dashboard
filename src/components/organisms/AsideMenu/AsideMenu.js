@@ -7,7 +7,11 @@ import menus from '../../../static/constants/menus';
 import { Button, Icon } from '../../atoms';
 const cx = classNames.bind(styles);
 
-const AsideMenu = ({ location }) => {
+const AsideMenu = ({
+  location,
+  date,
+  time,
+}) => {
   return (
     <div className={cx('aside-wrap')}>
       <div className={cx('logo-wrap')}>
@@ -31,11 +35,11 @@ const AsideMenu = ({ location }) => {
         <ul>
           <li>
             <Icon type='calendar' className={cx('icon')} />
-            2021.07.01
+            {date}
           </li>
           <li>
             <Icon type='time' className={cx('icon')} />
-            오후 2:00
+            {time}
           </li>
         </ul>
 

@@ -3,16 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './PageTemplate.module.scss';
 import { AsideContainer } from '../../../containers';
-import { AsideMenu } from '../../organisms';
 
-const cx = classNames.bind(styles); 
+const cx = classNames.bind(styles);
 
 const PageTemplate = ({ children }) => (
   <div className={cx('page-wrapper')}>
     <div className={cx('aside')}>
-      <AsideContainer>
-        <AsideMenu />
-      </AsideContainer>
+      <AsideContainer />
     </div>
     <div className={cx('content')}>
       {children}
@@ -21,11 +18,11 @@ const PageTemplate = ({ children }) => (
 );
 
 PageTemplate.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.string]),
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.string]),
 };
 
 PageTemplate.defaultProps = {
-    children: '',
+  children: '',
 };
 
 export default React.memo(PageTemplate);
