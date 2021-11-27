@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { Button, Input } from '../../atoms';
@@ -19,7 +19,7 @@ const Item = React.memo(({
   );
 });
 
-const SavePopUpWrapper = ({ 
+const SavePopUpWrapper = ({
   fileName,
   onClickOk,
   onClickCancel,
@@ -36,7 +36,7 @@ const SavePopUpWrapper = ({
             <span onClick={onClickClose}>X</span>
           </div>
           <div className={cx('content')}>
-            <Input 
+            <Input
               type="text"
               name="name"
               value={fileName}
@@ -70,10 +70,10 @@ SavePopUpWrapper.propTypes = {
 
 SavePopUpWrapper.defaultProps = {
   fileName: '',
-  onClickOk: () => {},
-  onClickCancel: () => {},
-  onClickClose: () => {},
-  onChangeFileName: () => {},
+  onClickOk: () => { },
+  onClickCancel: () => { },
+  onClickClose: () => { },
+  onChangeFileName: () => { },
 };
 
 export default SavePopUpWrapper;

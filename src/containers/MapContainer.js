@@ -6,6 +6,7 @@ import { MapPage } from '../components/pages';
 import * as RobotApi from '../lib/Robot';
 import FileListPopupContainer from './FileListPopupContainer';
 import SavePopUpContainer from './SavePopUpContainer';
+import { setNeedReload } from '../modules/reducers/common';
 import { resetWall } from '../modules/reducers/wall';
 import { incrementSpinner, decrementSpinner, setLoadCanvas } from '../modules/reducers/common';
 
@@ -55,7 +56,7 @@ const MapContainer = ({ history }) => {
       setSavePopupInfo({
         show: true
       });
-
+      setDrawType('');
     } catch (err) {
       console.error(err)
     }
@@ -68,6 +69,7 @@ const MapContainer = ({ history }) => {
         show: true,
         fileList,
       });
+      setDrawType('');
     } catch (err) {
       console.error(err)
     }
@@ -107,8 +109,8 @@ const MapContainer = ({ history }) => {
       ...loadPopupInfo,
       show: false,
     });
+    dispatch(setNeedReload(true));
     dispatch(decrementSpinner());
-
   }, [loadPopupInfo]);
 
   const handleClickFileClose = useCallback(() => {
@@ -118,7 +120,19 @@ const MapContainer = ({ history }) => {
     });
   }, [loadPopupInfo]);
 
+
+
+  const _sleep = async (time) => {
+    const promise = new Promise((resolve, reject) => {
+      const id = setTimeout(() => {
+        clearTimeout(id);
+        resolve('response!');
+      }, time);
+    });
+    return promise;
+  }
   const handleClickSaveOk = async (data) => {
+    dispatch(incrementSpinner());
     setSavePopupInfo({ show: false });
     const app = canvasRef.current.app;
     const viewport = app.stage.children[0];
@@ -128,6 +142,12 @@ const MapContainer = ({ history }) => {
     const height = Math.floor(container.height / container.scale.y);
     const mapData = getMapFromImage(imageData, width, height);
     await RobotApi.saveMap(data, mapData);
+    await _sleep(5000);
+    await RobotApi.loadMap(data);
+    dispatch(resetWall());
+    dispatch(setNeedReload(true));
+    dispatch(decrementSpinner());
+
   };
 
   const handleClickSaveClose = () => {

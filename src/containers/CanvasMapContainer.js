@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
+import { setNeedReload } from '../modules/reducers/common';
 import { addWall } from '../modules/reducers/wall';
 import { useInterval } from '../services/hooks';
 import { incrementSpinner, decrementSpinner, setLoadCanvas } from '../modules/reducers/common';
@@ -54,7 +55,13 @@ const CanvasMapContainer = ({
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
-  const { wall } = useSelector((store) => ({ wall: store.wall.present.get('wall') }));
+  const {
+    wall,
+    isNeedReload
+  } = useSelector((store) => ({
+    wall: store.wall.present.get('wall'),
+    isNeedReload: store.common.isNeedReload,
+  }));
 
   function convertRealToCanvas(pose) {
     const diffX = (pose.x - map.origin.x) / map.resolution.x;
@@ -200,6 +207,13 @@ const CanvasMapContainer = ({
   }, 100);
 
   useEffect(() => {
+    if (isNeedReload) {
+      drawCanvas();
+      dispatch(setNeedReload(false));
+    }
+  }, [isNeedReload]);
+
+  useEffect(() => {
     drawCanvas();
     drawStatus();
   }, []);
@@ -233,13 +247,13 @@ const CanvasMapContainer = ({
 
   const calRotatePosition = (cx, cy, x, y, angle) => {
     let radians = (Math.PI / 180) * angle,
-        cos = Math.cos(radians),
-        sin = Math.sin(radians),
-        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
-        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+      cos = Math.cos(radians),
+      sin = Math.sin(radians),
+      nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+      ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
     return [nx, ny];
-  }  
-  
+  }
+
   const handleGlobalMove = useCallback((e) => {
     if (drawMode) {
       const interaction = e.data;
@@ -248,8 +262,8 @@ const CanvasMapContainer = ({
         const [diffX, diffY] = [(calcCanvasWidth - e.target.width) / 2, (calcCanvasHeight - e.target.height) / 2];
         const [x, y] = [globalX - diffX, globalY - diffY];
         const [scaleX, scaleY] = [x / scale, y / scale];
-        const [rotateX, rotateY] = calRotatePosition(dataWidth/2, dataHeight/2, scaleX, scaleY, rotate);
-  
+        const [rotateX, rotateY] = calRotatePosition(dataWidth / 2, dataHeight / 2, scaleX, scaleY, rotate);
+
         setWallTemp([...wallTemp, {
           x: rotateX,
           y: rotateY,
