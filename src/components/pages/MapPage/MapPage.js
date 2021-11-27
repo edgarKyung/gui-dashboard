@@ -14,6 +14,7 @@ const ColorBox = ({ color = 'white' }) => (
 )
 
 const MapPage = ({
+  editMode,
   canvasRef,
   drawSize,
   drawType,
@@ -30,6 +31,7 @@ const MapPage = ({
   <PageTemplate>
     <MainContentTemplate title={'맵 생성'}>
       <CanvasMapContainer
+        editMode={editMode}
         pageType='map'
         canvasRef={canvasRef}
         drawMode={drawMode}
@@ -88,7 +90,7 @@ const MapPage = ({
         </div>
         <div className={cx('scan-btn-wrap')}>
           <div>
-            <Button type='scan-start' active={true} onClick={onClickScan} />
+            <Button type='scan-start' active={editMode === 'scan'} onClick={onClickScan} />
             <span>스캐닝</span>
           </div>
           <div>

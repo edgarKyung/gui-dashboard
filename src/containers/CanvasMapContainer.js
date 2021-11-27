@@ -12,6 +12,7 @@ let drawInterval = null;
 let drawStatusInterval = null;
 let map = { origin: {}, resolution: {}, padding: {} };
 const CanvasMapContainer = ({
+  editMode,
   pageType,
   isDrawStatus,
   drawOneTime,
@@ -95,6 +96,7 @@ const CanvasMapContainer = ({
     // console.log(cache);
     ctx.putImageData(imageData, canvas_padding.left, canvas_padding.top);
     setImgData(canvas.toDataURL());
+    reSizeCanvasData();
   }
 
   function getLaserData(robotPose, angle, sensor) {
@@ -152,7 +154,6 @@ const CanvasMapContainer = ({
 
   async function setMapData() {
     map = await RobotApi.getMap('office');
-    reSizeCanvasData();
     if (pageType === 'operation') {
       FileApi.setOpMapData(map);
       return;
@@ -202,9 +203,22 @@ const CanvasMapContainer = ({
   }
 
   useInterval(() => {
-    // drawCanvas();
-    drawStatus();
+    if (map.data.length < 5 * 10000) {
+      drawStatus();
+    }
   }, 100);
+
+  useInterval(async () => {
+    if (pageType === 'map') {
+      dispatch(setLoadCanvas(false));
+      await setMapData();
+      console.log(map.data.length);
+      if (map.data.length < 5 * 10000) {
+        drawMap(map);
+      }
+      dispatch(setLoadCanvas(true));
+    }
+  }, 1000);
 
   useEffect(() => {
     if (isNeedReload) {
@@ -324,6 +338,7 @@ const CanvasMapContainer = ({
       virtualWallList={virtualWallList}
       onClickFirstPoint={onClickFirstPoint}
 
+      editMode={editMode}
       activeMove={activeMove}
       drawMode={drawMode}
       viewportScale={viewportScale}
@@ -336,7 +351,7 @@ const CanvasMapContainer = ({
       dataHeight={dataHeight}
       imgData={imgData}
       poseData={poseData}
-      laserData={pageType === 'operation' ? laserData : []}
+      laserData={laserData}
       points={points}
       selectedPoint={selectedPoint}
       disabledDrag={disabledDrag}

@@ -19,16 +19,16 @@ const cx = classNames.bind(styles);
 
 const calRotatePosition = (cx, cy, x, y, angle) => {
   let radians = (Math.PI / 180) * angle,
-      cos = Math.cos(radians),
-      sin = Math.sin(radians),
-      nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
-      ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    cos = Math.cos(radians),
+    sin = Math.sin(radians),
+    nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+    ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
   return [nx, ny];
-}  
+}
 
 const percentage = (partialValue, totalValue) => {
   return (100 * partialValue) / totalValue;
-} 
+}
 
 const DrawLine = React.memo(({ data }) => {
   const _drawLine = (g) => {
@@ -40,16 +40,16 @@ const DrawLine = React.memo(({ data }) => {
       color = (type === 'undefined') ? 0xF0F0EC : color;
       color = (type === 'disable') ? 0x1E1E1E : color;
       g.beginFill(color, 1);
-    
+
       g.drawCircle(x, y, size / 2);
     });
     g.endFill();
   };
 
   return (
-  <Graphics 
-    draw={_drawLine}
-  />
+    <Graphics
+      draw={_drawLine}
+    />
   )
 });
 
@@ -64,6 +64,7 @@ const CanvasMap = ({
   virtualWallList,
   onClickFirstPoint,
 
+  editMode,
   activeMove,
   drawMode,
   viewportScale,
@@ -158,7 +159,7 @@ const CanvasMap = ({
   };
 
   const drawTempWall = g => {
-    const data = wallTemp[wallTemp.length-1];
+    const data = wallTemp[wallTemp.length - 1];
     const { x, y, size, type } = data;
     let color;
     color = (type === 'able') ? 0xFFFFFF : color;
@@ -240,9 +241,9 @@ const CanvasMap = ({
           onClickCanvas={onClickCanvas}
           onMoved={onMoved}
         >
-          <Container 
-            angle={rotate} 
-            pivot={[dataWidth/2, dataHeight/2]}
+          <Container
+            angle={rotate}
+            pivot={[dataWidth / 2, dataHeight / 2]}
             position={[canvasWidth / 2, canvasHeight / 2]}
             scale={scale}
           >
@@ -252,68 +253,70 @@ const CanvasMap = ({
                 // anchor={.5}
                 // x={canvasWidth / 2}
                 // y={canvasHeight / 2}
-                option={{ width: dataWidth, height: dataHeight}}
+                option={{ width: dataWidth, height: dataHeight }}
                 // scale={scale}
                 interactive
                 pointerup={onClickCanvasImage}
-                // tint={'#fff'}
+              // tint={'#fff'}
               />
             )}
             {
               wall.map((data, i) => (
-                <DrawLine 
+                <DrawLine
                   key={i}
                   data={data}
                 />
               ))
             }
             {/* 그리는 중인거 그리기 */}
-            { wallTemp.length > 0 && (<Graphics 
-              draw={drawTempWall} 
-            />) }
+            {wallTemp.length > 0 && (<Graphics
+              draw={drawTempWall}
+            />)}
 
-              <Graphics 
-                draw={laserDraw} 
-                // scale={percentage(scale, initScale) * 0.01}
+            {editMode === 'scan' && (
+              <Graphics
+                draw={laserDraw}
+              // scale={percentage(scale, initScale) * 0.01}
               />
-              {(points.length > 0) && points.map((point, idx) => (
-                <Draggable
-                  key={idx}
-                  image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
-                  id={point.id}
-                  x={point.x}
-                  y={point.y}
-                  disabled={disabledDrag}
-                  angle={point.degree}
-                  scale={(0.3)}
-                  onClickPoint={onClickPoint}
-                  onMovePointStart={onMovePointStart}
-                  onMovePointEnd={onMovePointEnd}
-                />
-              ))}
-              <Graphics 
-                draw={drawVirtualWallList} 
+            )}
+            {(points.length > 0) && points.map((point, idx) => (
+              <Draggable
+                key={idx}
+                image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
+                id={point.id}
+                x={point.x}
+                y={point.y}
+                disabled={disabledDrag}
+                angle={point.degree}
+                scale={(0.3)}
+                onClickPoint={onClickPoint}
+                onMovePointStart={onMovePointStart}
+                onMovePointEnd={onMovePointEnd}
               />
+            ))}
+            <Graphics
+              draw={drawVirtualWallList}
+            />
 
-              <Graphics 
-                draw={drawVirtualWall} 
+            <Graphics
+              draw={drawVirtualWall}
+            />
+            {virtualWall[0] && (
+              <Sprite
+                image={virtualWallStart}
+                x={virtualWall[0].x - 15}
+                y={virtualWall[0].y - 15}
+                scale={1}
+                interactive
+                pointerup={(e) => {
+                  onClickFirstPoint(e);
+                  e.stopPropagation();
+                }}
               />
-              {virtualWall[0] && (
-                <Sprite
-                  image={virtualWallStart}
-                  x={virtualWall[0].x - 15}
-                  y={virtualWall[0].y - 15}
-                  scale={1}
-                  interactive
-                  pointerup={(e) => {
-                    onClickFirstPoint(e);
-                    e.stopPropagation();
-                  }}
-                />
-              )}
+            )}
 
           </Container>
-          { drawMode && (<Graphics
+          {drawMode && (<Graphics
             draw={drawBackGround}
             interactive
             pointerout={onDragEnd}
@@ -321,33 +324,34 @@ const CanvasMap = ({
             pointerup={onDragEnd}
           />)}
         </PixiViewPort>
-        { !disableRotate && (
-        <Container position={[canvasWidth - 180, canvasHeight - 70]}>
-          <Sprite
-            y={15}
-            image={reFresh}
-            interactive
-            pointerup={onClickRefreshMap}
-            angle={0}
-            scale={1.5}
-          />
-          <Sprite
-            x={50}
-            image={rotationIncrease}
-            interactive
-            pointerup={onClickRotationClock}
-            angle={0}
-            scale={1.5}
-          />
-          <Sprite
-            x={110}
-            angle={0}
-            image={rotationDecrease}
-            interactive
-            pointerup={onClickRotationUnClock}
-            scale={1.5}
-          />
-        </Container>
+        {!disableRotate && (
+          <Container position={[canvasWidth - 180, canvasHeight - 70]}>
+            {editMode === 'scan' && (<Sprite
+              y={-10}
+              x={-25}
+              image={reFresh}
+              interactive
+              pointerup={onClickRefreshMap}
+              angle={0}
+              scale={3}
+            />)}
+            <Sprite
+              x={50}
+              image={rotationIncrease}
+              interactive
+              pointerup={onClickRotationClock}
+              angle={0}
+              scale={1.5}
+            />
+            <Sprite
+              x={110}
+              angle={0}
+              image={rotationDecrease}
+              interactive
+              pointerup={onClickRotationUnClock}
+              scale={1.5}
+            />
+          </Container>
         )}
         <MiniMap
           rotate={rotate}

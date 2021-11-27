@@ -20,6 +20,7 @@ const MapContainer = ({ history }) => {
   const [savePopupInfo, setSavePopupInfo] = useState({
     show: false,
   });
+  const [editMode, setEditMode] = useState('edit');
 
   const [drawType, setDrawType] = useState('');
   const [drawSize, setDrawSize] = useState(1);
@@ -77,7 +78,8 @@ const MapContainer = ({ history }) => {
 
   const handleClickScan = useCallback(async () => {
     try {
-      await RobotApi.scanMap();
+      const res = await RobotApi.scanMap();
+      setEditMode('scan');
     } catch (err) {
       console.error(err)
     }
@@ -85,6 +87,7 @@ const MapContainer = ({ history }) => {
 
   const handleClickEnd = useCallback(() => {
     try {
+      setEditMode('edit');
     } catch (err) {
       console.error(err)
     }
@@ -157,6 +160,7 @@ const MapContainer = ({ history }) => {
   return (
     <>
       <MapPage
+        editMode={editMode}
         canvasRef={canvasRef}
         drawType={drawType}
         drawSize={drawSize}
