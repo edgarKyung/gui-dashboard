@@ -15,10 +15,18 @@ const SavePopUpContainer = ({
     setFileName(e.target.value);
   }, [])
   const handleClickOk = useCallback(() => {
-    if(!fileName){
+    const regExp = /^[a-zA-Z0-9_-]*$/;
+    const validation = regExp.test(fileName);
+    if (!fileName) {
       dispatch(addMessage({
         title: '경고',
-        children : '파일명을 입력해주세요',
+        children: '파일명을 입력해주세요',
+        buttonType: ['OK']
+      }));
+    } else if (!validation) {
+      dispatch(addMessage({
+        title: '경고',
+        children: '영어와 숫자만 사용해주세요',
         buttonType: ['OK']
       }));
     } else {
@@ -33,8 +41,8 @@ const SavePopUpContainer = ({
       onClickCancel={onClickCancel}
       onClickClose={onClickClose}
       onChangeFileName={handleChangeFileName}
-    /> 
-)
+    />
+  )
 }
 
 export default SavePopUpContainer;

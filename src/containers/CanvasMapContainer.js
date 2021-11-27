@@ -7,6 +7,7 @@ import { useInterval } from '../services/hooks';
 import { incrementSpinner, decrementSpinner, setLoadCanvas } from '../modules/reducers/common';
 import * as RobotApi from '../lib/Robot';
 import * as FileApi from '../lib/File';
+import { is } from 'immutable';
 
 let drawInterval = null;
 let drawStatusInterval = null;
@@ -44,6 +45,7 @@ const CanvasMapContainer = ({
   let calcCanvasWidth = canvasWidth - margin;
   let calcCanvasHeight = canvasHeight - margin;
   const canvas_padding = { top: 0, bottom: 0, left: 0, right: 0 };
+  const [isBigSize, setBigSize] = useState(false);
   const [wallTemp, setWallTemp] = useState([]);
   const [rotate, setRotate] = useState(0);
   const [dataWidth, setDataWidth] = useState(0);
@@ -154,6 +156,7 @@ const CanvasMapContainer = ({
 
   async function setMapData() {
     map = await RobotApi.getMap('office');
+    setBigSize(map.data.length > 1000 * 1000);
     if (pageType === 'operation') {
       FileApi.setOpMapData(map);
       return;
@@ -203,20 +206,15 @@ const CanvasMapContainer = ({
   }
 
   useInterval(() => {
-    if (map.data.length < 5 * 10000) {
-      drawStatus();
-    }
+    if (pageType === 'map' && isBigSize) return;
+    drawStatus();
   }, 100);
 
   useInterval(async () => {
     if (pageType === 'map') {
-      dispatch(setLoadCanvas(false));
       await setMapData();
       console.log(map.data.length);
-      if (map.data.length < 5 * 10000) {
-        drawMap(map);
-      }
-      dispatch(setLoadCanvas(true));
+      if (!isBigSize) drawMap(map);
     }
   }, 1000);
 
@@ -328,6 +326,7 @@ const CanvasMapContainer = ({
 
   return (
     <CanvasMap
+      isBigSize={isBigSize}
       canvasRef={canvasRef}
       viewportRef={viewportRef}
       wall={wall}

@@ -54,6 +54,7 @@ const DrawLine = React.memo(({ data }) => {
 });
 
 const CanvasMap = ({
+  isBigSize,
   canvasRef,
   viewportRef,
   wall,
@@ -326,7 +327,7 @@ const CanvasMap = ({
         </PixiViewPort>
         {!disableRotate && (
           <Container position={[canvasWidth - 180, canvasHeight - 70]}>
-            {editMode === 'scan' && (<Sprite
+            {(editMode === 'scan' && isBigSize) && (<Sprite
               y={-10}
               x={-25}
               image={reFresh}
