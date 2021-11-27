@@ -15,7 +15,7 @@ const PointEditPannel = ({
   onChangeEditPoint,
 }) => {
   const [editNameFlag, setEditNameFlag] = useState(false);
-  const [editPositionFlag, setEditPositionFlag] = useState(false);
+  const [editPositionFlag, setEditPositionFlag] = useState(true);
   const [editPoint, setEditPoint] = useState(selectedPoint);
 
   const handleChangePoint = (event, type) => {
@@ -29,22 +29,26 @@ const PointEditPannel = ({
     setEditPoint(selectedPoint);
   }, [selectedPoint]);
 
-  const positions = ['x', 'y'];
+  const positions = [
+    { title: 'X', key: 'x' },
+    { title: 'Y', key: 'y' },
+    { title: 'DEG', key: 'degree' },
+  ];
   return (
     <div className={cx('point-edit-pannel-wrap', className)}>
       <div className={cx('edit-pannel-left')}>
         <div className={cx('point-edit-icon')}>
           {editNameFlag && (
             <>
-              <input 
-                type="text" name="name" value={editPoint.name} 
+              <input
+                type="text" name="name" value={editPoint.name}
                 onKeyPress={e => {
-                  if(e.key === 'Enter'){
+                  if (e.key === 'Enter') {
                     onChangeEditPoint(editPoint);
                     setEditNameFlag(false);
                   }
                 }}
-                onChange={(e) => handleChangePoint(e, 'name')} 
+                onChange={(e) => handleChangePoint(e, 'name')}
               />
               <Button type="edit" onClick={() => {
                 onChangeEditPoint(editPoint);
@@ -61,30 +65,20 @@ const PointEditPannel = ({
 
         </div>
         <div className={cx('point-pose-wrap')}>
-          {positions.map((position, idx) => (
+          {positions.map(({ title, key }, idx) => (
             <Position className={cx('point-pose')} key={idx}>
               <ul>
-                <li key={position}>
-                  <span>{position.toUpperCase()}</span>
+                <li key={key}>
+                  <span>{title}</span>
                   {editPositionFlag && (
-                    <input type="number" value={editPoint[position]} onChange={(e) => handleChangePoint(e, position)} />
+                    <input type="number" value={editPoint[key]} onChange={(e) => handleChangePoint(e, key)} onBlur={() => { onChangeEditPoint(editPoint) }} />
                   )}
-                  {!editPositionFlag && <span>{selectedPoint[position]?.toFixed(2)}</span>}
+                  {!editPositionFlag && <span>{selectedPoint[key]?.toFixed(2)}</span>}
                 </li>
               </ul>
             </Position>
           ))}
-          <Position className={cx('point-pose')}>
-            <ul>
-              <li>
-                {editPositionFlag && (
-                  <input type="number" value={editPoint.degree} onChange={(e) => handleChangePoint(e, 'degree')} />
-                )}
-                {!editPositionFlag && <span>{selectedPoint.degree}</span>}
-                degree
-              </li>
-            </ul>
-          </Position>
+
           <div>
             {/* <Button type="edit" onClick={() => {
               if (editPositionFlag) {

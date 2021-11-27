@@ -29,7 +29,7 @@ const PointContainer = () => {
   }));
 
   useEffect(() => {
-    if(points.length > 0) setEditPointId(points[0].id);
+    if (points.length > 0) setEditPointId(points[0].id);
   }, []);
 
   const handleClickAddPoint = () => {
@@ -37,7 +37,7 @@ const PointContainer = () => {
   };
 
   const handleClickRemove = (data, type) => {
-    if(type === 'point') {
+    if (type === 'point') {
       if (editPointId === data.id) {
         setEditPointId(null);
       }
@@ -50,7 +50,7 @@ const PointContainer = () => {
   const handleClickWall = (virtualWallData) => {
     const { id } = virtualWallData;
     setActiveWallId(id);
-    if(showWallList.includes(id)){
+    if (showWallList.includes(id)) {
       setShowWallList(showWallList.filter(data => data !== id));
       setShowWallList(showWallList.filter(data => data !== id));
     } else {
@@ -64,7 +64,7 @@ const PointContainer = () => {
 
   const handleClickCanvasPoint = (pointId) => {
     const pointDom = document.getElementById(`point-${pointId}`);
-    pointDom.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+    pointDom.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
     setEditPointId(pointId);
   }
 
@@ -76,7 +76,7 @@ const PointContainer = () => {
   };
 
   const handleClickToggleDisable = (data, type) => {
-    if(type === 'point'){
+    if (type === 'point') {
       dispatch(toggleDisablePoint(data));
     } else {
       dispatch(toggleDisableVirtualWall(data));
@@ -117,7 +117,7 @@ const PointContainer = () => {
   };
 
   const _getLocalPoseFromGlobalPose = ({ x, y }, viewport) => {
-    const { scaleX: viewportScale, x:viewportPositionX, y:viewportPositionY } = viewport.lastViewport;
+    const { scaleX: viewportScale, x: viewportPositionX, y: viewportPositionY } = viewport.lastViewport;
     const padding = {
       x: -(viewportPositionX) > 0 ? (-(viewportPositionX) / viewportScale) : 0,
       y: -(viewportPositionY) > 0 ? (-(viewportPositionY) / viewportScale) : 0,
@@ -131,25 +131,24 @@ const PointContainer = () => {
   const handleClickCanvasImage = (e) => {
     const viewport = canvasRef.current.app.stage.children[0];
     const container = viewport.children[0];
-    const { x:globalX, y:globalY } = _getLocalPoseFromGlobalPose(e.data.global, viewport);
+    const { x: globalX, y: globalY } = _getLocalPoseFromGlobalPose(e.data.global, viewport);
     const [diffX, diffY] = [(viewport.worldWidth - container.width) / 2, (viewport.worldHeight - container.height) / 2];
-    const [x , y] = [globalX - diffX, globalY - diffY];
-    const [scaleX, scaleY] = [ x / container.scale.x, y / container.scale.y ];
-    console.log(scaleX, scaleY);
+    const [x, y] = [globalX - diffX, globalY - diffY];
+    const [scaleX, scaleY] = [x / container.scale.x, y / container.scale.y];
     if (activeMove === 'point') {
       const pointData = {
         id: Date.now().toString(),
         name: '거점 ' + new Date().getTime() % 10000,
-        x:scaleX,
-        y:scaleY,
+        x: scaleX,
+        y: scaleY,
         degree: 0,
         disabled: false,
         favorite: false,
       };
       dispatch(addPoint(pointData));
       setEditPointId(pointData.id);
-    } else if (activeMove === 'wall'){
-      setvirtualWall([...virtualWall, {x: scaleX, y:scaleY, scale:container.scale.x }]);
+    } else if (activeMove === 'wall') {
+      setvirtualWall([...virtualWall, { x: scaleX, y: scaleY, scale: container.scale.x }]);
     }
 
   };
@@ -209,7 +208,15 @@ const PointContainer = () => {
 
   const handleClickSave = async () => {
     try {
-      const res = await FileApi.saveWayPoint(points);
+      const newPoints = points.map((point) => {
+        return {
+          ...point,
+          degree: Number(point.degree.toFixed(0)),
+          x: Number(point.x.toFixed(1)),
+          y: Number(point.y.toFixed(1)),
+        }
+      });
+      const res = await FileApi.saveWayPoint(newPoints);
       MessageBoxActions.addMessage({
         children: '성공',
         buttonType: ['YES'],
@@ -222,7 +229,7 @@ const PointContainer = () => {
   };
 
   const handleClickAddWall = () => {
-    if(activeMove !== 'wall') {
+    if (activeMove !== 'wall') {
       setActiveMove('wall');
     } else {
       setActiveMove('');
@@ -235,7 +242,7 @@ const PointContainer = () => {
       id: Date.now().toString(),
       name: '가상벽 ' + new Date().getTime() % 10000,
       disabled: false,
-      data:virtualWall,
+      data: virtualWall,
     }));
     setvirtualWall([]);
   };

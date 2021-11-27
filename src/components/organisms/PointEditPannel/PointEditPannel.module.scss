@@ -39,11 +39,30 @@
       .point-pose {
         width: 80%;
         margin: .5em 0;
-        padding: 1.2em 1em;
+        padding: .7em 1em;
 
         ul {
           display: flex;
           justify-content: space-evenly;
+
+          li {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+              width: 30%;
+              padding: 0;
+              text-align: center;
+            }
+
+            input {
+              width: 100%;
+              flex: 1;
+              text-align: center;
+            }
+          }
         }
 
         span {

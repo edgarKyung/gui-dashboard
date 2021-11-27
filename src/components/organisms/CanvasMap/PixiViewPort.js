@@ -19,7 +19,7 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
       ticker: props.app.ticker,
       interaction: props.app.renderer.plugins.interaction,
       passiveWheel: false,
-      stopPropagation:true,
+      stopPropagation: true,
     });
 
     viewport.on('moved', (event) => {
@@ -45,20 +45,20 @@ const PixiComponentViewport = PixiComponent("ViewPort", {
   },
   applyProps: (instance, oldProps, newProps) => {
     console.log('applyProps', instance, oldProps, newProps);
-    if(oldProps.drawMode !== newProps.drawMode){
-      instance.drag({pressDrag: !newProps.drawMode}).pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
+    if (oldProps.drawMode !== newProps.drawMode) {
+      instance.drag({ pressDrag: !newProps.drawMode }).pinch().wheel().clamp({ direction: 'all' }).clampZoom({ minScale: 1, maxScale: 10 });
     }
   },
 });
 
 
-const PixiViewPortComponent = forwardRef(({ 
-  drawMode, 
-  width, 
-  height, 
-  dataWidth, 
-  dataHeight, 
-  children, 
+const PixiViewPortComponent = forwardRef(({
+  drawMode,
+  width,
+  height,
+  dataWidth,
+  dataHeight,
+  children,
   onZoomEndCanvas,
   onClickCanvas,
   onWheel,
@@ -72,14 +72,14 @@ const PixiViewPortComponent = forwardRef(({
   app.onWheelScroll = onWheelScroll;
   app.onMoved = onMoved;
   app.drawMode = drawMode;
-  return  <PixiComponentViewport 
+  return <PixiComponentViewport
     ref={ref}
-    app={app} 
-    width={width} 
-    height={height} 
-    worldWidth={width} 
-    worldHeight={height} 
-    drawMode={drawMode} 
+    app={app}
+    width={width}
+    height={height}
+    worldWidth={width}
+    worldHeight={height}
+    drawMode={drawMode}
   >
     {children}
   </PixiComponentViewport>;

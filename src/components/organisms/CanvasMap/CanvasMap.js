@@ -281,19 +281,20 @@ const CanvasMap = ({
               />
             )}
             {(points.length > 0) && points.map((point, idx) => (
-              <Draggable
-                key={idx}
-                image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
-                id={point.id}
-                x={point.x}
-                y={point.y}
-                disabled={disabledDrag}
-                angle={point.degree}
-                scale={(0.3)}
-                onClickPoint={onClickPoint}
-                onMovePointStart={onMovePointStart}
-                onMovePointEnd={onMovePointEnd}
-              />
+              (point.x < dataWidth) && (point.y < dataHeight) && (
+                <Draggable
+                  key={idx}
+                  image={selectedPoint.id === point.id ? iconPointOn : iconPoint}
+                  id={point.id}
+                  x={point.x}
+                  y={point.y}
+                  disabled={disabledDrag}
+                  angle={point.degree}
+                  scale={(0.3)}
+                  onClickPoint={onClickPoint}
+                  onMovePointStart={onMovePointStart}
+                  onMovePointEnd={onMovePointEnd}
+                />)
             ))}
             <Graphics
               draw={drawVirtualWallList}
