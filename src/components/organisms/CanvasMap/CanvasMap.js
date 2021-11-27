@@ -54,6 +54,7 @@ const DrawLine = React.memo(({ data }) => {
 });
 
 const CanvasMap = ({
+  pageType,
   isBigSize,
   canvasRef,
   viewportRef,
@@ -274,7 +275,7 @@ const CanvasMap = ({
               draw={drawTempWall}
             />)}
 
-            {editMode === 'scan' && (
+            {(pageType === 'operation' || (pageType === 'map' && editMode === 'scan')) && (
               <Graphics
                 draw={laserDraw}
               // scale={percentage(scale, initScale) * 0.01}

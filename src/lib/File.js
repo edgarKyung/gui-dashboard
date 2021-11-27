@@ -52,15 +52,17 @@ export const loadWayPoint = async (data) => {
 
 export const realXToScreen = (realX) => {
   try {
-    return (opMap.padding.left + (realX - opMap.origin_x) / opMap.resolution_x);
+    console.log(realX, opMap.origin_x, opMap.resolution_x);
+    return ((realX - opMap.origin_x) / opMap.resolution_x);
   } catch (ex) {
+    console.error(ex);
     return -100;
   }
 }
 
 export const realYToScreen = (realY) => {
   try {
-    return (opMap.padding.top + (opMap.canvas_height - (realY - opMap.origin_y) / opMap.resolution_y));
+    return ((opMap.canvas_height - (realY - opMap.origin_y) / opMap.resolution_y));
   } catch (ex) {
     return -100;
   }

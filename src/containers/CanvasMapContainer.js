@@ -158,6 +158,7 @@ const CanvasMapContainer = ({
     map = await RobotApi.getMap('office');
     setBigSize(map.data.length > 1000 * 1000);
     if (pageType === 'operation') {
+      reSizeCanvasData();
       FileApi.setOpMapData(map);
       return;
     }
@@ -326,6 +327,7 @@ const CanvasMapContainer = ({
 
   return (
     <CanvasMap
+      pageType={pageType}
       isBigSize={isBigSize}
       canvasRef={canvasRef}
       viewportRef={viewportRef}

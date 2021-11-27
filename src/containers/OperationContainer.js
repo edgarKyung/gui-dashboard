@@ -38,15 +38,6 @@ const OperationContainer = ({ children }) => {
         degree: -pose.rz * 180 / Math.PI + 90
       });
     }
-    if (scheduleList.length) {
-      const target = scheduleList[0];
-      newPoints.push({
-        id: target.id,
-        x: FileApi.realXToScreen(target.real.x),
-        y: FileApi.realYToScreen(target.real.y),
-        degree: target.degree
-      });
-    }
     setPoints(newPoints);
 
     if (scheduleList.length > 1) {
@@ -75,10 +66,13 @@ const OperationContainer = ({ children }) => {
   }
 
   const focusPoint = (point) => {
+    console.log('focusPoint', point)
     const viewport = viewportRef.current;
     const wrapperContainer = viewport.children[0];
     const { screenWidth, screenHeight } = viewport.options;
     const zoomRate = FileApi.opMap.scale * 0.3;
+    console.log('FileApi', FileApi.opMap.scale);
+    console.log('zoomRate', zoomRate);
     const { x: scaleX, y: scaleY } = wrapperContainer.scale;
     const [marginX, marginY] = [(viewport.options.screenWidth - viewport.width) / 2, (viewport.options.screenHeight - viewport.height) / 2]
     viewport.snap((point.x * scaleX) + marginX, (point.y * scaleY) + marginY, { removeOnComplete: true });
@@ -86,6 +80,7 @@ const OperationContainer = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log(loadCanvas, points);
     if (loadCanvas && points.length) {
       focusPoint(points[0]);
     };
