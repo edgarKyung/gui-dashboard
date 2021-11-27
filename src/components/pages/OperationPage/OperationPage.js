@@ -14,6 +14,9 @@ import { CanvasMapContainer, RobotPositionJoyStickContainer, RobotStatusBarConta
 const cx = classNames.bind(styles);
 
 const OperationPage = ({
+  status,
+  mode,
+  state,
   pointList,
   pointMarkList,
   onClickPoint,
@@ -56,8 +59,10 @@ const OperationPage = ({
     </MainContentTemplate>
 
     <ControlContentTemplate>
-      <RobotStatus status={'로딩중'} onClickMode={onClickMode} />
+      <RobotStatus status={status} onClickMode={onClickMode} />
       <RobotPlayControlPanel
+        state={state}
+        mode={mode}
         onClickRobotControl={onClickRobotControl}
         activeBtn={activeBtn}
         isModeSelect={isModeSelect}

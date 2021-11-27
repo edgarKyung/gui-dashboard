@@ -6,6 +6,8 @@ import { Button } from '../../atoms';
 const cx = classNames.bind(styles);
 
 const RobotPlayControlPanel = ({
+  state,
+  mode,
   onClickRobotControl,
   activeBtn,
   isModeSelect
@@ -15,16 +17,16 @@ const RobotPlayControlPanel = ({
       {!isModeSelect
         ? <div>
           <ul className={cx('robot-play-control-wrap')}>
-            <li><Button type='stop' className={cx('button')} onClick={() => onClickRobotControl('stop')} /></li>
-            <li><Button type='start' active={true} className={cx('button')} onClick={() => onClickRobotControl('start')} /></li>
-            <li><Button type='pause' className={cx('button')} onClick={() => onClickRobotControl('pause')} /></li>
+            <li><Button type='stop' active={state === 'stop'} className={cx('button')} onClick={() => onClickRobotControl('stop')} /></li>
+            <li><Button type='start' active={state === 'start'} className={cx('button')} onClick={() => onClickRobotControl('start')} /></li>
+            <li><Button type='pause' active={state === 'pause'} className={cx('button')} onClick={() => onClickRobotControl('pause')} /></li>
           </ul>
         </div>
         : <div>
           <ul className={cx('robot-play-control-wrap')}>
-            <li><Button type='people' active={activeBtn === 'people'} className={cx('button')} onClick={() => onClickRobotControl('people')} /></li>
-            <li><Button type='line' active={activeBtn === 'line'} className={cx('button')} onClick={() => onClickRobotControl('line')} /></li>
-            <li><Button type='navigation' active={activeBtn === 'navigation'} className={cx('button')} onClick={() => onClickRobotControl('navigation')} /></li>
+            <li><Button type='people' active={mode === 'people'} className={cx('button')} onClick={() => onClickRobotControl('people')} /></li>
+            <li><Button type='line' active={mode === 'line'} className={cx('button')} onClick={() => onClickRobotControl('line')} /></li>
+            <li><Button type='navigation' active={mode === 'navigation'} className={cx('button')} onClick={() => onClickRobotControl('navigation')} /></li>
           </ul>
           <ul className={cx('robot-play-control-wrap')}>
             <li><Button type='move_forward' active={activeBtn === 'move_forward'} className={cx('button')} onClick={() => onClickRobotControl('move_forward')} /></li>

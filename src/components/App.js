@@ -15,6 +15,7 @@ import {
   MessageBoxWrapperContainer,
   SettingContainer,
   LoadSpinnerContainer,
+  BatteryPopupContainer,
 } from "../containers";
 import './App.scss'
 
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/setting"><SettingContainer /></Route>
         <Route path="/log"><LogPage /></Route>
       </Switch>
+      <BatteryPopupContainer />
       <MessageBoxWrapperContainer />
       <LoadSpinnerContainer />
     </Router>

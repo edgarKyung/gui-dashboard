@@ -19,13 +19,18 @@ const OperationContainer = ({ children }) => {
     pointList,
     scheduleList,
     loadCanvas,
+    status,
+    mode,
+    state,
   } = useSelector((store) => ({
     pointMarkList: store.point.get('points').filter(point => point.favorite),
     pointList: store.point.get('points').filter(point => !point.favorite),
     scheduleList: store.schedule.get('schedules'),
     loadCanvas: store.common.get('loadCanvas'),
+    status: store.monitoringData.getIn(['status', 'status']),
+    mode: store.monitoringData.getIn(['status', 'mode']),
+    state: store.monitoringData.getIn(['status', 'state']),
   }), shallowEqual);
-
   async function checkPose() {
     const pose = await RobotApi.getPose();
     const newPoints = [];
@@ -216,6 +221,9 @@ const OperationContainer = ({ children }) => {
   return (
     <Fragment>
       <OperationPage
+        status={status}
+        mode={mode}
+        state={state}
         pointMarkList={pointMarkList}
         pointList={pointList}
         onClickPoint={handleClickPoint}

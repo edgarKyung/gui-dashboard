@@ -185,6 +185,15 @@ export const battery = async () => {
   }
 };
 
+export const status = async () => {
+  try {
+    return await httpClient.get(`/robot/status`, {});
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export const info = async () => {
   try {
     return await httpClient.get(`/robot/info`, {});

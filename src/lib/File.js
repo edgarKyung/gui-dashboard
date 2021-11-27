@@ -52,10 +52,8 @@ export const loadWayPoint = async (data) => {
 
 export const realXToScreen = (realX) => {
   try {
-    console.log(realX, opMap.origin_x, opMap.resolution_x);
     return ((realX - opMap.origin_x) / opMap.resolution_x);
   } catch (ex) {
-    console.error(ex);
     return -100;
   }
 }
