@@ -4,11 +4,11 @@ import classNames from 'classnames/bind';
 import styles from './MainContentTemplate.module.scss';
 import { PageTitle } from '../../atoms';
 
-const cx = classNames.bind(styles); 
+const cx = classNames.bind(styles);
 
-const MainContentTemplate = ({title, classNames, children}) => (
+const MainContentTemplate = ({ title, classNames, children }) => (
   <section className={cx('content-section', classNames)}>
-    <PageTitle title={title} className={cx('page-title')}/>
+    <PageTitle title={title} className={cx('page-title')} />
     <div className={cx('page-content')}>
       {children}
     </div>
@@ -16,11 +16,11 @@ const MainContentTemplate = ({title, classNames, children}) => (
 );
 
 MainContentTemplate.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.string]),
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.string]),
 };
 
 MainContentTemplate.defaultProps = {
-    children: '',
+  children: '',
 };
 
 export default MainContentTemplate;

@@ -12,8 +12,8 @@ const SettingContainer = () => {
   const sliderList = [
     {
       title: '최고 속도',
-      min:0,
-      max:100,
+      min: 0,
+      max: 100,
       unit: 'mm/s',
       value: speedLimit,
       onChangeSlider: (data) => {
@@ -22,8 +22,8 @@ const SettingContainer = () => {
     },
     {
       title: '가속도',
-      min:0,
-      max:100,
+      min: 0,
+      max: 100,
       unit: 'mm/s2',
       value: acc,
       onChangeSlider: (data) => {
@@ -32,8 +32,8 @@ const SettingContainer = () => {
     },
     {
       title: '감속도',
-      min:0,
-      max:100,
+      min: 0,
+      max: 100,
       unit: 'mm/s2',
       value: dec,
       onChangeSlider: (data) => {
@@ -42,8 +42,8 @@ const SettingContainer = () => {
     },
     {
       title: '장애물 인식거리',
-      min:0,
-      max:100,
+      min: 0,
+      max: 100,
       unit: 'mm/s',
       value: obstacle,
       onChangeSlider: (data) => {
@@ -55,7 +55,7 @@ const SettingContainer = () => {
 
   return (
     <>
-      <SettingPage 
+      <SettingPage
         sliderList={sliderList}
       />
     </>

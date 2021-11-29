@@ -4,16 +4,16 @@
   align-content: center;
   width: 100%;
   border-top: 1px solid #CACFE4;
-  color:#A7AEC9;
+  color: #A7AEC9;
   font-size: 1em;
   padding: 1em 0;
 
-  li{
+  li {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    &:nth-child(2){
+    &:nth-child(2) {
       border-left: 1px solid #CACFE4;
       border-right: 1px solid #CACFE4;
     }

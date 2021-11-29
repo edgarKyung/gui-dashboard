@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 const SliderWrap = (props) => (
   <div className={cx('slider-wrap')}>
-    <Slider 
+    <Slider
       included={false}
       {...props}
     />

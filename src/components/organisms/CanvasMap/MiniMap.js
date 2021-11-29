@@ -38,33 +38,33 @@ const MapData = ({
 
   const calRotatePosition = (cx, cy, x, y, angle) => {
     let radians = (Math.PI / 180) * angle,
-        cos = Math.cos(radians),
-        sin = Math.sin(radians),
-        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
-        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+      cos = Math.cos(radians),
+      sin = Math.sin(radians),
+      nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+      ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
     return [nx, ny];
-  }  
+  }
   return (
     <>
-      <Graphics draw={dataBgDraw}/>
-      <Container 
-        angle={rotate} 
-        pivot={[canvasWidth/2, canvasHeight/2]}
-        position={[canvasWidth / 2, canvasHeight / 2]}        
+      <Graphics draw={dataBgDraw} />
+      <Container
+        angle={rotate}
+        pivot={[canvasWidth / 2, canvasHeight / 2]}
+        position={[canvasWidth / 2, canvasHeight / 2]}
       >
         {imgData && (
-          <Sprite 
-            image={imgData} 
-            option={{ width: dataWidth, height: dataHeight }} 
-            scale={scale} 
-            anchor={.5} 
-            x={(canvasWidth / 2)  } 
-            y={(canvasHeight /2)  } 
+          <Sprite
+            image={imgData}
+            option={{ width: dataWidth, height: dataHeight }}
+            scale={scale}
+            anchor={.5}
+            x={(canvasWidth / 2)}
+            y={(canvasHeight / 2)}
 
           />
         )}
       </Container>
-    </>    
+    </>
   )
 };
 
@@ -102,7 +102,7 @@ const MiniMap = ({
     width: canvasWidth * miniMapScale / viewportScale,
     height: canvasHeight * miniMapScale / viewportScale,
   };
-  
+
   return (
     <Container
       width={canvasWidth}
@@ -111,7 +111,7 @@ const MiniMap = ({
       alpha={1}
       position={[margin, canvasHeight * (1 - miniMapScale) - margin]}
     >
-      <MapData 
+      <MapData
         imgData={imgData}
         dataWidth={dataWidth}
         dataHeight={dataHeight}
@@ -122,7 +122,7 @@ const MiniMap = ({
       />
       <Graphics draw={miniMapBlackBgDraw} />
       <Mask draw={drawPositionSquare.bind(this, maskPosition)}>
-        <MapData 
+        <MapData
           imgData={imgData}
           dataWidth={dataWidth}
           dataHeight={dataHeight}

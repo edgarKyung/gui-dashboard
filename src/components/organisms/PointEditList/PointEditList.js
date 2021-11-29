@@ -30,25 +30,26 @@ const PointEditList = ({
               {points.map((data, index) => {
                 const isActive = selectedPoint.id === data.id;
                 return (
-                <Draggable key={data.id} draggableId={data.id} index={index}>
-                  {(provided, snapshot) => (
-                    <li
-                      id={`point-${data.id}`}
-                      key={data.id}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                    >
-                      <span {...provided.dragHandleProps}><Icon type='menu' /></span>
-                      <Button type='default' className={cx('point-button', isActive && 'active')} onClick={() => onClickPoint(data.id)}>
-                        {data.name}
-                        <Icon type='star' active={data.favorite} onClick={(e) => onClickFavorite(e, data)} />
-                      </Button>
-                      <SwitchButton value={!data.disabled} onClick={() => onClickToggleDisable(data, 'point')} />
-                      <Button type='circle' onClick={() => onClickRemove(data, 'point')}>X</Button>
-                    </li>
-                  )}
-                </Draggable>
-              )})}
+                  <Draggable key={data.id} draggableId={data.id} index={index}>
+                    {(provided, snapshot) => (
+                      <li
+                        id={`point-${data.id}`}
+                        key={data.id}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                      >
+                        <span {...provided.dragHandleProps}><Icon type='menu' /></span>
+                        <Button type='default' className={cx('point-button', isActive && 'active')} onClick={() => onClickPoint(data.id)}>
+                          {data.name}
+                          <Icon type='star' active={data.favorite} onClick={(e) => onClickFavorite(e, data)} />
+                        </Button>
+                        <SwitchButton value={!data.disabled} onClick={() => onClickToggleDisable(data, 'point')} />
+                        <Button type='circle' onClick={() => onClickRemove(data, 'point')}>X</Button>
+                      </li>
+                    )}
+                  </Draggable>
+                )
+              })}
             </ul>
           )}
         </Droppable>

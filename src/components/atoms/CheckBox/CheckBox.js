@@ -25,42 +25,42 @@ const CheckBox = ({
     if (disabled && onClickDisabled) {
       return onClickDisabled;
     } else if (disabled) {
-      return (() => {});
+      return (() => { });
     }
     return onClick;
   }
 
   return (
     <label
-    htmlFor={id}
-    className={cx(
-      'checkbox-wrapper',
-      className,
-      { hidden },
-    )}
-  >
-    <input
-      id={id}
-      type="checkbox"
-      className={cx('hide-input')}
-      checked={checked}
-      disabled={disabled}
-      value={value}
-      onChange={onChange}
-      {...rest}
-    />
-    <i
-      className={cx('ico-checkbox', icoClassName, {
-        checked: checked && !icoCheckedClassName,
-        disabled: disabled && !icoDisabledClassName,
-        [icoCheckedClassName]: checked,
-        [icoDisabledClassName]: disabled,
-      })}
-      {...dataset}
-      onClick={onClickHandler}
-    />
-    {children}
-  </label>
+      htmlFor={id}
+      className={cx(
+        'checkbox-wrapper',
+        className,
+        { hidden },
+      )}
+    >
+      <input
+        id={id}
+        type="checkbox"
+        className={cx('hide-input')}
+        checked={checked}
+        disabled={disabled}
+        value={value}
+        onChange={onChange}
+        {...rest}
+      />
+      <i
+        className={cx('ico-checkbox', icoClassName, {
+          checked: checked && !icoCheckedClassName,
+          disabled: disabled && !icoDisabledClassName,
+          [icoCheckedClassName]: checked,
+          [icoDisabledClassName]: disabled,
+        })}
+        {...dataset}
+        onClick={onClickHandler}
+      />
+      {children}
+    </label>
   )
 }
 

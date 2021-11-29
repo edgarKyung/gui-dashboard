@@ -5,7 +5,7 @@ import { PageTitle, Button, Icon } from '../../atoms';
 
 const cx = classNames.bind(styles);
 
-const Point = React.memo(({data, onClickPoint, activeStar}) => {
+const Point = React.memo(({ data, onClickPoint, activeStar }) => {
   const onClickPointFn = useCallback(() => {
     onClickPoint(data);
   }, [data]);
@@ -13,31 +13,31 @@ const Point = React.memo(({data, onClickPoint, activeStar}) => {
     <li>
       <Button type='default' className={cx('point-button')} onClick={onClickPointFn}>
         {data.name}
-        <Icon type='star' className={cx({'on': activeStar})}/>
-      </Button> 
+        <Icon type='star' className={cx({ 'on': activeStar })} />
+      </Button>
     </li>
   );
 });
 
 const PointList = ({
   className,
-  pointMarkList, 
-  pointList, 
+  pointMarkList,
+  pointList,
   onClickPoint
 }) => (
   <div className={cx('point-wrap', className)}>
-    <PageTitle 
-      title={'거점 목록'} 
-      className={cx('point-title')} 
+    <PageTitle
+      title={'거점 목록'}
+      className={cx('point-title')}
     />
     <ul className={cx('point-mark-list')}>
       {
-        pointMarkList && (pointMarkList.map((data, i) => <Point key={i} data={data} onClickPoint={onClickPoint} activeStar={true}/>))
+        pointMarkList && (pointMarkList.map((data, i) => <Point key={i} data={data} onClickPoint={onClickPoint} activeStar={true} />))
       }
     </ul>
     <ul className={cx('point-list')}>
       {
-        pointList.map((data, i) => <Point key={i} data={data} onClickPoint={onClickPoint} activeStar={false}/>)
+        pointList.map((data, i) => <Point key={i} data={data} onClickPoint={onClickPoint} activeStar={false} />)
       }
     </ul>
   </div>

@@ -59,11 +59,11 @@ const WallEditList = ({
                         <SwitchButton value={!data.disabled} onClick={() => onClickToggleDisable(data, 'wall')} />
                         <Button type='circle' onClick={() => onClickRemove(data, 'wall')}>X</Button>
                       </div>
-                      <div className={cx('wall-position-wrap')} style={{ display: showWallList.includes(data.id) ? 'block' : 'none'}}>
+                      <div className={cx('wall-position-wrap')} style={{ display: showWallList.includes(data.id) ? 'block' : 'none' }}>
                         <ul>
                           {data.data.map((pose, index) => (
                             <li key={index}>
-                              <span><i className={cx('icon')}/></span>
+                              <span><i className={cx('icon')} /></span>
                               <span>X {pose.x.toFixed(2)}</span>
                               <span>Y {pose.y.toFixed(2)}</span>
                             </li>

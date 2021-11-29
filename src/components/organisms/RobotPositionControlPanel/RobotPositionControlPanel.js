@@ -106,8 +106,8 @@ const RobotPositionControlPanel = ({
 };
 
 RobotPositionControlPanel.defaultProps = {
-  onMovePoint : () => { console.log('unbinded onMovePoint'); },
-  onMoveRotation: () => { console.log('unbinded onMoveRotation');},
+  onMovePoint: () => { console.log('unbinded onMovePoint'); },
+  onMoveRotation: () => { console.log('unbinded onMoveRotation'); },
 };
 
 export default React.memo(RobotPositionControlPanel);

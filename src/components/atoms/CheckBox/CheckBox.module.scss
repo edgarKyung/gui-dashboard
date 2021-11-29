@@ -1,4 +1,5 @@
 @import '../../../styles/variables.scss';
+
 .checkbox-wrapper {
   display: inline-block;
   width: 2em;
@@ -20,16 +21,17 @@
   height: 100%;
   background-color: #E4E6ED;
   box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.15);
-  border-radius: .6em;  
+  border-radius: .6em;
   background-position: center;
   background-size: 100%;
-  
+
   &.checked {
     background-image: url('/static/images/btn/btn_check.png'), $gradiant-row;
   }
 
   &.disabled {
     background-color: black;
+
     &.checked {
       background-image: url('/static/images/btn/btn_check.png');
     }

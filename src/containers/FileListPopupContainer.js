@@ -15,7 +15,7 @@ const FileListPopupContainer = ({
   };
 
   const handleClickOk = useCallback(() => {
-      onClickOk(activeFile);
+    onClickOk(activeFile);
   }, [activeFile]);
 
   return (
@@ -26,8 +26,8 @@ const FileListPopupContainer = ({
       onClickOk={handleClickOk}
       onClickCancel={onClickCancel}
       onClickClose={onClickClose}
-    /> 
-)
+    />
+  )
 }
 
 export default FileListPopupContainer;

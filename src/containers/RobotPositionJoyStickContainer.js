@@ -33,8 +33,8 @@ const RobotPositionJoyStickContainer = ({
       angle = angle < 0 ? angle + 2 * Math.PI : angle;
       angle = angle > Math.PI ? angle - 2 * Math.PI : angle;
 
-      velocity_linear = point.distance / 100 * Math.cos(angle);
-      velocity_angular = point.distance / 100 * Math.sin(angle);
+      velocity_linear = point.distance / 100 * Math.cos(angle) * 0.75;
+      velocity_angular = point.distance / 100 * Math.sin(angle) * 1.5;
 
     } catch (err) {
       console.error(err)

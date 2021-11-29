@@ -10,7 +10,7 @@ import { MessageBoxWrapper } from '../components/organisms';
 const MessageBoxWrapperContainer = () => {
   const MessageBoxActions = useActions(messageBoxActions);
   const { messageBoxes } = useSelector((store) => ({
-    messageBoxes:store.message.get('messageBoxes')
+    messageBoxes: store.message.get('messageBoxes')
   }));
 
   const handleClickButton = (msg, event) => {
@@ -31,7 +31,7 @@ const MessageBoxWrapperContainer = () => {
   }));
 
   return <>
-    { messageBoxList.length > 0 && <MessageBoxWrapper messageBoxes={messageBoxList} /> }
+    {messageBoxList.length > 0 && <MessageBoxWrapper messageBoxes={messageBoxList} />}
   </>;
 
 };

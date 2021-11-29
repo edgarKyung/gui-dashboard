@@ -12,26 +12,26 @@ export const loadWall = createAction(LOAD_WALL);
 export const resetWall = createAction(RESET_WALL);
 
 const initialState = {
-    wall:[],
+  wall: [],
 };
 const initialRecord = Record(initialState)();
 
 export default handleActions({
-    [ADD_WALL]: (state, { payload }) => {
-        const newList = state.get('wall');
-        return state.set('wall', [...newList, payload.data]);
-    },
+  [ADD_WALL]: (state, { payload }) => {
+    const newList = state.get('wall');
+    return state.set('wall', [...newList, payload.data]);
+  },
 
-    [GET_WALL]: (state, { payload }) => {
-        return state.get(payload.type);
-    },
+  [GET_WALL]: (state, { payload }) => {
+    return state.get(payload.type);
+  },
 
-    [LOAD_WALL]: (state, { payload: { excepts = [] } }) => {
-        const messageBoxes = state.get('messageBoxes').filter(a => excepts.includes(a.id));
-        return state.set('messageBoxes', messageBoxes);
-    },
+  [LOAD_WALL]: (state, { payload: { excepts = [] } }) => {
+    const messageBoxes = state.get('messageBoxes').filter(a => excepts.includes(a.id));
+    return state.set('messageBoxes', messageBoxes);
+  },
 
-    [RESET_WALL]: (state, { payload }) => {
-        return state.set('wall', []);
-    },
+  [RESET_WALL]: (state, { payload }) => {
+    return state.set('wall', []);
+  },
 }, initialRecord);

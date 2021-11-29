@@ -7,12 +7,13 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0,0,0, .2);
+  background: rgba(0, 0, 0, .2);
   z-index: 99;
 
-  .loadpinner-wrap{
+  .loadpinner-wrap {
     display: flex;
-    & > div{
+
+    &>div {
       transform: scale(3);
     }
   }

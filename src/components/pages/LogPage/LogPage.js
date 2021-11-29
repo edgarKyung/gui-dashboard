@@ -15,36 +15,36 @@ const Table = ({
   return (
     <div className={cx('table-wrap', className)}>
       <ul className={cx('table-title')}>
-        { data.titles.map((title, index) => (
+        {data.titles.map((title, index) => (
           <li key={`title-${index}`} style={{
-            width:data.columnWidth[index]
+            width: data.columnWidth[index]
           }}>
             {title.children}
           </li>
         ))}
       </ul>
       <ul className={cx('table-content')}>
-        { data.dataList.length > 0 && data.dataList.map((rowData, rowIndex) => (
-            <li key={`content-${rowIndex}`}>
-              {data.columns.map((col, index) => (
-                <div key={`row-${rowIndex}-${index}`} style={{
-                  width:data.columnWidth[index]
-                }}>
-                  {rowData[col.dataField]}
-                </div>
-              ))}
-            </li>  
+        {data.dataList.length > 0 && data.dataList.map((rowData, rowIndex) => (
+          <li key={`content-${rowIndex}`}>
+            {data.columns.map((col, index) => (
+              <div key={`row-${rowIndex}-${index}`} style={{
+                width: data.columnWidth[index]
+              }}>
+                {rowData[col.dataField]}
+              </div>
+            ))}
+          </li>
         ))}
       </ul>
       <ul className={cx('pagination-wrap')}>
-        <li><Button type={'prev'}/></li>
+        <li><Button type={'prev'} /></li>
         <li className={cx('page-num')}>1</li>
         <li className={cx('page-num', 'active')}>2</li>
         <li className={cx('page-num')}>3</li>
         <li className={cx('page-num')}>4</li>
         <li className={cx('page-num')}>5</li>
         <li className={cx('page-num')}>6</li>
-        <li><Button type={'next'}/></li>
+        <li><Button type={'next'} /></li>
       </ul>
     </div>
   );
@@ -91,33 +91,33 @@ const LogPage = () => {
   };
 
   return (
-  <PageTemplate>
-    <MainContentTemplate title={'로그'} classNames={cx('page-wrap')}>
-      <div className={cx('content-wrap')}>
-        <div className={cx('search-form-wrap')}>
-          <div className={cx('search-form')}>
-            <div>검색</div>
-            <div className={cx('search-input')}><Input /></div>
-            <div><Button type="search"/></div>
+    <PageTemplate>
+      <MainContentTemplate title={'로그'} classNames={cx('page-wrap')}>
+        <div className={cx('content-wrap')}>
+          <div className={cx('search-form-wrap')}>
+            <div className={cx('search-form')}>
+              <div>검색</div>
+              <div className={cx('search-input')}><Input /></div>
+              <div><Button type="search" /></div>
+            </div>
+            <div className={cx('export-btn')}>
+              <Button type="export" />
+              <span>Export</span>
+            </div>
           </div>
-          <div className={cx('export-btn')}>
-            <Button  type="export"/>
-            <span>Export</span>
+
+          <div className={cx('table-form-wrap')}>
+            <Table
+              data={tableData}
+            />
           </div>
-        </div>
 
-        <div className={cx('table-form-wrap')}>
-          <Table 
-            data={tableData}
-          />
         </div>
-
-      </div>
-      <div className={cx('status-wrap')}>
-        <RobotStatusBarContainer className={cx('status-bar')}/>
-      </div>
-    </MainContentTemplate>
-  </PageTemplate>
+        <div className={cx('status-wrap')}>
+          <RobotStatusBarContainer className={cx('status-bar')} />
+        </div>
+      </MainContentTemplate>
+    </PageTemplate>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { Button, Input } from '../../atoms';
@@ -19,7 +19,7 @@ const Item = React.memo(({
   );
 });
 
-const FileListPopupWrapper = ({ 
+const FileListPopupWrapper = ({
   items,
   onClickItem,
   activeFile,
@@ -40,7 +40,7 @@ const FileListPopupWrapper = ({
             <ul>
               {
                 items.map((item, index) => (
-                  <Item activeFile={activeFile} key={index} data={item} onClickItem={onClickItem}/>
+                  <Item activeFile={activeFile} key={index} data={item} onClickItem={onClickItem} />
                 ))
               }
             </ul>
@@ -72,10 +72,10 @@ FileListPopupWrapper.propTypes = {
 
 FileListPopupWrapper.defaultProps = {
   items: [],
-  onClickItem: () => {},
-  onClickOk: () => {},
-  onClickCancel: () => {},
-  onClickClose: () => {},
+  onClickItem: () => { },
+  onClickOk: () => { },
+  onClickCancel: () => { },
+  onClickClose: () => { },
 };
 
 export default FileListPopupWrapper;

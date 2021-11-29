@@ -1,16 +1,16 @@
 @import '../../../styles/variables.scss';
 
-.modal-wrapper{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 99;
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 99;
 }
 
-.modal-list-wrapper{
+.modal-list-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
@@ -36,17 +36,19 @@
   display: flex;
   flex-direction: column;
 
-  .title { 
+  .title {
     font-size: 1.6em;
     border-bottom: 1px solid $border-color;
     font-weight: bold;
     padding: 1em 0;
-    span{
+
+    span {
       position: absolute;
       right: 1em;
       font-weight: normal;
     }
   }
+
   .content {
     display: flex;
     align-items: center;
@@ -63,8 +65,8 @@
         padding: 10px 1.2em;
         border-bottom: 1px solid $border-color;
 
-        &.active{
-          background-color: #5083f8;  
+        &.active {
+          background-color: #5083f8;
           color: white;
           font-weight: normal;
         }
@@ -75,7 +77,8 @@
 
   .btn-wrapper {
     padding: 1em 0;
-    button { 
+
+    button {
       margin: 0 .5em;
     }
   }
