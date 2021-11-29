@@ -103,18 +103,20 @@ const CanvasMapContainer = ({
 
   function getLaserData(robotPose, angle, sensor) {
     const data = [];
+    const distance = 0.2;
+    const sensorPoseX = robotPose.x + distance * Math.cos(angle) / map.resolution.x;
+    const sensorPoseY = robotPose.y - distance * Math.sin(angle) / map.resolution.y
     if (map.resolution.x && map.resolution.y) {
-      // console.log(sensor);
       for (let i = 0; i < sensor.laser.length; i += 1) {
         const laser = sensor.laser[i];
         const targetAngle = sensor.degree + laser.angle + angle;
         if (sensor.reverse) {
-          const x = robotPose.x + Math.cos(targetAngle) * laser.range / map.resolution.x;
-          const y = robotPose.y + Math.sin(targetAngle) * laser.range / map.resolution.y;
+          const x = sensorPoseX + Math.cos(targetAngle) * laser.range / map.resolution.x;
+          const y = sensorPoseY + Math.sin(targetAngle) * laser.range / map.resolution.y;
           data.push({ x, y });
         } else {
-          const x = robotPose.x + Math.sin(targetAngle) * laser.range / map.resolution.x;
-          const y = robotPose.y + Math.cos(targetAngle) * laser.range / map.resolution.y;
+          const x = sensorPoseX + Math.sin(targetAngle) * laser.range / map.resolution.x;
+          const y = sensorPoseY + Math.cos(targetAngle) * laser.range / map.resolution.y;
           data.push({ x, y });
         }
       }
