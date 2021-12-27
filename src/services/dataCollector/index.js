@@ -5,22 +5,14 @@ import { setBattery, setStatus } from '../../modules/reducers/monitoringData';
 class DataCollector {
   constructor() {
     this.init();
-    this.prevBetterData = {
-      voltage: 0,
-      current: 0,
-      percent: 0,
-      chargeTime: 0,
-      dischargeTime: 0,
-      temperature: 0
-    };
   }
 
   init() {
     try {
-      this.batteryInfo();
-      this.statusInfo();
-      setInterval(this.batteryInfo.bind(this), 5000);
-      setInterval(this.statusInfo.bind(this), 1000);
+      // this.batteryInfo();
+      // this.statusInfo();
+      // setInterval(this.batteryInfo.bind(this), 5000);
+      // setInterval(this.statusInfo.bind(this), 1000);
     } catch (err) {
       console.log(err);
     }

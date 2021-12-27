@@ -1,6 +1,5 @@
 .page-wrapper {
   display: flex;
-  width: 2000px;
   height: 1200px;
   // width: 100vw;
   // height: 56.25vw;
@@ -27,32 +26,3 @@
   }
 }
 
-// @media screen and (max-width: 1620px - 1px), screen and (max-height: 945px - 1px) {
-//   .page-wrapper {
-//     transform: scale(calc(min(1440/1920, 840/1200))) translateX(-50%) translateY(-50%);
-//   }
-// }
-
-// @media screen and (max-width: 1440px - 1px), screen and (max-height: 840px - 1px) {
-//   .page-wrapper {
-//     transform: scale(calc(min(1200/1920, 700/1200))) translateX(-50%) translateY(-50%);
-//   }
-// }
-
-// @media screen and (max-width: 1200px - 1px), screen and (max-height: 700px - 1px) {
-//   .page-wrapper {
-//     transform: scale(calc(min(960/1920, 560/1200))) translateX(-50%) translateY(-50%);
-//   }
-// }
-
-// @media screen and (max-width: 960px - 1px), screen and (max-height: 560px - 1px) {
-//   .page-wrapper {
-//     transform: scale(calc(min(720/1920, 420/1200))) translateX(-50%) translateY(-50%);
-//   }
-// }
-
-// @media screen and (max-width: 720px - 1px), screen and (max-height: 420px - 1px) {
-//   .page-wrapper {
-//     transform: scale(calc(min(516/1920, 301/1200))) translateX(-50%) translateY(-50%);
-//   }
-// }

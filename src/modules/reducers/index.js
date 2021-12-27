@@ -10,15 +10,14 @@ import virtualWall from './virtualWall';
 import monitoringData from './monitoringData';
 import fileListPopup from './fileListPopup';
 
+
+import images from './images';
+
 const rootReducer = combineReducers({
-  common,
-  point,
-  schedule,
-  wall: undoable(wall),
-  message,
-  virtualWall,
   monitoringData,
-  fileListPopup,
+  common,
+  message,
+  images,
 });
 
 export default rootReducer;

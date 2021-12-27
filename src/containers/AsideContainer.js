@@ -7,8 +7,9 @@ const AsideContainer = () => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   useInterval(async () => {
-    const data = await RobotApi.date();
-    const parse = new Date(data.date).toLocaleString();
+    const date = new Date().getTime();
+
+    const parse = new Date(date).toLocaleString();
     const splitData = parse.split('. ');
     setTime(splitData.pop());
     setDate(splitData.join('.'));

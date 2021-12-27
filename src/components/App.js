@@ -3,19 +3,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import {
-  LogPage
-} from './pages';
-import {
-  MapContainer,
-  OperationContainer,
-  PointContainer,
   MessageBoxWrapperContainer,
-  SettingContainer,
   LoadSpinnerContainer,
-  BatteryPopupContainer,
+
+  DashBoardContainer,
 } from "../containers";
 import './App.scss'
 
@@ -32,14 +25,8 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        {/* <Route exact path="/"><Redirect to="/operation" /></Route> */}
-        <Route exact path="/"><OperationContainer /></Route>
-        <Route path="/map"><MapContainer /></Route>
-        <Route path="/point"><PointContainer /></Route>
-        <Route path="/setting"><SettingContainer /></Route>
-        <Route path="/log"><LogPage /></Route>
+        <Route exact path="/"><DashBoardContainer /></Route>
       </Switch>
-      <BatteryPopupContainer />
       <MessageBoxWrapperContainer />
       <LoadSpinnerContainer />
     </Router>
