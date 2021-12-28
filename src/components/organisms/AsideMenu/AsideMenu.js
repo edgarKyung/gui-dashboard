@@ -1,51 +1,42 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import classNames from 'classnames/bind';
 import styles from './AsideMenu.module.scss';
-import menus from '../../../static/constants/menus';
-import { Button, Icon } from '../../atoms';
+import { Button, Icon, Timer } from '../../atoms';
 const cx = classNames.bind(styles);
 
 const AsideMenu = ({
-  location,
-  date,
-  time,
+  imageList,
+  activeIndex,
+  onClickBtn,
 }) => {
+  console.log(  imageList, activeIndex);
   return (
     <div className={cx('aside-wrap')}>
       <div className={cx('logo-wrap')}>
-        <Link to='/'>
-          <Button type='logo' className={cx('logo')} />
-        </Link>
+        <Button type='logo' className={cx('logo')} />
       </div>
       <ul className={cx('menu-list')} >
         {
-          Object.entries(menus).map(([id, data]) => {
+          imageList.map((image, index) => {
             return (
-              <li key={id}>
-                <Link to={data.link}>
-                  <Button type={data.id} className={cx('menu-btn')} active={location.pathname === data.link}></Button>
-                </Link>
+              <li key={index}>
+                <Button 
+                  type={'map'}
+                  data-index={index}
+                  className={cx('menu-btn')} 
+                  active={activeIndex === index} 
+                  onClick={onClickBtn}
+                />
               </li>)
           })
         }
       </ul>
       <div className={cx('info-wrap')}>
-        <ul>
-          <li>
-            <Icon type='calendar' className={cx('icon')} />
-            {date}
-          </li>
-          <li>
-            <Icon type='time' className={cx('icon')} />
-            {time}
-          </li>
-        </ul>
-
+        <Timer />
       </div>
     </div>
   );
 }
 
-export default React.memo(withRouter(AsideMenu));
+export default React.memo(AsideMenu);

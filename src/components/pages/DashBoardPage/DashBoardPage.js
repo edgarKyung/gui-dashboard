@@ -15,7 +15,9 @@ const DashBoardPage = ({
       <MainContentTemplate title={'이동 로봇 관제 시스템'}>
         <div className={cx('page-wrap')}>
           <div className={cx('content-wrap')}>
-            <div className={cx('canvas-wrap')}><CanvasMapContainer /></div>
+            <div className={cx('canvas-wrap')}>
+              <CanvasMapContainer />
+            </div>
             <ControlContentTemplate>
               허ㅗ호
             </ControlContentTemplate>

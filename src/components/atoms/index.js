@@ -9,3 +9,4 @@ export { default as CheckBox } from './CheckBox';
 export { default as MessageBox } from './MessageBox';
 export { default as Input } from './Input';
 export { default as Slider } from './Slider';
+export { default as Timer } from './Timer';

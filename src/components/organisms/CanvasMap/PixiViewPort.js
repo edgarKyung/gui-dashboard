@@ -109,7 +109,7 @@ PixiViewPortComponent.defaultProps = {
   onZoomEndCanvas: () => { },
   onWheel: () => { },
   onWheelScroll: () => { },
-  onMovedEnd: () => { },
+  onMoved: () => { console.log('Not defined onMoved'); },
 }
 
 export default PixiViewPortComponent;

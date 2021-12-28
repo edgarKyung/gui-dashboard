@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useSelector, shallowEqual } from 'react-redux'
 import { CanvasMap } from '../components/organisms';
 
 
@@ -8,14 +9,32 @@ const convertImageData = (data) => {
 }
 
 const CanvasMapContainer = () => {
+  const { 
+    imageList,
+    activeIndex,
+    robots,
+  } = useSelector((store) => ({
+    imageList: store.images.list,
+    activeIndex: store.images.activeIndex,
+    robots: store.robots.robots,
+  }), shallowEqual);
 
-  return (<div>asd</div>);
-  // return (
-  //   <CanvasMap
-  //     canvasWidth={1189}
-  //     canvasHeight={1017}
-  //   />
-  // )
+  if(activeIndex === null) return (<>No Image</>)
+  // return (<div>asd</div>);
+  const imageData = imageList[activeIndex];
+  console.log(imageList, imageData);
+  const imgData = convertImageData(imageData.data);
+  return (
+    <CanvasMap
+      canvasWidth={1189}
+      canvasHeight={1017}
+      dataWidth={imageData.width}
+      dataHeight={imageData.height}
+      scale={1}
+      imgData={imgData}
+      robots={robots}
+    />
+  )
 }
 
 CanvasMapContainer.defaultProps = {

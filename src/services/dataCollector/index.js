@@ -1,6 +1,6 @@
-import React, { useState, Fragment, useEffect, useRef } from 'react';
-import * as RobotApi from '../../lib/Robot';
-import { setBattery, setStatus } from '../../modules/reducers/monitoringData';
+import queryList from './query';
+import ApolloClient from './apolloClient';
+import { setRobotList } from '../../modules/reducers/robots';
 
 class DataCollector {
   constructor() {
@@ -8,34 +8,15 @@ class DataCollector {
   }
 
   init() {
-    try {
-      // this.batteryInfo();
-      // this.statusInfo();
-      // setInterval(this.batteryInfo.bind(this), 5000);
-      // setInterval(this.statusInfo.bind(this), 1000);
-    } catch (err) {
+  }
+
+  robotList(){
+    const query = queryList['robots'];
+    ApolloClient.subscribe({ query }).subscribe(({ data }) => {
+      this.store.dispatch(setRobotList(data.robots));
+    }, err => {
       console.log(err);
-    }
-  }
-
-  isEqualData(prev, current) {
-    for (let key in prev) {
-      if (prev[key] !== current[key]) return false;
-    }
-    return true;
-  }
-
-  async batteryInfo() {
-    const battery = await RobotApi.battery();
-    if (!this.isEqualData(this.prevBetterData, battery)) {
-      this.store.dispatch(setBattery(battery));
-      this.prevBetterData = battery;
-    }
-  }
-
-  async statusInfo() {
-    const status = await RobotApi.status();
-    this.store.dispatch(setStatus(status));
+    });    
   }
 
   injectStore(store) {

@@ -1,0 +1,18 @@
+ul {
+  display: inline-block;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  color: white;
+
+  &:first-child {
+    margin-bottom: .5em;
+  }
+
+  .icon {
+    margin-right: .5em;
+  }
+}

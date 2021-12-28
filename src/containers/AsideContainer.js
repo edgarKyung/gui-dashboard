@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
-import { useInterval } from '../services/hooks';
-import * as RobotApi from '../lib/Robot';
+import React, { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { AsideMenu } from '../components/organisms';
+import { setActiveIndex } from '../modules/reducers/images';
 
 const AsideContainer = () => {
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  useInterval(async () => {
-    const date = new Date().getTime();
+  const dispatch = useDispatch();
+  const { 
+    imageList,
+    activeIndex,
+  } = useSelector((store) => ({
+    imageList: store.images.list,
+    activeIndex: store.images.activeIndex
+  }));
 
-    const parse = new Date(date).toLocaleString();
-    const splitData = parse.split('. ');
-    setTime(splitData.pop());
-    setDate(splitData.join('.'));
-  }, 1000);
+
+  const handleClickBtn = useCallback((data) => {
+    const { index } = data.target.dataset;
+    console.log('handleClickBtn', index);
+    dispatch(setActiveIndex(Number(index)));
+  }, []);
 
   return (
     <>
       <AsideMenu
-        date={date}
-        time={time}
+        imageList={imageList}
+        activeIndex={activeIndex}
+        onClickBtn={handleClickBtn}
       />
     </>
   )
