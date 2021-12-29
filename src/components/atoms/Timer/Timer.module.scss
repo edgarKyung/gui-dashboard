@@ -1,18 +1,20 @@
-ul {
-  display: inline-block;
-}
-
-li {
-  display: flex;
-  align-items: center;
-  font-size: 1em;
-  color: white;
-
-  &:first-child {
-    margin-bottom: .5em;
+.timer-wrap{ 
+  ul {
+    display: inline-block;
   }
 
-  .icon {
-    margin-right: .5em;
+  li {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    color: white;
+
+    &:first-child {
+      margin-bottom: .5em;
+    }
+
+    .icon {
+      margin-right: .5em;
+    }
   }
 }

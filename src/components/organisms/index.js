@@ -16,3 +16,5 @@ export { default as CompanyInfo } from './CompanyInfo';
 export { default as FileListPopupWrapper } from './FileListPopupWrapper';
 export { default as SavePopUpWrapper } from './SavePopUpWrapper';
 export { default as LoadSpinner } from './LoadSpinner';
+
+export { default as RobotList } from './RobotList';

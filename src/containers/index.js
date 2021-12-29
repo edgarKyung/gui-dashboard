@@ -6,3 +6,4 @@ export { default as LoadSpinnerContainer } from './LoadSpinnerContainer';
 
 
 export { default as DashBoardContainer } from './DashBoardContainer';
+export { default as RobotListContainer } from './RobotListContainer';

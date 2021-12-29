@@ -18,7 +18,7 @@ const TimerComponent = () => {
   }, 1000);
 
   return (
-    <ul>
+    <ul className={cx('timer-wrap')}>
       <li>
         <Icon type='calendar' className={cx('icon')} />
         {date}

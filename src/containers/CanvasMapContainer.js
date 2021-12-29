@@ -12,17 +12,34 @@ const CanvasMapContainer = () => {
   const { 
     imageList,
     activeIndex,
+    activeRobotIndex,
     robots,
   } = useSelector((store) => ({
     imageList: store.images.list,
     activeIndex: store.images.activeIndex,
+    activeRobotIndex: store.robots.activeIndex,
     robots: store.robots.robots,
   }), shallowEqual);
+
+  const [viewportScale, setViewportScale] = useState(1);
+  const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
+
+  const handleZoomEndCanvas = useCallback((e) => {
+    const { scaleX, x, y } = e.lastViewport;
+    setViewportScale(scaleX);
+    setViewportPosition({ x, y });
+  }, []);
+
+  const handleViewPortMoved = useCallback((e) => {
+    const { scaleX, x, y } = e.viewport.lastViewport;
+    setViewportScale(scaleX);
+    setViewportPosition({ x, y });
+  }, []);
+
 
   if(activeIndex === null) return (<>No Image</>)
   // return (<div>asd</div>);
   const imageData = imageList[activeIndex];
-  console.log(imageList, imageData);
   const imgData = convertImageData(imageData.data);
   return (
     <CanvasMap
@@ -33,6 +50,12 @@ const CanvasMapContainer = () => {
       scale={1}
       imgData={imgData}
       robots={robots}
+      activeRobotIndex={activeRobotIndex}
+
+      viewportScale={viewportScale}
+      viewportPosition={viewportPosition}
+      onZoomEndCanvas={handleZoomEndCanvas}
+      onMoved={handleViewPortMoved}
     />
   )
 }

@@ -8,11 +8,13 @@ class DataCollector {
   }
 
   init() {
+    this.robotList();
   }
 
   robotList(){
+    const client = ApolloClient.getClient();
     const query = queryList['robots'];
-    ApolloClient.subscribe({ query }).subscribe(({ data }) => {
+    client.subscribe({ query }).subscribe(({ data }) => {
       this.store.dispatch(setRobotList(data.robots));
     }, err => {
       console.log(err);

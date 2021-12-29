@@ -7,10 +7,13 @@ import {
 import {
   MessageBoxWrapperContainer,
   LoadSpinnerContainer,
-
   DashBoardContainer,
 } from "../containers";
 import './App.scss'
+import {
+  ApolloProvider,
+} from "@apollo/client";
+import ApolloClient from '../services/dataCollector/apolloClient';
 
 (function setViewportScale() {
   const statusBarSize = 24;
@@ -21,14 +24,18 @@ import './App.scss'
   viewport.setAttribute('content', `initial-scale=${scale}, user-scalable=no`);
 })();
 
+console.log(ApolloClient);
 export default function App() {
+  const client = ApolloClient.getClient();
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/"><DashBoardContainer /></Route>
-      </Switch>
-      <MessageBoxWrapperContainer />
-      <LoadSpinnerContainer />
-    </Router>
-  );
+    <ApolloProvider client={client}>
+      <Router>
+        <Switch>
+          <Route exact path="/"><DashBoardContainer /></Route>
+        </Switch>
+        <MessageBoxWrapperContainer />
+        <LoadSpinnerContainer />
+      </Router>
+    </ApolloProvider>
+  )
 }

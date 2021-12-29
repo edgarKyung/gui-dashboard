@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useCallback} from 'react';
 import PropTypes from 'prop-types'
 import { Stage, Sprite, Graphics, Container } from '@inlet/react-pixi';
 import classNames from 'classnames/bind';
 import styles from './CanvasMap.module.scss';
 import PixiViewPort from './PixiViewPort';
+import MiniMap from './MiniMap';
 
 import iconPoint from '../../../static/images/ico/icon_point.png';
+import iconPointOn from '../../../static/images/ico/icon_point_on.png';
+
+import query from '../../../services/dataCollector/query';
+import { useSubscription } from '@apollo/client';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +19,7 @@ const RobotIconList = ({
   dataHeight,
   scale,
   robots,
+  activeRobotIndex,
 }) => {
   return robots.map(({
     id,
@@ -22,7 +28,7 @@ const RobotIconList = ({
     (status.pose.x < dataWidth) && (status.pose.y < dataHeight) && (
       <Sprite
         key={idx}
-        image={iconPoint.src}
+        image={idx === activeRobotIndex ? iconPointOn : iconPoint}
         x={status.pose.x}
         y={status.pose.y}
         anchor={0.5}
@@ -34,6 +40,28 @@ const RobotIconList = ({
   ));
 };
 
+const RobotScheduleList = ({
+  schedule,
+  activeRobotIndex
+}) => {
+  const drawSchedule = useCallback(g => {
+    g.clear();
+    schedule.forEach((data, index) => {
+      const { x, y } = data;
+      console.log(x, y);
+      g.lineStyle(2, 0xffd900, 1);
+      if (index === 0) {
+        g.moveTo(x, y);
+      } else {
+        g.lineTo(x, y);
+      }
+    });
+    g.endFill();
+  }, [activeRobotIndex]);
+
+  return <Graphics draw={drawSchedule}/>
+
+};
 
 const CanvasMap = ({
   canvasWidth,
@@ -43,7 +71,14 @@ const CanvasMap = ({
   scale,
   imgData,
   robots,
+  activeRobotIndex,
+
+  viewportScale,
+  viewportPosition,
+  onZoomEndCanvas,
+  onMoved,
 }) => {
+  const activeRobot = robots[activeRobotIndex];
   return (
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
@@ -52,6 +87,8 @@ const CanvasMap = ({
           height={canvasHeight}
           dataWidth={dataWidth}
           dataHeight={dataHeight}
+          onZoomEndCanvas={onZoomEndCanvas}
+          onMoved={onMoved}
         >
           <Container
             pivot={[dataWidth / 2, dataHeight / 2]}
@@ -67,13 +104,31 @@ const CanvasMap = ({
               />
             )}
             <RobotIconList
+              activeRobotIndex={activeRobotIndex}
               robots={robots}
               dataWidth={dataWidth}
               scale={scale}
               dataHeight={dataHeight}
             />
+            {activeRobot && <RobotScheduleList 
+              schedule={activeRobot.status.schedule}
+              activeRobotIndex={activeRobotIndex}
+            />}
+            
           </Container>
         </PixiViewPort>
+        <MiniMap
+          rotate={0}
+          dataScale={scale}
+          miniMapScale={.25}
+          viewportScale={viewportScale}
+          viewportPosition={viewportPosition}
+          canvasWidth={canvasWidth}
+          canvasHeight={canvasHeight}
+          dataWidth={dataWidth}
+          dataHeight={dataHeight}
+          imgData={imgData}
+        />
       </Stage>
     </div>
   )
@@ -106,6 +161,7 @@ CanvasMap.defaultProps = {
   poseData: {},
   laserData: [],
   robots: [],
+  activeRobotIndex: null,
   viewportScale: 0,
   selectedPoint: {},
   wallTemp: [],
@@ -113,5 +169,7 @@ CanvasMap.defaultProps = {
   virtualWallList: [],
   activeWallId: '',
   disableRotate: true,
+  onZoomEndCanvas: () => {},
+  onMoved: () => {},
 }
 export default React.memo(CanvasMap);

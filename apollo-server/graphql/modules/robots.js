@@ -66,7 +66,7 @@ module.exports = () => {
                 console.log(datasoruce);
                 return robots.filter(robot => robot.id === id)[0];
             },
-            robots: () => robots,
+            robots: (_, __, datasoruce) => datasoruce.robots,
         
         },
         Mutation: {

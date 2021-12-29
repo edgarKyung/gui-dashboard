@@ -11,7 +11,8 @@ const DashBoardContainer = ({ children }) => {
 
   useEffect(() => {
     const getImages = async () => {
-      const result = await ApolloClient.query({ query: queryList['images'] });
+      const client = ApolloClient.getClient();
+      const result = await client.query({ query: queryList['images'] });
       if (result?.data) {
         const { images } = result.data;
         console.log(images);
