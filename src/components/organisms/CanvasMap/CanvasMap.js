@@ -75,8 +75,8 @@ const CanvasMap = ({
   onZoomEndCanvas,
   onMoved,
 }) => {
-  const activeRobot = robots[activeRobotIndex];
-  console.log('redner canvas map');
+  const activeRobot = robots.filter(data => data.id === activeRobotIndex)[0];
+  console.log('redner canvas map', activeRobot);
   return (
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>

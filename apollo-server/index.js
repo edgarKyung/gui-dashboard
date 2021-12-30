@@ -48,7 +48,7 @@ const { SubscriptionServer } = require("subscriptions-transport-ws");
         const monitoring =  async () => {
           const robots = fs.readFileSync('./database/robots.json', 'utf8');
           pubsub.publish("robots", { robots: JSON.parse(robots) });
-            setTimeout(monitoring, 1000);
+            setTimeout(monitoring, 500);
         }
         monitoring();
     }
