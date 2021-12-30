@@ -43,4 +43,15 @@ const subscriptionList = {
   `,
 }
 
-export default Object.assign(queryList, subscriptionList);
+const mutation = {
+  'updateName': gql `
+    mutation Mutation($updateNameId: String!, $name: String!) {
+      updateName(id: $updateNameId, name: $name) {
+        name
+        id
+      }
+    }  
+  `,
+}
+
+export default Object.assign(queryList, subscriptionList, mutation);

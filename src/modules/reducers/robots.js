@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Record } from 'immutable';
+import { Record, Map } from 'immutable';
 
 export const SET_ROBOT_LIST = 'SET_ROBOT_LIST';
 export const SET_ROBOT_ACTIVE_INDEX = 'SET_ROBOT_ACTIVE_INDEX';

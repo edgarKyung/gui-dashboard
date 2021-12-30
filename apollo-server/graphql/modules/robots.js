@@ -1,4 +1,6 @@
-const { gql } =  require('apollo-server')
+const { gql } =  require('apollo-server');
+const fs = require('fs');
+const path = require('path');
 const robots = require('../../database/robots.json');
 
 module.exports = () => {
@@ -74,7 +76,7 @@ module.exports = () => {
               const target = robots.find(robot => robot.id === id);
               if (target) {
                 target.name = name;
-                fs.writeFileSync(path.join(__dirname, '../database/robots.json'), JSON.stringify(robots, null, 2));
+                fs.writeFileSync(path.join(__dirname, '../../database/robots.json'), JSON.stringify(robots, null, 2));
                 return target;
               }
               return null;
@@ -86,7 +88,7 @@ module.exports = () => {
                 target.ip = ip;
                 target.ping = new Date().getTime();
                 target.status = status;
-                fs.writeFileSync(path.join(__dirname, '../database/robots.json'), JSON.stringify(robots, null, 2));
+                fs.writeFileSync(path.join(__dirname, '../../database/robots.json'), JSON.stringify(robots, null, 2));
                 return target;
               }
     
@@ -98,7 +100,7 @@ module.exports = () => {
                 status,
               }
               robots.push(newRobot);
-              fs.writeFileSync(path.join(__dirname, '../database/robots.json'), JSON.stringify(robots, null, 2));
+              fs.writeFileSync(path.join(__dirname, '../../database/robots.json'), JSON.stringify(robots, null, 2));
               return newRobot;
             }
         }

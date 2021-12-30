@@ -9,9 +9,6 @@ import MiniMap from './MiniMap';
 import iconPoint from '../../../static/images/ico/icon_point.png';
 import iconPointOn from '../../../static/images/ico/icon_point_on.png';
 
-import query from '../../../services/dataCollector/query';
-import { useSubscription } from '@apollo/client';
-
 const cx = classNames.bind(styles);
 
 const RobotIconList = ({
@@ -28,7 +25,7 @@ const RobotIconList = ({
     (status.pose.x < dataWidth) && (status.pose.y < dataHeight) && (
       <Sprite
         key={idx}
-        image={idx === activeRobotIndex ? iconPointOn : iconPoint}
+        image={id === activeRobotIndex ? iconPointOn : iconPoint}
         x={status.pose.x}
         y={status.pose.y}
         anchor={0.5}
@@ -79,6 +76,7 @@ const CanvasMap = ({
   onMoved,
 }) => {
   const activeRobot = robots[activeRobotIndex];
+  console.log('redner canvas map');
   return (
     <div className={cx('canvas-image')}>
       <Stage width={canvasWidth} height={canvasHeight} options={{ backgroundColor: 0xFFFFFF, autoDensity: true }}>
@@ -172,4 +170,5 @@ CanvasMap.defaultProps = {
   onZoomEndCanvas: () => {},
   onMoved: () => {},
 }
+
 export default React.memo(CanvasMap);

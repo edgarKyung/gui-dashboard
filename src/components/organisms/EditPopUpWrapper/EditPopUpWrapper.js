@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { Button, Input } from '../../atoms';
-import styles from './SavePopUpWrapper.module.scss';
+import styles from './EditPopUpWrapper.module.scss';
 const cx = classNames.bind(styles);
 
 const Item = React.memo(({
@@ -19,8 +19,8 @@ const Item = React.memo(({
   );
 });
 
-const SavePopUpWrapper = ({
-  fileName,
+const EditPopUpWrapper = ({
+  name,
   onClickOk,
   onClickCancel,
   onClickClose,
@@ -32,14 +32,14 @@ const SavePopUpWrapper = ({
       <div className={cx('modal-list-wrapper')}>
         <div className={cx('content-box-wrapper')} >
           <div className={cx('title')}>
-            저장하기
+            이름 변경하기
             <span onClick={onClickClose}>X</span>
           </div>
           <div className={cx('content')}>
             <Input
               type="text"
               name="name"
-              value={fileName}
+              value={name}
               onChange={onChangeFileName}
             />
           </div>
@@ -64,16 +64,16 @@ const SavePopUpWrapper = ({
   );
 };
 
-SavePopUpWrapper.propTypes = {
+EditPopUpWrapper.propTypes = {
   onChangeFileName: PropTypes.func,
 };
 
-SavePopUpWrapper.defaultProps = {
-  fileName: '',
+EditPopUpWrapper.defaultProps = {
+  name: '',
   onClickOk: () => { },
   onClickCancel: () => { },
   onClickClose: () => { },
   onChangeFileName: () => { },
 };
 
-export default SavePopUpWrapper;
+export default EditPopUpWrapper;

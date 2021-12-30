@@ -2,7 +2,6 @@ import React from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './DashBoardPage.module.scss';
-import { PageTitle, Button } from '../../atoms';
 import { PageTemplate, ControlContentTemplate, MainContentTemplate, Tabs } from '../../templates';
 import { CanvasMapContainer, RobotStatusBarContainer, RobotListContainer } from '../../../containers';
 const cx = classNames.bind(styles);
@@ -18,7 +17,6 @@ const DashBoardPage = ({
               <CanvasMapContainer />
             </div>
             <ControlContentTemplate>
-              <PageTitle title='로봇 목록' />
               <RobotListContainer />
             </ControlContentTemplate>
           </div>
