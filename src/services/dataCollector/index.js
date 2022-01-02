@@ -5,6 +5,7 @@ import { setRobotList } from '../../modules/reducers/robots';
 class DataCollector {
   constructor() {
     this.init();
+    this.prevRobots = '';
   }
 
   init() {
@@ -15,7 +16,11 @@ class DataCollector {
     const client = ApolloClient.getClient();
     const query = queryList['robots'];
     client.subscribe({ query }).subscribe(({ data }) => {
-      this.store.dispatch(setRobotList(data.robots));
+      const strData = JSON.stringify(data.robots);
+      if(this.prevRobots !== strData) { 
+        this.store.dispatch(setRobotList(data.robots));
+        this.prevRobots = strData;
+      }
     }, err => {
       console.log(err);
     });    

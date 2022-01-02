@@ -10,9 +10,16 @@ const RobotListContainer = ({ children }) => {
   const dispatch = useDispatch();
   const {
     robots,
+    activeFloor,
+    floors,
   } = useSelector((store) => ({
     robots: store.robots.get('robots'),
+    activeFloor: store.floors.activeFloor,
+    floors: store.floors.floors,
   }), shallowEqual);
+
+  const selectedFloor = floors[activeFloor];
+  const robotsFilter = selectedFloor ? robots.filter((robot) => selectedFloor.robots.includes(robot.id)) : [];
 
   const [editPopup, setEditPopup] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -55,7 +62,7 @@ const RobotListContainer = ({ children }) => {
   return (
     <>
     <RobotList
-      robots={robots}
+      robots={robotsFilter}
       onClickRobot={handleClickRobot}
       onClickEdit={handleClickEdit}
     />

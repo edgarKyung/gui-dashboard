@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const probe = require('probe-image-size');
 const robots = require('../database/robots.json');
+const floors = require('../database/floors.json');
 
 class ImageAPI {
   loadImages(){
@@ -15,14 +16,22 @@ class ImageAPI {
         data:data,
       };
     });
-  
+  }
+
+  loadImage(src){
+    const data = fs.readFileSync(src);
+    const imageData = probe.sync(data);
+    return {
+      ...imageData,
+      data:data,
+    };
   }
 }
 
-module.exports = () => {
-  
+module.exports = () => { 
   return {
     imageAPI: new ImageAPI(),
     robots,
+    floors,
   };
 }

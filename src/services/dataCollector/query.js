@@ -8,6 +8,16 @@ const queryList = {
       images
     }
   `,
+  'floors': gql`
+    query Query {
+      floors {
+        id
+        src
+        image
+        robots
+      }
+    }  
+  `,
 }
 
 const subscriptionList = {

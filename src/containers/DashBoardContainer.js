@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { DashBoardPage } from '../components/pages';
 import ApolloClient from '../services/dataCollector/apolloClient';
 import queryList from '../services/dataCollector/query';
-import { setImageList } from '../modules/reducers/images';
+import { setFloorList } from '../modules/reducers/floors';
 
 const DashBoardContainer = ({ children }) => {
   console.log(ApolloClient);
@@ -12,11 +12,11 @@ const DashBoardContainer = ({ children }) => {
   useEffect(() => {
     const getImages = async () => {
       const client = ApolloClient.getClient();
-      const result = await client.query({ query: queryList['images'] });
+      const result = await client.query({ query: queryList['floors'] });
       if (result?.data) {
-        const { images } = result.data;
-        console.log(images);
-        dispatch(setImageList(images));
+        const { floors } = result.data;
+        console.log('floors', floors);
+        dispatch(setFloorList(floors));
       }    
     };
     getImages();

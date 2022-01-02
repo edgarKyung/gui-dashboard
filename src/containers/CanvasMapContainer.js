@@ -10,16 +10,19 @@ const convertImageData = (data) => {
 
 const CanvasMapContainer = () => {
   const { 
-    imageList,
-    activeIndex,
+    floorList,
+    activeFloor,
     activeRobotIndex,
     robots,
   } = useSelector((store) => ({
-    imageList: store.images.list,
-    activeIndex: store.images.activeIndex,
+    floorList: store.floors.floors,
+    activeFloor: store.floors.activeFloor,
     activeRobotIndex: store.robots.activeIndex,
     robots: store.robots.robots,
   }), shallowEqual);
+
+  const selectedFloor = floorList[activeFloor];
+  const robotsFilter = selectedFloor ? robots.filter((robot) => selectedFloor.robots.includes(robot.id)) : [];
 
   const [viewportScale, setViewportScale] = useState(1);
   const [viewportPosition, setViewportPosition] = useState({ x: 0, y: 0 });
@@ -37,19 +40,19 @@ const CanvasMapContainer = () => {
   }, []);
 
 
-  if(activeIndex === null) return (<>No Image</>)
+  if(activeFloor === null) return (<>No Image</>)
   // return (<div>asd</div>);
-  const imageData = imageList[activeIndex];
-  const imgData = convertImageData(imageData.data);
+  const { image } = floorList[activeFloor];
+  const imgData = convertImageData(image.data);
   return (
     <CanvasMap
       canvasWidth={1189}
       canvasHeight={1017}
-      dataWidth={imageData.width}
-      dataHeight={imageData.height}
+      dataWidth={image.width}
+      dataHeight={image.height}
       scale={1}
       imgData={imgData}
-      robots={robots}
+      robots={robotsFilter}
       activeRobotIndex={activeRobotIndex}
 
       viewportScale={viewportScale}

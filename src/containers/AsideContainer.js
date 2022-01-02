@@ -1,30 +1,30 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { AsideMenu } from '../components/organisms';
-import { setActiveIndex } from '../modules/reducers/images';
+import { setActiveFloor } from '../modules/reducers/floors';
 
 const AsideContainer = () => {
   const dispatch = useDispatch();
   const { 
-    imageList,
-    activeIndex,
+    floorList,
+    activeFloor,
   } = useSelector((store) => ({
-    imageList: store.images.list,
-    activeIndex: store.images.activeIndex
+    floorList: store.floors.floors,
+    activeFloor: store.floors.activeFloor
   }));
 
 
   const handleClickBtn = useCallback((data) => {
     const { index } = data.target.dataset;
     console.log('handleClickBtn', index);
-    dispatch(setActiveIndex(Number(index)));
+    dispatch(setActiveFloor(Number(index)));
   }, []);
 
   return (
     <>
       <AsideMenu
-        imageList={imageList}
-        activeIndex={activeIndex}
+        floorList={floorList}
+        activeFloor={activeFloor}
         onClickBtn={handleClickBtn}
       />
     </>

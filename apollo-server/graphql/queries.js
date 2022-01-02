@@ -7,6 +7,7 @@ module.exports = () => {
         robots: [Robot!]!
         robot(id: String!): Robot
         images: [JSON]
+        floors: [Floor]
     }`;
 
     return {

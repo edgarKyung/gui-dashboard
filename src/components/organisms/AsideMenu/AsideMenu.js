@@ -6,11 +6,11 @@ import { Button, Icon, Timer } from '../../atoms';
 const cx = classNames.bind(styles);
 
 const AsideMenu = ({
-  imageList,
-  activeIndex,
+  floorList,
+  activeFloor,
   onClickBtn,
 }) => {
-  console.log(  imageList, activeIndex);
+  console.log(  floorList, activeFloor);
   return (
     <div className={cx('aside-wrap')}>
       <div className={cx('logo-wrap')}>
@@ -18,14 +18,14 @@ const AsideMenu = ({
       </div>
       <ul className={cx('menu-list')} >
         {
-          imageList.map((image, index) => {
+          floorList.map((floor, index) => {
             return (
               <li key={index}>
                 <Button 
                   type={'map'}
                   data-index={index}
                   className={cx('menu-btn')} 
-                  active={activeIndex === index} 
+                  active={activeFloor === index} 
                   onClick={onClickBtn}
                 />
               </li>)

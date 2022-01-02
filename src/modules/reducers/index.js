@@ -4,6 +4,7 @@ import common from './common';
 import message from './message';
 import monitoringData from './monitoringData';
 import images from './images';
+import floors from './floors';
 import robots from './robots';
 
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   common,
   message,
   images,
+  floors,
   robots,
 });
 
