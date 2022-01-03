@@ -4,18 +4,29 @@
   align-content: center;
   width: 100%;
   border-top: 1px solid #CACFE4;
-  color: #A7AEC9;
+  color: #6a6e7e;
   font-size: 1em;
   padding: 1em 0;
 
-  li {
+  ul {
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    &:nth-child(2) {
-      border-left: 1px solid #CACFE4;
+    height: 100%;
+    li {
       border-right: 1px solid #CACFE4;
+      padding: 0 1em;
+      height: 100%;
+      line-height: 100%;
+
+      &.operating{ color: #21d521; }
+
+      &.offline{ color:#ff6565; }
+
+      &.charging{ color:#a7a701; }
+
+      &:last-child {
+        border-right: none;
+      }
     }
   }
 }

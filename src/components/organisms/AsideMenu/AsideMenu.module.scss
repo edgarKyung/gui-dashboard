@@ -18,6 +18,7 @@
 
   .menu-list {
     display: flex;
+    align-items: center;
     flex-direction: column;
     overflow: hidden;
     flex: 1;
@@ -29,7 +30,18 @@
     }
 
     li {
-      padding: 0 10%;
+      cursor: pointer;
+      width: 80%;
+      padding: .7em 0;
+      margin: .5em;
+      color: rgba(255,255,255,.5);
+      font-size: 1.3em;
+      background-color: #5b53b7;
+
+      &.active{
+        background-color: #44a2f3;
+        color: white;
+      }
     }
 
     .menu-btn {

@@ -88,9 +88,7 @@ const RobotList = ({
           },
           {
             Header: '상태',
-            accessor: (row, index) => {
-              return row.name ? 'ON' : 'OFF'
-            },
+            accessor: 'condition',
           },
           {
             Header: 'IP',

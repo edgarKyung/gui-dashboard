@@ -7,17 +7,21 @@ const cx = classNames.bind(styles);
 
 const RobotStatusBar = ({
   className,
-  status,
-  battery,
-  onClickInfo,
-  onClickBattery,
+  utilization,
+  operation,
+  offline,
+  charging,
 }) => {
   return (
-    <ul className={cx('robot-status-bar-wrap', className)}>
-      <li><Icon type={'info'} onClick={onClickInfo} /></li>
-      <li>{status}</li>
-      <li onClick={onClickBattery}>{battery.percent}% <Icon type={'battery'} percent={battery.percent} /></li>
-    </ul>
+    <div className={cx('robot-status-bar-wrap', className)}>
+      <ul>
+        {/* <li><Icon type={'info'} onClick={onClickInfo} /></li> */}
+        <li>Floor1 (가동 : {utilization}%) </li>
+        <li className={cx('operating')}>운용 : {operation}</li>
+        <li className={cx('offline')}>오프라인 : {offline}</li>
+        <li className={cx('charging')}>충천 : {charging}</li>
+      </ul>
+    </div>
   )
 }
 

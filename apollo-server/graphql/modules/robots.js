@@ -32,6 +32,7 @@ module.exports = () => {
         id: String!
         ip: String!
         ping: Float!
+        condition: String!
         status: Status!
     }
 

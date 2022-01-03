@@ -12,6 +12,7 @@ const queryList = {
     query Query {
       floors {
         id
+        name
         src
         image
         robots
@@ -28,6 +29,7 @@ const subscriptionList = {
               id
               ip
               ping
+              condition
               status {
                   pose {
                       x

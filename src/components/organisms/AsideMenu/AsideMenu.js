@@ -19,15 +19,14 @@ const AsideMenu = ({
       <ul className={cx('menu-list')} >
         {
           floorList.map((floor, index) => {
+            console.log('floor', floor);
             return (
-              <li key={index}>
-                <Button 
-                  type={'map'}
-                  data-index={index}
-                  className={cx('menu-btn')} 
-                  active={activeFloor === index} 
-                  onClick={onClickBtn}
-                />
+              <li key={index} 
+                className={cx({active: activeFloor === index})}
+                data-index={index}
+                onClick={onClickBtn}
+              >
+                {floor.name}
               </li>)
           })
         }
