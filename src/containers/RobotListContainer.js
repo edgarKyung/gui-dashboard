@@ -10,10 +10,12 @@ const RobotListContainer = ({ children }) => {
   const dispatch = useDispatch();
   const {
     robots,
+    activeIndex,
     activeFloor,
     floors,
   } = useSelector((store) => ({
     robots: store.robots.get('robots'),
+    activeIndex: store.robots.get('activeIndex'),
     activeFloor: store.floors.activeFloor,
     floors: store.floors.floors,
   }), shallowEqual);
@@ -63,6 +65,7 @@ const RobotListContainer = ({ children }) => {
     <>
     <RobotList
       robots={robotsFilter}
+      activeIndex={activeIndex}
       onClickRobot={handleClickRobot}
       onClickEdit={handleClickEdit}
     />

@@ -36,9 +36,18 @@
 
 .robot-table-wrap{
   width: 100%;
-
+  height: 100%;
+  max-height: 1070px;
+  display: flex;
+  flex-direction: column;
   thead  {
+    display: table;
+    width: 100%;
+    tr{
+      background-color: white;
+    }
     tr:first-child {
+      color:#7E69CA;
       width: 100%;
       font-size: 1.3em;
       text-align: center;
@@ -59,10 +68,21 @@
   }
 
   tbody {
+    display: block;
+    flex: 1;
+    overflow: scroll;
+    tr {
+      background: #fdfdfd;
+      &.active{
+        background: #7e69ca;
+        color: white;        
+      }
+    }
     td {
       margin: 0;
       padding: 1em 0;
       text-align: center;
+      border-collapse: collapse;
     }
   }
 }

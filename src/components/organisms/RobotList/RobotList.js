@@ -5,7 +5,7 @@ import { Button, Input } from '../../atoms';
 import { useTable, useSortBy } from 'react-table'
 
 const cx = classNames.bind(styles);
-function Table({ columns, data, onClickRobot }) {
+function Table({ activeIndex, columns, data, onClickRobot }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -21,17 +21,17 @@ function Table({ columns, data, onClickRobot }) {
     useSortBy
   )
   
-
+  const widthList = ['20%', '20%' , '25%', '20%', '15%'];
   return (
     <>
       <table {...getTableProps()} className={cx('robot-table-wrap')}>
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
+              {headerGroup.headers.map((column, index) => (
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th {...column.getHeaderProps(column.getSortByToggleProps())} style={{width:widthList[index]}}>
                   {column.render('Header')}
                   <span>
                     {column.isSorted
@@ -51,12 +51,13 @@ function Table({ columns, data, onClickRobot }) {
             (row, i) => {
               prepareRow(row);
               const { id, name } = row.original;
+              console.log(activeIndex, id);
               return (
                 <>
-                  <tr {...row.getRowProps()} onClick={onClickRobot.bind(this, id)}>
-                    {row.cells.map(cell => {
+                  <tr {...row.getRowProps()} onClick={onClickRobot.bind(this, id)} className={cx({active: activeIndex === id})}>
+                    {row.cells.map((cell, index) => {
                       return (
-                        <td {...cell.getCellProps()}>
+                        <td {...cell.getCellProps()} style={{width:widthList[index]}}>
                           {cell.render('Cell')}
                         </td>
                       )
@@ -73,6 +74,7 @@ function Table({ columns, data, onClickRobot }) {
 
 const RobotList = ({
   robots,
+  activeIndex,
   onClickRobot,
   onClickEdit,
 }) => {
@@ -114,6 +116,7 @@ const RobotList = ({
   )
   return (
     <Table 
+      activeIndex={activeIndex} 
       columns={columns} 
       data={robots} 
       onClickRobot={onClickRobot} 
