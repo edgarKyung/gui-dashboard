@@ -1,8 +1,9 @@
-[
-  {
+[{
     "name": "floor1",
     "id": "F1",
-    "src":"temp_map1.png",
+    "src": "INC15-3F.png",
+    "width": 165,
+    "height": 55,
     "robots": [
       "A46BB6F6514E",
       "A46BB6F6515E"
@@ -11,7 +12,9 @@
   {
     "name": "floor2",
     "id": "F2",
-    "src":"temp_map2.png",
+    "src": "INC15-3F.png",
+    "width": 165,
+    "height": 55,
     "robots": [
       "A46BB6F6514E"
     ]

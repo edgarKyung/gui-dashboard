@@ -8,6 +8,8 @@ module.exports = () => {
         name: String
         id: String!
         src: String!
+        width: Int
+        height: Int
         image: JSON
         robots: [String]
     }
